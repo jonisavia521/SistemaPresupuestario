@@ -1,4 +1,8 @@
-﻿using System;
+﻿
+using BLL;
+using Microsoft.Extensions.DependencyInjection;
+using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +20,31 @@ namespace SistemaPresupuestario
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var services = new ServiceCollection();
+            InjectionServices(services);
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                var formLogin = serviceProvider.GetRequiredService<frmLogin>();
+                if (formLogin.ShowDialog() == DialogResult.OK)
+                {
+                    var form = serviceProvider.GetRequiredService<frmMain>();
+                    Application.Run(form);
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
         }
+        private static void InjectionServices(IServiceCollection services)
+        {
+            services                
+                .AddServicesDependencies()
+                .AddBLLDependencies()
+                .AddScoped<frmLogin>()
+                .AddScoped<frmMain>();
+            
+        }
+
     }
 }
