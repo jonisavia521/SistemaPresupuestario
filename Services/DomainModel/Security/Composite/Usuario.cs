@@ -1,6 +1,7 @@
-﻿using Services.Services;
+using Services.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +63,7 @@ namespace Services.DomainModel.Security.Composite
         /// <summary>
         /// Contraseña del usuario (debería almacenarse hasheada)
         /// </summary>
+        [Browsable(false)]
         public string Password { get; set; }
 
         /// <summary>
@@ -95,6 +97,7 @@ namespace Services.DomainModel.Security.Composite
         /// Hash de integridad que combina datos del usuario
         /// Usado para detectar modificaciones no autorizadas
         /// </summary>
+        [Browsable(false)]
         public string HashDH
         {
             get
@@ -107,6 +110,7 @@ namespace Services.DomainModel.Security.Composite
         /// Hash de la contraseña del usuario
         /// Usado para verificación de login segura
         /// </summary>
+        [Browsable(false)]
         public string HashPassword
         {
             get

@@ -45,7 +45,7 @@ namespace Services.DAL.Implementations.Joins
                     if (table != null && table.Rows.Count > 0)
                     {
                         var patentes = (from row in table.AsEnumerable()
-                                        select (Component)LoginFactory.patenteRepository.SelectOne(Guid.Parse(row.Field<string>("IdPatente")))).ToList();
+                                        select (Component)LoginFactory.patenteRepository.SelectOne(row.Field<Guid>("IdPatente"))).ToList();
 
                         obj.Permisos.AddRange(patentes);
                     }

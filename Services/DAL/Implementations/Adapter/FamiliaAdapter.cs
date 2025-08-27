@@ -33,7 +33,7 @@ namespace Services.DAL.Implementations.Adapter
             //    Nombre = values[1].ToString()
             //};
             Familia familia = new Familia { 
-                IdComponent = new Guid(row.Field<string>("IdFamilia")), 
+                IdComponent = row.Field<Guid>("IdFamilia"), 
                 Nombre = row.Field<string>("Nombre") 
             };
 

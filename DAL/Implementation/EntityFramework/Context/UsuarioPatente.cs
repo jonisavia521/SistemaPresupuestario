@@ -9,8 +9,8 @@ namespace DAL.Implementation.EntityFramework.Context
 {
     public partial class UsuarioPatente
     {
-        public string IdUsuario { get; set; }
-        public string IdPatente { get; set; }
+        public Guid IdUsuario { get; set; }
+        public Guid IdPatente { get; set; }
         public byte[] Timestamp { get; set; }
 
         public virtual Patente IdPatenteNavigation { get; set; }

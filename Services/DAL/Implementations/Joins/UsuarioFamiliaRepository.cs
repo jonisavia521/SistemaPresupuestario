@@ -48,7 +48,7 @@ namespace Services.DAL.Implementations.Joins
                     if (table != null && table.Rows.Count > 0)
                     {
                         var familias = (from row in table.AsEnumerable()
-                                        select (Component)LoginFactory.familiaRepository.SelectOne(Guid.Parse(row.Field<string>("IdFamilia")))).ToList();
+                                        select (Component)LoginFactory.familiaRepository.SelectOne(row.Field<Guid>("IdFamilia"))).ToList();
 
                         obj.Permisos.AddRange(familias);                        
                     }

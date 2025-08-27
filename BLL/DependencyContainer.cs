@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BLL.Contracts;
+using BLL.Services;
+using DAL;
+using DomainModel.Domain;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Services;
 using Services.Services.Contracts;
 using System;
@@ -15,8 +19,8 @@ namespace BLL
            this IServiceCollection services
            )
         {
-            
-            //services.AddSingleton<ILogger, LoggerService>();
+            services.AddDALDependencies();
+            services.AddSingleton<IGenericBusinessService<Usuario>, UsuarioService>();
             return services;
         }
     }

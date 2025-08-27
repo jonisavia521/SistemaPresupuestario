@@ -11,5 +11,6 @@ namespace Services.Services.Contracts
     {
         Usuario user { get; }
         bool Login(string usuario, string clave);
+        IEnumerable<Usuario> GetAll();
     }
 }

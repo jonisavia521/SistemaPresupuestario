@@ -37,7 +37,23 @@ namespace Services.DAL.Implementations
 
         public IEnumerable<Usuario> SelectAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                
+                using (var table = SqlServerHelper.ExecuteReader("select IdUsuario,Nombre,Usuario from Usuario "))
+                {
+                    if (table != null && table.Rows.Count > 0)
+                    {
+                        return table.AsEnumerable().Select(x => new Usuario {Id = x.Field<Guid>("IdUsuario"),Nombre= x.Field<string>("Nombre"),User= x.Field<string>("Usuario") });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
+
+            return null;
         }
 
      
