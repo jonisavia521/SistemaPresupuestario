@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controller.ViewModels
+namespace BLL.DTOs
 {
-    public class UsuarioView
+    public class UsuarioDTO
     {
         //[Browsable(false)]
         public Guid Id { get; set; }

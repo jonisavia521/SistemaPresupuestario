@@ -1,5 +1,5 @@
-﻿using Controller.Contracts;
-using Controller.ViewModels;
+﻿using BLL.Contracts;
+using BLL.DTOs;
 using Services.Services.Contracts;
 using SistemaPresupuestario.Maestros.Usuarios;
 using System;
@@ -16,9 +16,9 @@ namespace SistemaPresupuestario.Maestros
 {
     public partial class frmUsuarios : Form
     {
-        private readonly ICRUDController<UsuarioView> usuarioService;
+        private readonly IUsuarioService usuarioService;
 
-        public frmUsuarios(ICRUDController<UsuarioView> usuarioService)
+        public frmUsuarios(IUsuarioService usuarioService)
         {
             InitializeComponent();
             this.usuarioService = usuarioService;
@@ -27,8 +27,8 @@ namespace SistemaPresupuestario.Maestros
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
 
-            var asd = usuarioService.GetAll();
-            dgvUsuarios.DataSource = asd;
+            var usuarios = usuarioService.GetAll();
+            dgvUsuarios.DataSource = usuarios.ToList();
             dgvUsuarios.Refresh();
         }
         private void btnNuevo_Click(object sender, EventArgs e)

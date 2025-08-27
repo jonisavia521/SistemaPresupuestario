@@ -136,10 +136,6 @@
       <Project>{d2bdaa2c-68a3-4fab-a9de-455b21065da6}</Project>
       <Name>BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controller\Controller.csproj">
-      <Project>{3b6a192d-6075-4e31-baf4-fa22dd5fd1f6}</Project>
-      <Name>Controller</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">
       <Project>{cd4f7d65-672b-47bf-ab6f-8e7bc97e541a}</Project>
       <Name>DomainModel</Name>

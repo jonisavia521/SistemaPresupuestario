@@ -1,6 +1,5 @@
 ﻿
 using BLL;
-using Controller;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using SistemaPresupuestario.Maestros;
@@ -44,7 +43,6 @@ namespace SistemaPresupuestario
             services                
                 .AddServicesDependencies()
                 .AddBLLDependencies()
-                .AddControllerDependencies()
                 .AddScoped<frmLogin>()
                 .AddScoped<frmMain>()
                 .AddScoped<frmUsuarios>()

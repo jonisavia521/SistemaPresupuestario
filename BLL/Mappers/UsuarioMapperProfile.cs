@@ -1,25 +1,31 @@
-﻿using AutoMapper;
-using DomainModel.Domain;
+using AutoMapper;
+using BLL.DTOs;
+using DAL.Implementation.EntityFramework.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controller.ViewModels.Mapper
+namespace BLL.Mappers
 {
     //como se usa inyeccion de dependencias, esta clase el framwork lo llama de manera implicita a todos los que heren de profile
-    public  class MapperHelper:Profile
+    public  class UsuarioMapperProfile : Profile
     {
         
-        public MapperHelper()
+        public UsuarioMapperProfile()
         {
-          CreateMap<UsuarioView, Usuario>()
+          CreateMap<UsuarioDTO, Usuario>()
                 .ForMember(dest => dest.IdUsuario, opt => opt.MapFrom(src => src.Id))
                    .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
-                   .ForMember(dest => dest.Usuario_, opt => opt.MapFrom(src => src.Usuario))
+                   .ForMember(dest => dest.Usuario1, opt => opt.MapFrom(src => src.Usuario))
                    .ForMember(dest => dest.Clave, opt => opt.MapFrom(src => src.Clave))
-                   .ReverseMap();
+                   .ForMember(dest => dest.Timestamp, opt => opt.Ignore())
+                   .ForMember(dest => dest.UsuarioFamilia, opt => opt.Ignore())
+                   .ForMember(dest => dest.UsuarioPatente, opt => opt.Ignore())
+                   .ReverseMap()
+                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdUsuario))
+                   .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.Usuario1));
 
                 // Resolver la conversión de listas
                 CreateMap<List<object>, List<object>>().ConvertUsing<CustomResolver>();

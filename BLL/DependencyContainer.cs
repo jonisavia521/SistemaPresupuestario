@@ -1,4 +1,5 @@
-﻿using BLL.Contracts;
+﻿using AutoMapper;
+using BLL.Contracts;
 using BLL.Services;
 using DAL;
 using DomainModel.Domain;
@@ -20,7 +21,11 @@ namespace BLL
            )
         {
             services.AddDALDependencies();
-            services.AddSingleton<IGenericBusinessService<Usuario>, UsuarioService>();
+            services.AddAutoMapper();
+            
+            // Register the new DTO-based service
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            
             return services;
         }
     }
