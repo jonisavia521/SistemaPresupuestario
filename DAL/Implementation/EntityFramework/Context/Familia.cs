@@ -17,7 +17,7 @@ namespace DAL.Implementation.EntityFramework.Context
             UsuarioFamilia = new HashSet<UsuarioFamilia>();
         }
 
-        public string IdFamilia { get; set; }
+        public Guid IdFamilia { get; set; }
         public string Nombre { get; set; }
         public byte[] Timestamp { get; set; }
 

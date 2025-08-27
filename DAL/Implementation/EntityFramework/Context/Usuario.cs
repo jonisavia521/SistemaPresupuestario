@@ -15,7 +15,7 @@ namespace DAL.Implementation.EntityFramework.Context
             UsuarioPatente = new HashSet<UsuarioPatente>();
         }
 
-        public string IdUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
         public string Nombre { get; set; }
         public byte[] Timestamp { get; set; }
         public string Usuario1 { get; set; }

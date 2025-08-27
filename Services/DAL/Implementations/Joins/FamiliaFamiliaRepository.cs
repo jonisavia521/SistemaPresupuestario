@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-using Services.Services.Extensions;
 using Services.BLL.Contracts;
 using Services.DAL.Factory;
 
@@ -93,7 +92,7 @@ namespace Services.DAL.Implementations.Joins
                     if (table != null && table.Rows.Count > 0)
                     {
                         var familias = (from row in table.AsEnumerable()
-                                        select (Component)LoginFactory.familiaRepository.SelectOne(Guid.Parse(row.Field<string>("IdFamiliaHijo")))).ToList();
+                                        select (Component)LoginFactory.familiaRepository.SelectOne(row.Field<Guid>("IdFamiliaHijo"))).ToList();
 
                         obj.Set(familias);
                     }

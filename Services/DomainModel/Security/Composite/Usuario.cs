@@ -1,6 +1,7 @@
 ﻿using Services.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Services.DomainModel.Security.Composite
         public string Nombre { get; set; }
 
         public string User { get; set; }
+        [Browsable(false)]
         public string Password { get; set; }
 
         public List<Component> Permisos { get; set; }
@@ -21,6 +23,7 @@ namespace Services.DomainModel.Security.Composite
         {
             Permisos = new List<Component>();
         }
+        [Browsable(false)]
         public string HashDH
         {
             get
@@ -28,7 +31,7 @@ namespace Services.DomainModel.Security.Composite
                 return CryptographyService.HashPassword(Nombre + User + Password);
             }
         }
-
+        [Browsable(false)]
         public string HashPassword
         {
             get

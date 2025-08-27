@@ -29,7 +29,7 @@ namespace Services.DAL.Implementations.Adapter
             //Hidratar el objeto familia -> Nivel 1
             Usuario usuario = new Usuario()
             {
-                Id = new Guid(row.Field<string>("IdUsuario")),
+                Id = row.Field<Guid>("IdUsuario"),
                 Nombre = row.Field<string>("Nombre"),
                 User = row.Field<string>("Usuario"),
                 Password = row.Field<string>("Clave")

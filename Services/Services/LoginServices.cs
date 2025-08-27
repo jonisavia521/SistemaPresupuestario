@@ -43,6 +43,9 @@ namespace Services.Services
             return user != null;
         }
 
-       
+       public IEnumerable<Usuario> GetAll()
+        {
+            return LoginFactory.usuarioRepository.SelectAll();
+        }
     }
 }

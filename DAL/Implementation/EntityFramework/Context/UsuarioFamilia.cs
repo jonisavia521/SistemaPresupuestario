@@ -9,8 +9,8 @@ namespace DAL.Implementation.EntityFramework.Context
 {
     public partial class UsuarioFamilia
     {
-        public string IdUsuario { get; set; }
-        public string IdFamilia { get; set; }
+        public Guid IdUsuario { get; set; }
+        public Guid IdFamilia { get; set; }
         public byte[] Timestamp { get; set; }
 
         public virtual Familia IdFamiliaNavigation { get; set; }

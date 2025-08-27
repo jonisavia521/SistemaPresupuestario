@@ -23,6 +23,7 @@ namespace SistemaPresupuestario
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            
             this.Cursor = Cursors.WaitCursor;
             if (_login.Login(txtUser.Text, txtPassword.Text))
                 this.DialogResult = DialogResult.OK;

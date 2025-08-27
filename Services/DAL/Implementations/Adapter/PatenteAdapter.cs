@@ -18,7 +18,7 @@ namespace Services.DAL.Implementations.Adapter
             //Hidratar el objeto patente
             Patente patente = new Patente()
             {
-                IdComponent = Guid.Parse(row.Field<string>("IdPatente")),
+                IdComponent = row.Field<Guid>("IdPatente"),
                 MenuItemName = row.Field<string>("Nombre"),
                 FormName = row.Field<string>("Vista")
             };

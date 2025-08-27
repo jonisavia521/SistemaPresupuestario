@@ -43,7 +43,7 @@ namespace DAL.Implementation.EntityFramework.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=proyectosfacultad.database.windows.net,1433;  INITIAL CATALOG=SistemaPresupuestario; User Id=Axoft;Password=Programas521?;");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-84FSGU1\\SQLEXPRESS;Initial Catalog=SistemaPresupuestario;Integrated Security=True;");
             }
         }
 
