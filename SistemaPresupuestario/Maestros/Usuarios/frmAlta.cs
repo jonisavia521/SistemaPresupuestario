@@ -1,5 +1,5 @@
-﻿using Controller.Contracts;
-using Controller.ViewModels;
+﻿using BLL.Contracts;
+using BLL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +26,11 @@ namespace SistemaPresupuestario.Maestros.Usuarios
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
+            // TODO: Implementar lógica de alta de usuario usando IUsuarioService
+            // Ejemplo de cómo sería:
+            // var usuarioService = serviceProvider.GetService<IUsuarioService>();
+            // var nuevoUsuario = new UsuarioDTO { ... };
+            // usuarioService.Add(nuevoUsuario);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

@@ -70,6 +70,7 @@
     <Compile Include="Contracts\IGenericBusinessService.cs" />
     <Compile Include="Contracts\IUsuarioService.cs" />
     <Compile Include="DependencyContainer.cs" />
+    <Compile Include="DTOs\ArchitectureValidation.cs" />
     <Compile Include="DTOs\UsuarioDTO.cs" />
     <Compile Include="Mappers\UsuarioMapperProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
