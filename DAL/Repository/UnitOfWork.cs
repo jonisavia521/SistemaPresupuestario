@@ -1,5 +1,6 @@
 ﻿using DAL.Implementation.EntityFramework.Context;
 using DAL.Repository.Contracts;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace DAL.Repository
     public class UnitOfWork : IUnitOfWork
     {
         readonly SistemaPresupuestarioContext _context;
-        //private IDbContextTransaction _transaction;
+        private IDbContextTransaction _transaction;
+
         public UnitOfWork(SistemaPresupuestarioContext context)
         {
             this._context = context;
@@ -19,22 +21,32 @@ namespace DAL.Repository
 
         public void BeginTransaction()
         {
-            //_transaction = _context.Database.BeginTransaction();
+            _transaction = _context.Database.BeginTransaction();
         }
 
         public void Commit()
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.SaveChanges();
+                _transaction?.Commit();
+            }
+            catch
+            {
+                _transaction?.Rollback();
+                throw;
+            }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _transaction?.Dispose();
+            _context?.Dispose();
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            _transaction?.Rollback();
         }
 
         public int SaveChanges()
@@ -47,7 +59,6 @@ namespace DAL.Repository
             {
                 throw;
             }
-            
         }
     }
 }

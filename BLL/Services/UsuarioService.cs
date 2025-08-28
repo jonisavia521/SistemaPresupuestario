@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BLL.Contracts;
 using BLL.DTOs;
+using DAL.Contracts;
 using DAL.Implementation.EntityFramework.Context;
+using DAL.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,14 @@ namespace BLL.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly SistemaPresupuestarioContext _context;
+        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UsuarioService(SistemaPresupuestarioContext context, IMapper mapper)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            _usuarioRepository = usuarioRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -29,37 +33,33 @@ namespace BLL.Services
                 usuario.IdUsuario = Guid.NewGuid();
             }
             
-            _context.Usuario.Add(usuario);
-            _context.SaveChanges();
+            _usuarioRepository.Add(usuario);
+            _unitOfWork.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
-            var usuario = _context.Usuario.Find(id);
-            if (usuario != null)
-            {
-                _context.Usuario.Remove(usuario);
-                _context.SaveChanges();
-            }
+            _usuarioRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<UsuarioDTO> GetAll()
         {
-            var usuarios = _context.Usuario.ToList();
+            var usuarios = _usuarioRepository.GetAll();
             return _mapper.Map<List<UsuarioDTO>>(usuarios);
         }
 
         public UsuarioDTO GetById(Guid id)
         {
-            var usuario = _context.Usuario.Find(id);
+            var usuario = _usuarioRepository.GetById(id);
             return usuario != null ? _mapper.Map<UsuarioDTO>(usuario) : null;
         }
 
         public void Update(UsuarioDTO obj)
         {
             var usuario = _mapper.Map<Usuario>(obj);
-            _context.Usuario.Update(usuario);
-            _context.SaveChanges();
+            _usuarioRepository.Update(usuario);
+            _unitOfWork.SaveChanges();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repository.Contracts
 {
-    internal interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         // Métodos para manejar transacciones y confirmar los cambios
         void BeginTransaction();               // Inicia una transacción

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using DAL.Contracts;
 using DAL.Implementation.EntityFramework.Context;
 using DAL.Repository;
-
+using DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Services;
@@ -20,11 +21,10 @@ namespace DAL
            this IServiceCollection services
            )
         {
-            //services.AddScoped<SistemaPresupuestarioContext>();
             services.AddAutoMapper();
             services.AddDbContext<SistemaPresupuestarioContext>(options => options.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["ServicesConString"].ConnectionString));
-            //services.AddSingleton<ILogger, LoggerService>();
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
         }
     }
