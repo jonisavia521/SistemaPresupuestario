@@ -3,7 +3,7 @@ using BLL.Contracts;
 using BLL.DTOs;
 using DAL.Contracts;
 using DAL.Implementation.EntityFramework.Context;
-using DAL.Repository.Contracts;
+using DAL.Implementation.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,51 +14,57 @@ namespace BLL.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public UsuarioService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _usuarioRepository = usuarioRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public void Add(UsuarioDTO obj)
+        public async Task AddAsync(UsuarioDTO obj)
         {
             var usuario = _mapper.Map<Usuario>(obj);
             if (usuario.IdUsuario == Guid.Empty)
             {
                 usuario.IdUsuario = Guid.NewGuid();
-            }
-            
-            _usuarioRepository.Add(usuario);
+            }            
+            await _unitOfWork.Usuarios.AddAsync(usuario);
             _unitOfWork.SaveChanges();
         }
 
-        public void Delete(Guid id)
+        public void Delete(UsuarioDTO obj)
         {
-            _usuarioRepository.Delete(id);
+            // convertir DTO a dominio
+            var usuarioDomain = _mapper.Map<DomainModel.Domain.Usuario>(obj);
+            // convertir dominio a Entity (EF)
+            var usuarioEF = _mapper.Map<Usuario>(usuarioDomain);
+            _unitOfWork.Usuarios.Delete(usuarioEF);
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<UsuarioDTO> GetAll()
+        public async Task<IEnumerable<UsuarioDTO>> GetAllAsync()
         {
-            var usuarios = _usuarioRepository.GetAll();
-            return _mapper.Map<List<UsuarioDTO>>(usuarios);
+            var usuariosEF = await _unitOfWork.Usuarios.GetAllAsync();
+            var usuariosDomain = _mapper.Map<List<DomainModel.Domain.Usuario>>(usuariosEF);
+            var usuariosDTO = _mapper.Map<List<UsuarioDTO>>(usuariosDomain);
+            return usuariosDTO;
         }
 
-        public UsuarioDTO GetById(Guid id)
+        public async Task<UsuarioDTO> GetByIdAsync(Guid id)
         {
-            var usuario = _usuarioRepository.GetById(id);
-            return usuario != null ? _mapper.Map<UsuarioDTO>(usuario) : null;
+            var usuarioEF = await _unitOfWork.Usuarios.GetByIdAsync(id);
+            var usuarioDomain = _mapper.Map<DomainModel.Domain.Usuario>(usuarioEF);
+            var usuarioDTO = _mapper.Map<UsuarioDTO>(usuarioDomain);
+            return usuarioDTO;
         }
 
         public void Update(UsuarioDTO obj)
         {
-            var usuario = _mapper.Map<Usuario>(obj);
-            _usuarioRepository.Update(usuario);
+            var usuarioDomain = _mapper.Map<DomainModel.Domain.Usuario>(obj);
+            var usuarioEF = _mapper.Map<Usuario>(usuarioDomain);
+            _unitOfWork.Usuarios.Update(usuarioEF);
             _unitOfWork.SaveChanges();
         }
     }

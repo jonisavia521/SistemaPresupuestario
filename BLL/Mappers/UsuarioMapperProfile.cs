@@ -15,20 +15,45 @@ namespace BLL.Mappers
         
         public UsuarioMapperProfile()
         {
-          CreateMap<UsuarioDTO, Usuario>()
-                .ForMember(dest => dest.IdUsuario, opt => opt.MapFrom(src => src.Id))
-                   .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
-                   .ForMember(dest => dest.Usuario1, opt => opt.MapFrom(src => src.Usuario))
-                   .ForMember(dest => dest.Clave, opt => opt.MapFrom(src => src.Clave))
-                   .ForMember(dest => dest.Timestamp, opt => opt.Ignore())
-                   .ForMember(dest => dest.UsuarioFamilia, opt => opt.Ignore())
-                   .ForMember(dest => dest.UsuarioPatente, opt => opt.Ignore())
-                   .ReverseMap()
-                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdUsuario))
-                   .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.Usuario1));
+            CreateMap<DomainModel.Domain.Usuario, UsuarioDTO>()
+                  .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.Usuario_))
+                  .ReverseMap()
+                  .ForMember(dest => dest.Usuario_, opt => opt.MapFrom(src => src.Usuario))
+                  .ConstructUsing(src =>
+                      new DomainModel.Domain.Usuario(
+                          idUsuario: src.Id,
+                          nombre: src.Nombre,
+                          usuarioNombre: src.Usuario,
+                          claveHash: src.Clave
+                      ));
 
-                // Resolver la conversión de listas
-                CreateMap<List<object>, List<object>>().ConvertUsing<CustomResolver>();
+            CreateMap<Usuario, DomainModel.Domain.Usuario>()
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdUsuario))
+                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                 .ForMember(dest => dest.Usuario_, opt => opt.MapFrom(src => src.Usuario1))
+                 .ForMember(dest => dest.Clave, opt => opt.MapFrom(src => src.Clave))
+                 .ReverseMap()
+                 .ForMember(dest => dest.IdUsuario, opt => opt.MapFrom(src => src.Id))
+                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                 .ForMember(dest => dest.Usuario1, opt => opt.MapFrom(src => src.Usuario_))
+                 .ForMember(dest => dest.Clave, opt => opt.MapFrom(src => src.Clave))
+                 .ForMember(dest => dest.UsuarioFamilia, opt => opt.Ignore())
+                 .ForMember(dest => dest.UsuarioPatente, opt => opt.Ignore())
+                 .ConstructUsing(src =>
+                     new Usuario
+                     {
+                         IdUsuario = src.Id,
+                         Nombre = src.Nombre,
+                         Usuario1 = src.Usuario_,
+                         Clave = src.Clave
+                     })
+                 .AfterMap((src, dest) =>
+                 {
+                     dest.UsuarioFamilia = new HashSet<UsuarioFamilia>();
+                     dest.UsuarioPatente = new HashSet<UsuarioPatente>();
+                 });
+            // Resolver la conversión de listas
+            CreateMap<List<object>, List<object>>().ConvertUsing<CustomResolver>();
             
         }
 

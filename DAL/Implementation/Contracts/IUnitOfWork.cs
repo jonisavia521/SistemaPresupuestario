@@ -1,13 +1,15 @@
-﻿using System;
+﻿using DAL.Implementation.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Repository.Contracts
+namespace DAL.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
+        IUsuarioRepository Usuarios { get; }
         // Métodos para manejar transacciones y confirmar los cambios
         void BeginTransaction();               // Inicia una transacción
 

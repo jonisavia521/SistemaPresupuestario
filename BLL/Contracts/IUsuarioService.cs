@@ -9,15 +9,15 @@ namespace BLL.Contracts
 {
     public interface IUsuarioService
     {
-        void Add(UsuarioDTO obj);
+        Task AddAsync(UsuarioDTO obj);
 
         void Update(UsuarioDTO obj);
 
-        void Delete(Guid id);
+        void Delete(UsuarioDTO obj);
 
-        IEnumerable<UsuarioDTO> GetAll();
+        Task<IEnumerable<UsuarioDTO>> GetAllAsync();
 
-        UsuarioDTO GetById(Guid id);
+       Task<UsuarioDTO> GetByIdAsync(Guid id);
 
     }
 }

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using DAL.Contracts;
 using DAL.Implementation.EntityFramework.Context;
-using DAL.Repository;
-using DAL.Repository.Contracts;
+using DAL.Implementation.Repository;
+using DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Services;

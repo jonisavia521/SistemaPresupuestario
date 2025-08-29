@@ -171,6 +171,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Implementation\EntityFramework\Context\Cliente.cs" />
     <Compile Include="Implementation\EntityFramework\Context\ClienteImpuesto.cs" />
@@ -191,14 +192,15 @@
     <Compile Include="Implementation\EntityFramework\Context\UsuarioFamilia.cs" />
     <Compile Include="Implementation\EntityFramework\Context\UsuarioPatente.cs" />
     <Compile Include="Implementation\EntityFramework\Context\Vendedor.cs" />
+    <Compile Include="Implementation\Repository\UsuarioRepository.cs" />
     <Compile Include="Migrations\20241101233430_InitialMigration.cs" />
     <Compile Include="Migrations\20241101233430_InitialMigration.designer.cs">
       <DependentUpon>20241101233430_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SistemaPresupuestarioContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Contracts\IUnitOfWork.cs" />
-    <Compile Include="Repository\UnitOfWork.cs" />
+    <Compile Include="Implementation\Contracts\IUnitOfWork.cs" />
+    <Compile Include="Implementation\Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Services\Services.csproj">
