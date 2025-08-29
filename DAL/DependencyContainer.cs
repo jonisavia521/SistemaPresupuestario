@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using DAL.Implementation.EntityFramework.Context;
 using DAL.Implementation.Repository;
 using DAL.Contracts;
@@ -20,7 +20,6 @@ namespace DAL
            this IServiceCollection services
            )
         {
-            services.AddAutoMapper();
             services.AddDbContext<SistemaPresupuestarioContext>(options => options.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["ServicesConString"].ConnectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();

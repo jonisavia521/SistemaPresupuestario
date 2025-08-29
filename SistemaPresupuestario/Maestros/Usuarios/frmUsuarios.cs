@@ -24,10 +24,10 @@ namespace SistemaPresupuestario.Maestros
             this.usuarioService = usuarioService;
         }
        
-        private void frmUsuarios_Load(object sender, EventArgs e)
+        private async void frmUsuarios_Load(object sender, EventArgs e)
         {
 
-            var usuarios = usuarioService.GetAll();
+            var usuarios = await usuarioService.GetAllAsync();
             dgvUsuarios.DataSource = usuarios.ToList();
             dgvUsuarios.Refresh();
         }
