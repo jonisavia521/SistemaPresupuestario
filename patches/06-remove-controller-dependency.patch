@@ -1,0 +1,18 @@
+--- a/SistemaPresupuestario/Program.cs
++++ b/SistemaPresupuestario/Program.cs
+@@ -1,6 +1,5 @@
+ ﻿
+ using BLL;
+-using Controller;
+ using Microsoft.Extensions.DependencyInjection;
+ using Services;
+ using SistemaPresupuestario.Maestros;
+@@ -31,7 +30,6 @@ namespace SistemaPresupuestario
+         {
+             services                
+                 .AddServicesDependencies()
+                 .AddBLLDependencies()
+-                .AddControllerDependencies()
+                 .AddScoped<frmLogin>()
+                 .AddScoped<frmMain>()
+                 .AddScoped<frmUsuarios>()

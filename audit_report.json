@@ -1,0 +1,364 @@
+{
+  "auditSummary": {
+    "projectCount": 5,
+    "targetFramework": "net472",
+    "totalPackages": 61,
+    "conflictingPackages": 8,
+    "unusedPackages": 15,
+    "incompatiblePackages": 12,
+    "auditDate": "2024-01-01",
+    "criticalIssues": [
+      "Missing Controller project referenced in Program.cs",
+      "Version conflicts in Microsoft.Bcl.AsyncInterfaces",
+      "Multiple 8.x packages incompatible with net472",
+      "Azure packages may be unused and incompatible"
+    ]
+  },
+  "projects": {
+    "SistemaPresupuestario": {
+      "targetFramework": "net472",
+      "packages": [
+        {
+          "packageId": "Microsoft.Bcl.AsyncInterfaces",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "6.0.0",
+          "action": "Keep",
+          "reason": "Compatible with net472, used by DI container",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Extensions.DependencyInjection",
+          "currentVersion": "3.1.29",
+          "recommendedVersion": "3.1.29",
+          "action": "Keep",
+          "reason": "EF Core 3.1 compatible, actively used",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "currentVersion": "3.1.29",
+          "recommendedVersion": "3.1.29",
+          "action": "Keep",
+          "reason": "Required by DI container",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.Runtime.CompilerServices.Unsafe",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "4.7.1",
+          "action": "Downgrade",
+          "reason": "6.0.0 may cause runtime issues on net472",
+          "fixCommand": "Update-Package System.Runtime.CompilerServices.Unsafe -Version 4.7.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.Threading.Tasks.Extensions",
+          "currentVersion": "4.5.4",
+          "recommendedVersion": "4.5.4",
+          "action": "Keep",
+          "reason": "Compatible and required for async operations",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        }
+      ]
+    },
+    "BLL": {
+      "targetFramework": "net472",
+      "packages": [
+        {
+          "packageId": "AutoMapper",
+          "currentVersion": "7.0.1",
+          "recommendedVersion": "10.1.1",
+          "action": "Update",
+          "reason": "Upgrade to latest net472 compatible version",
+          "fixCommand": "Update-Package AutoMapper -Version 10.1.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "AutoMapper.Extensions.Microsoft.DependencyInjection",
+          "currentVersion": "4.0.1",
+          "recommendedVersion": "8.1.1",
+          "action": "Update",
+          "reason": "Upgrade to match AutoMapper version",
+          "fixCommand": "Update-Package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 8.1.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Bcl.AsyncInterfaces",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "6.0.0",
+          "action": "Keep",
+          "reason": "Standardize across all projects",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.Runtime.CompilerServices.Unsafe",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "4.7.1",
+          "action": "Downgrade",
+          "reason": "Align with net472 compatibility",
+          "fixCommand": "Update-Package System.Runtime.CompilerServices.Unsafe -Version 4.7.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.ValueTuple",
+          "currentVersion": "4.5.0",
+          "recommendedVersion": "4.5.0",
+          "action": "Keep",
+          "reason": "Required for net472",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        }
+      ]
+    },
+    "DAL": {
+      "targetFramework": "net472",
+      "packages": [
+        {
+          "packageId": "Microsoft.EntityFrameworkCore",
+          "currentVersion": "3.1.29",
+          "recommendedVersion": "3.1.32",
+          "action": "Update",
+          "reason": "Latest security patch for EF Core 3.1",
+          "fixCommand": "Update-Package Microsoft.EntityFrameworkCore -Version 3.1.32",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.EntityFrameworkCore.SqlServer",
+          "currentVersion": "3.1.29",
+          "recommendedVersion": "3.1.32",
+          "action": "Update",
+          "reason": "Match EF Core version",
+          "fixCommand": "Update-Package Microsoft.EntityFrameworkCore.SqlServer -Version 3.1.32",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Data.SqlClient",
+          "currentVersion": "5.2.3",
+          "recommendedVersion": "2.1.7",
+          "action": "Downgrade",
+          "reason": "5.x requires .NET 6+, downgrade to net472 compatible",
+          "fixCommand": "Update-Package Microsoft.Data.SqlClient -Version 2.1.7",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Bcl.AsyncInterfaces",
+          "currentVersion": "8.0.0",
+          "recommendedVersion": "6.0.0",
+          "action": "Downgrade",
+          "reason": "Standardize to 6.0.0 across all projects",
+          "fixCommand": "Update-Package Microsoft.Bcl.AsyncInterfaces -Version 6.0.0",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Azure.Core",
+          "currentVersion": "1.45.0",
+          "recommendedVersion": "Remove",
+          "action": "Remove",
+          "reason": "Not used in code, incompatible with net472",
+          "fixCommand": "Uninstall-Package Azure.Core",
+          "confidenceUsage": "HighConfidenceUnused"
+        },
+        {
+          "packageId": "Azure.Identity",
+          "currentVersion": "1.13.2",
+          "recommendedVersion": "Remove",
+          "action": "Remove",
+          "reason": "Not used in code, incompatible with net472",
+          "fixCommand": "Uninstall-Package Azure.Identity",
+          "confidenceUsage": "HighConfidenceUnused"
+        },
+        {
+          "packageId": "System.Text.Json",
+          "currentVersion": "8.0.5",
+          "recommendedVersion": "4.7.2",
+          "action": "Downgrade",
+          "reason": "8.x incompatible with net472, use Newtonsoft.Json instead",
+          "fixCommand": "Uninstall-Package System.Text.Json; Install-Package Newtonsoft.Json -Version 13.0.3",
+          "confidenceUsage": "LikelyUnused"
+        },
+        {
+          "packageId": "System.Text.Encodings.Web",
+          "currentVersion": "8.0.0",
+          "recommendedVersion": "4.7.2",
+          "action": "Downgrade",
+          "reason": "8.x incompatible with net472",
+          "fixCommand": "Update-Package System.Text.Encodings.Web -Version 4.7.2",
+          "confidenceUsage": "LikelyUnused"
+        },
+        {
+          "packageId": "Microsoft.Extensions.Logging.Abstractions",
+          "currentVersion": "7.0.1",
+          "recommendedVersion": "3.1.29",
+          "action": "Downgrade",
+          "reason": "Align with EF Core 3.1 and net472",
+          "fixCommand": "Update-Package Microsoft.Extensions.Logging.Abstractions -Version 3.1.29",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.Diagnostics.DiagnosticSource",
+          "currentVersion": "8.0.1",
+          "recommendedVersion": "4.7.1",
+          "action": "Downgrade",
+          "reason": "8.x incompatible with net472",
+          "fixCommand": "Update-Package System.Diagnostics.DiagnosticSource -Version 4.7.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Extensions.Primitives",
+          "currentVersion": "8.0.0",
+          "recommendedVersion": "3.1.29",
+          "action": "Downgrade",
+          "reason": "Align with EF Core 3.1 versions",
+          "fixCommand": "Update-Package Microsoft.Extensions.Primitives -Version 3.1.29",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Newtonsoft.Json",
+          "currentVersion": "10.0.1",
+          "recommendedVersion": "13.0.3",
+          "action": "Update",
+          "reason": "Upgrade to latest net472 compatible version",
+          "fixCommand": "Update-Package Newtonsoft.Json -Version 13.0.3",
+          "confidenceUsage": "LikelyUnused"
+        }
+      ]
+    },
+    "Services": {
+      "targetFramework": "net472",
+      "packages": [
+        {
+          "packageId": "Microsoft.Bcl.AsyncInterfaces",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "6.0.0",
+          "action": "Keep",
+          "reason": "Standardized version",
+          "fixCommand": "No action required",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "System.Runtime.CompilerServices.Unsafe",
+          "currentVersion": "6.0.0",
+          "recommendedVersion": "4.7.1",
+          "action": "Downgrade",
+          "reason": "Align with net472 compatibility",
+          "fixCommand": "Update-Package System.Runtime.CompilerServices.Unsafe -Version 4.7.1",
+          "confidenceUsage": "Used"
+        },
+        {
+          "packageId": "Microsoft.Data.SqlClient.SNI",
+          "currentVersion": "1.1.0",
+          "recommendedVersion": "2.1.1",
+          "action": "Update",
+          "reason": "Match with Microsoft.Data.SqlClient downgrade",
+          "fixCommand": "Update-Package Microsoft.Data.SqlClient.SNI -Version 2.1.1",
+          "confidenceUsage": "Used"
+        }
+      ]
+    },
+    "DomainModel": {
+      "targetFramework": "net472",
+      "packages": [],
+      "note": "No NuGet packages - clean project"
+    }
+  },
+  "globalDependencyGraph": {
+    "Microsoft.Extensions.DependencyInjection": {
+      "version": "3.1.29",
+      "usedBy": ["SistemaPresupuestario", "BLL", "DAL", "Services"],
+      "dependencies": ["Microsoft.Extensions.DependencyInjection.Abstractions", "Microsoft.Bcl.AsyncInterfaces"]
+    },
+    "Microsoft.EntityFrameworkCore": {
+      "version": "3.1.29",
+      "usedBy": ["DAL"],
+      "dependencies": ["Microsoft.EntityFrameworkCore.Abstractions", "Microsoft.Extensions.Logging", "Microsoft.Data.SqlClient"]
+    },
+    "AutoMapper": {
+      "version": "7.0.1",
+      "usedBy": ["BLL"],
+      "dependencies": ["System.Runtime.CompilerServices.Unsafe"]
+    }
+  },
+  "unusedPackages": [
+    {
+      "packageId": "Azure.Core",
+      "project": "DAL",
+      "confidence": "HighConfidenceUnused",
+      "reason": "No namespace imports found in code"
+    },
+    {
+      "packageId": "Azure.Identity", 
+      "project": "DAL",
+      "confidence": "HighConfidenceUnused",
+      "reason": "No namespace imports found in code"
+    },
+    {
+      "packageId": "System.Text.Json",
+      "project": "DAL", 
+      "confidence": "LikelyUnused",
+      "reason": "No direct usage found, prefer Newtonsoft.Json for net472"
+    },
+    {
+      "packageId": "System.Text.Encodings.Web",
+      "project": "DAL",
+      "confidence": "LikelyUnused", 
+      "reason": "Dependency of System.Text.Json which is unused"
+    },
+    {
+      "packageId": "Microsoft.Bcl.Cryptography",
+      "project": "DAL",
+      "confidence": "LikelyUnused",
+      "reason": "Modern crypto should use built-in net472 features"
+    }
+  ],
+  "incompatiblePackages": [
+    {
+      "packageId": "Microsoft.Bcl.AsyncInterfaces",
+      "version": "8.0.0", 
+      "project": "DAL",
+      "issue": "Version conflict with other projects using 6.0.0",
+      "recommendation": "Downgrade to 6.0.0"
+    },
+    {
+      "packageId": "System.Text.Json",
+      "version": "8.0.5",
+      "project": "DAL", 
+      "issue": "8.x series requires .NET 6+",
+      "recommendation": "Remove and use Newtonsoft.Json"
+    },
+    {
+      "packageId": "Microsoft.Data.SqlClient",
+      "version": "5.2.3",
+      "project": "DAL",
+      "issue": "5.x series targets netstandard2.1 minimum",
+      "recommendation": "Downgrade to 2.1.7"
+    }
+  ],
+  "buildSteps": [
+    "Clean bin and obj directories: Remove-Item */bin,*/obj -Recurse -Force",
+    "Restore packages: nuget restore SistemaPresupuestario.sln",
+    "Build solution: msbuild SistemaPresupuestario.sln /p:Configuration=Release",
+    "If missing Controller project: Create Controller project or remove references"
+  ],
+  "errorsAndWarnings": [
+    {
+      "type": "Error",
+      "description": "Missing Controller project referenced in Program.cs",
+      "solution": "Create Controller project or refactor dependency injection"
+    },
+    {
+      "type": "Warning", 
+      "description": "Multiple package version conflicts",
+      "solution": "Apply recommended package version changes"
+    },
+    {
+      "type": "Warning",
+      "description": "8.x packages may cause runtime issues",
+      "solution": "Downgrade to net472 compatible versions"
+    }
+  ]
+}
