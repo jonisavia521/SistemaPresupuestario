@@ -42,6 +42,7 @@ namespace SistemaPresupuestario
             if (formAbierto == null)
             {
                 // Crear una nueva instancia si el formulario no está abierto
+                //Microsoft.Extensions.Logging.Abstractions
                 frmUsuarios hijo = serviceProvider.GetService(typeof(frmUsuarios)) as frmUsuarios;
                 hijo.MdiParent = this;
                 
