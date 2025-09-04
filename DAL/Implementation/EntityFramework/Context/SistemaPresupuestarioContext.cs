@@ -41,33 +41,26 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.CodigoCliente)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Cuit)
                     .HasColumnName("CUIT")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.DireccionComercial)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.DireccionLegal)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.IdProvincia)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Localidad)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.RazonSocial)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.IdVendedorNavigation)
                     .WithMany(p => p.Cliente)
@@ -93,13 +86,13 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.HasOne(d => d.IdImpuestoNavigation)
                     .WithMany(p => p.ClienteImpuesto)
                     .HasForeignKey(d => d.IdImpuesto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Cliente_Impuesto_Impuesto");
 
                 entity.HasOne(d => d.IdTipoImpuestoNavigation)
                     .WithMany(p => p.ClienteImpuesto)
                     .HasForeignKey(d => d.IdTipoImpuesto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Cliente_Impuesto_TipoImpuesto");
             });
 
@@ -118,23 +111,20 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.Property(e => e.ImporteNeto).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.NumeroComprobante)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.PrecioNeto).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Renglon)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.TipoComprobante)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.IdComprobanteNavigation)
                     .WithMany(p => p.ComprobanteDetalle)
                     .HasForeignKey(d => d.IdComprobante)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Comprobante_Detalle_Comprobantes");
 
                 entity.HasOne(d => d.IdProductoNavigation)
@@ -150,8 +140,7 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Estado)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.FechaMovimiento).HasColumnType("datetime");
 
@@ -160,12 +149,10 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.Property(e => e.ImporteIva).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.NumeroComprobante)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.TipoComprobante)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Total).HasColumnType("decimal(18, 4)");
 
@@ -186,18 +173,15 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasName("PK__Familia__751F80CFFEC2F220");
 
                 entity.Property(e => e.IdFamilia)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Nombre)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
+                    .HasMaxLength(1000);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
             });
 
             modelBuilder.Entity<FamiliaFamilia>(entity =>
@@ -208,29 +192,26 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.ToTable("Familia_Familia");
 
                 entity.Property(e => e.IdFamilia)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.IdFamiliaHijo)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.IdFamiliaNavigation)
                     .WithMany(p => p.FamiliaFamiliaIdFamiliaNavigation)
                     .HasForeignKey(d => d.IdFamilia)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK__Familia_F__IdFam__7C4F7684");
 
                 entity.HasOne(d => d.IdFamiliaHijoNavigation)
                     .WithMany(p => p.FamiliaFamiliaIdFamiliaHijoNavigation)
                     .HasForeignKey(d => d.IdFamiliaHijo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK__Familia_A__Famil__37A5467C");
             });
 
@@ -242,29 +223,26 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.ToTable("Familia_Patente");
 
                 entity.Property(e => e.IdFamilia)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.IdPatente)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.IdFamiliaNavigation)
                     .WithMany(p => p.FamiliaPatente)
                     .HasForeignKey(d => d.IdFamilia)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Familia_Patente_Familia");
 
                 entity.HasOne(d => d.IdPatenteNavigation)
                     .WithMany(p => p.FamiliaPatente)
                     .HasForeignKey(d => d.IdPatente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_FamiliaElement_Patente");
             });
 
@@ -282,13 +260,11 @@ namespace DAL.Implementation.EntityFramework.Context
 
                 entity.Property(e => e.Codigo)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Descripcion)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.IdProvinciaNavigation)
                     .WithMany(p => p.Impuesto)
@@ -298,7 +274,7 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.HasOne(d => d.IdTipoImpuestoNavigation)
                     .WithMany(p => p.Impuesto)
                     .HasForeignKey(d => d.IdTipoImpuesto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Impuesto_TipoImpuesto");
             });
 
@@ -308,22 +284,18 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasName("PK__Patente__9F4EF95C34290DD0");
 
                 entity.Property(e => e.IdPatente)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Nombre)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
+                    .HasMaxLength(1000);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.Property(e => e.Vista)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
+                    .HasMaxLength(1000);
             });
 
             modelBuilder.Entity<Presupuesto>(entity =>
@@ -338,13 +310,12 @@ namespace DAL.Implementation.EntityFramework.Context
 
                 entity.Property(e => e.Numero)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.Presupuesto)
                     .HasForeignKey(d => d.IdCliente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Presupuesto_Cliente");
 
                 entity.HasOne(d => d.IdPresupuestoPadreNavigation)
@@ -371,8 +342,7 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.Property(e => e.Descuento).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Numero)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Precio).HasColumnType("decimal(18, 4)");
 
@@ -394,12 +364,10 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Codigo)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Descripcion)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.FechaAlta).HasColumnType("datetime");
             });
@@ -412,12 +380,10 @@ namespace DAL.Implementation.EntityFramework.Context
 
                 entity.Property(e => e.CodigoAfip)
                     .HasColumnName("CodigoAFIP")
-                    .HasMaxLength(2)
-                    .IsUnicode(false);
+                    .HasMaxLength(2);
 
                 entity.Property(e => e.Nombre)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<TipoImpuesto>(entity =>
@@ -427,8 +393,7 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Descripcion)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Usuario>(entity =>
@@ -437,29 +402,26 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasName("PK__Usuario__5B65BF970075BCE6");
 
                 entity.Property(e => e.IdUsuario)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Clave)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
+                    
                     .HasDefaultValueSql("('')");
 
                 entity.Property(e => e.Nombre)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
+                    .HasMaxLength(1000);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.Property(e => e.Usuario1)
                     .IsRequired()
                     .HasColumnName("Usuario")
                     .HasMaxLength(20)
-                    .IsUnicode(false)
+                    
                     .HasDefaultValueSql("('')");
             });
 
@@ -471,29 +433,26 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.ToTable("Usuario_Familia");
 
                 entity.Property(e => e.IdUsuario)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.IdFamilia)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.IdFamiliaNavigation)
                     .WithMany(p => p.UsuarioFamilia)
                     .HasForeignKey(d => d.IdFamilia)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK__Usuario_P__Famil__35BCFE0A");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.UsuarioFamilia)
                     .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK__Usuario_F__IdUsu__7F2BE32F");
             });
 
@@ -504,29 +463,26 @@ namespace DAL.Implementation.EntityFramework.Context
                 entity.ToTable("Usuario_Patente");
 
                 entity.Property(e => e.IdUsuario)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.IdPatente)
-                    .HasMaxLength(36)
-                    .IsUnicode(false);
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.Timestamp)
                     .IsRequired()
                     .HasColumnName("timestamp")
                     .IsRowVersion()
-                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.IdPatenteNavigation)
                     .WithMany(p => p.UsuarioPatente)
                     .HasForeignKey(d => d.IdPatente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Usuario_Patente_Patente");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.UsuarioPatente)
                     .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .WillCascadeOnDelete(false)
                     .HasConstraintName("FK_Usuario_Patente_Usuario");
             });
 
@@ -537,20 +493,16 @@ namespace DAL.Implementation.EntityFramework.Context
                     .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Direccion)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Mail)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Nombre)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Telefono)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
