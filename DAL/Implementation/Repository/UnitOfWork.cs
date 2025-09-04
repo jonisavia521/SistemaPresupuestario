@@ -1,18 +1,18 @@
 ﻿using DAL.Implementation.EntityFramework.Context;
 using DAL.Contracts;
-using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL.Implementation.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
         readonly SistemaPresupuestarioContext _context;
-        private IDbContextTransaction _transaction;
+        private DbContextTransaction _transaction;
         public IUsuarioRepository Usuarios { get; }
 
         public UnitOfWork(SistemaPresupuestarioContext context, IUsuarioRepository usuarioRepository)

@@ -21,7 +21,7 @@ namespace DAL.Contracts
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly SistemaPresupuestarioContext _context;
-        protected readonly IDbSet<T> _dbSet;
+        protected readonly DbSet<T> _dbSet;
 
         public Repository(SistemaPresupuestarioContext context)
         {
