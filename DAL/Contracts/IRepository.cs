@@ -1,10 +1,10 @@
 ﻿using DAL.Implementation.EntityFramework.Context;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL.Contracts
 {
@@ -21,7 +21,7 @@ namespace DAL.Contracts
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly SistemaPresupuestarioContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly IDbSet<T> _dbSet;
 
         public Repository(SistemaPresupuestarioContext context)
         {
@@ -32,8 +32,8 @@ namespace DAL.Contracts
         public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
         public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
         public async Task<T> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
-        public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
-        public void Update(T entity) => _dbSet.Update(entity);
+        public async Task AddAsync(T entity) => _dbSet.Add(entity);
+        public void Update(T entity) => _context.Entry(entity).State = EntityState.Modified;
         public void Delete(T entity) => _dbSet.Remove(entity);
     }
 }

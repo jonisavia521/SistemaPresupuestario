@@ -1,6 +1,5 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using System.Data.Entity;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -10,12 +9,7 @@ namespace DAL.Implementation.EntityFramework.Context
 {
     public partial class SistemaPresupuestarioContext : DbContext
     {
-        public SistemaPresupuestarioContext()
-        {
-        }
-
-        public SistemaPresupuestarioContext(DbContextOptions<SistemaPresupuestarioContext> options)
-            : base(options)
+        public SistemaPresupuestarioContext() : base("Name=ServicesConString")
         {
         }
 
@@ -38,16 +32,7 @@ namespace DAL.Implementation.EntityFramework.Context
         public virtual DbSet<UsuarioPatente> UsuarioPatente { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-84FSGU1\\SQLEXPRESS;Initial Catalog=SistemaPresupuestario;Integrated Security=True;");
-            }
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cliente>(entity =>
             {
@@ -571,6 +556,6 @@ namespace DAL.Implementation.EntityFramework.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
     }
 }

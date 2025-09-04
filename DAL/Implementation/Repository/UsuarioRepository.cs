@@ -1,11 +1,11 @@
 ﻿using DAL.Contracts;
 using DAL.Implementation.EntityFramework.Context;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL.Implementation.Repository
 {

@@ -2,7 +2,6 @@
 using DAL.Implementation.EntityFramework.Context;
 using DAL.Implementation.Repository;
 using DAL.Contracts;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Services;
 using Services.Services.Contracts;
@@ -20,7 +19,7 @@ namespace DAL
            this IServiceCollection services
            )
         {
-            services.AddDbContext<SistemaPresupuestarioContext>(options => options.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["ServicesConString"].ConnectionString));
+            services.AddTransient<SistemaPresupuestarioContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
