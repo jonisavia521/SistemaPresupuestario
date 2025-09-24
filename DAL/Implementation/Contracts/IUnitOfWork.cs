@@ -10,6 +10,9 @@ namespace DAL.Contracts
     public interface IUnitOfWork : IDisposable
     {
         IUsuarioRepository Usuarios { get; }
+        IFamiliaRepository Familias { get; }
+        IPatenteRepository Patentes { get; }
+        
         // Métodos para manejar transacciones y confirmar los cambios
         void BeginTransaction();               // Inicia una transacción
 

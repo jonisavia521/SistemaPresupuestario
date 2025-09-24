@@ -13,11 +13,18 @@ namespace DAL.Implementation.Repository
         private DbContextTransaction _transaction;
 
         public IUsuarioRepository Usuarios { get; }
+        public IFamiliaRepository Familias { get; }
+        public IPatenteRepository Patentes { get; }
 
-        public UnitOfWork(SistemaPresupuestario context, IUsuarioRepository usuarioRepository)
+        public UnitOfWork(SistemaPresupuestario context, 
+                         IUsuarioRepository usuarioRepository,
+                         IFamiliaRepository familiaRepository,
+                         IPatenteRepository patenteRepository)
         {
             _context = context;
             Usuarios = usuarioRepository;
+            Familias = familiaRepository;
+            Patentes = patenteRepository;
         }
 
         public void BeginTransaction()
