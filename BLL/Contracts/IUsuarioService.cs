@@ -22,7 +22,7 @@ namespace BLL.Contracts
         Task UpdateUserWithRelationsAsync(UserEditDto userDto);
         Task DeleteUserAsync(Guid id, byte[] timestamp);
         Task<PermisoEfectivoDto> GetEffectivePermissionsAsync(Guid userId);
-        Task<IEnumerable<UserEditDto>> GetPagedUsersAsync(string filter, int page, int pageSize, out int total);
+        Task<PagedResult<UserEditDto>> GetPagedUsersAsync(string filter, int page, int pageSize);
         
         // Métodos para obtener datos de referencia
         Task<IEnumerable<FamiliaDto>> GetAllFamiliasAsync();

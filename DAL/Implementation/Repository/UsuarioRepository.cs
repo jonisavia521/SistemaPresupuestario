@@ -1,4 +1,4 @@
-﻿using DAL.Contracts;
+using DAL.Contracts;
 using DAL.Implementation.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,15 @@ namespace DAL.Implementation.Repository
         Usuario GetByEmailAsync(string email);
         Task<Usuario> GetByIdWithRelationsAsync(Guid id);
         Task<bool> ExistsUserNameAsync(string userName, Guid? excludeId = null);
-        Task<IEnumerable<Usuario>> GetPagedAsync(string filter, int page, int pageSize, out int total);
+        Task<PagedUsuarioResult> GetPagedAsync(string filter, int page, int pageSize);
         Task<List<Guid>> GetEffectivePatentesAsync(Guid userId);
         void UpdateUserWithRelations(Usuario usuario, List<Guid> familiaIds, List<Guid> patenteIds);
+    }
+
+    public class PagedUsuarioResult
+    {
+        public IEnumerable<Usuario> Items { get; set; }
+        public int TotalItems { get; set; }
     }
 
     public class UsuarioRepository : Repository<Usuario>, IUsuarioRepository
@@ -46,7 +52,7 @@ namespace DAL.Implementation.Repository
             return await query.AnyAsync();
         }
 
-        public async Task<IEnumerable<Usuario>> GetPagedAsync(string filter, int page, int pageSize, out int total)
+        public async Task<PagedUsuarioResult> GetPagedAsync(string filter, int page, int pageSize)
         {
             var query = _dbSet.AsQueryable();
 
@@ -56,13 +62,18 @@ namespace DAL.Implementation.Repository
                 query = query.Where(u => u.Nombre.Contains(filter) || u.Usuario1.Contains(filter));
             }
 
-            total = await query.CountAsync();
-
-            return await query
+            var total = await query.CountAsync();
+            var items = await query
                 .OrderBy(u => u.Nombre)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return new PagedUsuarioResult
+            {
+                Items = items,
+                TotalItems = total
+            };
         }
 
         public async Task<List<Guid>> GetEffectivePatentesAsync(Guid userId)

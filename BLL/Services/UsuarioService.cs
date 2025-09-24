@@ -223,10 +223,18 @@ namespace BLL.Services
             return permiso;
         }
 
-        public async Task<IEnumerable<UserEditDto>> GetPagedUsersAsync(string filter, int page, int pageSize, out int total)
+        public async Task<PagedResult<UserEditDto>> GetPagedUsersAsync(string filter, int page, int pageSize)
         {
-            var usuarios = await _unitOfWork.Usuarios.GetPagedAsync(filter, page, pageSize, out total);
-            return _mapper.Map<List<UserEditDto>>(usuarios);
+            var result = await _unitOfWork.Usuarios.GetPagedAsync(filter, page, pageSize);
+            var usuariosDto = _mapper.Map<List<UserEditDto>>(result.Items);
+
+            return new PagedResult<UserEditDto>
+            {
+                Items = usuariosDto,
+                TotalItems = result.TotalItems,
+                Page = page,
+                PageSize = pageSize
+            };
         }
 
         public async Task<IEnumerable<FamiliaDto>> GetAllFamiliasAsync()

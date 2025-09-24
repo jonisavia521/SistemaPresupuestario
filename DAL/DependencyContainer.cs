@@ -19,8 +19,14 @@ namespace DAL
             // --- FIN DEL TRUCO ---
             services.AddScoped<SistemaPresupuestario>(opt => new SistemaPresupuestario(csSetting.ConnectionString));
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // Register repositories
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IFamiliaRepository, FamiliaRepository>();
+            services.AddScoped<IPatenteRepository, PatenteRepository>();
+            
+            // Register Unit of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             return services;
         }
     }
