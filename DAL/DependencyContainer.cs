@@ -21,6 +21,9 @@ namespace DAL
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IFamiliaRepository, FamiliaRepository>();
+            services.AddScoped<IPatenteRepository, PatenteRepository>();
+            
             return services;
         }
     }
