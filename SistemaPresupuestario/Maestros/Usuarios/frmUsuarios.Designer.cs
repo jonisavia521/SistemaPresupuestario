@@ -392,14 +392,3 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TimestampBase64;
     }
 }
-
-        private System.Windows.Forms.DataGridView dgvUsuarios;
-        private System.Windows.Forms.Button btnNuevo;
-        private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Button btnCerrar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User;
-    }
-}

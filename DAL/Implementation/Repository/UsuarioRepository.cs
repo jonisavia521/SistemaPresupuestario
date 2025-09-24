@@ -1,4 +1,4 @@
-﻿using DAL.Contracts;
+using DAL.Contracts;
 using DAL.Implementation.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -9,73 +9,6 @@ using System.Threading.Tasks;
 
 namespace DAL.Implementation.Repository
 {
-    public interface IUsuarioRepository : IRepository<Usuario>
-    {
-        /// <summary>
-        /// Obtiene usuario por nombre de usuario (login)
-        /// </summary>
-        /// <param name="usuario">Nombre de usuario</param>
-        /// <returns>Usuario encontrado o null</returns>
-        Usuario GetByEmailAsync(string usuario);
-
-        /// <summary>
-        /// Obtiene usuario por ID con todas sus relaciones cargadas
-        /// </summary>
-        /// <param name="id">ID del usuario</param>
-        /// <returns>Usuario con relaciones cargadas</returns>
-        Usuario GetByIdWithRelations(Guid id);
-
-        /// <summary>
-        /// Obtiene lista paginada de usuarios con filtros
-        /// </summary>
-        /// <param name="filtroUsuario">Filtro por nombre de usuario (parcial)</param>
-        /// <param name="filtroNombre">Filtro por nombre completo (parcial)</param>
-        /// <param name="page">Número de página (base 1)</param>
-        /// <param name="pageSize">Tamaño de página</param>
-        /// <param name="total">Total de registros que coinciden con filtros</param>
-        /// <returns>Lista paginada de usuarios</returns>
-        List<Usuario> GetPaged(string filtroUsuario, string filtroNombre, int page, int pageSize, out int total);
-
-        /// <summary>
-        /// Verifica si existe un nombre de usuario (excluyendo opcionalmente un ID)
-        /// </summary>
-        /// <param name="usuario">Nombre de usuario</param>
-        /// <param name="excludeId">ID a excluir de la búsqueda (para edición)</param>
-        /// <returns>True si existe</returns>
-        bool ExistsUserName(string usuario, Guid? excludeId = null);
-
-        /// <summary>
-        /// Agrega usuario con sus relaciones de familias y patentes en una transacción
-        /// </summary>
-        /// <param name="entity">Entidad usuario</param>
-        /// <param name="familiasIds">IDs de familias a asignar</param>
-        /// <param name="patentesIds">IDs de patentes a asignar</param>
-        void AddUserWithRelations(Usuario entity, IEnumerable<Guid> familiasIds, IEnumerable<Guid> patentesIds);
-
-        /// <summary>
-        /// Actualiza usuario con sus relaciones en una transacción
-        /// </summary>
-        /// <param name="entity">Entidad usuario</param>
-        /// <param name="familiasIds">IDs de familias a asignar</param>
-        /// <param name="patentesIds">IDs de patentes a asignar</param>
-        /// <param name="timestamp">Timestamp para control de concurrencia</param>
-        void UpdateUserWithRelations(Usuario entity, IEnumerable<Guid> familiasIds, IEnumerable<Guid> patentesIds, byte[] timestamp);
-
-        /// <summary>
-        /// Elimina usuario verificando timestamp de concurrencia
-        /// </summary>
-        /// <param name="id">ID del usuario</param>
-        /// <param name="timestamp">Timestamp para control de concurrencia</param>
-        void Remove(Guid id, byte[] timestamp);
-
-        /// <summary>
-        /// Obtiene los permisos efectivos de un usuario (directos + heredados)
-        /// </summary>
-        /// <param name="userId">ID del usuario</param>
-        /// <returns>Lista de patentes efectivas con información de origen</returns>
-        List<dynamic> GetEffectivePermissions(Guid userId);
-    }
-
     public class UsuarioRepository : Repository<Usuario>, IUsuarioRepository
     {
         public UsuarioRepository(SistemaPresupuestario context) : base(context) { }

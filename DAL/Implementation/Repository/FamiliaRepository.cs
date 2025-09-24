@@ -7,55 +7,11 @@ using System.Linq;
 
 namespace DAL.Implementation.Repository
 {
-    public interface IFamiliaRepository : IRepository<Familia>
-    {
-        /// <summary>
-        /// Obtiene toda la jerarquía de familias optimizada
-        /// </summary>
-        /// <returns>Lista completa de familias con relaciones padre-hijo</returns>
-        List<Familia> GetAllHierarchy();
-
-        /// <summary>
-        /// Obtiene familias por lista de IDs con sus patentes
-        /// </summary>
-        /// <param name="ids">IDs de familias</param>
-        /// <returns>Lista de familias con patentes cargadas</returns>
-        List<Familia> GetByIds(IEnumerable<Guid> ids);
-
-        /// <summary>
-        /// Obtiene lista plana de todas las familias (sin jerarquía)
-        /// </summary>
-        /// <returns>Lista simple de familias</returns>
-        List<Familia> GetFlat();
-
-        /// <summary>
-        /// Verifica si crear una relación padre-hijo generaría un ciclo
-        /// </summary>
-        /// <param name="padreId">ID de la familia padre</param>
-        /// <param name="hijoId">ID de la familia hijo</param>
-        /// <returns>True si generaría un ciclo</returns>
-        bool WouldCreateCycle(Guid padreId, Guid hijoId);
-
-        /// <summary>
-        /// Obtiene todos los descendientes de una familia
-        /// </summary>
-        /// <param name="familiaId">ID de la familia padre</param>
-        /// <returns>Lista de IDs de descendientes</returns>
-        List<Guid> GetAllDescendants(Guid familiaId);
-
-        /// <summary>
-        /// Obtiene todas las patentes efectivas de una familia (directas + heredadas)
-        /// </summary>
-        /// <param name="familiaId">ID de la familia</param>
-        /// <returns>Lista de patentes únicas</returns>
-        List<Patente> GetEffectivePatentes(Guid familiaId);
-    }
-
     public class FamiliaRepository : Repository<Familia>, IFamiliaRepository
     {
         public FamiliaRepository(SistemaPresupuestario context) : base(context) { }
 
-        public List<Familia> GetAllHierarchy()
+        public IEnumerable<Familia> GetAllHierarchy()
         {
             return _dbSet
                 .Include(f => f.RelacionesComoPadre.Select(r => r.FamiliaHijo))
@@ -64,7 +20,7 @@ namespace DAL.Implementation.Repository
                 .ToList();
         }
 
-        public List<Familia> GetByIds(IEnumerable<Guid> ids)
+        public IEnumerable<Familia> GetByIds(IEnumerable<Guid> ids)
         {
             return _dbSet
                 .Where(f => ids.Contains(f.IdFamilia))
@@ -72,13 +28,14 @@ namespace DAL.Implementation.Repository
                 .ToList();
         }
 
-        public List<Familia> GetFlat()
+        public IEnumerable<Familia> GetAllFlat()
         {
             return _dbSet
                 .OrderBy(f => f.Nombre)
                 .ToList();
         }
 
+        // Keep existing methods that are not in the simplified interface as public methods
         public bool WouldCreateCycle(Guid padreId, Guid hijoId)
         {
             // DECISIÓN: Usar DFS para detectar ciclos antes de crear relación

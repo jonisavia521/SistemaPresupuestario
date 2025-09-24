@@ -1,4 +1,4 @@
-﻿using DAL.Contracts;
+using DAL.Contracts;
 using DAL.Implementation.EntityFramework;
 using System;
 using System.Data.Entity; // <- EF6
