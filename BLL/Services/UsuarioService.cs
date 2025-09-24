@@ -1,9 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BLL.Contracts;
 using BLL.DTOs;
 using DAL.Contracts;
 using DAL.Implementation.EntityFramework;
-using DAL.Implementation.Repository;
 using DomainModel.Domain;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using DAL.Implementation.Repository;
+using DAL.Implementation.Repository;
 using DAL.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
