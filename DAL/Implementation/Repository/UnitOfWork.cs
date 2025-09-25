@@ -1,4 +1,5 @@
 ﻿using DAL.Contracts;
+using DAL.Contracts.Seguridad;
 using DAL.Implementation.EntityFramework;
 using System;
 using System.Data.Entity; // <- EF6
@@ -13,11 +14,23 @@ namespace DAL.Implementation.Repository
         private DbContextTransaction _transaction;
 
         public IUsuarioRepository Usuarios { get; }
+        
+        // NUEVOS REPOSITORIOS DE SEGURIDAD
+        // DECISIÓN: Extensión del UnitOfWork para soporte completo de ABM de usuarios con permisos
+        public IUsuarioSecurityRepository UsuariosSecurity { get; }
+        public IFamiliaRepository Familias { get; }
+        public IPatenteRepository Patentes { get; }
 
-        public UnitOfWork(SistemaPresupuestario context, IUsuarioRepository usuarioRepository)
+        public UnitOfWork(SistemaPresupuestario context, IUsuarioRepository usuarioRepository,
+            IUsuarioSecurityRepository usuarioSecurityRepository,
+            IFamiliaRepository familiaRepository,
+            IPatenteRepository patenteRepository)
         {
             _context = context;
             Usuarios = usuarioRepository;
+            UsuariosSecurity = usuarioSecurityRepository;
+            Familias = familiaRepository;
+            Patentes = patenteRepository;
         }
 
         public void BeginTransaction()
