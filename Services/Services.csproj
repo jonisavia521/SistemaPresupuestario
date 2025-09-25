@@ -119,6 +119,13 @@
     <Compile Include="Services\Extensions\ExceptionExtension.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\LoginServices.cs" />
+    <Compile Include="Services\Services\Seguridad\IUsuarioService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{8e674c26-3e72-4cee-a0fc-132cd8811e75}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -145,6 +145,12 @@
     <Compile Include="Maestros\Usuarios\frmAlta.Designer.cs">
       <DependentUpon>frmAlta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Maestros\Usuarios\frmUsuarioEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maestros\Usuarios\frmUsuarioEdit.Designer.cs">
+      <DependentUpon>frmUsuarioEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Maestros\Usuarios\frmUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
