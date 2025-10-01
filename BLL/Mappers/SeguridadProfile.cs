@@ -1,6 +1,7 @@
 using AutoMapper;
 using BLL.DTOs.Seguridad;
 using DAL.Implementation.EntityFramework;
+using DomainModel.Domain;
 using DomainModel.Domain.Seguridad;
 using System;
 using System.Linq;
@@ -128,6 +129,35 @@ namespace BLL.Mappers
             CreateMap<byte[], string>().ConvertUsing(src => src != null ? Convert.ToBase64String(src) : null);
             // Convertir string base64 a byte[] para entidades
             CreateMap<string, byte[]>().ConvertUsing(src => !string.IsNullOrEmpty(src) ? Convert.FromBase64String(src) : null);
+
+
+            // ============================================
+            // MAPEOS DIRECTOS ENTITY FRAMEWORK -> DTOs (NUEVOS)
+            // ============================================
+
+            // Usuario (EF) -> UserDto (para evitar doble salto EF -> Domain -> DTO)
+            CreateMap<Usuario, UserDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdUsuario))
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.Usuario1))
+                .ForMember(dest => dest.VersionConcurrencia, opt => opt.Ignore()) // Se completa en servicio si aplica
+                .ForMember(dest => dest.CantidadFamiliasDirectas, opt => opt.Ignore())
+                .ForMember(dest => dest.CantidadPatentesDirectas, opt => opt.Ignore())
+                .ForMember(dest => dest.CantidadPermisosEfectivos, opt => opt.Ignore())
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => true));
+
+            // Usuario (EF) -> UserEditDto
+            CreateMap<Usuario, UserEditDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdUsuario))
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+                .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.Usuario1))
+                .ForMember(dest => dest.Clave, opt => opt.Ignore())          // No exponer
+                .ForMember(dest => dest.ConfirmarClave, opt => opt.Ignore())
+                .ForMember(dest => dest.VersionConcurrencia, opt => opt.Ignore())
+                .ForMember(dest => dest.FamiliasAsignadas, opt => opt.Ignore())
+                .ForMember(dest => dest.PatentesAsignadas, opt => opt.Ignore())
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => true))
+                .ForMember(dest => dest.CambiarClave, opt => opt.MapFrom(src => false));
         }
     }
 }

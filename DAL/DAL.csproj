@@ -95,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Contracts\Seguridad\IFamiliaRepository.cs" />
+    <Compile Include="Contracts\Seguridad\IPatenteRepository.cs" />
+    <Compile Include="Contracts\Seguridad\IUsuarioSecurityRepository.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Implementation\Contracts\IUnitOfWork.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente.cs" />
@@ -117,6 +120,9 @@
     <Compile Include="Implementation\EntityFramework\Usuario_Familia.cs" />
     <Compile Include="Implementation\EntityFramework\Usuario_Patente.cs" />
     <Compile Include="Implementation\EntityFramework\Vendedor.cs" />
+    <Compile Include="Implementation\Repository\Seguridad\FamiliaRepository.cs" />
+    <Compile Include="Implementation\Repository\Seguridad\PatenteRepository.cs" />
+    <Compile Include="Implementation\Repository\Seguridad\UsuarioSecurityRepository.cs" />
     <Compile Include="Implementation\Repository\UnitOfWork.cs" />
     <Compile Include="Implementation\Repository\UsuarioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

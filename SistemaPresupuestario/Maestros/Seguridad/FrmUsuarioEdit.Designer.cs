@@ -65,71 +65,79 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(20, 20);
+            this.lblNombre.Location = new System.Drawing.Point(27, 25);
+            this.lblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(47, 13);
+            this.lblNombre.Size = new System.Drawing.Size(59, 16);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre:";
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(80, 17);
+            this.txtNombre.Location = new System.Drawing.Point(107, 21);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.MaxLength = 1000;
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(300, 20);
+            this.txtNombre.Size = new System.Drawing.Size(399, 22);
             this.txtNombre.TabIndex = 1;
             // 
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(20, 50);
+            this.lblUsuario.Location = new System.Drawing.Point(27, 62);
+            this.lblUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(46, 13);
+            this.lblUsuario.Size = new System.Drawing.Size(57, 16);
             this.lblUsuario.TabIndex = 2;
             this.lblUsuario.Text = "Usuario:";
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(80, 47);
+            this.txtUsuario.Location = new System.Drawing.Point(107, 58);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsuario.MaxLength = 20;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(200, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(265, 22);
             this.txtUsuario.TabIndex = 3;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(20, 80);
+            this.lblPassword.Location = new System.Drawing.Point(27, 98);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(64, 13);
+            this.lblPassword.Size = new System.Drawing.Size(79, 16);
             this.lblPassword.TabIndex = 4;
             this.lblPassword.Text = "Contraseña:";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(120, 77);
+            this.txtPassword.Location = new System.Drawing.Point(160, 95);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.MaxLength = 50;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtPassword.Size = new System.Drawing.Size(265, 22);
             this.txtPassword.TabIndex = 5;
             // 
             // lblConfirmPassword
             // 
             this.lblConfirmPassword.AutoSize = true;
-            this.lblConfirmPassword.Location = new System.Drawing.Point(20, 110);
+            this.lblConfirmPassword.Location = new System.Drawing.Point(27, 135);
+            this.lblConfirmPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfirmPassword.Name = "lblConfirmPassword";
-            this.lblConfirmPassword.Size = new System.Drawing.Size(95, 13);
+            this.lblConfirmPassword.Size = new System.Drawing.Size(139, 16);
             this.lblConfirmPassword.TabIndex = 6;
             this.lblConfirmPassword.Text = "Confirmar Contraseña:";
             // 
             // txtConfirmPassword
             // 
-            this.txtConfirmPassword.Location = new System.Drawing.Point(120, 107);
+            this.txtConfirmPassword.Location = new System.Drawing.Point(160, 132);
+            this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfirmPassword.MaxLength = 50;
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.PasswordChar = '*';
-            this.txtConfirmPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtConfirmPassword.Size = new System.Drawing.Size(265, 22);
             this.txtConfirmPassword.TabIndex = 7;
             // 
             // chkActivo
@@ -137,9 +145,10 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             this.chkActivo.AutoSize = true;
             this.chkActivo.Checked = true;
             this.chkActivo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActivo.Location = new System.Drawing.Point(350, 49);
+            this.chkActivo.Location = new System.Drawing.Point(467, 60);
+            this.chkActivo.Margin = new System.Windows.Forms.Padding(4);
             this.chkActivo.Name = "chkActivo";
-            this.chkActivo.Size = new System.Drawing.Size(56, 17);
+            this.chkActivo.Size = new System.Drawing.Size(66, 20);
             this.chkActivo.TabIndex = 8;
             this.chkActivo.Text = "Activo";
             this.chkActivo.UseVisualStyleBackColor = true;
@@ -147,9 +156,10 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // chkCambiarPassword
             // 
             this.chkCambiarPassword.AutoSize = true;
-            this.chkCambiarPassword.Location = new System.Drawing.Point(350, 79);
+            this.chkCambiarPassword.Location = new System.Drawing.Point(467, 97);
+            this.chkCambiarPassword.Margin = new System.Windows.Forms.Padding(4);
             this.chkCambiarPassword.Name = "chkCambiarPassword";
-            this.chkCambiarPassword.Size = new System.Drawing.Size(113, 17);
+            this.chkCambiarPassword.Size = new System.Drawing.Size(150, 20);
             this.chkCambiarPassword.TabIndex = 9;
             this.chkCambiarPassword.Text = "Cambiar contraseña";
             this.chkCambiarPassword.UseVisualStyleBackColor = true;
@@ -163,10 +173,11 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             this.tabControl1.Controls.Add(this.tabDatos);
             this.tabControl1.Controls.Add(this.tabFamilias);
             this.tabControl1.Controls.Add(this.tabPatentes);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(16, 15);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(760, 400);
+            this.tabControl1.Size = new System.Drawing.Size(1013, 492);
             this.tabControl1.TabIndex = 10;
             // 
             // tabDatos
@@ -181,10 +192,11 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             this.tabDatos.Controls.Add(this.lblUsuario);
             this.tabDatos.Controls.Add(this.txtNombre);
             this.tabDatos.Controls.Add(this.lblNombre);
-            this.tabDatos.Location = new System.Drawing.Point(4, 22);
+            this.tabDatos.Location = new System.Drawing.Point(4, 25);
+            this.tabDatos.Margin = new System.Windows.Forms.Padding(4);
             this.tabDatos.Name = "tabDatos";
-            this.tabDatos.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDatos.Size = new System.Drawing.Size(752, 374);
+            this.tabDatos.Padding = new System.Windows.Forms.Padding(4);
+            this.tabDatos.Size = new System.Drawing.Size(1005, 463);
             this.tabDatos.TabIndex = 0;
             this.tabDatos.Text = "Datos Básicos";
             this.tabDatos.UseVisualStyleBackColor = true;
@@ -192,10 +204,11 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // tabFamilias
             // 
             this.tabFamilias.Controls.Add(this.tvFamilias);
-            this.tabFamilias.Location = new System.Drawing.Point(4, 22);
+            this.tabFamilias.Location = new System.Drawing.Point(4, 25);
+            this.tabFamilias.Margin = new System.Windows.Forms.Padding(4);
             this.tabFamilias.Name = "tabFamilias";
-            this.tabFamilias.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFamilias.Size = new System.Drawing.Size(752, 374);
+            this.tabFamilias.Padding = new System.Windows.Forms.Padding(4);
+            this.tabFamilias.Size = new System.Drawing.Size(1005, 463);
             this.tabFamilias.TabIndex = 1;
             this.tabFamilias.Text = "Familias";
             this.tabFamilias.UseVisualStyleBackColor = true;
@@ -206,17 +219,19 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvFamilias.CheckBoxes = true;
-            this.tvFamilias.Location = new System.Drawing.Point(6, 6);
+            this.tvFamilias.Location = new System.Drawing.Point(8, 7);
+            this.tvFamilias.Margin = new System.Windows.Forms.Padding(4);
             this.tvFamilias.Name = "tvFamilias";
-            this.tvFamilias.Size = new System.Drawing.Size(740, 362);
+            this.tvFamilias.Size = new System.Drawing.Size(985, 445);
             this.tvFamilias.TabIndex = 0;
             // 
             // tabPatentes
             // 
             this.tabPatentes.Controls.Add(this.panel1);
-            this.tabPatentes.Location = new System.Drawing.Point(4, 22);
+            this.tabPatentes.Location = new System.Drawing.Point(4, 25);
+            this.tabPatentes.Margin = new System.Windows.Forms.Padding(4);
             this.tabPatentes.Name = "tabPatentes";
-            this.tabPatentes.Size = new System.Drawing.Size(752, 374);
+            this.tabPatentes.Size = new System.Drawing.Size(1005, 463);
             this.tabPatentes.TabIndex = 2;
             this.tabPatentes.Text = "Patentes";
             this.tabPatentes.UseVisualStyleBackColor = true;
@@ -231,24 +246,27 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             this.panel1.Controls.Add(this.lblPatentesDisponibles);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(752, 374);
+            this.panel1.Size = new System.Drawing.Size(1005, 463);
             this.panel1.TabIndex = 0;
             // 
             // btnDesasignarPatente
             // 
-            this.btnDesasignarPatente.Location = new System.Drawing.Point(360, 180);
+            this.btnDesasignarPatente.Location = new System.Drawing.Point(480, 222);
+            this.btnDesasignarPatente.Margin = new System.Windows.Forms.Padding(4);
             this.btnDesasignarPatente.Name = "btnDesasignarPatente";
-            this.btnDesasignarPatente.Size = new System.Drawing.Size(32, 23);
+            this.btnDesasignarPatente.Size = new System.Drawing.Size(43, 28);
             this.btnDesasignarPatente.TabIndex = 5;
             this.btnDesasignarPatente.Text = "<";
             this.btnDesasignarPatente.UseVisualStyleBackColor = true;
             // 
             // btnAsignarPatente
             // 
-            this.btnAsignarPatente.Location = new System.Drawing.Point(360, 150);
+            this.btnAsignarPatente.Location = new System.Drawing.Point(480, 185);
+            this.btnAsignarPatente.Margin = new System.Windows.Forms.Padding(4);
             this.btnAsignarPatente.Name = "btnAsignarPatente";
-            this.btnAsignarPatente.Size = new System.Drawing.Size(32, 23);
+            this.btnAsignarPatente.Size = new System.Drawing.Size(43, 28);
             this.btnAsignarPatente.TabIndex = 4;
             this.btnAsignarPatente.Text = ">";
             this.btnAsignarPatente.UseVisualStyleBackColor = true;
@@ -258,10 +276,12 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             this.lstPatentesAsignadas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstPatentesAsignadas.FormattingEnabled = true;
-            this.lstPatentesAsignadas.Location = new System.Drawing.Point(400, 30);
+            this.lstPatentesAsignadas.ItemHeight = 16;
+            this.lstPatentesAsignadas.Location = new System.Drawing.Point(535, 37);
+            this.lstPatentesAsignadas.Margin = new System.Windows.Forms.Padding(4);
             this.lstPatentesAsignadas.Name = "lstPatentesAsignadas";
             this.lstPatentesAsignadas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstPatentesAsignadas.Size = new System.Drawing.Size(340, 329);
+            this.lstPatentesAsignadas.Size = new System.Drawing.Size(452, 404);
             this.lstPatentesAsignadas.TabIndex = 3;
             // 
             // lstPatentesDisponibles
@@ -270,28 +290,32 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstPatentesDisponibles.FormattingEnabled = true;
-            this.lstPatentesDisponibles.Location = new System.Drawing.Point(12, 30);
+            this.lstPatentesDisponibles.ItemHeight = 16;
+            this.lstPatentesDisponibles.Location = new System.Drawing.Point(16, 37);
+            this.lstPatentesDisponibles.Margin = new System.Windows.Forms.Padding(4);
             this.lstPatentesDisponibles.Name = "lstPatentesDisponibles";
             this.lstPatentesDisponibles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstPatentesDisponibles.Size = new System.Drawing.Size(340, 329);
+            this.lstPatentesDisponibles.Size = new System.Drawing.Size(454, 404);
             this.lstPatentesDisponibles.TabIndex = 2;
             // 
             // lblPatentesAsignadas
             // 
             this.lblPatentesAsignadas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPatentesAsignadas.AutoSize = true;
-            this.lblPatentesAsignadas.Location = new System.Drawing.Point(400, 10);
+            this.lblPatentesAsignadas.Location = new System.Drawing.Point(535, 12);
+            this.lblPatentesAsignadas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPatentesAsignadas.Name = "lblPatentesAsignadas";
-            this.lblPatentesAsignadas.Size = new System.Drawing.Size(107, 13);
+            this.lblPatentesAsignadas.Size = new System.Drawing.Size(131, 16);
             this.lblPatentesAsignadas.TabIndex = 1;
             this.lblPatentesAsignadas.Text = "Patentes Asignadas:";
             // 
             // lblPatentesDisponibles
             // 
             this.lblPatentesDisponibles.AutoSize = true;
-            this.lblPatentesDisponibles.Location = new System.Drawing.Point(12, 10);
+            this.lblPatentesDisponibles.Location = new System.Drawing.Point(16, 12);
+            this.lblPatentesDisponibles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPatentesDisponibles.Name = "lblPatentesDisponibles";
-            this.lblPatentesDisponibles.Size = new System.Drawing.Size(112, 13);
+            this.lblPatentesDisponibles.Size = new System.Drawing.Size(138, 16);
             this.lblPatentesDisponibles.TabIndex = 0;
             this.lblPatentesDisponibles.Text = "Patentes Disponibles:";
             // 
@@ -299,9 +323,10 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // 
             this.btnGuardar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGuardar.Enabled = false;
-            this.btnGuardar.Location = new System.Drawing.Point(616, 418);
+            this.btnGuardar.Location = new System.Drawing.Point(821, 514);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.Size = new System.Drawing.Size(100, 28);
             this.btnGuardar.TabIndex = 11;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -310,9 +335,10 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // btnCancelar
             // 
             this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelar.Location = new System.Drawing.Point(697, 418);
+            this.btnCancelar.Location = new System.Drawing.Point(929, 514);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(100, 28);
             this.btnCancelar.TabIndex = 12;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -324,18 +350,20 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             // 
             // FrmUsuarioEdit
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 453);
+            this.ClientSize = new System.Drawing.Size(1045, 558);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmUsuarioEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Usuario";
+            this.Load += new System.EventHandler(this.FrmUsuarioEdit_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabDatos.ResumeLayout(false);
             this.tabDatos.PerformLayout();

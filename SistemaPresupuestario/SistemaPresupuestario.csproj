@@ -139,6 +139,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Maestros\Seguridad\FrmUsuarioEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maestros\Seguridad\FrmUsuarioEdit.Designer.cs">
+      <DependentUpon>FrmUsuarioEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Maestros\Usuarios\frmAlta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maestros\Seguridad\FrmUsuarioEdit.resx">
+      <DependentUpon>FrmUsuarioEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Maestros\Usuarios\frmAlta.resx">
       <DependentUpon>frmAlta.cs</DependentUpon>

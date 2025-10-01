@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTOs.Seguridad
@@ -12,16 +13,19 @@ namespace BLL.DTOs.Seguridad
         /// <summary>
         /// Identificador único del usuario
         /// </summary>
+        [Browsable(false)]
         public Guid Id { get; set; }
 
         /// <summary>
         /// Nombre completo del usuario
         /// </summary>
+        [Required(ErrorMessage = "Nombre es requerido")]
         public string Nombre { get; set; }
 
         /// <summary>
         /// Nombre de usuario para login
         /// </summary>
+        [Required(ErrorMessage = "Usuario es requerido")]
         public string Usuario { get; set; }
 
         /// <summary>

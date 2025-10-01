@@ -1,4 +1,5 @@
 ﻿using BLL.Contracts;
+using BLL.Contracts.Seguridad;
 using BLL.DTOs;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,12 @@ namespace SistemaPresupuestario.Maestros.Usuarios
 {
     public partial class frmAlta : Form
     {
-        public frmAlta()
+        private readonly IUsuarioBusinessService usuarioService;
+
+        public frmAlta(IUsuarioBusinessService usuarioService)
         {
             InitializeComponent();
+            this.usuarioService = usuarioService;
         }
 
         private void frmAlta_Load(object sender, EventArgs e)
@@ -28,9 +32,8 @@ namespace SistemaPresupuestario.Maestros.Usuarios
         {
             // TODO: Implementar lógica de alta de usuario usando IUsuarioService
             // Ejemplo de cómo sería:
-            // var usuarioService = serviceProvider.GetService<IUsuarioService>();
-            // var nuevoUsuario = new UsuarioDTO { ... };
-            // usuarioService.Add(nuevoUsuario);
+            //var nuevoUsuario = new UsuarioDTO { ... };
+            //usuarioService.Add(nuevoUsuario);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

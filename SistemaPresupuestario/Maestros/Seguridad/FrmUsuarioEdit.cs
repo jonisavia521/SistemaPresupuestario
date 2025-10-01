@@ -26,18 +26,18 @@ namespace SistemaPresupuestario.Maestros.Seguridad
         // Collections para los controles de permisos
         private List<FamiliaDto> _todasFamilias = new List<FamiliaDto>();
         private List<PatenteDto> _todasPatentes = new List<PatenteDto>();
-
-        public FrmUsuarioEdit(IUsuarioBusinessService usuarioService, IPermisosBusinessService permisosService)
+        private readonly IFamiliaBusinessService _familiaBusinessService;
+        public FrmUsuarioEdit(IUsuarioBusinessService usuarioService, IPermisosBusinessService permisosService, IFamiliaBusinessService familiaBusinessService)
         {
             _usuarioService = usuarioService ?? throw new ArgumentNullException(nameof(usuarioService));
             _permisosService = permisosService ?? throw new ArgumentNullException(nameof(permisosService));
-            
+            _familiaBusinessService = familiaBusinessService;
             InitializeComponent();
             InitializeForm();
         }
 
-        public FrmUsuarioEdit(IUsuarioBusinessService usuarioService, IPermisosBusinessService permisosService, Guid usuarioId)
-            : this(usuarioService, permisosService)
+        public FrmUsuarioEdit(IUsuarioBusinessService usuarioService, IPermisosBusinessService permisosService, IFamiliaBusinessService familiaBusinessService, Guid usuarioId)
+            : this(usuarioService, permisosService, familiaBusinessService)
         {
             _isEditing = true;
             LoadUser(usuarioId);
@@ -126,8 +126,8 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             {
                 // TODO: Implementar IFamiliaBusinessService para obtener familias con jerarquía
                 // Por ahora usar lista vacía
-                _todasFamilias = new List<FamiliaDto>();
-                
+                //_todasFamilias = new List<FamiliaDto>();
+                _todasFamilias = (await _familiaBusinessService.GetAllFamiliasHierarchicalAsync()).ToList();
                 PopulateFamiliasTreeView();
             }
             catch (Exception ex)
@@ -273,7 +273,7 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             {
                 ShowError($"Conflicto de concurrencia: {ex.Message}\\n\\nEl formulario se recargará con los datos actuales.");
                 if (_isEditing)
-                    await LoadUser(_currentUser.Id);
+                     LoadUser(_currentUser.Id);
             }
             catch (Exception ex)
             {
@@ -539,6 +539,11 @@ namespace SistemaPresupuestario.Maestros.Seguridad
             public string Text { get; set; }
             public object Value { get; set; }
             public override string ToString() => Text;
+        }
+
+        private void FrmUsuarioEdit_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

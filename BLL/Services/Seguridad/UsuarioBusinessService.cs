@@ -87,7 +87,7 @@ namespace BLL.Services.Seguridad
             var hashedPassword = _passwordHasher.HashPassword(userDto.Clave);
 
             // Crear dominio y entidad
-            var usuarioDomain = new UsuarioDM(userDto.Nombre.Trim(), userDto.Usuario.Trim(), hashedPassword);
+            var usuarioDomain = new UsuarioDomain(userDto.Nombre.Trim(), userDto.Usuario.Trim(), hashedPassword);
             var usuarioEntity = _mapper.Map<DAL.Implementation.EntityFramework.Usuario>(usuarioDomain);
 
             _unitOfWork.BeginTransaction();

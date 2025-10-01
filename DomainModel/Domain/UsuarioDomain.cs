@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DomainModel.Domain
 {
-    public class UsuarioDM
+    public class UsuarioDomain
     {
         public Guid Id { get; private set; }
         public string Nombre { get; private set; }
@@ -14,7 +14,7 @@ namespace DomainModel.Domain
         public string Clave { get; private set; } // Almacena el hash de la clave
 
         // Constructor para creación inicial
-        public UsuarioDM(string nombre, string usuarioNombre, string claveHash)
+        public UsuarioDomain(string nombre, string usuarioNombre, string claveHash)
         {
             Id = Guid.NewGuid(); // Generar nuevo ID
             Nombre = nombre ?? throw new ArgumentNullException(nameof(nombre), "El nombre es obligatorio.");
@@ -34,7 +34,7 @@ namespace DomainModel.Domain
         }
 
         // Constructor para cargar desde la base de datos
-        public UsuarioDM(Guid idUsuario, string nombre, string usuarioNombre, string claveHash)
+        public UsuarioDomain(Guid idUsuario, string nombre, string usuarioNombre, string claveHash)
         {
             Id = idUsuario == Guid.Empty ? throw new ArgumentException("El ID del usuario no puede ser vacío.", nameof(idUsuario)) : idUsuario;
             Nombre = nombre ?? throw new ArgumentNullException(nameof(nombre), "El nombre es obligatorio.");

@@ -1,8 +1,11 @@
 ﻿using BLL;
+using BLL.Contracts.Seguridad;
+using BLL.Services.Seguridad;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Services.DAL.Tools;
 using SistemaPresupuestario.Maestros;
+using SistemaPresupuestario.Maestros.Seguridad;
 using SistemaPresupuestario.Maestros.Usuarios;
 using System;
 using System.Collections.Generic;
@@ -50,10 +53,14 @@ namespace SistemaPresupuestario
             .AddSingleton<SqlServerHelper>()
                 .AddServicesDependencies(csSetting, app)
                 .AddBLLDependencies(csSetting)
-                .AddScoped<frmLogin>()
-                .AddScoped<frmMain>()
-                .AddScoped<frmUsuarios>()
-                .AddScoped<frmAlta>();
+                .AddSingleton<frmMain>()
+                .AddTransient<frmLogin>()                
+                .AddTransient<frmUsuarios>()
+                .AddTransient<frmAlta>()
+            .AddTransient<FrmUsuarioEdit>()
+            .AddScoped<IUsuarioBusinessService, UsuarioBusinessService>()
+            .AddScoped<IPermisosBusinessService, PermisosBusinessService>()
+            .AddScoped<IFamiliaBusinessService, FamiliaBusinessService>();
 
         }
 

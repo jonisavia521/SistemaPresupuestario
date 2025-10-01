@@ -22,6 +22,7 @@ namespace SistemaPresupuestario
             InitializeComponent();
             _login = login;
             this.serviceProvider = serviceProvider;
+            IsMdiContainer = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)

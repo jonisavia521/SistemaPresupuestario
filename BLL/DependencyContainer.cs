@@ -24,10 +24,8 @@ namespace BLL
             services.AddDALDependencies(csSetting);
             
             // DECISIÓN: Agregar SeguridadProfile para mapeos de seguridad
-            services.AddAutoMapper(typeof(UsuarioMapperProfile), typeof(SeguridadProfile));
+            services.AddAutoMapper(typeof(SeguridadProfile));
             
-            // Register the existing DTO-based service
-            services.AddScoped<IUsuarioService, UsuarioService>();
             
             // NUEVOS SERVICIOS DE SEGURIDAD
             // DECISIÓN: Bypass de Service Layer - UI llamará directamente a BLL

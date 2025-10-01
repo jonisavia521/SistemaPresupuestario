@@ -1,6 +1,8 @@
 ﻿using BLL.Contracts;
+using BLL.Contracts.Seguridad;
 using BLL.DTOs;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Maestros.Seguridad;
 using SistemaPresupuestario.Maestros.Usuarios;
 using System;
 using System.Collections.Generic;
@@ -16,34 +18,37 @@ namespace SistemaPresupuestario.Maestros
 {
     public partial class frmUsuarios : Form
     {
-        private readonly IUsuarioService usuarioService;
+        private readonly IUsuarioBusinessService usuarioService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public frmUsuarios(IUsuarioService usuarioService)
+        public frmUsuarios(IUsuarioBusinessService usuarioService, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             this.usuarioService = usuarioService;
+            _serviceProvider = serviceProvider;
         }
        
         private async void frmUsuarios_Load(object sender, EventArgs e)
         {
 
-            var usuarios = await usuarioService.GetAllAsync();
+            var usuarios = await usuarioService.GetAllUsersAsync();
             dgvUsuarios.DataSource = usuarios.ToList();
             dgvUsuarios.Refresh();
         }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            // Verificar si el formulario 'OtroFormulario' ya está abierto
-            frmAlta formAbierto = Application.OpenForms.OfType<frmAlta>().FirstOrDefault();
+        
+
+
+            FrmUsuarioEdit formAbierto = Application.OpenForms.OfType<FrmUsuarioEdit>().FirstOrDefault();
 
             if (formAbierto == null)
             {
                 // Crear una nueva instancia si el formulario no está abierto
-                frmAlta otroForm = new frmAlta()
-                {
-                    MdiParent = this.MdiParent // Mantener el mismo MdiParent si lo estás utilizando
-                };
-                otroForm.Show();
+                FrmUsuarioEdit hijo = _serviceProvider.GetService(typeof(FrmUsuarioEdit)) as FrmUsuarioEdit;
+                hijo.MdiParent = this.MdiParent;
+
+                hijo.Show();
             }
             else
             {
@@ -53,6 +58,9 @@ namespace SistemaPresupuestario.Maestros
 
         }
 
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }
