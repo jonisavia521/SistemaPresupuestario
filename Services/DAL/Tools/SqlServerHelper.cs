@@ -35,7 +35,7 @@ namespace Services.DAL.Tools
         }
 
         /// <summary>
-        /// Set the connection, command, and then execute the command with query and return the reader.
+        /// establece conexion y ejecutar el comandText
         /// </summary>
         public DataTable ExecuteReader(String commandText,
             CommandType commandType = CommandType.Text, params SqlParameter[] parameters)
@@ -56,6 +56,20 @@ namespace Services.DAL.Tools
                 }
             }
             return dt;
+        }
+
+        public int ExecuteNonQuery(string commandText, CommandType commandType = CommandType.Text, params SqlParameter[] parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(conString))
+            {
+                using (SqlCommand cmd = new SqlCommand(commandText, conn))
+                {
+                    cmd.CommandType = commandType;
+                    cmd.Parameters.AddRange(parameters);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

@@ -50,10 +50,11 @@ namespace SistemaPresupuestario
             .AddSingleton<SqlServerHelper>()
                 .AddServicesDependencies(csSetting, app)
                 .AddBLLDependencies(csSetting)
-                .AddScoped<frmLogin>()
-                .AddScoped<frmMain>()
-                .AddScoped<frmUsuarios>()
-                .AddScoped<frmAlta>();
+                .AddTransient<frmLogin>()
+                .AddTransient<frmMain>()
+                .AddTransient<frmUsuarios>()
+                .AddTransient<frmAlta>();
+
 
         }
 

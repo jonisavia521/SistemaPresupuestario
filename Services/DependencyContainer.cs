@@ -32,6 +32,7 @@ System.Collections.Specialized.NameValueCollection app)
             services.AddSingleton<ILogger, LoggerService>();
             services.AddSingleton<ILoggerBLL, LoggerBLL>();
             services.AddSingleton<IExceptionBLL,ExceptionBLL>();
+            services.AddSingleton<IUsuarioService, UsuarioService>();
 
             services.AddSingleton<IGenericRepository<Familia>, FamiliaRepository>();
             services.AddSingleton<IGenericRepository<Usuario>, UsuarioRepository>();

@@ -30,7 +30,28 @@ namespace Services.DAL.Implementations
 
         public void Add(Usuario obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // El password ya viene hasheado desde la capa de servicio
+                var parametrosSQL = new SqlParameter[]
+                {
+                    new SqlParameter("@IdUsuario", obj.Id == Guid.Empty ? Guid.NewGuid() : obj.Id),
+                    new SqlParameter("@Nombre", obj.Nombre),
+                    new SqlParameter("@Usuario", obj.User),
+                    new SqlParameter("@Clave", obj.HashPassword) // Ya viene hasheado
+                };
+
+                // ExecuteScalar para INSERT
+                _sqlHelper.ExecuteScalar(
+                    "INSERT INTO Usuario (IdUsuario, Nombre, Usuario, Clave) VALUES (@IdUsuario, @Nombre, @Usuario, @Clave)",
+                    CommandType.Text,
+                    parametrosSQL
+                );
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
         }
 
         public void Delete(Guid id)
