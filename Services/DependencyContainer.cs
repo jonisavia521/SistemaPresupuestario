@@ -53,7 +53,9 @@ System.Collections.Specialized.NameValueCollection app)
 
             services.AddSingleton<ServiceFactory>();
             services.AddSingleton<Usuario>();
-            
+
+            services.AddSingleton<IFamiliaService, FamiliaService>();
+            services.AddSingleton<IPatenteService, PatenteService>();
             return services;
         }
     }

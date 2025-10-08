@@ -6,6 +6,8 @@ using Services.Services.Contracts;
 using Services.Services.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +27,6 @@ namespace Services.Services
             _logger = logger;
         }
 
-        // GetAllAsync: Retorna lista simplificada para grillas
         public IEnumerable<Usuario> GetAll()
         {
             try
@@ -42,7 +43,6 @@ namespace Services.Services
             }
         }
 
-        // GetByIdAsync: Retorna usuario completo con permisos
         public Usuario GetById(Guid id)
         {
             try
@@ -58,7 +58,6 @@ namespace Services.Services
             }
         }
 
-        // AddAsync: Crea nuevo usuario con validaciones
         public bool Add(Usuario usuario)
         {
             try
@@ -116,6 +115,59 @@ namespace Services.Services
             catch (Exception ex)
             {
                 _logger.WriteLog($"Error al eliminar usuario: {ex.Message}", EventLevel.Error, string.Empty);
+                throw;
+            }
+        }
+
+
+        public IEnumerable<Familia> GetAllFamilias()
+        {
+            try
+            {
+                _logger.WriteLog("Obteniendo todas las familias", EventLevel.Informational, string.Empty);
+
+                // Obtener familias raíz (sin padres) para mostrar jerarquía completa
+                // Esto depende de cómo quieras mostrarlas en la UI
+                return LoginFactory.familiaRepository.SelectAll();
+            }
+            catch (Exception ex)
+            {
+                _logger.WriteLog($"Error al obtener familias: {ex.Message}", EventLevel.Error, string.Empty);
+                throw;
+            }
+        }
+
+        public IEnumerable<Patente> GetAllPatentes()
+        {
+            try
+            {
+                _logger.WriteLog("Obteniendo todas las patentes", EventLevel.Informational, string.Empty);
+                return LoginFactory.patenteRepository.SelectAll();
+            }
+            catch (Exception ex)
+            {
+                _logger.WriteLog($"Error al obtener patentes: {ex.Message}", EventLevel.Error, string.Empty);
+                throw;
+            }
+        }
+
+        public bool SavePermisos(Usuario usuario)
+        {
+            try
+            {
+                _logger.WriteLog($"Guardando permisos para usuario: {usuario.User}", EventLevel.Informational, string.Empty);
+
+                // Guardar familias
+                LoginFactory.usuarioFamiliaRepository.Add(usuario);
+
+                // Guardar patentes
+                LoginFactory.usuarioPatenteRepository.Add(usuario);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.WriteLog($"Error al guardar permisos: {ex.Message}", EventLevel.Error, string.Empty);
                 throw;
             }
         }

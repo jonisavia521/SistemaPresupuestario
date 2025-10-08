@@ -28,9 +28,44 @@ namespace Services.DAL.Implementations.Joins
             _sqlHelper = sqlHelper;
         
         }
+
         public void Add(Usuario obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Primero eliminar todas las patentes actuales
+                var deleteParams = new SqlParameter[]
+                {
+            new SqlParameter("@IdUsuario", obj.Id)
+                };
+
+                _sqlHelper.ExecuteNonQuery(
+                    "DELETE FROM Usuario_Patente WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    deleteParams
+                );
+
+                // Insertar las nuevas patentes
+                foreach (var permiso in obj.Permisos.Where(p => p is Patente))
+                {
+                    var patente = permiso as Patente;
+                    var insertParams = new SqlParameter[]
+                    {
+                new SqlParameter("@IdUsuario", obj.Id),
+                new SqlParameter("@IdPatente", patente.IdComponent)
+                    };
+
+                    _sqlHelper.ExecuteNonQuery(
+                        "INSERT INTO Usuario_Patente (IdUsuario, IdPatente) VALUES (@IdUsuario, @IdPatente)",
+                        CommandType.Text,
+                        insertParams
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
         }
 
         public void Delete(Usuario obj)

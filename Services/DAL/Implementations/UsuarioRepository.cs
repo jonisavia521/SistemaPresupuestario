@@ -54,21 +54,24 @@ namespace Services.DAL.Implementations
             }
         }
 
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public IEnumerable<Usuario> SelectAll()
         {
             try
             {
-                
-                using (var table = _sqlHelper.ExecuteReader("select IdUsuario,Nombre,Usuario from Usuario "))
+                using (var table = _sqlHelper.ExecuteReader(
+                    "SELECT IdUsuario, Nombre, Usuario FROM Usuario"))
                 {
                     if (table != null && table.Rows.Count > 0)
                     {
-                        return table.AsEnumerable().Select(x => new Usuario {Id = x.Field<Guid>("IdUsuario"),Nombre= x.Field<string>("Nombre"),User= x.Field<string>("Usuario") });
+                        // ✅ Crear usuarios SIN cargar permisos (más rápido para listados)
+                        return table.AsEnumerable().Select(x => new Usuario
+                        {
+                            Id = x.Field<Guid>("IdUsuario"),
+                            Nombre = x.Field<string>("Nombre"),
+                            User = x.Field<string>("Usuario")
+                        });
                     }
                 }
             }
@@ -77,38 +80,137 @@ namespace Services.DAL.Implementations
                 ex.Handle(this, _iExceptionBLL);
             }
 
-            return null;
+            return Enumerable.Empty<Usuario>();
         }
 
-     
-        public void Update(Usuario obj)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Usuario SelectOne(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
         public Usuario Fetch(Usuario obj)
         {
             Usuario usuario = null;
             try
             {
-                var parametrosSQL = new SqlParameter[] { new SqlParameter("@Usuario", obj.User), new SqlParameter("@Clave", obj.HashPassword) };
-                using (var table = _sqlHelper.ExecuteReader("select IdUsuario,Nombre,Usuario,Clave from Usuario where Usuario=@Usuario and Clave=@Clave", default, parametrosSQL))
+                var parametrosSQL = new SqlParameter[]
+                {
+                    new SqlParameter("@Usuario", obj.User),
+                    new SqlParameter("@Clave", obj.HashPassword)
+                };
+
+                using (var table = _sqlHelper.ExecuteReader(
+                    "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE Usuario=@Usuario AND Clave=@Clave",
+                    default,
+                    parametrosSQL))
                 {
                     if (table != null && table.Rows.Count > 0)
                     {
-                        var row = table.Rows[0];                    
+                        var row = table.Rows[0];
+                        // ✅ El adaptador carga automáticamente los permisos
                         usuario = _usuarioAdapter.Adapt(row);
                     }
                 }
             }
             catch (Exception ex)
             {
-                ex.Handle(this,_iExceptionBLL);
+                ex.Handle(this, _iExceptionBLL);
+            }
+
+            return usuario;
+        }
+
+        public void Delete(Guid id)
+        {
+            try
+            {
+                var parametrosSQL = new SqlParameter[]
+                {
+                    new SqlParameter("@IdUsuario", id)
+                };
+
+                // ⚠️ IMPORTANTE: Primero eliminar relaciones en tablas intermedias
+                // Si tienes FK con DELETE CASCADE, puedes omitir estos deletes
+
+                // Eliminar relaciones Usuario_Familia
+                _sqlHelper.ExecuteNonQuery(
+                    "DELETE FROM Usuario_Familia WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    parametrosSQL
+                );
+
+                // Eliminar relaciones Usuario_Patente
+                _sqlHelper.ExecuteNonQuery(
+                    "DELETE FROM Usuario_Patente WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    parametrosSQL
+                );
+
+                // Finalmente eliminar el usuario
+                _sqlHelper.ExecuteNonQuery(
+                    "DELETE FROM Usuario WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    parametrosSQL
+                );
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
+        }
+        public void Update(Usuario obj)
+        {
+            try
+            {
+                var parametrosSQL = new SqlParameter[]
+                {
+                    new SqlParameter("@IdUsuario", obj.Id),
+                    new SqlParameter("@Nombre", obj.Nombre),
+                    new SqlParameter("@Usuario", obj.User),
+                    new SqlParameter("@Clave", obj.HashPassword) // Ya hasheada
+                };
+
+                _sqlHelper.ExecuteNonQuery(
+                    @"UPDATE Usuario 
+                      SET Nombre = @Nombre, 
+                          Usuario = @Usuario, 
+                          Clave = @Clave 
+                      WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    parametrosSQL
+                );
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
+        }
+
+
+
+        public Usuario SelectOne(Guid id)
+        {
+            Usuario usuario = null;
+            try
+            {
+                var parametrosSQL = new SqlParameter[]
+                {
+                    new SqlParameter("@IdUsuario", id)
+                };
+
+                using (var table = _sqlHelper.ExecuteReader(
+                    "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE IdUsuario = @IdUsuario",
+                    default,
+                    parametrosSQL))
+                {
+                    if (table != null && table.Rows.Count > 0)
+                    {
+                        var row = table.Rows[0];
+                        // ✅ El adaptador carga automáticamente los permisos (familias y patentes)
+                        usuario = _usuarioAdapter.Adapt(row);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
             }
 
             return usuario;

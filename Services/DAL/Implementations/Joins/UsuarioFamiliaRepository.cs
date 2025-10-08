@@ -29,10 +29,44 @@ namespace Services.DAL.Implementations.Joins
             _sqlHelper = sqlHelper;
         
         }
-       
+
         public void Add(Usuario obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // 1️⃣ Primero eliminar todas las familias actuales del usuario
+                var deleteParams = new SqlParameter[]
+                {
+                    new SqlParameter("@IdUsuario", obj.Id)
+                };
+
+                _sqlHelper.ExecuteNonQuery(
+                    "DELETE FROM Usuario_Familia WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    deleteParams
+                );
+
+                // 2️⃣ Insertar las nuevas familias seleccionadas
+                foreach (var permiso in obj.Permisos.Where(p => p is Familia))
+                {
+                    var familia = permiso as Familia;
+                    var insertParams = new SqlParameter[]
+                    {
+                        new SqlParameter("@IdUsuario", obj.Id),
+                        new SqlParameter("@IdFamilia", familia.IdComponent)
+                    };
+
+                    _sqlHelper.ExecuteNonQuery(
+                        "INSERT INTO Usuario_Familia (IdUsuario, IdFamilia) VALUES (@IdUsuario, @IdFamilia)",
+                        CommandType.Text,
+                        insertParams
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _iExceptionBLL);
+            }
         }
 
         public void Delete(Usuario obj)

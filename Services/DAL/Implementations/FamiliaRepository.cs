@@ -37,10 +37,35 @@ namespace Services.DAL.Implementations
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Obtiene todas las familias del sistema para mostrar en controles UI
+        /// </summary>
         public IEnumerable<Familia> SelectAll()
         {
-            throw new NotImplementedException();
+            List<Familia> familias = new List<Familia>();
+
+            try
+            {
+                // ✅ Obtener todas las familias de la base de datos
+                using (var table = _sqlHelper.ExecuteReader(
+                    "SELECT [IdFamilia],[Nombre] FROM Familia",
+                    default))
+                {
+                    if (table != null && table.Rows.Count > 0)
+                    {
+                        // ✅ Adaptar cada fila a un objeto Familia
+                        // NOTA: El adaptador carga automáticamente los hijos (familias y patentes)
+                        familias = (from row in table.AsEnumerable()
+                                    select _familiaAdapter.Adapt(row)).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(this, _exceptionBLL);
+            }
+
+            return familias;
         }
 
         public Familia SelectOne(Guid id)
