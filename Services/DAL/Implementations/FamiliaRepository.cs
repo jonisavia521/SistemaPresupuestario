@@ -48,7 +48,7 @@ namespace Services.DAL.Implementations
             {
                 // ✅ Obtener todas las familias de la base de datos
                 using (var table = _sqlHelper.ExecuteReader(
-                    "SELECT [IdFamilia],[Nombre] FROM Familia",
+                    "SELECT [IdFamilia],[Nombre],[Vista] FROM Familia",
                     default))
                 {
                     if (table != null && table.Rows.Count > 0)
@@ -75,7 +75,7 @@ namespace Services.DAL.Implementations
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdFamilia", id) };
-                using (var table = _sqlHelper.ExecuteReader("SELECT [IdFamilia],[Nombre] FROM Familia WHERE IdFamilia = @IdFamilia", default,paramsSQL))
+                using (var table = _sqlHelper.ExecuteReader("SELECT [IdFamilia],[Nombre],[Vista] FROM Familia WHERE IdFamilia = @IdFamilia", default,paramsSQL))
                 {                    
 
                     if (table != null && table.Rows.Count > 0)

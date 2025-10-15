@@ -34,7 +34,8 @@ namespace Services.DAL.Implementations.Adapter
             //};
             Familia familia = new Familia { 
                 IdComponent = row.Field<Guid>("IdFamilia"), 
-                Nombre = row.Field<string>("Nombre") 
+                Nombre = row.Field<string>("Nombre"),
+                FormName = row.Field<string>("Vista")
             };
 
             //Nivel 2 de hidratación...

@@ -18,20 +18,13 @@ namespace DAL.Implementation.EntityFramework
         public virtual DbSet<Cliente_Impuesto> Cliente_Impuesto { get; set; }
         public virtual DbSet<Comprobante_Detalle> Comprobante_Detalle { get; set; }
         public virtual DbSet<Comprobantes> Comprobantes { get; set; }
-        public virtual DbSet<Familia> Familia { get; set; }
-        public virtual DbSet<Familia_Familia> Familia_Familia { get; set; }
-        public virtual DbSet<Familia_Patente> Familia_Patente { get; set; }
         public virtual DbSet<Impuesto> Impuesto { get; set; }
-        public virtual DbSet<Patente> Patente { get; set; }
         public virtual DbSet<Presupuesto> Presupuesto { get; set; }
         public virtual DbSet<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoImpuesto> TipoImpuesto { get; set; }
-        public virtual DbSet<Usuario> Usuario { get; set; }
-        public virtual DbSet<Usuario_Familia> Usuario_Familia { get; set; }
-        public virtual DbSet<Usuario_Patente> Usuario_Patente { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -129,50 +122,6 @@ namespace DAL.Implementation.EntityFramework
                 .HasForeignKey(e => e.IdComprobante)
                 .WillCascadeOnDelete(false);
 
-            // (Todo lo que ya tienes ANTES de la sección de Familia se mantiene igual)
-
-            modelBuilder.Entity<Familia>()
-                .Property(e => e.Nombre)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Familia>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
-            // Quita las configuraciones antiguas:
-            // (Elimina los dos HasMany originales que causaban el conflicto)
-
-            // Nueva configuración clara desde la entidad intermedia
-            modelBuilder.Entity<Familia_Familia>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Familia_Familia>()
-                .HasRequired(ff => ff.FamiliaPadre)
-                .WithMany(f => f.RelacionesComoPadre)
-                .HasForeignKey(ff => ff.IdFamilia)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Familia_Familia>()
-                .HasRequired(ff => ff.FamiliaHijo)
-                .WithMany(f => f.RelacionesComoHijo)
-                .HasForeignKey(ff => ff.IdFamiliaHijo)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Familia>()
-                .HasMany(e => e.Familia_Patente)
-                .WithRequired(e => e.Familia)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Familia>()
-                .HasMany(e => e.Usuario_Familia)
-                .WithRequired(e => e.Familia)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Familia_Patente>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
             modelBuilder.Entity<Impuesto>()
                 .Property(e => e.Codigo)
                 .IsUnicode(false);
@@ -185,28 +134,6 @@ namespace DAL.Implementation.EntityFramework
                 .HasMany(e => e.Cliente_Impuesto)
                 .WithRequired(e => e.Impuesto)
                 .HasForeignKey(e => e.IdImpuesto)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Patente>()
-                .Property(e => e.Nombre)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Patente>()
-                .Property(e => e.Vista)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Patente>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Patente>()
-                .HasMany(e => e.Familia_Patente)
-                .WithRequired(e => e.Patente)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Patente>()
-                .HasMany(e => e.Usuario_Patente)
-                .WithRequired(e => e.Patente)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Presupuesto>()
@@ -285,40 +212,6 @@ namespace DAL.Implementation.EntityFramework
                 .WithRequired(e => e.TipoImpuesto)
                 .HasForeignKey(e => e.IdTipoImpuesto)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Usuario>()
-                .Property(e => e.Nombre)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Usuario>()
-                .Property(e => e.Usuario1)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Usuario>()
-                .Property(e => e.Clave)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Usuario>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Usuario>()
-                .HasMany(e => e.Usuario_Familia)
-                .WithRequired(e => e.Usuario)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Usuario>()
-                .HasMany(e => e.Usuario_Patente)
-                .WithRequired(e => e.Usuario)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Usuario_Familia>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Usuario_Patente>()
-                .Property(e => e.timestamp)
-                .IsFixedLength();
 
             modelBuilder.Entity<Vendedor>()
                 .Property(e => e.Nombre)

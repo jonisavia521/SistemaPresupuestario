@@ -101,11 +101,7 @@
     <Compile Include="Implementation\EntityFramework\Cliente_Impuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Comprobantes.cs" />
     <Compile Include="Implementation\EntityFramework\Comprobante_Detalle.cs" />
-    <Compile Include="Implementation\EntityFramework\Familia.cs" />
-    <Compile Include="Implementation\EntityFramework\Familia_Familia.cs" />
-    <Compile Include="Implementation\EntityFramework\Familia_Patente.cs" />
     <Compile Include="Implementation\EntityFramework\Impuesto.cs" />
-    <Compile Include="Implementation\EntityFramework\Patente.cs" />
     <Compile Include="Implementation\EntityFramework\Presupuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Presupuesto_Detalle.cs" />
     <Compile Include="Implementation\EntityFramework\Producto.cs" />
@@ -113,12 +109,8 @@
     <Compile Include="Implementation\EntityFramework\SistemaPresupuestario.cs" />
     <Compile Include="Implementation\EntityFramework\sysdiagrams.cs" />
     <Compile Include="Implementation\EntityFramework\TipoImpuesto.cs" />
-    <Compile Include="Implementation\EntityFramework\Usuario.cs" />
-    <Compile Include="Implementation\EntityFramework\Usuario_Familia.cs" />
-    <Compile Include="Implementation\EntityFramework\Usuario_Patente.cs" />
     <Compile Include="Implementation\EntityFramework\Vendedor.cs" />
     <Compile Include="Implementation\Repository\UnitOfWork.cs" />
-    <Compile Include="Implementation\Repository\UsuarioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

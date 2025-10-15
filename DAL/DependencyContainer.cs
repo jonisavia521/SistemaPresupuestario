@@ -15,12 +15,14 @@ namespace DAL
         public static IServiceCollection AddDALDependencies(
            this IServiceCollection services, System.Configuration.ConnectionStringSettings csSetting)
         {
+            // Truco para forzar la carga del ensamblado EntityFramework.SqlServer.dll
+            // Previene el error: "No Entity Framework provider found for SQL Server"
+            // La referencia explícita garantiza que el provider esté disponible en tiempo de ejecución
             var _ = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-            // --- FIN DEL TRUCO ---
+       
             services.AddScoped<SistemaPresupuestario>(opt => new SistemaPresupuestario(csSetting.ConnectionString));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
         }
     }

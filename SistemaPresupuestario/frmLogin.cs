@@ -26,7 +26,9 @@ namespace SistemaPresupuestario
             
             this.Cursor = Cursors.WaitCursor;
             if (_login.Login(txtUser.Text, txtPassword.Text))
+            {
                 this.DialogResult = DialogResult.OK;
+            }
             else
                 MessageBox.Show("Usuario o contraseña invalida","ADVERTENCIA",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             this.Cursor = Cursors.Default;

@@ -30,15 +30,23 @@ namespace SistemaPresupuestario
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPrincipalArchivo = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maestrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cotizaciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.facturaciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recibosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPrincipalMaestro = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsUsuario = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPrincipalPresupuesto = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPrincipalVenta = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPrincipalAyuda = new System.Windows.Forms.ToolStripMenuItem();
             this.txtUsuario = new System.Windows.Forms.ToolStripMenuItem();
-            this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsCliente = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsProducto = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsVendedor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsGenerarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsGestionarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsAprobarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsFactura = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsRecibo = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsArba = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,12 +54,11 @@ namespace SistemaPresupuestario
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem,
-            this.maestrosToolStripMenuItem,
-            this.cotizaciónToolStripMenuItem,
-            this.facturaciónToolStripMenuItem,
-            this.recibosToolStripMenuItem,
-            this.ayudaToolStripMenuItem,
+            this.tsPrincipalArchivo,
+            this.tsPrincipalMaestro,
+            this.tsPrincipalPresupuesto,
+            this.tsPrincipalVenta,
+            this.tsPrincipalAyuda,
             this.txtUsuario});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -59,13 +66,13 @@ namespace SistemaPresupuestario
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // archivoToolStripMenuItem
+            // tsPrincipalArchivo
             // 
-            this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsPrincipalArchivo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.salirToolStripMenuItem});
-            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
-            this.archivoToolStripMenuItem.Text = "Archivo";
+            this.tsPrincipalArchivo.Name = "tsPrincipalArchivo";
+            this.tsPrincipalArchivo.Size = new System.Drawing.Size(73, 24);
+            this.tsPrincipalArchivo.Text = "Archivo";
             // 
             // salirToolStripMenuItem
             // 
@@ -74,37 +81,49 @@ namespace SistemaPresupuestario
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
-            // maestrosToolStripMenuItem
+            // tsPrincipalMaestro
             // 
-            this.maestrosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.usuariosToolStripMenuItem});
-            this.maestrosToolStripMenuItem.Name = "maestrosToolStripMenuItem";
-            this.maestrosToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
-            this.maestrosToolStripMenuItem.Text = "Maestros";
+            this.tsPrincipalMaestro.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsCliente,
+            this.tsProducto,
+            this.tsUsuario,
+            this.tsVendedor});
+            this.tsPrincipalMaestro.Name = "tsPrincipalMaestro";
+            this.tsPrincipalMaestro.Size = new System.Drawing.Size(83, 24);
+            this.tsPrincipalMaestro.Text = "Maestros";
             // 
-            // cotizaciónToolStripMenuItem
+            // tsUsuario
             // 
-            this.cotizaciónToolStripMenuItem.Name = "cotizaciónToolStripMenuItem";
-            this.cotizaciónToolStripMenuItem.Size = new System.Drawing.Size(93, 24);
-            this.cotizaciónToolStripMenuItem.Text = "Cotización";
+            this.tsUsuario.Name = "tsUsuario";
+            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
+            this.tsUsuario.Text = "Usuarios";
+            this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
-            // facturaciónToolStripMenuItem
+            // tsPrincipalPresupuesto
             // 
-            this.facturaciónToolStripMenuItem.Name = "facturaciónToolStripMenuItem";
-            this.facturaciónToolStripMenuItem.Size = new System.Drawing.Size(98, 24);
-            this.facturaciónToolStripMenuItem.Text = "Facturación";
+            this.tsPrincipalPresupuesto.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsGenerarCotizacion,
+            this.tsGestionarCotizacion,
+            this.tsAprobarCotizacion});
+            this.tsPrincipalPresupuesto.Name = "tsPrincipalPresupuesto";
+            this.tsPrincipalPresupuesto.Size = new System.Drawing.Size(103, 24);
+            this.tsPrincipalPresupuesto.Text = "Presupuesto";
             // 
-            // recibosToolStripMenuItem
+            // tsPrincipalVenta
             // 
-            this.recibosToolStripMenuItem.Name = "recibosToolStripMenuItem";
-            this.recibosToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
-            this.recibosToolStripMenuItem.Text = "Recibos";
+            this.tsPrincipalVenta.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsFactura,
+            this.tsRecibo,
+            this.tsArba});
+            this.tsPrincipalVenta.Name = "tsPrincipalVenta";
+            this.tsPrincipalVenta.Size = new System.Drawing.Size(66, 24);
+            this.tsPrincipalVenta.Text = "Ventas";
             // 
-            // ayudaToolStripMenuItem
+            // tsPrincipalAyuda
             // 
-            this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
-            this.ayudaToolStripMenuItem.Text = "Ayuda";
+            this.tsPrincipalAyuda.Name = "tsPrincipalAyuda";
+            this.tsPrincipalAyuda.Size = new System.Drawing.Size(65, 24);
+            this.tsPrincipalAyuda.Text = "Ayuda";
             // 
             // txtUsuario
             // 
@@ -114,12 +133,59 @@ namespace SistemaPresupuestario
             this.txtUsuario.Size = new System.Drawing.Size(156, 24);
             this.txtUsuario.Text = "toolStripMenuItem1";
             // 
-            // usuariosToolStripMenuItem
+            // tsCliente
             // 
-            this.usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.usuariosToolStripMenuItem.Text = "Usuarios";
-            this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
+            this.tsCliente.Name = "tsCliente";
+            this.tsCliente.Size = new System.Drawing.Size(224, 26);
+            this.tsCliente.Text = "Clientes";
+            // 
+            // tsProducto
+            // 
+            this.tsProducto.Name = "tsProducto";
+            this.tsProducto.Size = new System.Drawing.Size(224, 26);
+            this.tsProducto.Text = "Producto/Servicio";
+            // 
+            // tsVendedor
+            // 
+            this.tsVendedor.Name = "tsVendedor";
+            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
+            this.tsVendedor.Text = "Vededores";
+            // 
+            // tsGenerarCotizacion
+            // 
+            this.tsGenerarCotizacion.Name = "tsGenerarCotizacion";
+            this.tsGenerarCotizacion.Size = new System.Drawing.Size(251, 26);
+            this.tsGenerarCotizacion.Text = "Generar Cotización";
+            // 
+            // tsGestionarCotizacion
+            // 
+            this.tsGestionarCotizacion.Name = "tsGestionarCotizacion";
+            this.tsGestionarCotizacion.Size = new System.Drawing.Size(251, 26);
+            this.tsGestionarCotizacion.Text = "Gestión de Cotizaciones";
+            // 
+            // tsAprobarCotizacion
+            // 
+            this.tsAprobarCotizacion.Name = "tsAprobarCotizacion";
+            this.tsAprobarCotizacion.Size = new System.Drawing.Size(251, 26);
+            this.tsAprobarCotizacion.Text = "Aprobar Cotizaciones";
+            // 
+            // tsFactura
+            // 
+            this.tsFactura.Name = "tsFactura";
+            this.tsFactura.Size = new System.Drawing.Size(244, 26);
+            this.tsFactura.Text = "Emisión de Factura";
+            // 
+            // tsRecibo
+            // 
+            this.tsRecibo.Name = "tsRecibo";
+            this.tsRecibo.Size = new System.Drawing.Size(244, 26);
+            this.tsRecibo.Text = "Emisión de Recibo";
+            // 
+            // tsArba
+            // 
+            this.tsArba.Name = "tsArba";
+            this.tsArba.Size = new System.Drawing.Size(244, 26);
+            this.tsArba.Text = "Actualizar Padrón Arba";
             // 
             // frmMain
             // 
@@ -130,7 +196,7 @@ namespace SistemaPresupuestario
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sistema de presupuestos";
@@ -146,15 +212,23 @@ namespace SistemaPresupuestario
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsPrincipalArchivo;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem maestrosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cotizaciónToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem facturaciónToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem recibosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsPrincipalMaestro;
+        private System.Windows.Forms.ToolStripMenuItem tsPrincipalPresupuesto;
+        private System.Windows.Forms.ToolStripMenuItem tsPrincipalVenta;
+        private System.Windows.Forms.ToolStripMenuItem tsPrincipalAyuda;
         private System.Windows.Forms.ToolStripMenuItem txtUsuario;
-        private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsUsuario;
+        private System.Windows.Forms.ToolStripMenuItem tsCliente;
+        private System.Windows.Forms.ToolStripMenuItem tsProducto;
+        private System.Windows.Forms.ToolStripMenuItem tsVendedor;
+        private System.Windows.Forms.ToolStripMenuItem tsGenerarCotizacion;
+        private System.Windows.Forms.ToolStripMenuItem tsGestionarCotizacion;
+        private System.Windows.Forms.ToolStripMenuItem tsAprobarCotizacion;
+        private System.Windows.Forms.ToolStripMenuItem tsFactura;
+        private System.Windows.Forms.ToolStripMenuItem tsRecibo;
+        private System.Windows.Forms.ToolStripMenuItem tsArba;
     }
 }
 

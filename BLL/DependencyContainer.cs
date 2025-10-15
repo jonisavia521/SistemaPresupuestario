@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using BLL.Contracts;
-using BLL.Mappers;
-using BLL.Services;
 using DAL;
 using DomainModel.Domain;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +18,6 @@ namespace BLL
 , System.Configuration.ConnectionStringSettings csSetting)
         {
             services.AddDALDependencies(csSetting);
-            services.AddAutoMapper(typeof(UsuarioMapperProfile));
-            
-            // Register the new DTO-based service
-            services.AddScoped<IUsuarioService, UsuarioService>();
             
             return services;
         }

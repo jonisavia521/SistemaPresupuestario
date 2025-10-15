@@ -16,7 +16,7 @@ namespace Services.DAL.Tools
 
          public SqlServerHelper(NameValueCollection app)
         {
-            conString = ConfigurationManager.ConnectionStrings["SistemaPresupuestario"].ConnectionString;
+            conString = ConfigurationManager.ConnectionStrings["Seguridad"].ConnectionString;
         }
         public Object ExecuteScalar(String commandText,
            CommandType commandType, params SqlParameter[] parameters)

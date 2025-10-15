@@ -12,12 +12,9 @@ namespace DAL.Implementation.Repository
         private readonly SistemaPresupuestario _context;
         private DbContextTransaction _transaction;
 
-        public IUsuarioRepository Usuarios { get; }
-
-        public UnitOfWork(SistemaPresupuestario context, IUsuarioRepository usuarioRepository)
+        public UnitOfWork(SistemaPresupuestario context)
         {
             _context = context;
-            Usuarios = usuarioRepository;
         }
 
         public void BeginTransaction()
