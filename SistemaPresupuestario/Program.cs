@@ -1,4 +1,5 @@
 ﻿using BLL;
+using IoC;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Services.DAL.Tools;
@@ -47,8 +48,8 @@ namespace SistemaPresupuestario
 
             services
             .AddSingleton<SqlServerHelper>()
+            .AddIoCDependencies(csSetting)
                 .AddServicesDependencies(csSetting, app)
-                .AddBLLDependencies(csSetting)
                 .AddTransient<frmLogin>()
                 .AddTransient<frmMain>()
                 .AddTransient<frmUsuarios>()

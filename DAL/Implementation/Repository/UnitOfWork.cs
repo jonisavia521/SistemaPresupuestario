@@ -1,9 +1,9 @@
-﻿using DAL.Contracts;
-using DAL.Implementation.EntityFramework;
+﻿using DAL.Implementation.EntityFramework;
 using System;
 using System.Data.Entity; // <- EF6
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
+using DomainModel.Contracts;
 
 namespace DAL.Implementation.Repository
 {

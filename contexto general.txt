@@ -1,0 +1,64 @@
+Los winforms para interactuar con la base de datos quiero que siempre sigas las buenas practicas que ya estan planteadas en @workspace:
+Aquí está el circuito de las dependencias:
+SistemaPresupuestario (UI)
+-> depende de BLL (para llamar a los servicios de negocio).
+-> depende de IoC (para ejecutar la configuración de dependencias).
+IoC (El Orquestador)
+-> depende de BLL (para registrar los servicios).
+-> depende de DAL (para registrar el UnitOfWork).
+-> depende de DomainModel (para conocer las interfaces).
+BLL (Lógica de Negocio)
+-> depende de DomainModel (para usar las interfaces y entidades).
+DAL (Acceso a Datos)
+-> depende de DomainModel (para implementar las interfaces y usar las entidades).
+DomainModel (El Núcleo) No depende de NADIE.
+
+Principio Rector: Modificación y Reutilización
+Antes de ejecutar cualquier flujo, el sistema debe operar bajo un principio de modificación preferente.
+Analizar Archivos Existentes: Antes de crear cualquier archivo nuevo (un servicio, una entidad, un DTO), se debe escanear la capa correspondiente en busca de un archivo que ya cumpla esa responsabilidad (ej. PresupuestoService.cs, Presupuesto.cs).
+Modificar en Lugar de Crear:
+Si el archivo existe, el comportamiento debe ser abrirlo y modificarlo.
+Si un método ya existe pero su lógica es incorrecta, debe ser reescrito.
+Si se necesita una nueva funcionalidad (ej. un nuevo método), debe ser agregada al archivo existente.
+Si hay líneas de código redundantes o incorrectas, deben ser eliminadas.
+Registro Único: Al registrar dependencias en la capa IoC, se debe verificar si el registro (ej. AddScoped<IUnitOfWork, UnitOfWork>()) ya existe. Si existe, no hacer nada. Si no existe, agregarlo al archivo de contenedor existente (ej. IoCContainer.cs), no crear un archivo nuevo.
+Este principio asegura que no se genere código duplicado y se mantenga la cohesión.
+
+Flujo de Escritura (Persistencia / Actualización)
+Este es el proceso para guardar o modificar datos, iniciado desde la UI.
+UI (SistemaPresupuestario):
+Captura la entrada del usuario.
+Construye un objeto DTO (Modelo de Vista) simple. Este DTO puede tener DataAnnotations para validaciones de entrada superficiales (ej. Required, StringLength).
+Envía este DTO únicamente a la capa BLL.
+BLL (Capa de Lógica):
+Recibe el DTO desde la UI.
+Usa una herramienta de mapeo (como AutoMapper) para transformar el DTO en la entidad de DomainModel (ej. Presupuesto).
+Invoca los métodos de validación de negocio que están dentro de la propia entidad de DomainModel (ej. entidad.ValidarNegocio()).
+Si la validación es exitosa, pasa la entidad de DomainModel a la abstracción de la capa de datos (la interfaz IUnitOfWork).
+Llama al método Commit del IUnitOfWork para confirmar la transacción.
+DomainModel (Capa de Dominio):
+Contiene la entidad (ej. Presupuesto).
+Importante: La propia entidad es dueña de sus reglas de negocio. Contiene los métodos (ej. ValidarNegocio()) que la BLL debe invocar. La entidad se protege a sí misma.
+DAL (Capa de Datos):
+El UnitOfWork (la implementación de IUnitOfWork) recibe la entidad de DomainModel pura.
+Usa Entity Framework para "trackear" esta entidad (para un Add o Update).
+Al recibir la orden de Commit desde la BLL, Entity Framework genera el SQL (INSERT/UPDATE/DELETE) y lo ejecuta en la base de datos.
+
+Flujo de Lectura (Consulta)
+Este es el proceso para obtener datos y mostrarlos en la UI.
+UI (SistemaPresupuestario):
+Inicia una solicitud de datos (ej. "dame el presupuesto ID 5").
+Llama a un método en la capa BLL (ej. GetPresupuestoById(5)).
+BLL (Capa de Lógica):
+Recibe la solicitud de la UI.
+Llama al método correspondiente en la abstracción IUnitOfWork (o IRepository) para solicitar los datos.
+Recibe una entidad (o lista de entidades) de DomainModel desde la DAL.
+Crucial: La BLL no debe devolver la entidad de DomainModel a la UI.
+Usa AutoMapper para transformar la entidad de DomainModel en un DTO (un modelo de vista limpio).
+Devuelve el DTO a la UI.
+DAL (Capa de Datos):
+Recibe la llamada desde la BLL.
+Usa Entity Framework para construir la consulta SQL (SELECT).
+Ejecuta la consulta y materializa los resultados en la entidad de DomainModel.
+Devuelve la entidad de DomainModel a la BLL.
+UI (SistemaPresupuestario):

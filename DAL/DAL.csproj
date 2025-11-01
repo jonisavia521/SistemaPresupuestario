@@ -94,9 +94,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="DependencyContainer.cs" />
-    <Compile Include="Implementation\Contracts\IUnitOfWork.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente_Impuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Comprobantes.cs" />
@@ -116,6 +115,15 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj">
+      <Project>{06dcafad-ef05-4cb7-93d6-fc55e5a7f258}</Project>
+      <Name>DomainModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Implementation\Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

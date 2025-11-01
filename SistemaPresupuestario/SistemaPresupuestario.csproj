@@ -207,6 +207,10 @@
       <Project>{8e674c26-3e72-4cee-a0fc-132cd8811e75}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IoC\IoC.csproj">
+      <Project>{336958c1-30e7-4b67-8830-1036ca628bc6}</Project>
+      <Name>IoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{26117c1e-20e2-4422-bf0f-faf39a096425}</Project>
       <Name>Services</Name>
