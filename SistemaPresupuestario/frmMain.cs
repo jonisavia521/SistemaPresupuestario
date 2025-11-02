@@ -1,6 +1,7 @@
 ﻿using Services.DomainModel.Security.Composite;
 using Services.Services.Contracts;
 using SistemaPresupuestario.Maestros;
+using SistemaPresupuestario.Maestros.Productos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,6 +156,23 @@ namespace SistemaPresupuestario
             else
             {
                 var hijo = _serviceProvider.GetService(typeof(frmVendedores)) as frmVendedores;
+                hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
+
+        private void tsProducto_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<frmProductos>()
+                .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(frmProductos)) as frmProductos;
                 hijo.MdiParent = this;
                 hijo.Show();
             }

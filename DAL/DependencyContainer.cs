@@ -28,6 +28,7 @@ namespace DAL
             // Registrar repositorios
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IVendedorRepository, VendedorRepository>();
+            services.AddScoped<IProductoRepository, ProductoRepository>();
             
             return services;
         }

@@ -128,12 +128,13 @@ namespace DAL.Implementation.Repository
         /// </summary>
         private VendedorDM MapearADominio(Vendedor vendedorEF)
         {
-            string codigoVendedor = vendedorEF.CodigoVendedor ?? "01";
-            string cuit = vendedorEF.CUIT ?? string.Empty;
-            decimal porcentajeComision = vendedorEF.PorcentajeComision ?? 0;
+            // Ahora todos los campos son NOT NULL según el script SQL
+            string codigoVendedor = vendedorEF.CodigoVendedor;
+            string cuit = vendedorEF.CUIT;
+            decimal porcentajeComision = vendedorEF.PorcentajeComision;
             
             bool activo = vendedorEF.Activo;
-            DateTime fechaAlta = vendedorEF.FechaAlta != default(DateTime) ? vendedorEF.FechaAlta : DateTime.Now;
+            DateTime fechaAlta = vendedorEF.FechaAlta;
             DateTime? fechaModificacion = vendedorEF.FechaModificacion;
 
             return new VendedorDM(

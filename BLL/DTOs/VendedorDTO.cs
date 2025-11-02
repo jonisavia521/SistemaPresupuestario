@@ -24,6 +24,7 @@ namespace BLL.DTOs
         [RegularExpression(@"^\d{11}$", ErrorMessage = "El CUIT solo puede contener dígitos")]
         public string CUIT { get; set; }
 
+        [Required(ErrorMessage = "El porcentaje de comisión es obligatorio")]
         [Range(0, 100, ErrorMessage = "La comisión debe estar entre 0 y 100")]
         public decimal PorcentajeComision { get; set; }
 

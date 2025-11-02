@@ -103,6 +103,7 @@
             this.tsProducto.Name = "tsProducto";
             this.tsProducto.Size = new System.Drawing.Size(224, 26);
             this.tsProducto.Text = "Productos";
+            this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 

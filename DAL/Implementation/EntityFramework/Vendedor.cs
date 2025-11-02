@@ -19,6 +19,7 @@ namespace DAL.Implementation.EntityFramework
 
         public Guid ID { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Nombre { get; set; }
 
@@ -31,17 +32,22 @@ namespace DAL.Implementation.EntityFramework
         [StringLength(50)]
         public string Telefono { get; set; }
         
-        // Nuevos campos para ABM
+        // Campos obligatorios según el script SQL
+        [Required]
         [StringLength(20)]
         public string CodigoVendedor { get; set; }
         
+        [Required]
         [StringLength(11)]
         public string CUIT { get; set; }
         
-        public decimal? PorcentajeComision { get; set; }
+        [Required]
+        public decimal PorcentajeComision { get; set; }
         
+        [Required]
         public bool Activo { get; set; }
         
+        [Required]
         public DateTime FechaAlta { get; set; }
         
         public DateTime? FechaModificacion { get; set; }

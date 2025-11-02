@@ -205,6 +205,9 @@ namespace DAL.Implementation.EntityFramework
                 .HasPrecision(18, 4);
 
             modelBuilder.Entity<Producto>()
+                .ToTable("Producto");  // Especificar el nombre de la tabla
+
+            modelBuilder.Entity<Producto>()
                 .HasKey(e => e.ID); 
 
             modelBuilder.Entity<Producto>()
