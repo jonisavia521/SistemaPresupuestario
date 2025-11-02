@@ -171,7 +171,6 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 CondicionPago = ((dynamic)cboCondicionPago.SelectedItem).Value,
                 Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
-                Direccion = txtDireccion.Text.Trim()
                 Direccion = txtDireccion.Text.Trim(),
                 Localidad = txtLocalidad.Text.Trim()
             };

@@ -1,39 +1,37 @@
-namespace DAL.Implementation.EntityFramework
+using DAL.Implementation.EntityFramework;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
+
+public partial class Producto
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("Producto")]
-    public partial class Producto
+    public Producto()
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Producto()
-        {
-            Comprobante_Detalle = new HashSet<Comprobante_Detalle>();
-            Presupuesto_Detalle = new HashSet<Presupuesto_Detalle>();
-        }
-
-        public Guid ID { get; set; }
-
-        [StringLength(50)]
-        public string Codigo { get; set; }
-
-        [StringLength(50)]
-        public string Descripcion { get; set; }
-
-        public int? Estado { get; set; }
-
-        public DateTime? FechaAlta { get; set; }
-
-        public int? UsuarioAlta { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobante_Detalle> Comprobante_Detalle { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
+        this.Comprobante_Detalle = new HashSet<Comprobante_Detalle>();
+        this.Presupuesto_Detalle = new HashSet<Presupuesto_Detalle>();
     }
+
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid ID { get; set; } 
+
+    [Required] 
+    [StringLength(50)] 
+    public string Codigo { get; set; } 
+
+    [StringLength(50)] 
+    public string Descripcion { get; set; }
+
+    [Required] 
+    public bool Inhabilitado { get; set; }
+
+    [Required]
+    public DateTime FechaAlta { get; set; } 
+
+    [Required] 
+    public int UsuarioAlta { get; set; }
+
+    public virtual ICollection<Comprobante_Detalle> Comprobante_Detalle { get; set; }
+    public virtual ICollection<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
 }

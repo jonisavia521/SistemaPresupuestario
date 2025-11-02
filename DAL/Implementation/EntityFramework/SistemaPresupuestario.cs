@@ -205,12 +205,35 @@ namespace DAL.Implementation.EntityFramework
                 .HasPrecision(18, 4);
 
             modelBuilder.Entity<Producto>()
+                .HasKey(e => e.ID); 
+
+            modelBuilder.Entity<Producto>()
+                .Property(e => e.ID)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<Producto>()
                 .Property(e => e.Codigo)
-                .IsUnicode(false);
+                .IsRequired()       
+                .HasMaxLength(50)  
+                .IsUnicode(false);  
 
             modelBuilder.Entity<Producto>()
                 .Property(e => e.Descripcion)
+                .IsOptional()       
+                .HasMaxLength(50)  
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Producto>()
+                .Property(e => e.Inhabilitado)
+                .IsRequired();      
+
+            modelBuilder.Entity<Producto>()
+                .Property(e => e.FechaAlta)
+                .IsRequired();      
+
+            modelBuilder.Entity<Producto>()
+                .Property(e => e.UsuarioAlta)
+                .IsRequired();     
 
             modelBuilder.Entity<Producto>()
                 .HasMany(e => e.Comprobante_Detalle)

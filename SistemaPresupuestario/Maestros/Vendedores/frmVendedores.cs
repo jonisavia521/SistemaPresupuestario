@@ -18,7 +18,6 @@ namespace SistemaPresupuestario.Maestros
             InitializeComponent();
             _vendedorService = vendedorService;
             
-            // Regla 9: Deshabilitar generación automática de columnas
             dgvVendedores.AutoGenerateColumns = false;
         }
 
@@ -34,7 +33,7 @@ namespace SistemaPresupuestario.Maestros
                 this.Cursor = Cursors.WaitCursor;
 
                 var vendedores = await _vendedorService.GetAllAsync();
-                _listaCompleta = vendedores.ToList(); // Regla 10: Guardar lista completa
+                _listaCompleta = vendedores.ToList(); 
                 
                 dgvVendedores.DataSource = _listaCompleta;
                 dgvVendedores.Refresh();
