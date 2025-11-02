@@ -62,10 +62,7 @@ namespace DAL.Implementation.EntityFramework
                 .HasMaxLength(10);
             
             // Configuración de nuevos campos de Cliente
-            modelBuilder.Entity<Cliente>()
-                .Property(e => e.CodigoVendedor)
-                .IsUnicode(false)
-                .HasMaxLength(20);
+            // NOTA: CodigoVendedor fue eliminado - ahora se usa IdVendedor (FK)
 
             modelBuilder.Entity<Cliente>()
                 .Property(e => e.TipoIva)

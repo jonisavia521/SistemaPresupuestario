@@ -155,11 +155,22 @@
     <Compile Include="Maestros\Productos\frmProductoAlta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Maestros\Productos\frmProductoAlta.Designer.cs" />
+    <Compile Include="Maestros\Productos\frmProductoAlta.Designer.cs">
+      <DependentUpon>frmProductoAlta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Maestros\Productos\frmProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Maestros\Productos\frmProductos.Designer.cs" />
+    <Compile Include="Maestros\Productos\frmProductos.Designer.cs">
+      <DependentUpon>frmProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Maestros\Shared\frmSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maestros\Shared\frmSelector.Designer.cs">
+      <DependentUpon>frmSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Maestros\Shared\SelectorConfig.cs" />
     <Compile Include="Maestros\Usuarios\frmAlta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Maestros\Clientes\frmClienteAlta.resx">
       <DependentUpon>frmClienteAlta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maestros\Shared\frmSelector.resx">
+      <DependentUpon>frmSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Maestros\Usuarios\frmAlta.resx">
       <DependentUpon>frmAlta.cs</DependentUpon>

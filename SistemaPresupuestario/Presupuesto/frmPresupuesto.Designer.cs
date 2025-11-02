@@ -90,7 +90,6 @@
             this.Label13 = new System.Windows.Forms.Label();
             this.dtEntrega = new System.Windows.Forms.DateTimePicker();
             this.txtCodigoFormaPago = new System.Windows.Forms.TextBox();
-            this.txtCodigoVendedor = new System.Windows.Forms.TextBox();
             this.txtCodigoCliente = new System.Windows.Forms.TextBox();
             this.Label12 = new System.Windows.Forms.Label();
             this.cmbEstado = new System.Windows.Forms.ComboBox();
@@ -599,7 +598,6 @@
             this.GroupBox1.Controls.Add(this.Label13);
             this.GroupBox1.Controls.Add(this.dtEntrega);
             this.GroupBox1.Controls.Add(this.txtCodigoFormaPago);
-            this.GroupBox1.Controls.Add(this.txtCodigoVendedor);
             this.GroupBox1.Controls.Add(this.txtCodigoCliente);
             this.GroupBox1.Controls.Add(this.Label12);
             this.GroupBox1.Controls.Add(this.cmbEstado);
@@ -694,10 +692,10 @@
             // 
             this.txtVendedor.BackColor = System.Drawing.Color.LightGray;
             this.txtVendedor.Enabled = false;
-            this.txtVendedor.Location = new System.Drawing.Point(235, 93);
+            this.txtVendedor.Location = new System.Drawing.Point(133, 93);
             this.txtVendedor.Margin = new System.Windows.Forms.Padding(5);
             this.txtVendedor.Name = "txtVendedor";
-            this.txtVendedor.Size = new System.Drawing.Size(432, 22);
+            this.txtVendedor.Size = new System.Drawing.Size(534, 22);
             this.txtVendedor.TabIndex = 31;
             // 
             // txtCliente
@@ -737,15 +735,6 @@
             this.txtCodigoFormaPago.Name = "txtCodigoFormaPago";
             this.txtCodigoFormaPago.Size = new System.Drawing.Size(92, 22);
             this.txtCodigoFormaPago.TabIndex = 19;
-            // 
-            // txtCodigoVendedor
-            // 
-            this.txtCodigoVendedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCodigoVendedor.Location = new System.Drawing.Point(133, 92);
-            this.txtCodigoVendedor.Margin = new System.Windows.Forms.Padding(5);
-            this.txtCodigoVendedor.Name = "txtCodigoVendedor";
-            this.txtCodigoVendedor.Size = new System.Drawing.Size(92, 22);
-            this.txtCodigoVendedor.TabIndex = 13;
             // 
             // txtCodigoCliente
             // 
@@ -1079,7 +1068,6 @@
         private System.Windows.Forms.Label Label13;
         private System.Windows.Forms.DateTimePicker dtEntrega;
         private System.Windows.Forms.TextBox txtCodigoFormaPago;
-        private System.Windows.Forms.TextBox txtCodigoVendedor;
         private System.Windows.Forms.TextBox txtCodigoCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn2;

@@ -19,7 +19,7 @@ namespace BLL.Mappers
                 .ForMember(dest => dest.RazonSocial, opt => opt.MapFrom(src => src.RazonSocial))
                 .ForMember(dest => dest.TipoDocumento, opt => opt.MapFrom(src => src.TipoDocumento))
                 .ForMember(dest => dest.NumeroDocumento, opt => opt.MapFrom(src => src.NumeroDocumento))
-                .ForMember(dest => dest.CodigoVendedor, opt => opt.MapFrom(src => src.CodigoVendedor))
+                .ForMember(dest => dest.IdVendedor, opt => opt.MapFrom(src => src.IdVendedor)) // MODIFICADO
                 .ForMember(dest => dest.TipoIva, opt => opt.MapFrom(src => src.TipoIva))
                 .ForMember(dest => dest.CondicionPago, opt => opt.MapFrom(src => src.CondicionPago))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))

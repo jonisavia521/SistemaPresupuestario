@@ -215,11 +215,12 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // txtCodigoVendedor
             // 
             this.txtCodigoVendedor.Location = new System.Drawing.Point(130, 25);
-            this.txtCodigoVendedor.MaxLength = 2;
+            this.txtCodigoVendedor.MaxLength = 50;
             this.txtCodigoVendedor.Name = "txtCodigoVendedor";
-            this.txtCodigoVendedor.Size = new System.Drawing.Size(60, 22);
+            this.txtCodigoVendedor.ReadOnly = true;
+            this.txtCodigoVendedor.Size = new System.Drawing.Size(305, 22);
             this.txtCodigoVendedor.TabIndex = 1;
-            this.txtCodigoVendedor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigoVendedor_KeyPress);
+            this.txtCodigoVendedor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodigoVendedor_KeyDown);
             // 
             // lblCodigoVendedor
             // 

@@ -12,13 +12,15 @@ namespace SistemaPresupuestario.Maestros
     public partial class frmClientes : Form
     {
         private readonly IClienteService _clienteService;
+        private readonly IVendedorService _vendedorService; // AGREGADO
         private List<ClienteDTO> _listaCompletaClientes;
 
-        public frmClientes(IClienteService clienteService)
+        public frmClientes(IClienteService clienteService, IVendedorService vendedorService) // MODIFICADO
         {
             InitializeComponent();
             dgvClientes.AutoGenerateColumns = false;
             _clienteService = clienteService;
+            _vendedorService = vendedorService; // AGREGADO
             _listaCompletaClientes = new List<ClienteDTO>();
         }
 
@@ -56,7 +58,7 @@ namespace SistemaPresupuestario.Maestros
             if (formAbierto == null)
             {
                 // Crear una nueva instancia si el formulario no está abierto
-                var frmAlta = new frmClienteAlta(_clienteService)
+                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService) // MODIFICADO
                 {
                     MdiParent = this.MdiParent
                 };
@@ -90,7 +92,7 @@ namespace SistemaPresupuestario.Maestros
 
             if (formAbierto == null)
             {
-                var frmAlta = new frmClienteAlta(_clienteService, clienteDTO.Id)
+                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService, clienteDTO.Id) // MODIFICADO
                 {
                     MdiParent = this.MdiParent
                 };

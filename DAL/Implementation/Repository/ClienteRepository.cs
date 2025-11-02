@@ -135,8 +135,10 @@ namespace DAL.Implementation.Repository
             string tipoDocumento = clienteEF.TipoDocumento ?? "CUIT";
             string numeroDocumento = clienteEF.CUIT ?? string.Empty;
 
-            // Usar los campos reales de la BD
-            string codigoVendedor = clienteEF.CodigoVendedor ?? "01";
+            // IdVendedor ahora es Guid? (FK)
+            Guid? idVendedor = clienteEF.IdVendedor;
+
+            // Usar los campos de condición de pago
             string condicionPago = clienteEF.CondicionPago ?? "01";
             string tipoIva = clienteEF.TipoIva ?? "RESPONSABLE INSCRIPTO";
 
@@ -158,7 +160,7 @@ namespace DAL.Implementation.Repository
                 clienteEF.RazonSocial,
                 tipoDocumento,
                 numeroDocumento,
-                codigoVendedor,
+                idVendedor, // MODIFICADO
                 tipoIva,
                 condicionPago,
                 activo,
@@ -183,7 +185,7 @@ namespace DAL.Implementation.Repository
                 RazonSocial = dominio.RazonSocial,
                 TipoDocumento = dominio.TipoDocumento,
                 CUIT = dominio.NumeroDocumento,
-                CodigoVendedor = dominio.CodigoVendedor,
+                IdVendedor = dominio.IdVendedor, // MODIFICADO
                 TipoIva = dominio.TipoIva,
                 CondicionPago = dominio.CondicionPago,
                 Email = dominio.Email,
@@ -194,8 +196,7 @@ namespace DAL.Implementation.Repository
                 Activo = dominio.Activo,
                 FechaAlta = dominio.FechaAlta,
                 FechaModificacion = dominio.FechaModificacion,
-                IdProvincia = null,
-                IdVendedor = null
+                IdProvincia = null
             };
         }
     }

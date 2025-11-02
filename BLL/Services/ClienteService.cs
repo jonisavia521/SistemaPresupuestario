@@ -79,7 +79,7 @@ namespace BLL.Services
                     clienteDTO.RazonSocial,
                     clienteDTO.TipoDocumento,
                     clienteDTO.NumeroDocumento,
-                    clienteDTO.CodigoVendedor,
+                    clienteDTO.IdVendedor, // MODIFICADO - ahora es Guid?
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
                     clienteDTO.Email,
@@ -128,7 +128,7 @@ namespace BLL.Services
                     clienteDTO.RazonSocial,
                     clienteDTO.TipoDocumento,
                     clienteDTO.NumeroDocumento,
-                    clienteDTO.CodigoVendedor,
+                    clienteDTO.IdVendedor, // MODIFICADO - ahora es Guid?
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
                     clienteDTO.Email,

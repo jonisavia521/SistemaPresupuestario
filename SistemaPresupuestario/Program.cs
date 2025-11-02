@@ -61,8 +61,7 @@ namespace SistemaPresupuestario
                 .AddTransient<frmClienteAlta>()
                 .AddTransient<frmVendedores>()
                 .AddTransient<frmVendedorAlta>()
-                .AddTransient<frmProductos>();
-
+                .AddTransient<frmProductos>(); // frmSelector es dinámico y se instancia directamente donde se necesita
 
         }
 

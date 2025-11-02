@@ -12,8 +12,7 @@ namespace BLL.DTOs
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "El código de cliente es obligatorio")]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "El código debe tener entre 1 y 20 caracteres")]
-        [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "El código solo puede contener letras, números y guiones")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "El código debe tener entre 3 y 20 caracteres")]
         public string CodigoCliente { get; set; }
 
         [Required(ErrorMessage = "La razón social es obligatoria")]
@@ -21,21 +20,25 @@ namespace BLL.DTOs
         public string RazonSocial { get; set; }
 
         [Required(ErrorMessage = "El tipo de documento es obligatorio")]
-        public string TipoDocumento { get; set; } // DNI|CUIT|CUIL
+        public string TipoDocumento { get; set; }
 
         [Required(ErrorMessage = "El número de documento es obligatorio")]
-        [StringLength(11, ErrorMessage = "El número de documento no puede exceder los 11 caracteres")]
         public string NumeroDocumento { get; set; }
 
-        [Required(ErrorMessage = "El código de vendedor es obligatorio")]
-        [RegularExpression(@"^\d{2}$", ErrorMessage = "El código de vendedor debe tener exactamente 2 dígitos")]
+        // IdVendedor ahora es Guid? - FK a Vendedor
+        public Guid? IdVendedor { get; set; }
+
+        // Propiedad auxiliar para mostrar el código del vendedor en la UI
         public string CodigoVendedor { get; set; }
+        
+        // Propiedad auxiliar para mostrar el nombre del vendedor
+        public string NombreVendedor { get; set; }
 
         [Required(ErrorMessage = "El tipo de IVA es obligatorio")]
         public string TipoIva { get; set; }
 
         [Required(ErrorMessage = "La condición de pago es obligatoria")]
-        [RegularExpression(@"^\d{2}$", ErrorMessage = "La condición de pago debe tener exactamente 2 dígitos")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "La condición de pago debe tener 2 dígitos")]
         public string CondicionPago { get; set; }
 
         [EmailAddress(ErrorMessage = "El email no tiene un formato válido")]
@@ -59,7 +62,7 @@ namespace BLL.DTOs
 
         // Propiedades calculadas para mostrar en la UI
         public string DocumentoCompleto => $"{TipoDocumento}: {NumeroDocumento}";
-        
+
         public string EstadoTexto => Activo ? "Activo" : "Inactivo";
     }
 }

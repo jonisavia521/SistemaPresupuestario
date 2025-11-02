@@ -1,5 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
+using SistemaPresupuestario.Maestros.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,9 @@ namespace SistemaPresupuestario.Maestros.Clientes
     public partial class frmClienteAlta : Form
     {
         private readonly IClienteService _clienteService;
+        private readonly IVendedorService _vendedorService; // AGREGADO
         private Guid? _clienteId;
+        private Guid? _vendedorSeleccionadoId; // AGREGADO para guardar el ID del vendedor
 
         // Evento para notificar que se guardó exitosamente
         public event EventHandler ClienteGuardado;
@@ -21,18 +24,20 @@ namespace SistemaPresupuestario.Maestros.Clientes
         public Guid? ClienteId => _clienteId;
 
         // Constructor para modo NUEVO
-        public frmClienteAlta(IClienteService clienteService)
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService) // MODIFICADO
         {
             InitializeComponent();
             _clienteService = clienteService;
+            _vendedorService = vendedorService; // AGREGADO
             _clienteId = null;
         }
 
         // Constructor para modo EDICIÓN
-        public frmClienteAlta(IClienteService clienteService, Guid clienteId)
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, Guid clienteId) // MODIFICADO
         {
             InitializeComponent();
             _clienteService = clienteService;
+            _vendedorService = vendedorService; // AGREGADO
             _clienteId = clienteId;
         }
 
@@ -133,7 +138,13 @@ namespace SistemaPresupuestario.Maestros.Clientes
             txtRazonSocial.Text = cliente.RazonSocial;
             cboTipoDocumento.SelectedItem = cliente.TipoDocumento;
             txtNumeroDocumento.Text = cliente.NumeroDocumento;
-            txtCodigoVendedor.Text = cliente.CodigoVendedor;
+            
+            // MODIFICADO: Cargar vendedor si existe
+            _vendedorSeleccionadoId = cliente.IdVendedor;
+            if (_vendedorSeleccionadoId.HasValue)
+            {
+                await CargarVendedorEnTextBox(_vendedorSeleccionadoId.Value);
+            }
             
             // Seleccionar el tipo de IVA
             var indexIva = cboTipoIva.Items.IndexOf(cliente.TipoIva);
@@ -157,6 +168,76 @@ namespace SistemaPresupuestario.Maestros.Clientes
             txtLocalidad.Text = cliente.Localidad;
         }
 
+        // NUEVO: Cargar información del vendedor en el TextBox
+        private async System.Threading.Tasks.Task CargarVendedorEnTextBox(Guid idVendedor)
+        {
+            try
+            {
+                var vendedor = await _vendedorService.GetByIdAsync(idVendedor);
+                if (vendedor != null)
+                {
+                    txtCodigoVendedor.Text = $"{vendedor.CodigoVendedor} - {vendedor.Nombre}";
+                }
+            }
+            catch
+            {
+                txtCodigoVendedor.Text = "";
+            }
+        }
+
+        // NUEVO: Evento KeyDown para abrir selector de vendedores
+        private void txtCodigoVendedor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.F3)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                AbrirSelectorVendedor();
+            }
+        }
+
+        // NUEVO: Método para abrir el selector de vendedores
+        private void AbrirSelectorVendedor()
+        {
+            // Configurar el selector dinámico
+            var config = new SelectorConfig<VendedorDTO>
+            {
+                Titulo = "Seleccionar Vendedor",
+                Datos = System.Threading.Tasks.Task.Run(() => _vendedorService.GetActivosAsync()).Result,
+                PlaceholderBusqueda = "Buscar por código, nombre o CUIT...",
+                PermitirSeleccionMultiple = false,
+                
+                // Definir columnas a mostrar
+                Columnas = new List<ColumnaConfig>
+                {
+                    new ColumnaConfig { NombrePropiedad = "Id", TituloColumna = "Id", Visible = false },
+                    new ColumnaConfig { NombrePropiedad = "CodigoVendedor", TituloColumna = "Código", Ancho = 80 },
+                    new ColumnaConfig { NombrePropiedad = "Nombre", TituloColumna = "Nombre", Ancho = 250 },
+                    new ColumnaConfig { NombrePropiedad = "CUITFormateado", TituloColumna = "CUIT", Ancho = 150 },
+                    new ColumnaConfig { NombrePropiedad = "Email", TituloColumna = "Email", Ancho = 200 }
+                },
+                
+                // Función de filtro personalizada
+                FuncionFiltro = (busqueda, vendedor) =>
+                {
+                    var b = busqueda.ToUpper();
+                    return (vendedor.CodigoVendedor != null && vendedor.CodigoVendedor.Contains(b)) ||
+                           (vendedor.Nombre != null && vendedor.Nombre.ToUpper().Contains(b)) ||
+                           (vendedor.CUIT != null && vendedor.CUIT.Contains(b));
+                }
+            };
+
+            // Mostrar el selector
+            var selector = frmSelector.Mostrar(config);
+            if (selector.ShowDialog() == DialogResult.OK && selector.ElementoSeleccionado != null)
+            {
+                var vendedor = (VendedorDTO)selector.ElementoSeleccionado;
+                _vendedorSeleccionadoId = vendedor.Id;
+                txtCodigoVendedor.Text = $"{vendedor.CodigoVendedor} - {vendedor.Nombre}";
+            }
+            selector.Dispose();
+        }
+
         private async void btnAceptar_Click(object sender, EventArgs e)
         {
             var clienteDTO = new ClienteDTO
@@ -166,7 +247,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 RazonSocial = txtRazonSocial.Text.Trim(),
                 TipoDocumento = cboTipoDocumento.SelectedItem.ToString(),
                 NumeroDocumento = txtNumeroDocumento.Text.Trim(),
-                CodigoVendedor = txtCodigoVendedor.Text.Trim(),
+                IdVendedor = _vendedorSeleccionadoId, // MODIFICADO: Usar IdVendedor en lugar de CodigoVendedor
                 TipoIva = cboTipoIva.SelectedItem.ToString(),
                 CondicionPago = ((dynamic)cboCondicionPago.SelectedItem).Value,
                 Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
@@ -175,15 +256,12 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 Localidad = txtLocalidad.Text.Trim()
             };
 
-
             if (!ValidarConDataAnnotations(clienteDTO))
                 return;
 
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
-                
 
                 bool resultado;
 
@@ -283,8 +361,6 @@ namespace SistemaPresupuestario.Maestros.Clientes
                     return cboTipoDocumento;
                 case nameof(ClienteDTO.NumeroDocumento):
                     return txtNumeroDocumento;
-                case nameof(ClienteDTO.CodigoVendedor):
-                    return txtCodigoVendedor;
                 case nameof(ClienteDTO.TipoIva):
                     return cboTipoIva;
                 case nameof(ClienteDTO.CondicionPago):
@@ -301,15 +377,6 @@ namespace SistemaPresupuestario.Maestros.Clientes
         }
 
         private void txtNumeroDocumento_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Solo permitir números y teclas de control
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtCodigoVendedor_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Solo permitir números y teclas de control
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))

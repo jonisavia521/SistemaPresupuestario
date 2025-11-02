@@ -14,7 +14,7 @@ namespace DomainModel.Domain
         public string RazonSocial { get; private set; }
         public string TipoDocumento { get; private set; } // DNI|CUIT|CUIL
         public string NumeroDocumento { get; private set; }
-        public string CodigoVendedor { get; private set; } // 2 dígitos
+        public Guid? IdVendedor { get; private set; } // FK a Vendedor - MODIFICADO
         public string TipoIva { get; private set; }
         public string CondicionPago { get; private set; } // 2 dígitos
         public string Email { get; private set; }
@@ -31,7 +31,7 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            string codigoVendedor,
+            Guid? idVendedor, // MODIFICADO
             string tipoIva,
             string condicionPago,
             string email = null,
@@ -47,7 +47,7 @@ namespace DomainModel.Domain
             ValidarYEstablecerRazonSocial(razonSocial);
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
-            ValidarYEstablecerCodigoVendedor(codigoVendedor);
+            IdVendedor = idVendedor; // MODIFICADO - Ahora es Guid?
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
             
@@ -64,7 +64,7 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            string codigoVendedor,
+            Guid? idVendedor, // MODIFICADO
             string tipoIva,
             string condicionPago,
             bool activo,
@@ -83,7 +83,7 @@ namespace DomainModel.Domain
             RazonSocial = razonSocial;
             TipoDocumento = tipoDocumento;
             NumeroDocumento = numeroDocumento;
-            CodigoVendedor = codigoVendedor;
+            IdVendedor = idVendedor; // MODIFICADO
             TipoIva = tipoIva;
             CondicionPago = condicionPago;
             Activo = activo;
@@ -100,7 +100,7 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            string codigoVendedor,
+            Guid? idVendedor, // MODIFICADO
             string tipoIva,
             string condicionPago,
             string email = null,
@@ -111,7 +111,7 @@ namespace DomainModel.Domain
             ValidarYEstablecerRazonSocial(razonSocial);
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
-            ValidarYEstablecerCodigoVendedor(codigoVendedor);
+            IdVendedor = idVendedor; // MODIFICADO
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
             
@@ -232,17 +232,6 @@ namespace DomainModel.Domain
             return verificador == int.Parse(numero[10].ToString());
         }
 
-        private void ValidarYEstablecerCodigoVendedor(string codigoVendedor)
-        {
-            if (string.IsNullOrWhiteSpace(codigoVendedor))
-                throw new ArgumentException("El código de vendedor es obligatorio.", nameof(codigoVendedor));
-
-            if (!Regex.IsMatch(codigoVendedor, @"^\d{2}$"))
-                throw new ArgumentException("El código de vendedor debe tener exactamente 2 dígitos numéricos.", nameof(codigoVendedor));
-
-            CodigoVendedor = codigoVendedor;
-        }
-
         private void ValidarYEstablecerTipoIva(string tipoIva)
         {
             if (string.IsNullOrWhiteSpace(tipoIva))
@@ -285,7 +274,6 @@ namespace DomainModel.Domain
             ValidarYEstablecerRazonSocial(RazonSocial);
             ValidarYEstablecerTipoDocumento(TipoDocumento);
             ValidarYEstablecerNumeroDocumento(NumeroDocumento, TipoDocumento);
-            ValidarYEstablecerCodigoVendedor(CodigoVendedor);
             ValidarYEstablecerTipoIva(TipoIva);
             ValidarYEstablecerCondicionPago(CondicionPago);
         }

@@ -44,10 +44,6 @@ namespace DAL.Implementation.EntityFramework
 
         public Guid? IdVendedor { get; set; }
         
-        // Nuevos campos para el ABM
-        [StringLength(20)]
-        public string CodigoVendedor { get; set; }
-        
         [StringLength(50)]
         public string TipoIva { get; set; }
         
