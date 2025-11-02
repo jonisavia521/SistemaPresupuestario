@@ -84,7 +84,8 @@ namespace BLL.Services
                     clienteDTO.CondicionPago,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
-                    clienteDTO.Direccion
+                    clienteDTO.Direccion,
+                    clienteDTO.Localidad
                 );
 
                 // Validación adicional de negocio
@@ -132,7 +133,8 @@ namespace BLL.Services
                     clienteDTO.CondicionPago,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
-                    clienteDTO.Direccion
+                    clienteDTO.Direccion,
+                    clienteDTO.Localidad
                 );
 
                 // Validación adicional de negocio

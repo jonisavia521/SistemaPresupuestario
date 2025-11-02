@@ -25,6 +25,7 @@ namespace BLL.Mappers
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Telefono, opt => opt.MapFrom(src => src.Telefono))
                 .ForMember(dest => dest.Direccion, opt => opt.MapFrom(src => src.Direccion))
+                .ForMember(dest => dest.Localidad, opt => opt.MapFrom(src => src.Localidad))
                 .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Activo))
                 .ForMember(dest => dest.FechaAlta, opt => opt.MapFrom(src => src.FechaAlta))
                 .ForMember(dest => dest.FechaModificacion, opt => opt.MapFrom(src => src.FechaModificacion));

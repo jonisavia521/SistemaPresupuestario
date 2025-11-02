@@ -112,11 +112,15 @@
   <ItemGroup>
     <Compile Include="Contracts\IClienteService.cs" />
     <Compile Include="Contracts\IGenericBusinessService.cs" />
+    <Compile Include="Contracts\IVendedorService.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="DTOs\ClienteDTO.cs" />
+    <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="Mappers\ClienteMappingProfile.cs" />
+    <Compile Include="Mappers\VendedorMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClienteService.cs" />
+    <Compile Include="Services\VendedorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">

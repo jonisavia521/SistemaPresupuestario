@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\Repository\ClienteRepository.cs" />
+    <Compile Include="Implementation\Repository\VendedorRepository.cs" />
     <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente.cs" />

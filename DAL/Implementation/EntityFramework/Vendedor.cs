@@ -30,6 +30,21 @@ namespace DAL.Implementation.EntityFramework
 
         [StringLength(50)]
         public string Telefono { get; set; }
+        
+        // Nuevos campos para ABM
+        [StringLength(20)]
+        public string CodigoVendedor { get; set; }
+        
+        [StringLength(11)]
+        public string CUIT { get; set; }
+        
+        public decimal? PorcentajeComision { get; set; }
+        
+        public bool Activo { get; set; }
+        
+        public DateTime FechaAlta { get; set; }
+        
+        public DateTime? FechaModificacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cliente> Cliente { get; set; }

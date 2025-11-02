@@ -5,6 +5,7 @@ using Services;
 using Services.DAL.Tools;
 using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Clientes;
+using SistemaPresupuestario.Maestros.Vendedores;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -56,7 +57,9 @@ namespace SistemaPresupuestario
                 .AddTransient<frmUsuarios>()
                 .AddTransient<frmAlta>()
                 .AddTransient<frmClientes>()
-                .AddTransient<frmClienteAlta>();
+                .AddTransient<frmClienteAlta>()
+                .AddTransient<frmVendedores>()
+                .AddTransient<frmVendedorAlta>();
 
 
         }

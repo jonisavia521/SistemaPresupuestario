@@ -154,6 +154,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             txtEmail.Text = cliente.Email;
             txtTelefono.Text = cliente.Telefono;
             txtDireccion.Text = cliente.Direccion;
+            txtLocalidad.Text = cliente.Localidad;
         }
 
         private async void btnAceptar_Click(object sender, EventArgs e)
@@ -171,6 +172,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim()
+                Direccion = txtDireccion.Text.Trim(),
+                Localidad = txtLocalidad.Text.Trim()
             };
 
 

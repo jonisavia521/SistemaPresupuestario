@@ -131,20 +131,9 @@ namespace DAL.Implementation.Repository
         /// </summary>
         private ClienteDM MapearADominio(Cliente clienteEF)
         {
-            // Extraer tipo de documento y número del campo CUIT
-            // Formato esperado en BD: "CUIT:20123456789" o "DNI:12345678" o "CUIL:20123456789"
-            string tipoDocumento = "CUIT";
+            // El tipo de documento ahora está en un campo separado
+            string tipoDocumento = clienteEF.TipoDocumento ?? "CUIT";
             string numeroDocumento = clienteEF.CUIT ?? string.Empty;
-
-            if (!string.IsNullOrEmpty(clienteEF.CUIT) && clienteEF.CUIT.Contains(":"))
-            {
-                var partes = clienteEF.CUIT.Split(':');
-                if (partes.Length == 2)
-                {
-                    tipoDocumento = partes[0];
-                    numeroDocumento = partes[1];
-                }
-            }
 
             // Usar los campos reales de la BD
             string codigoVendedor = clienteEF.CodigoVendedor ?? "01";
@@ -155,6 +144,7 @@ namespace DAL.Implementation.Repository
             string email = clienteEF.Email;
             string telefono = clienteEF.Telefono;
             string direccion = clienteEF.DireccionLegal;
+            string localidad = clienteEF.Localidad;
 
             // Usar los campos de auditoría reales
             bool activo = clienteEF.Activo;
@@ -176,7 +166,8 @@ namespace DAL.Implementation.Repository
                 fechaModificacion,
                 email,
                 telefono,
-                direccion
+                direccion,
+                localidad
             );
         }
 
@@ -185,15 +176,13 @@ namespace DAL.Implementation.Repository
         /// </summary>
         private Cliente MapearAEntityFramework(ClienteDM dominio)
         {
-            // Combinar tipo y número de documento en el campo CUIT
-            string cuitFormateado = $"{dominio.TipoDocumento}:{dominio.NumeroDocumento}";
-
             return new Cliente
             {
                 ID = dominio.Id,
                 CodigoCliente = dominio.CodigoCliente,
                 RazonSocial = dominio.RazonSocial,
-                CUIT = cuitFormateado,
+                TipoDocumento = dominio.TipoDocumento,
+                CUIT = dominio.NumeroDocumento,
                 CodigoVendedor = dominio.CodigoVendedor,
                 TipoIva = dominio.TipoIva,
                 CondicionPago = dominio.CondicionPago,
@@ -201,11 +190,11 @@ namespace DAL.Implementation.Repository
                 Telefono = dominio.Telefono,
                 DireccionLegal = dominio.Direccion,
                 DireccionComercial = dominio.Direccion,
+                Localidad = dominio.Localidad,
                 Activo = dominio.Activo,
                 FechaAlta = dominio.FechaAlta,
                 FechaModificacion = dominio.FechaModificacion,
                 IdProvincia = null,
-                Localidad = null,
                 IdVendedor = null
             };
         }

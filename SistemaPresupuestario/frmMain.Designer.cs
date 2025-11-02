@@ -149,7 +149,8 @@
             // 
             this.tsVendedor.Name = "tsVendedor";
             this.tsVendedor.Size = new System.Drawing.Size(224, 26);
-            this.tsVendedor.Text = "Vededores";
+            this.tsVendedor.Text = "Vendedores";
+            this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
             // 
             // tsGenerarCotizacion
             // 

@@ -164,6 +164,18 @@
     <Compile Include="Maestros\Usuarios\frmUsuarios.Designer.cs">
       <DependentUpon>frmUsuarios.cs</DependentUpon>
     </Compile>
+    <Compile Include="Maestros\Vendedores\frmVendedorAlta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maestros\Vendedores\frmVendedorAlta.Designer.cs">
+      <DependentUpon>frmVendedorAlta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Maestros\Vendedores\frmVendedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maestros\Vendedores\frmVendedores.Designer.cs">
+      <DependentUpon>frmVendedores.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presupuesto\frmPresupuesto.cs">
       <SubType>Form</SubType>
     </Compile>

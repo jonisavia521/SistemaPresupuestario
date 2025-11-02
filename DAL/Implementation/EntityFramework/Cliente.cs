@@ -38,6 +38,9 @@ namespace DAL.Implementation.EntityFramework
 
         [StringLength(50)]
         public string CUIT { get; set; }
+        
+        [StringLength(10)]
+        public string TipoDocumento { get; set; }
 
         public Guid? IdVendedor { get; set; }
         

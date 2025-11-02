@@ -25,8 +25,9 @@ namespace DAL
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
-            // Registrar el repositorio de Cliente
+            // Registrar repositorios
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IVendedorRepository, VendedorRepository>();
             
             return services;
         }

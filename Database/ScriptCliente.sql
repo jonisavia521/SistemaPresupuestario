@@ -1,7 +1,15 @@
--- Script SQL para agregar los campos necesarios en la tabla Cliente
+-- Script SQL para actualizar la tabla Cliente
 -- Ejecutar este script en la base de datos SistemaPresupuestario
 
 USE [SistemaPresupuestario]
+GO
+
+-- Agregar campo TipoDocumento separado
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Cliente]') AND name = 'TipoDocumento')
+BEGIN
+    ALTER TABLE [dbo].[Cliente]
+    ADD [TipoDocumento] VARCHAR(10) NULL
+END
 GO
 
 -- Verificar si las columnas ya existen antes de agregarlas
@@ -61,5 +69,16 @@ BEGIN
 END
 GO
 
-PRINT 'Script ejecutado exitosamente. Campos agregados a la tabla Cliente.'
+-- Actualizar registros existentes para separar TipoDocumento del CUIT
+-- Solo si hay datos y el TipoDocumento está NULL
+UPDATE Cliente
+SET TipoDocumento = CASE 
+    WHEN LEN(CUIT) = 11 THEN 'CUIT'
+    WHEN LEN(CUIT) <= 8 THEN 'DNI'
+    ELSE 'CUIT'
+END
+WHERE TipoDocumento IS NULL AND CUIT IS NOT NULL
+GO
+
+PRINT 'Script ejecutado exitosamente. Campos agregados/actualizados en la tabla Cliente.'
 GO

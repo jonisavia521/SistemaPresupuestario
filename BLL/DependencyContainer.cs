@@ -16,11 +16,12 @@ namespace BLL
     {
         public static IServiceCollection AddBLLDependencies(this IServiceCollection services)
         {
-            // Registrar AutoMapper con el perfil de Cliente
-            services.AddAutoMapper(typeof(ClienteMappingProfile));
+            // Registrar AutoMapper con los perfiles
+            services.AddAutoMapper(typeof(ClienteMappingProfile), typeof(VendedorMappingProfile));
             
-            // Registrar el servicio de Cliente
+            // Registrar servicios
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IVendedorService, VendedorService>();
             
             return services;
         }

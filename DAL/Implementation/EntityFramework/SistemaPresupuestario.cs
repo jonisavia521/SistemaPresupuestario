@@ -56,6 +56,11 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.CUIT)
                 .IsUnicode(false);
             
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.TipoDocumento)
+                .IsUnicode(false)
+                .HasMaxLength(10);
+            
             // Configuración de nuevos campos de Cliente
             modelBuilder.Entity<Cliente>()
                 .Property(e => e.CodigoVendedor)
@@ -261,6 +266,29 @@ namespace DAL.Implementation.EntityFramework
             modelBuilder.Entity<Vendedor>()
                 .Property(e => e.Telefono)
                 .IsUnicode(false);
+            
+            // Configuración de nuevos campos de Vendedor
+            modelBuilder.Entity<Vendedor>()
+                .Property(e => e.CodigoVendedor)
+                .IsUnicode(false)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<Vendedor>()
+                .Property(e => e.CUIT)
+                .IsUnicode(false)
+                .HasMaxLength(11);
+
+            modelBuilder.Entity<Vendedor>()
+                .Property(e => e.PorcentajeComision)
+                .HasPrecision(5, 2);
+
+            modelBuilder.Entity<Vendedor>()
+                .Property(e => e.Activo)
+                .IsRequired();
+
+            modelBuilder.Entity<Vendedor>()
+                .Property(e => e.FechaAlta)
+                .IsRequired();
 
             modelBuilder.Entity<Vendedor>()
                 .HasMany(e => e.Cliente)

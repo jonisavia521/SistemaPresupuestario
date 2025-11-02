@@ -49,6 +49,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
             this.grpContacto = new System.Windows.Forms.GroupBox();
             this.txtDireccion = new System.Windows.Forms.TextBox();
             this.lblDireccion = new System.Windows.Forms.Label();
+            this.txtLocalidad = new System.Windows.Forms.TextBox();
+            this.lblLocalidad = new System.Windows.Forms.Label();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -232,33 +234,52 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             this.grpContacto.Controls.Add(this.txtDireccion);
             this.grpContacto.Controls.Add(this.lblDireccion);
+            this.grpContacto.Controls.Add(this.txtLocalidad);
+            this.grpContacto.Controls.Add(this.lblLocalidad);
             this.grpContacto.Controls.Add(this.txtTelefono);
             this.grpContacto.Controls.Add(this.lblTelefono);
             this.grpContacto.Controls.Add(this.txtEmail);
             this.grpContacto.Controls.Add(this.lblEmail);
             this.grpContacto.Location = new System.Drawing.Point(12, 370);
             this.grpContacto.Name = "grpContacto";
-            this.grpContacto.Size = new System.Drawing.Size(460, 140);
+            this.grpContacto.Size = new System.Drawing.Size(460, 180);
             this.grpContacto.TabIndex = 3;
             this.grpContacto.TabStop = false;
             this.grpContacto.Text = "Datos de Contacto (Opcional)";
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(130, 100);
+            this.txtDireccion.Location = new System.Drawing.Point(130, 140);
             this.txtDireccion.MaxLength = 200;
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(305, 22);
-            this.txtDireccion.TabIndex = 5;
+            this.txtDireccion.Size = new System.Drawing.Size(320, 22);
+            this.txtDireccion.TabIndex = 7;
             // 
             // lblDireccion
             // 
             this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Location = new System.Drawing.Point(15, 103);
+            this.lblDireccion.Location = new System.Drawing.Point(15, 143);
             this.lblDireccion.Name = "lblDireccion";
             this.lblDireccion.Size = new System.Drawing.Size(67, 16);
-            this.lblDireccion.TabIndex = 4;
+            this.lblDireccion.TabIndex = 6;
             this.lblDireccion.Text = "Dirección:";
+            // 
+            // txtLocalidad
+            // 
+            this.txtLocalidad.Location = new System.Drawing.Point(130, 100);
+            this.txtLocalidad.MaxLength = 100;
+            this.txtLocalidad.Name = "txtLocalidad";
+            this.txtLocalidad.Size = new System.Drawing.Size(320, 22);
+            this.txtLocalidad.TabIndex = 5;
+            // 
+            // lblLocalidad
+            // 
+            this.lblLocalidad.AutoSize = true;
+            this.lblLocalidad.Location = new System.Drawing.Point(15, 103);
+            this.lblLocalidad.Name = "lblLocalidad";
+            this.lblLocalidad.Size = new System.Drawing.Size(69, 16);
+            this.lblLocalidad.TabIndex = 4;
+            this.lblLocalidad.Text = "Localidad:";
             // 
             // txtTelefono
             // 
@@ -296,7 +317,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(285, 525);
+            this.btnAceptar.Location = new System.Drawing.Point(285, 565);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(90, 30);
             this.btnAceptar.TabIndex = 4;
@@ -306,7 +327,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(382, 525);
+            this.btnCancelar.Location = new System.Drawing.Point(382, 565);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(90, 30);
             this.btnCancelar.TabIndex = 5;
@@ -322,7 +343,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 567);
+            this.ClientSize = new System.Drawing.Size(484, 607);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.grpContacto);
@@ -371,6 +392,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
         private System.Windows.Forms.GroupBox grpContacto;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.TextBox txtLocalidad;
+        private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.TextBox txtEmail;

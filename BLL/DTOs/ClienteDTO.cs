@@ -48,6 +48,9 @@ namespace BLL.DTOs
         [StringLength(200, ErrorMessage = "La dirección no puede exceder los 200 caracteres")]
         public string Direccion { get; set; }
 
+        [StringLength(100, ErrorMessage = "La localidad no puede exceder los 100 caracteres")]
+        public string Localidad { get; set; }
+
         public bool Activo { get; set; }
 
         public DateTime FechaAlta { get; set; }

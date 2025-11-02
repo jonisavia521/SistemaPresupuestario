@@ -20,6 +20,7 @@ namespace DomainModel.Domain
         public string Email { get; private set; }
         public string Telefono { get; private set; }
         public string Direccion { get; private set; }
+        public string Localidad { get; private set; }
         public bool Activo { get; private set; }
         public DateTime FechaAlta { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
@@ -35,7 +36,8 @@ namespace DomainModel.Domain
             string condicionPago,
             string email = null,
             string telefono = null,
-            string direccion = null)
+            string direccion = null,
+            string localidad = null)
         {
             Id = Guid.NewGuid();
             FechaAlta = DateTime.Now;
@@ -52,6 +54,7 @@ namespace DomainModel.Domain
             Email = email;
             Telefono = telefono;
             Direccion = direccion;
+            Localidad = localidad;
         }
 
         // Constructor para cargar desde base de datos
@@ -69,7 +72,8 @@ namespace DomainModel.Domain
             DateTime? fechaModificacion,
             string email = null,
             string telefono = null,
-            string direccion = null)
+            string direccion = null,
+            string localidad = null)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del cliente no puede ser vacío.", nameof(id));
@@ -88,6 +92,7 @@ namespace DomainModel.Domain
             Email = email;
             Telefono = telefono;
             Direccion = direccion;
+            Localidad = localidad;
         }
 
         // Método de actualización
@@ -100,7 +105,8 @@ namespace DomainModel.Domain
             string condicionPago,
             string email = null,
             string telefono = null,
-            string direccion = null)
+            string direccion = null,
+            string localidad = null)
         {
             ValidarYEstablecerRazonSocial(razonSocial);
             ValidarYEstablecerTipoDocumento(tipoDocumento);
@@ -112,6 +118,7 @@ namespace DomainModel.Domain
             Email = email;
             Telefono = telefono;
             Direccion = direccion;
+            Localidad = localidad;
             FechaModificacion = DateTime.Now;
         }
 
