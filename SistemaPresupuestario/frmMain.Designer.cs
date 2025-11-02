@@ -1,5 +1,4 @@
-﻿
-namespace SistemaPresupuestario
+﻿namespace SistemaPresupuestario
 {
     partial class frmMain
     {
@@ -138,6 +137,7 @@ namespace SistemaPresupuestario
             this.tsCliente.Name = "tsCliente";
             this.tsCliente.Size = new System.Drawing.Size(224, 26);
             this.tsCliente.Text = "Clientes";
+            this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 

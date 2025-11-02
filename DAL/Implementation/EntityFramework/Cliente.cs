@@ -40,6 +40,28 @@ namespace DAL.Implementation.EntityFramework
         public string CUIT { get; set; }
 
         public Guid? IdVendedor { get; set; }
+        
+        // Nuevos campos para el ABM
+        [StringLength(20)]
+        public string CodigoVendedor { get; set; }
+        
+        [StringLength(50)]
+        public string TipoIva { get; set; }
+        
+        [StringLength(2)]
+        public string CondicionPago { get; set; }
+        
+        [StringLength(100)]
+        public string Email { get; set; }
+        
+        [StringLength(20)]
+        public string Telefono { get; set; }
+        
+        public bool Activo { get; set; }
+        
+        public DateTime FechaAlta { get; set; }
+        
+        public DateTime? FechaModificacion { get; set; }
 
         public virtual Vendedor Vendedor { get; set; }
 

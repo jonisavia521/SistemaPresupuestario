@@ -125,5 +125,22 @@ namespace SistemaPresupuestario
                 hijo.Show();
             }
         }
+
+        private void tsCliente_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<frmClientes>()
+                .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(frmClientes)) as frmClientes;
+                hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
     }
 }

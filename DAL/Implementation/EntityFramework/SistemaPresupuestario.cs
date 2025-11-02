@@ -23,7 +23,6 @@ namespace DAL.Implementation.EntityFramework
         public virtual DbSet<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoImpuesto> TipoImpuesto { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
 
@@ -56,6 +55,40 @@ namespace DAL.Implementation.EntityFramework
             modelBuilder.Entity<Cliente>()
                 .Property(e => e.CUIT)
                 .IsUnicode(false);
+            
+            // Configuración de nuevos campos de Cliente
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.CodigoVendedor)
+                .IsUnicode(false)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.TipoIva)
+                .IsUnicode(false)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.CondicionPago)
+                .IsUnicode(false)
+                .HasMaxLength(2);
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.Email)
+                .IsUnicode(false)
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.Telefono)
+                .IsUnicode(false)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.Activo)
+                .IsRequired();
+
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.FechaAlta)
+                .IsRequired();
 
             modelBuilder.Entity<Cliente>()
                 .HasMany(e => e.Comprobantes)

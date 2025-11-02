@@ -77,8 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\IClienteRepository.cs" />
     <Compile Include="Contract\IRepository.cs" />
     <Compile Include="Contract\IUnitOfWork.cs" />
+    <Compile Include="Domain\ClienteDM.cs" />
     <Compile Include="Domain\PresupuestoDM.cs" />
     <Compile Include="Domain\UsuarioDM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

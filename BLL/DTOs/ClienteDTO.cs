@@ -1,0 +1,62 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace BLL.DTOs
+{
+    /// <summary>
+    /// DTO para transferencia de datos de Cliente entre UI y BLL
+    /// Contiene DataAnnotations para validaciones de entrada superficiales
+    /// </summary>
+    public class ClienteDTO
+    {
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "El código de cliente es obligatorio")]
+        [StringLength(20, MinimumLength = 1, ErrorMessage = "El código debe tener entre 1 y 20 caracteres")]
+        [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "El código solo puede contener letras, números y guiones")]
+        public string CodigoCliente { get; set; }
+
+        [Required(ErrorMessage = "La razón social es obligatoria")]
+        [StringLength(200, MinimumLength = 3, ErrorMessage = "La razón social debe tener entre 3 y 200 caracteres")]
+        public string RazonSocial { get; set; }
+
+        [Required(ErrorMessage = "El tipo de documento es obligatorio")]
+        public string TipoDocumento { get; set; } // DNI|CUIT|CUIL
+
+        [Required(ErrorMessage = "El número de documento es obligatorio")]
+        [StringLength(11, ErrorMessage = "El número de documento no puede exceder los 11 caracteres")]
+        public string NumeroDocumento { get; set; }
+
+        [Required(ErrorMessage = "El código de vendedor es obligatorio")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "El código de vendedor debe tener exactamente 2 dígitos")]
+        public string CodigoVendedor { get; set; }
+
+        [Required(ErrorMessage = "El tipo de IVA es obligatorio")]
+        public string TipoIva { get; set; }
+
+        [Required(ErrorMessage = "La condición de pago es obligatoria")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "La condición de pago debe tener exactamente 2 dígitos")]
+        public string CondicionPago { get; set; }
+
+        [EmailAddress(ErrorMessage = "El email no tiene un formato válido")]
+        [StringLength(100, ErrorMessage = "El email no puede exceder los 100 caracteres")]
+        public string Email { get; set; }
+
+        [StringLength(20, ErrorMessage = "El teléfono no puede exceder los 20 caracteres")]
+        public string Telefono { get; set; }
+
+        [StringLength(200, ErrorMessage = "La dirección no puede exceder los 200 caracteres")]
+        public string Direccion { get; set; }
+
+        public bool Activo { get; set; }
+
+        public DateTime FechaAlta { get; set; }
+
+        public DateTime? FechaModificacion { get; set; }
+
+        // Propiedades calculadas para mostrar en la UI
+        public string DocumentoCompleto => $"{TipoDocumento}: {NumeroDocumento}";
+        
+        public string EstadoTexto => Activo ? "Activo" : "Inactivo";
+    }
+}

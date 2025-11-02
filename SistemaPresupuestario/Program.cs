@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Services.DAL.Tools;
 using SistemaPresupuestario.Maestros;
+using SistemaPresupuestario.Maestros.Clientes;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -53,7 +54,9 @@ namespace SistemaPresupuestario
                 .AddTransient<frmLogin>()
                 .AddTransient<frmMain>()
                 .AddTransient<frmUsuarios>()
-                .AddTransient<frmAlta>();
+                .AddTransient<frmAlta>()
+                .AddTransient<frmClientes>()
+                .AddTransient<frmClienteAlta>();
 
 
         }

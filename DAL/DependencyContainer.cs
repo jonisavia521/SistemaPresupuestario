@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Implementation.EntityFramework;
 using DomainModel.Contracts;
+using DomainModel.Contract;
 
 namespace DAL
 {
@@ -23,6 +24,10 @@ namespace DAL
             services.AddScoped<SistemaPresupuestario>(opt => new SistemaPresupuestario(csSetting.ConnectionString));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
+            // Registrar el repositorio de Cliente
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            
             return services;
         }
     }

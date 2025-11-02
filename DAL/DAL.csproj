@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Repository\ClienteRepository.cs" />
     <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente.cs" />
@@ -106,7 +107,6 @@
     <Compile Include="Implementation\EntityFramework\Producto.cs" />
     <Compile Include="Implementation\EntityFramework\Provincia.cs" />
     <Compile Include="Implementation\EntityFramework\SistemaPresupuestario.cs" />
-    <Compile Include="Implementation\EntityFramework\sysdiagrams.cs" />
     <Compile Include="Implementation\EntityFramework\TipoImpuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Vendedor.cs" />
     <Compile Include="Implementation\Repository\UnitOfWork.cs" />
