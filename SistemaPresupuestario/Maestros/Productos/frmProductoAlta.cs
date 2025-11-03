@@ -33,6 +33,9 @@ namespace SistemaPresupuestario.Maestros.Productos
         {
             try
             {
+                // Cargar ComboBox de IVA
+                CargarComboIVA();
+
                 if (_esNuevo)
                 {
                     this.Text = "Nuevo Producto";
@@ -52,6 +55,22 @@ namespace SistemaPresupuestario.Maestros.Productos
             }
         }
 
+        private void CargarComboIVA()
+        {
+            cboIVA.Items.Clear();
+
+            // Agregar items con Value y Text
+            cboIVA.Items.Add(new { Value = 21.00m, Text = "21% - IVA General" });
+            cboIVA.Items.Add(new { Value = 10.50m, Text = "10.5% - IVA Reducido" });
+            cboIVA.Items.Add(new { Value = 0.00m, Text = "Exento" });
+
+            cboIVA.DisplayMember = "Text";
+            cboIVA.ValueMember = "Value";
+
+            // Seleccionar 21% por defecto
+            cboIVA.SelectedIndex = 0;
+        }
+
         private async Task CargarProducto()
         {
             try
@@ -69,6 +88,17 @@ namespace SistemaPresupuestario.Maestros.Productos
                 txtCodigo.Text = producto.Codigo;
                 txtDescripcion.Text = producto.Descripcion;
                 chkInhabilitado.Checked = producto.Inhabilitado;
+
+                // Seleccionar el IVA correspondiente
+                for (int i = 0; i < cboIVA.Items.Count; i++)
+                {
+                    dynamic item = cboIVA.Items[i];
+                    if (item.Value == producto.PorcentajeIVA)
+                    {
+                        cboIVA.SelectedIndex = i;
+                        break;
+                    }
+                }
 
                 // En modo edición, el código no se puede cambiar
                 txtCodigo.ReadOnly = true;
@@ -90,13 +120,22 @@ namespace SistemaPresupuestario.Maestros.Productos
                 // Limpiar errores previos
                 errorProvider1.Clear();
 
+                // Obtener el valor del IVA seleccionado
+                decimal porcentajeIVA = 21.00m; // Valor por defecto
+                if (cboIVA.SelectedItem != null)
+                {
+                    dynamic item = cboIVA.SelectedItem;
+                    porcentajeIVA = item.Value;
+                }
+
                 // Crear el DTO
                 var productoDTO = new ProductoDTO
                 {
                     Id = _productoId ?? Guid.Empty,
                     Codigo = txtCodigo.Text.Trim(),
                     Descripcion = txtDescripcion.Text.Trim(),
-                    Inhabilitado = chkInhabilitado.Checked
+                    Inhabilitado = chkInhabilitado.Checked,
+                    PorcentajeIVA = porcentajeIVA
                 };
 
                 // Validar el DTO usando DataAnnotations
@@ -172,6 +211,8 @@ namespace SistemaPresupuestario.Maestros.Productos
                     return txtCodigo;
                 case nameof(ProductoDTO.Descripcion):
                     return txtDescripcion;
+                case nameof(ProductoDTO.PorcentajeIVA):
+                    return cboIVA;
                 default:
                     return null;
             }

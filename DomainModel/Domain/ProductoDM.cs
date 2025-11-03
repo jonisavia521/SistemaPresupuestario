@@ -15,6 +15,7 @@ namespace DomainModel.Domain
         public bool Inhabilitado { get; set; }
         public DateTime FechaAlta { get; set; }
         public int UsuarioAlta { get; set; }
+        public decimal PorcentajeIVA { get; set; }
 
         /// <summary>
         /// Valida las reglas de negocio del producto.
@@ -50,6 +51,12 @@ namespace DomainModel.Domain
             if (FechaAlta > DateTime.Now)
             {
                 errores.Add("La fecha de alta no puede ser futura.");
+            }
+
+            // Validación de negocio: El porcentaje de IVA debe ser válido
+            if (PorcentajeIVA != 0.00m && PorcentajeIVA != 10.50m && PorcentajeIVA != 21.00m)
+            {
+                errores.Add("El porcentaje de IVA debe ser 0.00 (Exento), 10.50 o 21.00.");
             }
 
             return errores;

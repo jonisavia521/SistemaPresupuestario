@@ -54,6 +54,15 @@ namespace DAL.Implementation.Repository
                 .AnyAsync(p => p.Codigo == codigo);
         }
 
+        public ProductoDM GetById(Guid id)
+        {
+            var productoEF = _context.Producto.Find(id);
+            if (productoEF == null)
+                return null;
+
+            return MapearADominio(productoEF);
+        }
+
         // Sobrescribir métodos base para usar el mapeo personalizado
         public new async Task<IEnumerable<ProductoDM>> GetAllAsync()
         {
@@ -117,7 +126,8 @@ namespace DAL.Implementation.Repository
                 Descripcion = productoEF.Descripcion,
                 Inhabilitado = productoEF.Inhabilitado,
                 FechaAlta = productoEF.FechaAlta,
-                UsuarioAlta = productoEF.UsuarioAlta
+                UsuarioAlta = productoEF.UsuarioAlta,
+                PorcentajeIVA = productoEF.PorcentajeIVA
             };
         }
 
@@ -133,7 +143,8 @@ namespace DAL.Implementation.Repository
                 Descripcion = dominio.Descripcion,
                 Inhabilitado = dominio.Inhabilitado,
                 FechaAlta = dominio.FechaAlta,
-                UsuarioAlta = dominio.UsuarioAlta
+                UsuarioAlta = dominio.UsuarioAlta,
+                PorcentajeIVA = dominio.PorcentajeIVA
             };
         }
     }

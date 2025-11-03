@@ -7,6 +7,7 @@ using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Clientes;
 using SistemaPresupuestario.Maestros.Vendedores;
 using SistemaPresupuestario.Maestros.Productos;
+using SistemaPresupuestario.Presupuesto;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -61,7 +62,8 @@ namespace SistemaPresupuestario
                 .AddTransient<frmClienteAlta>()
                 .AddTransient<frmVendedores>()
                 .AddTransient<frmVendedorAlta>()
-                .AddTransient<frmProductos>(); // frmSelector es dinámico y se instancia directamente donde se necesita
+                .AddTransient<frmProductos>()
+                .AddTransient<frmPresupuesto>(); // frmSelector es dinámico y se instancia directamente donde se necesita
 
         }
 

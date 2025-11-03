@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Implementation.EntityFramework;
-using DomainModel.Contracts;
 using DomainModel.Contract;
 
 namespace DAL
@@ -29,6 +28,7 @@ namespace DAL
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IVendedorRepository, VendedorRepository>();
             services.AddScoped<IProductoRepository, ProductoRepository>();
+            services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
             
             return services;
         }

@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IClienteRepository.cs" />
+    <Compile Include="Contract\IPresupuestoRepository.cs" />
     <Compile Include="Contract\IProductoRepository.cs" />
     <Compile Include="Contract\IRepository.cs" />
     <Compile Include="Contract\IUnitOfWork.cs" />

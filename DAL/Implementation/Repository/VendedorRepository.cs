@@ -75,6 +75,15 @@ namespace DAL.Implementation.Repository
                 .AnyAsync(v => v.CUIT == cuit);
         }
 
+        public VendedorDM GetById(Guid id)
+        {
+            var vendedorEF = _context.Vendedor.Find(id);
+            if (vendedorEF == null)
+                return null;
+
+            return MapearADominio(vendedorEF);
+        }
+
         // Sobrescribir métodos base para usar el mapeo personalizado
         public new async Task<IEnumerable<VendedorDM>> GetAllAsync()
         {

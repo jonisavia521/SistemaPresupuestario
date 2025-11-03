@@ -30,6 +30,8 @@ namespace SistemaPresupuestario.Maestros.Productos
         {
             this.components = new System.ComponentModel.Container();
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.cboIVA = new System.Windows.Forms.ComboBox();
+            this.lblIVA = new System.Windows.Forms.Label();
             this.chkInhabilitado = new System.Windows.Forms.CheckBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.lblDescripcion = new System.Windows.Forms.Label();
@@ -44,6 +46,8 @@ namespace SistemaPresupuestario.Maestros.Productos
             // 
             // grpDatos
             // 
+            this.grpDatos.Controls.Add(this.cboIVA);
+            this.grpDatos.Controls.Add(this.lblIVA);
             this.grpDatos.Controls.Add(this.chkInhabilitado);
             this.grpDatos.Controls.Add(this.txtDescripcion);
             this.grpDatos.Controls.Add(this.lblDescripcion);
@@ -51,15 +55,33 @@ namespace SistemaPresupuestario.Maestros.Productos
             this.grpDatos.Controls.Add(this.lblCodigo);
             this.grpDatos.Location = new System.Drawing.Point(12, 12);
             this.grpDatos.Name = "grpDatos";
-            this.grpDatos.Size = new System.Drawing.Size(460, 140);
+            this.grpDatos.Size = new System.Drawing.Size(460, 180);
             this.grpDatos.TabIndex = 0;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos del Producto";
             // 
+            // cboIVA
+            // 
+            this.cboIVA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboIVA.FormattingEnabled = true;
+            this.cboIVA.Location = new System.Drawing.Point(110, 100);
+            this.cboIVA.Name = "cboIVA";
+            this.cboIVA.Size = new System.Drawing.Size(200, 24);
+            this.cboIVA.TabIndex = 6;
+            // 
+            // lblIVA
+            // 
+            this.lblIVA.AutoSize = true;
+            this.lblIVA.Location = new System.Drawing.Point(15, 103);
+            this.lblIVA.Name = "lblIVA";
+            this.lblIVA.Size = new System.Drawing.Size(32, 16);
+            this.lblIVA.TabIndex = 5;
+            this.lblIVA.Text = "IVA:";
+            // 
             // chkInhabilitado
             // 
             this.chkInhabilitado.AutoSize = true;
-            this.chkInhabilitado.Location = new System.Drawing.Point(110, 105);
+            this.chkInhabilitado.Location = new System.Drawing.Point(110, 145);
             this.chkInhabilitado.Name = "chkInhabilitado";
             this.chkInhabilitado.Size = new System.Drawing.Size(105, 20);
             this.chkInhabilitado.TabIndex = 4;
@@ -102,7 +124,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(285, 165);
+            this.btnAceptar.Location = new System.Drawing.Point(285, 205);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(90, 30);
             this.btnAceptar.TabIndex = 1;
@@ -112,7 +134,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(382, 165);
+            this.btnCancelar.Location = new System.Drawing.Point(382, 205);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(90, 30);
             this.btnCancelar.TabIndex = 2;
@@ -128,7 +150,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 207);
+            this.ClientSize = new System.Drawing.Size(484, 247);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.grpDatos);
@@ -149,6 +171,8 @@ namespace SistemaPresupuestario.Maestros.Productos
         #endregion
 
         private System.Windows.Forms.GroupBox grpDatos;
+        private System.Windows.Forms.ComboBox cboIVA;
+        private System.Windows.Forms.Label lblIVA;
         private System.Windows.Forms.CheckBox chkInhabilitado;
         private System.Windows.Forms.TextBox txtDescripcion;
         private System.Windows.Forms.Label lblDescripcion;

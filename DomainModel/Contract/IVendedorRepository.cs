@@ -35,5 +35,10 @@ namespace DomainModel.Contract
         /// Verifica si existe un vendedor con el CUIT especificado
         /// </summary>
         Task<bool> ExisteCUITAsync(string cuit, Guid? excluyendoId = null);
+
+        /// <summary>
+        /// Obtiene un vendedor por ID (versión síncrona)
+        /// </summary>
+        VendedorDM GetById(Guid id);
     }
 }

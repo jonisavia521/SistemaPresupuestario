@@ -24,7 +24,27 @@ namespace BLL.DTOs
 
         public int UsuarioAlta { get; set; }
 
+        [Required(ErrorMessage = "El porcentaje de IVA es obligatorio")]
+        [Range(0, 21, ErrorMessage = "El porcentaje de IVA debe estar entre 0 y 21")]
+        public decimal PorcentajeIVA { get; set; }
+
         // Propiedad calculada para mostrar en la UI
         public string EstadoTexto => Inhabilitado ? "Inactivo" : "Activo";
+
+        // Propiedad calculada para mostrar el IVA formateado
+        public string IVATexto
+        {
+            get
+            {
+                if (PorcentajeIVA == 0)
+                    return "Exento";
+                else if (PorcentajeIVA == 10.50m)
+                    return "10.5%";
+                else if (PorcentajeIVA == 21)
+                    return "21%";
+                else
+                    return $"{PorcentajeIVA}%";
+            }
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIVATexto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEstadoTexto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFechaAlta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnNuevo = new System.Windows.Forms.Button();
@@ -56,6 +57,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             this.colId,
             this.colCodigo,
             this.colDescripcion,
+            this.colIVATexto,
             this.colEstadoTexto,
             this.colFechaAlta});
             this.dgvProductos.Location = new System.Drawing.Point(12, 50);
@@ -93,7 +95,16 @@ namespace SistemaPresupuestario.Maestros.Productos
             this.colDescripcion.MinimumWidth = 6;
             this.colDescripcion.Name = "colDescripcion";
             this.colDescripcion.ReadOnly = true;
-            this.colDescripcion.Width = 350;
+            this.colDescripcion.Width = 300;
+            // 
+            // colIVATexto
+            // 
+            this.colIVATexto.DataPropertyName = "IVATexto";
+            this.colIVATexto.HeaderText = "IVA";
+            this.colIVATexto.MinimumWidth = 6;
+            this.colIVATexto.Name = "colIVATexto";
+            this.colIVATexto.ReadOnly = true;
+            this.colIVATexto.Width = 100;
             // 
             // colEstadoTexto
             // 
@@ -222,6 +233,7 @@ namespace SistemaPresupuestario.Maestros.Productos
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIVATexto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstadoTexto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFechaAlta;
     }

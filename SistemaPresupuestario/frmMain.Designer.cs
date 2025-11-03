@@ -134,18 +134,21 @@
             this.tsGenerarCotizacion.Name = "tsGenerarCotizacion";
             this.tsGenerarCotizacion.Size = new System.Drawing.Size(251, 26);
             this.tsGenerarCotizacion.Text = "Generar Cotización";
+            this.tsGenerarCotizacion.Click += new System.EventHandler(this.tsGenerarCotizacion_Click);
             // 
             // tsGestionarCotizacion
             // 
             this.tsGestionarCotizacion.Name = "tsGestionarCotizacion";
             this.tsGestionarCotizacion.Size = new System.Drawing.Size(251, 26);
             this.tsGestionarCotizacion.Text = "Gestión de Cotizaciones";
+            this.tsGestionarCotizacion.Click += new System.EventHandler(this.tsGestionarCotizacion_Click);
             // 
             // tsAprobarCotizacion
             // 
             this.tsAprobarCotizacion.Name = "tsAprobarCotizacion";
             this.tsAprobarCotizacion.Size = new System.Drawing.Size(251, 26);
             this.tsAprobarCotizacion.Text = "Aprobar Cotizaciones";
+            this.tsAprobarCotizacion.Click += new System.EventHandler(this.tsAprobarCotizacion_Click);
             // 
             // tsPrincipalVenta
             // 

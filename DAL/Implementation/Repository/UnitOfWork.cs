@@ -1,9 +1,7 @@
 ﻿using DAL.Implementation.EntityFramework;
+using DomainModel.Contract;
 using System;
-using System.Data.Entity; // <- EF6
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Core.Objects;
-using DomainModel.Contracts;
+using System.Data.Entity;
 
 namespace DAL.Implementation.Repository
 {
@@ -12,14 +10,41 @@ namespace DAL.Implementation.Repository
         private readonly SistemaPresupuestario _context;
         private DbContextTransaction _transaction;
 
+        // Repositorios
+        private IClienteRepository _clienteRepository;
+        private IVendedorRepository _vendedorRepository;
+        private IProductoRepository _productoRepository;
+        private IPresupuestoRepository _presupuestoRepository;
+
         public UnitOfWork(SistemaPresupuestario context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        // Propiedades de repositorios con inicialización lazy
+        public IClienteRepository ClienteRepository
+        {
+            get { return _clienteRepository ?? (_clienteRepository = new ClienteRepository(_context)); }
+        }
+
+        public IVendedorRepository VendedorRepository
+        {
+            get { return _vendedorRepository ?? (_vendedorRepository = new VendedorRepository(_context)); }
+        }
+
+        public IProductoRepository ProductoRepository
+        {
+            get { return _productoRepository ?? (_productoRepository = new ProductoRepository(_context)); }
+        }
+
+        public IPresupuestoRepository PresupuestoRepository
+        {
+            get { return _presupuestoRepository ?? (_presupuestoRepository = new PresupuestoRepository(_context)); }
         }
 
         public void BeginTransaction()
         {
-            _transaction = _context.Database.BeginTransaction(); // Devuelve DbContextTransaction
+            _transaction = _context.Database.BeginTransaction();
         }
 
         public void Commit()

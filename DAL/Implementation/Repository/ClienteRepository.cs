@@ -78,6 +78,15 @@ namespace DAL.Implementation.Repository
                 .AnyAsync(c => c.CUIT == numeroDocumento);
         }
 
+        public ClienteDM GetById(Guid id)
+        {
+            var clienteEF = _context.Cliente.Find(id);
+            if (clienteEF == null)
+                return null;
+
+            return MapearADominio(clienteEF);
+        }
+
         // Sobrescribir métodos base para usar el mapeo personalizado
         public new async Task<IEnumerable<ClienteDM>> GetAllAsync()
         {

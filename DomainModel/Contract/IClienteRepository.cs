@@ -35,5 +35,10 @@ namespace DomainModel.Contract
         /// Verifica si existe un cliente con el número de documento especificado
         /// </summary>
         Task<bool> ExisteDocumentoAsync(string numeroDocumento, Guid? excluyendoId = null);
+
+        /// <summary>
+        /// Obtiene un cliente por ID (versión síncrona)
+        /// </summary>
+        ClienteDM GetById(Guid id);
     }
 }

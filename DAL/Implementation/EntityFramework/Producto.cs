@@ -33,6 +33,9 @@ public partial class Producto
     [Required] 
     public int UsuarioAlta { get; set; }
 
+    [Required]
+    public decimal PorcentajeIVA { get; set; }
+
     public virtual ICollection<Comprobante_Detalle> Comprobante_Detalle { get; set; }
     public virtual ICollection<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
 }

@@ -2,6 +2,8 @@
 using Services.Services.Contracts;
 using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Productos;
+using SistemaPresupuestario.Presupuesto;
+using BLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,6 +176,60 @@ namespace SistemaPresupuestario
             {
                 var hijo = _serviceProvider.GetService(typeof(frmProductos)) as frmProductos;
                 hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
+
+        // ============= HANDLERS DE PRESUPUESTO =============
+
+        /// <summary>
+        /// Abre el formulario de presupuestos en modo GENERAR
+        /// Solo permite crear nuevos presupuestos en estado Borrador
+        /// </summary>
+        private void tsGenerarCotizacion_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioPresupuesto(ModoPresupuesto.Generar, "Generar Cotización");
+        }
+
+        /// <summary>
+        /// Abre el formulario de presupuestos en modo GESTIONAR
+        /// Muestra presupuestos en estado: Borrador, Aprobado, Rechazado, Vencido
+        /// Permite: Editar/Eliminar Borradores, Ver el resto, Copiar, Emitir borradores
+        /// </summary>
+        private void tsGestionarCotizacion_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioPresupuesto(ModoPresupuesto.Gestionar, "Gestión de Cotizaciones");
+        }
+
+        /// <summary>
+        /// Abre el formulario de presupuestos en modo APROBAR
+        /// Solo muestra presupuestos en estado Emitido
+        /// Permite: Aprobar o Rechazar
+        /// </summary>
+        private void tsAprobarCotizacion_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioPresupuesto(ModoPresupuesto.Aprobar, "Aprobar Cotizaciones");
+        }
+
+        /// <summary>
+        /// Método helper para abrir el formulario de presupuestos en el modo especificado
+        /// </summary>
+        private void AbrirFormularioPresupuesto(ModoPresupuesto modo, string titulo)
+        {
+            // Verificar si ya hay una instancia abierta con el mismo modo
+            var formAbierto = Application.OpenForms.OfType<frmPresupuesto>()
+                .FirstOrDefault(f => !f.IsDisposed && f.Text == titulo);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(frmPresupuesto)) as frmPresupuesto;
+                hijo.EstablecerModo(modo); // IMPORTANTE: establecer modo antes de mostrar
+                hijo.MdiParent = this;
+                hijo.Text = titulo;
                 hijo.Show();
             }
         }

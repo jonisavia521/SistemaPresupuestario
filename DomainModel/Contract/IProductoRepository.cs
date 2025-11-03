@@ -25,5 +25,10 @@ namespace DomainModel.Contract
         /// Verifica si un código de producto ya existe en el sistema.
         /// </summary>
         Task<bool> ExisteCodigoAsync(string codigo, Guid? excludeId = null);
+
+        /// <summary>
+        /// Obtiene un producto por ID (versión síncrona)
+        /// </summary>
+        ProductoDM GetById(Guid id);
     }
 }

@@ -19,7 +19,8 @@ namespace BLL.Mappers
                 .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
                 .ForMember(dest => dest.Inhabilitado, opt => opt.MapFrom(src => src.Inhabilitado))
                 .ForMember(dest => dest.FechaAlta, opt => opt.MapFrom(src => src.FechaAlta))
-                .ForMember(dest => dest.UsuarioAlta, opt => opt.MapFrom(src => src.UsuarioAlta));
+                .ForMember(dest => dest.UsuarioAlta, opt => opt.MapFrom(src => src.UsuarioAlta))
+                .ForMember(dest => dest.PorcentajeIVA, opt => opt.MapFrom(src => src.PorcentajeIVA));
 
             // Mapeo inverso de ProductoDTO a ProductoDM
             CreateMap<ProductoDTO, ProductoDM>()

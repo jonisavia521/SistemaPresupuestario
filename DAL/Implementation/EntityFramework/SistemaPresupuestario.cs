@@ -236,6 +236,11 @@ namespace DAL.Implementation.EntityFramework
                 .IsRequired();     
 
             modelBuilder.Entity<Producto>()
+                .Property(e => e.PorcentajeIVA)
+                .IsRequired()
+                .HasPrecision(5, 2);
+
+            modelBuilder.Entity<Producto>()
                 .HasMany(e => e.Comprobante_Detalle)
                 .WithOptional(e => e.Producto)
                 .HasForeignKey(e => e.IdProducto);

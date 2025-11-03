@@ -1,14 +1,16 @@
-﻿
+﻿using DomainModel.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DomainModel.Contracts
+namespace DomainModel.Contract
 {
     public interface IUnitOfWork : IDisposable
     {
+        // Repositorios
+        IClienteRepository ClienteRepository { get; }
+        IVendedorRepository VendedorRepository { get; }
+        IProductoRepository ProductoRepository { get; }
+        IPresupuestoRepository PresupuestoRepository { get; }
+
         // Métodos para manejar transacciones y confirmar los cambios
         void BeginTransaction();               // Inicia una transacción
 

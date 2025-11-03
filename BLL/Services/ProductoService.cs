@@ -2,7 +2,6 @@ using AutoMapper;
 using BLL.Contracts;
 using BLL.DTOs;
 using DomainModel.Contract;
-using DomainModel.Contracts;
 using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
@@ -112,6 +111,7 @@ namespace BLL.Services
                 entidadExistente.Codigo = productoDto.Codigo;
                 entidadExistente.Descripcion = productoDto.Descripcion;
                 entidadExistente.Inhabilitado = productoDto.Inhabilitado;
+                entidadExistente.PorcentajeIVA = productoDto.PorcentajeIVA; // AGREGADO
 
                 // Validación de negocio
                 var errores = entidadExistente.ValidarNegocio();
