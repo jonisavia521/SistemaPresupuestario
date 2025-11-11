@@ -6,6 +6,13 @@ namespace DomainModel.Domain
 {
     /// <summary>
     /// Entidad de dominio Presupuesto - Representa la lógica de negocio pura de un presupuesto/cotización
+    /// Estados:
+    /// 1 = Borrado (eliminado lógicamente)
+    /// 2 = Emitido (estado inicial al crear)
+    /// 3 = Aprobado
+    /// 4 = Rechazado
+    /// 5 = Vencido (implícito: Emitido o Aprobado con fecha vencida)
+    /// 6 = Facturado
     /// </summary>
     public class PresupuestoDM
     {
@@ -13,7 +20,7 @@ namespace DomainModel.Domain
         public string Numero { get; private set; }
         public Guid IdCliente { get; private set; }
         public DateTime FechaEmision { get; private set; }
-        public int Estado { get; private set; } // 0=Borrador, 1=Emitido, 2=Aprobado, 3=Rechazado, 4=Vencido
+        public int Estado { get; private set; }
         public DateTime? FechaVencimiento { get; private set; }
         public Guid? IdPresupuestoPadre { get; private set; } // Para presupuestos derivados/copias
         public Guid? IdVendedor { get; private set; }
@@ -29,7 +36,7 @@ namespace DomainModel.Domain
             Guid? idPresupuestoPadre = null)
         {
             Id = Guid.NewGuid();
-            Estado = 0; // Borrador por defecto
+            Estado = 2; // Emitido por defecto (estado inicial)
             Detalles = new List<PresupuestoDetalleDM>();
 
             ValidarYEstablecerNumero(numero);
@@ -85,11 +92,17 @@ namespace DomainModel.Domain
             if (detalle == null)
                 throw new ArgumentNullException(nameof(detalle));
 
-            if (Estado == 2) // Aprobado
+            if (Estado == 3) // Aprobado
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto aprobado.");
 
-            if (Estado == 3) // Rechazado
+            if (Estado == 4) // Rechazado
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto rechazado.");
+
+            if (Estado == 6) // Facturado
+                throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto facturado.");
+
+            if (Estado == 1) // Borrado
+                throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto borrado.");
 
             detalle.EstablecerPresupuesto(Id);
             detalle.EstablecerRenglon(Detalles.Count + 1);
@@ -98,11 +111,17 @@ namespace DomainModel.Domain
 
         public void RemoverDetalle(Guid detalleId)
         {
-            if (Estado == 2) // Aprobado
+            if (Estado == 3) // Aprobado
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto aprobado.");
 
-            if (Estado == 3) // Rechazado
+            if (Estado == 4) // Rechazado
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto rechazado.");
+
+            if (Estado == 6) // Facturado
+                throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto facturado.");
+
+            if (Estado == 1) // Borrado
+                throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto borrado.");
 
             var detalle = Detalles.FirstOrDefault(d => d.Id == detalleId);
             if (detalle != null)
@@ -114,8 +133,11 @@ namespace DomainModel.Domain
 
         public void LimpiarDetalles()
         {
-            if (Estado == 2) // Aprobado
+            if (Estado == 3) // Aprobado
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto aprobado.");
+
+            if (Estado == 6) // Facturado
+                throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto facturado.");
 
             Detalles.Clear();
         }
@@ -131,12 +153,18 @@ namespace DomainModel.Domain
         // Gestión de estados
         public void CambiarEstado(int nuevoEstado)
         {
-            if (nuevoEstado < 0 || nuevoEstado > 4)
-                throw new ArgumentException("Estado inválido. Debe ser entre 0 y 4.", nameof(nuevoEstado));
+            if (nuevoEstado < 1 || nuevoEstado > 6)
+                throw new ArgumentException("Estado inválido. Debe ser entre 1 y 6.", nameof(nuevoEstado));
 
             // Validar transiciones de estado
-            if (Estado == 2 && nuevoEstado != 2) // No se puede cambiar desde Aprobado
-                throw new InvalidOperationException("Un presupuesto aprobado no puede cambiar de estado.");
+            if (Estado == 3 && nuevoEstado != 3 && nuevoEstado != 6) // Desde Aprobado solo puede ir a Facturado
+                throw new InvalidOperationException("Un presupuesto aprobado solo puede cambiar a estado Facturado.");
+
+            if (Estado == 6) // Facturado es estado final
+                throw new InvalidOperationException("Un presupuesto facturado no puede cambiar de estado.");
+
+            if (Estado == 1) // Borrado es estado final
+                throw new InvalidOperationException("Un presupuesto borrado no puede cambiar de estado.");
 
             Estado = nuevoEstado;
         }
@@ -146,23 +174,65 @@ namespace DomainModel.Domain
             if (!Detalles.Any())
                 throw new InvalidOperationException("No se puede emitir un presupuesto sin detalles.");
 
-            CambiarEstado(1); // Emitido
+            CambiarEstado(2); // Emitido
         }
 
         public void Aprobar()
         {
-            if (Estado != 1)
+            if (Estado != 2)
                 throw new InvalidOperationException("Solo se pueden aprobar presupuestos emitidos.");
 
-            CambiarEstado(2); // Aprobado
+            CambiarEstado(3); // Aprobado
         }
 
         public void Rechazar()
         {
-            if (Estado != 1)
+            if (Estado != 2)
                 throw new InvalidOperationException("Solo se pueden rechazar presupuestos emitidos.");
 
-            CambiarEstado(3); // Rechazado
+            CambiarEstado(4); // Rechazado
+        }
+
+        public void Facturar()
+        {
+            if (Estado != 3)
+                throw new InvalidOperationException("Solo se pueden facturar presupuestos aprobados.");
+
+            CambiarEstado(6); // Facturado
+        }
+
+        public void Borrar()
+        {
+            if (Estado != 2)
+                throw new InvalidOperationException("Solo se pueden borrar presupuestos emitidos.");
+
+            CambiarEstado(1); // Borrado
+        }
+
+        /// <summary>
+        /// Determina si el presupuesto está vencido (estado implícito)
+        /// </summary>
+        public bool EstaVencido()
+        {
+            if (!FechaVencimiento.HasValue)
+                return false;
+
+            // Solo puede estar vencido si está Emitido o Aprobado
+            if (Estado != 2 && Estado != 3)
+                return false;
+
+            return FechaVencimiento.Value.Date < DateTime.Now.Date;
+        }
+
+        /// <summary>
+        /// Obtiene el estado efectivo (considera el vencimiento)
+        /// </summary>
+        public int ObtenerEstadoEfectivo()
+        {
+            if (EstaVencido())
+                return 5; // Vencido
+
+            return Estado;
         }
 
         // Cálculos
@@ -218,8 +288,8 @@ namespace DomainModel.Domain
             if (FechaVencimiento.HasValue)
                 ValidarYEstablecerFechaVencimiento(FechaVencimiento);
 
-            if (!Detalles.Any() && Estado > 0)
-                throw new InvalidOperationException("Un presupuesto debe tener al menos un detalle antes de ser emitido.");
+            if (!Detalles.Any() && Estado >= 2)
+                throw new InvalidOperationException("Un presupuesto debe tener al menos un detalle.");
 
             foreach (var detalle in Detalles)
             {

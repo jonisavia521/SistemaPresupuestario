@@ -60,6 +60,7 @@ namespace BLL.Mappers
             if (estado == 2) return "Aprobado";
             if (estado == 3) return "Rechazado";
             if (estado == 4) return "Vencido";
+            if (estado == 5) return "Facturado";
             return "Desconocido";
         }
 

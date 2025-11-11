@@ -183,18 +183,9 @@ namespace SistemaPresupuestario
         // ============= HANDLERS DE PRESUPUESTO =============
 
         /// <summary>
-        /// Abre el formulario de presupuestos en modo GENERAR
-        /// Solo permite crear nuevos presupuestos en estado Borrador
-        /// </summary>
-        private void tsGenerarCotizacion_Click(object sender, EventArgs e)
-        {
-            AbrirFormularioPresupuesto(ModoPresupuesto.Generar, "Generar Cotización");
-        }
-
-        /// <summary>
         /// Abre el formulario de presupuestos en modo GESTIONAR
-        /// Muestra presupuestos en estado: Borrador, Aprobado, Rechazado, Vencido
-        /// Permite: Editar/Eliminar Borradores, Ver el resto, Copiar, Emitir borradores
+        /// Muestra TODOS los presupuestos: Borrador, Emitido, Aprobado, Rechazado, Vencido, Facturado
+        /// Permite: Crear, Editar/Eliminar Borradores, Ver el resto, Copiar, Emitir borradores
         /// </summary>
         private void tsGestionarCotizacion_Click(object sender, EventArgs e)
         {

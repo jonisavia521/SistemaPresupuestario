@@ -37,7 +37,6 @@
             this.tsUsuario = new System.Windows.Forms.ToolStripMenuItem();
             this.tsVendedor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalPresupuesto = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsGenerarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsGestionarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsAprobarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalVenta = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,47 +93,39 @@
             // tsCliente
             // 
             this.tsCliente.Name = "tsCliente";
-            this.tsCliente.Size = new System.Drawing.Size(224, 26);
+            this.tsCliente.Size = new System.Drawing.Size(170, 26);
             this.tsCliente.Text = "Clientes";
             this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 
             this.tsProducto.Name = "tsProducto";
-            this.tsProducto.Size = new System.Drawing.Size(224, 26);
+            this.tsProducto.Size = new System.Drawing.Size(170, 26);
             this.tsProducto.Text = "Productos";
             this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 
             this.tsUsuario.Name = "tsUsuario";
-            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
+            this.tsUsuario.Size = new System.Drawing.Size(170, 26);
             this.tsUsuario.Text = "Usuarios";
             this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // tsVendedor
             // 
             this.tsVendedor.Name = "tsVendedor";
-            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
+            this.tsVendedor.Size = new System.Drawing.Size(170, 26);
             this.tsVendedor.Text = "Vendedores";
             this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
             // 
             // tsPrincipalPresupuesto
             // 
             this.tsPrincipalPresupuesto.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsGenerarCotizacion,
             this.tsGestionarCotizacion,
             this.tsAprobarCotizacion});
             this.tsPrincipalPresupuesto.Name = "tsPrincipalPresupuesto";
             this.tsPrincipalPresupuesto.Size = new System.Drawing.Size(103, 24);
             this.tsPrincipalPresupuesto.Text = "Presupuesto";
-            // 
-            // tsGenerarCotizacion
-            // 
-            this.tsGenerarCotizacion.Name = "tsGenerarCotizacion";
-            this.tsGenerarCotizacion.Size = new System.Drawing.Size(251, 26);
-            this.tsGenerarCotizacion.Text = "Generar Cotización";
-            this.tsGenerarCotizacion.Click += new System.EventHandler(this.tsGenerarCotizacion_Click);
             // 
             // tsGestionarCotizacion
             // 
@@ -228,7 +219,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsCliente;
         private System.Windows.Forms.ToolStripMenuItem tsProducto;
         private System.Windows.Forms.ToolStripMenuItem tsVendedor;
-        private System.Windows.Forms.ToolStripMenuItem tsGenerarCotizacion;
         private System.Windows.Forms.ToolStripMenuItem tsGestionarCotizacion;
         private System.Windows.Forms.ToolStripMenuItem tsAprobarCotizacion;
         private System.Windows.Forms.ToolStripMenuItem tsFactura;

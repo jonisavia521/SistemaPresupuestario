@@ -7,6 +7,13 @@ namespace BLL.Contracts
     /// <summary>
     /// Contrato para el servicio de lógica de negocio de Presupuesto
     /// Define las operaciones disponibles desde la UI
+    /// Estados:
+    /// 1 = Borrado
+    /// 2 = Emitido (estado inicial)
+    /// 3 = Aprobado
+    /// 4 = Rechazado
+    /// 5 = Vencido (implícito)
+    /// 6 = Facturado
     /// </summary>
     public interface IPresupuestoService
     {
@@ -71,17 +78,31 @@ namespace BLL.Contracts
         bool Emitir(Guid id);
 
         /// <summary>
+        /// Marca un presupuesto como borrado (eliminación lógica)
+        /// Solo se pueden borrar presupuestos Emitidos (estado 2)
+        /// </summary>
+        bool Borrar(Guid id);
+
+        /// <summary>
         /// Aprueba un presupuesto
+        /// Solo se pueden aprobar presupuestos Emitidos (estado 2)
         /// </summary>
         bool Aprobar(Guid id);
 
         /// <summary>
-        /// Rechaza un presupuesto
+        /// Rechaza un presupuesto emitido
+        /// Solo se pueden rechazar presupuestos Emitidos (estado 2)
         /// </summary>
         bool Rechazar(Guid id);
 
         /// <summary>
-        /// Copia un presupuesto existente
+        /// Marca un presupuesto aprobado como facturado
+        /// Solo se pueden facturar presupuestos Aprobados (estado 3)
+        /// </summary>
+        bool Facturar(Guid id);
+
+        /// <summary>
+        /// Copia un presupuesto existente creando uno nuevo en estado Borrador
         /// </summary>
         PresupuestoDTO Copiar(Guid idPresupuestoOriginal);
     }

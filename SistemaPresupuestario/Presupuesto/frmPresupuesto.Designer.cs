@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPresupuesto));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tsMenu = new System.Windows.Forms.ToolStrip();
             this.btnAceptar = new System.Windows.Forms.ToolStripButton();
             this.btnCancelar = new System.Windows.Forms.ToolStripButton();
@@ -57,7 +57,7 @@
             this.btnUltimo = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBuscar = new System.Windows.Forms.ToolStripButton();
-            this.btnImprimir = new System.Windows.Forms.ToolStripButton();
+            this.btnRechazar = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbpForm = new System.Windows.Forms.TableLayoutPanel();
             this.dgArticulos = new System.Windows.Forms.DataGridView();
@@ -106,6 +106,8 @@
             this.DataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnAprobar = new System.Windows.Forms.ToolStripButton();
             this.tsMenu.SuspendLayout();
             this.tbpForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgArticulos)).BeginInit();
@@ -136,7 +138,9 @@
             this.btnUltimo,
             this.ToolStripSeparator3,
             this.btnBuscar,
-            this.btnImprimir,
+            this.toolStripButton1,
+            this.btnAprobar,
+            this.btnRechazar,
             this.ToolStripSeparator6});
             this.tsMenu.Location = new System.Drawing.Point(0, 0);
             this.tsMenu.Name = "tsMenu";
@@ -283,14 +287,15 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // btnImprimir
+            // btnRechazar
             // 
-            this.btnImprimir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImprimir.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.Image")));
-            this.btnImprimir.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(29, 28);
-            this.btnImprimir.Text = "Imprimir cotización";
+            this.btnRechazar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRechazar.Image = ((System.Drawing.Image)(resources.GetObject("btnRechazar.Image")));
+            this.btnRechazar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRechazar.Name = "btnRechazar";
+            this.btnRechazar.Size = new System.Drawing.Size(29, 28);
+            this.btnRechazar.Text = "Rechazar";
+            this.btnRechazar.Click += new System.EventHandler(this.btnRechazar_Click);
             // 
             // ToolStripSeparator6
             // 
@@ -316,7 +321,7 @@
             // 
             // dgArticulos
             // 
-            this.dgArticulos.AllowUserToAddRows = false;
+            this.dgArticulos.AllowUserToAddRows = true;
             this.dgArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgArticulos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Codigo,
@@ -324,14 +329,14 @@
             this.Cantidad,
             this.Precio,
             this.Total});
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgArticulos.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgArticulos.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgArticulos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgArticulos.Location = new System.Drawing.Point(4, 265);
             this.dgArticulos.Margin = new System.Windows.Forms.Padding(4);
@@ -363,9 +368,9 @@
             // Cantidad
             // 
             this.Cantidad.DataPropertyName = "Cantidad";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N2";
-            this.Cantidad.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "N2";
+            this.Cantidad.DefaultCellStyle = dataGridViewCellStyle1;
             this.Cantidad.FillWeight = 70F;
             this.Cantidad.HeaderText = "Cantidad";
             this.Cantidad.MinimumWidth = 6;
@@ -375,24 +380,23 @@
             // Precio
             // 
             this.Precio.DataPropertyName = "Precio";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.Format = "N2";
-            dataGridViewCellStyle14.NullValue = "0.00";
-            this.Precio.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N2";
+            dataGridViewCellStyle2.NullValue = "0.00";
+            this.Precio.DefaultCellStyle = dataGridViewCellStyle2;
             this.Precio.FillWeight = 70F;
             this.Precio.HeaderText = "Precio";
             this.Precio.MinimumWidth = 6;
             this.Precio.Name = "Precio";
-            this.Precio.ReadOnly = true;
             this.Precio.Width = 70;
             // 
             // Total
             // 
             this.Total.DataPropertyName = "Total";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "N2";
-            dataGridViewCellStyle15.NullValue = "0.000";
-            this.Total.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N2";
+            dataGridViewCellStyle3.NullValue = "0.000";
+            this.Total.DefaultCellStyle = dataGridViewCellStyle3;
             this.Total.FillWeight = 70F;
             this.Total.HeaderText = "Total";
             this.Total.MinimumWidth = 6;
@@ -659,8 +663,8 @@
             this.txtCodigoCliente.Name = "txtCodigoCliente";
             this.txtCodigoCliente.Size = new System.Drawing.Size(92, 22);
             this.txtCodigoCliente.TabIndex = 9;
-            this.txtCodigoCliente.Leave += new System.EventHandler(this.txtCodigoCliente_Leave);
             this.txtCodigoCliente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodigoCliente_KeyDown);
+            this.txtCodigoCliente.Leave += new System.EventHandler(this.txtCodigoCliente_Leave);
             // 
             // Label12
             // 
@@ -801,10 +805,10 @@
             // DataGridViewTextBoxColumn3
             // 
             this.DataGridViewTextBoxColumn3.DataPropertyName = "Largo";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N0";
-            dataGridViewCellStyle17.NullValue = null;
-            this.DataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.DataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle5;
             this.DataGridViewTextBoxColumn3.FillWeight = 70F;
             this.DataGridViewTextBoxColumn3.HeaderText = "Largo";
             this.DataGridViewTextBoxColumn3.MinimumWidth = 6;
@@ -814,9 +818,9 @@
             // DataGridViewTextBoxColumn4
             // 
             this.DataGridViewTextBoxColumn4.DataPropertyName = "Cantidad";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N2";
-            this.DataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N2";
+            this.DataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle6;
             this.DataGridViewTextBoxColumn4.FillWeight = 70F;
             this.DataGridViewTextBoxColumn4.HeaderText = "Cantidad";
             this.DataGridViewTextBoxColumn4.MinimumWidth = 6;
@@ -826,10 +830,10 @@
             // DataGridViewTextBoxColumn5
             // 
             this.DataGridViewTextBoxColumn5.DataPropertyName = "PesoKg";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "N0";
-            dataGridViewCellStyle19.NullValue = null;
-            this.DataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.DataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle7;
             this.DataGridViewTextBoxColumn5.FillWeight = 70F;
             this.DataGridViewTextBoxColumn5.HeaderText = "Peso KG";
             this.DataGridViewTextBoxColumn5.MinimumWidth = 6;
@@ -839,9 +843,9 @@
             // 
             // DataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.Format = "N2";
-            this.DataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N2";
+            this.DataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle8;
             this.DataGridViewTextBoxColumn6.FillWeight = 60F;
             this.DataGridViewTextBoxColumn6.HeaderText = "%";
             this.DataGridViewTextBoxColumn6.MinimumWidth = 6;
@@ -850,10 +854,10 @@
             // 
             // DataGridViewTextBoxColumn7
             // 
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Format = "N0";
-            dataGridViewCellStyle21.NullValue = null;
-            this.DataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "N0";
+            dataGridViewCellStyle9.NullValue = null;
+            this.DataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle9;
             this.DataGridViewTextBoxColumn7.FillWeight = 70F;
             this.DataGridViewTextBoxColumn7.HeaderText = "Peso Fact KG";
             this.DataGridViewTextBoxColumn7.MinimumWidth = 6;
@@ -863,10 +867,10 @@
             // DataGridViewTextBoxColumn8
             // 
             this.DataGridViewTextBoxColumn8.DataPropertyName = "Precio";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.Format = "N2";
-            dataGridViewCellStyle22.NullValue = "0.00";
-            this.DataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.NullValue = "0.00";
+            this.DataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle10;
             this.DataGridViewTextBoxColumn8.FillWeight = 70F;
             this.DataGridViewTextBoxColumn8.HeaderText = "Precio";
             this.DataGridViewTextBoxColumn8.MinimumWidth = 6;
@@ -886,10 +890,10 @@
             // DataGridViewTextBoxColumn10
             // 
             this.DataGridViewTextBoxColumn10.DataPropertyName = "Total";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.Format = "N2";
-            dataGridViewCellStyle23.NullValue = "0.000";
-            this.DataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "N2";
+            dataGridViewCellStyle11.NullValue = "0.000";
+            this.DataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle11;
             this.DataGridViewTextBoxColumn10.FillWeight = 70F;
             this.DataGridViewTextBoxColumn10.HeaderText = "Total";
             this.DataGridViewTextBoxColumn10.MinimumWidth = 6;
@@ -900,16 +904,35 @@
             // DataGridViewTextBoxColumn11
             // 
             this.DataGridViewTextBoxColumn11.DataPropertyName = "Total";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.Format = "N2";
-            dataGridViewCellStyle24.NullValue = "0.000";
-            this.DataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "N2";
+            dataGridViewCellStyle12.NullValue = "0.000";
+            this.DataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle12;
             this.DataGridViewTextBoxColumn11.FillWeight = 70F;
             this.DataGridViewTextBoxColumn11.HeaderText = "Total";
             this.DataGridViewTextBoxColumn11.MinimumWidth = 6;
             this.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11";
             this.DataGridViewTextBoxColumn11.ReadOnly = true;
             this.DataGridViewTextBoxColumn11.Width = 70;
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButton1.Text = "Imprimir cotización";
+            // 
+            // btnAprobar
+            // 
+            this.btnAprobar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAprobar.Image = ((System.Drawing.Image)(resources.GetObject("btnAprobar.Image")));
+            this.btnAprobar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAprobar.Name = "btnAprobar";
+            this.btnAprobar.Size = new System.Drawing.Size(29, 28);
+            this.btnAprobar.Text = "Aprobar";
+            this.btnAprobar.Click += new System.EventHandler(this.btnAprobar_Click);
             // 
             // frmPresupuesto
             // 
@@ -969,7 +992,7 @@
         private System.Windows.Forms.Label Label12;
         private System.Windows.Forms.ComboBox cmbEstado;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator6;
-        private System.Windows.Forms.ToolStripButton btnImprimir;
+        private System.Windows.Forms.ToolStripButton btnRechazar;
         private System.Windows.Forms.Label Label13;
         private System.Windows.Forms.DateTimePicker dtEntrega;
         private System.Windows.Forms.TextBox txtCodigoFormaPago;
@@ -1004,5 +1027,7 @@
         private System.Windows.Forms.ToolStripButton btnUltimo;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btnBuscar;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnAprobar;
     }
 }

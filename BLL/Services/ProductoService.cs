@@ -168,5 +168,12 @@ namespace BLL.Services
         {
             return await _productoRepository.ExisteCodigoAsync(codigo, excludeId);
         }
+
+        // Método síncrono para compatibilidad con código existente
+        public ProductoDTO GetByCodigo(string codigo)
+        {
+            var entidad = _productoRepository.GetByCodigoAsync(codigo).GetAwaiter().GetResult();
+            return _mapper.Map<ProductoDTO>(entidad);
+        }
     }
 }

@@ -7,23 +7,17 @@ namespace BLL.Enums
     public enum ModoPresupuesto
     {
         /// <summary>
-        /// Modo para crear nuevos presupuestos (estado Borrador)
-        /// Solo permite crear nuevos presupuestos en estado Borrador
+        /// Modo para gestionar todos los presupuestos
+        /// Muestra: Borrado (1), Emitido (2), Aprobado (3), Rechazado (4), Vencido (5), Facturado (6)
+        /// Permite: Crear nuevos, Editar Emitidos, Eliminar (borrado lógico) Emitidos, Ver el resto, Copiar cualquiera, Facturar Aprobados
         /// </summary>
-        Generar = 0,
-
-        /// <summary>
-        /// Modo para gestionar presupuestos existentes
-        /// Muestra: Borrador, Aprobado, Rechazado y Vencido
-        /// Permite: Editar/Eliminar Borradores, Ver el resto, Copiar cualquiera
-        /// </summary>
-        Gestionar = 1,
+        Gestionar = 0,
 
         /// <summary>
         /// Modo para aprobar presupuestos emitidos
-        /// Solo muestra presupuestos en estado Emitido
+        /// Solo muestra presupuestos en estado Emitido (2)
         /// Permite: Aprobar o Rechazar
         /// </summary>
-        Aprobar = 2
+        Aprobar = 1
     }
 }

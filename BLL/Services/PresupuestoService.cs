@@ -25,7 +25,6 @@ namespace BLL.Services
             var presupuestos = _unitOfWork.PresupuestoRepository.GetAllWithDetails();
             var dtos = presupuestos.Select(p => _mapper.Map<PresupuestoDTO>(p)).ToList();
 
-            // Enriquecer con datos de navegación
             EnriquecerDatosNavegacion(dtos);
 
             return dtos;
@@ -40,7 +39,6 @@ namespace BLL.Services
 
             var dto = _mapper.Map<PresupuestoDTO>(presupuesto);
 
-            // Enriquecer con datos de navegación
             EnriquecerDatosNavegacion(new List<PresupuestoDTO> { dto });
 
             return dto;
@@ -76,11 +74,25 @@ namespace BLL.Services
             return dtos;
         }
 
+        public IEnumerable<PresupuestoDTO> GetByEstados(params int[] estados)
+        {
+            if (estados == null || estados.Length == 0)
+                return Enumerable.Empty<PresupuestoDTO>();
+
+            var todosPresupuestos = _unitOfWork.PresupuestoRepository.GetAllWithDetails();
+            var filtrados = todosPresupuestos.Where(p => estados.Contains(p.Estado));
+            var dtos = filtrados.Select(p => _mapper.Map<PresupuestoDTO>(p)).ToList();
+
+            EnriquecerDatosNavegacion(dtos);
+
+            return dtos;
+        }
+
         public bool Add(PresupuestoDTO presupuestoDto)
         {
             try
             {
-                // Crear entidad de dominio
+                // Crear entidad de dominio (estado inicial: 2 = Emitido)
                 var presupuesto = new PresupuestoDM(
                     presupuestoDto.Numero,
                     presupuestoDto.IdCliente,
@@ -188,9 +200,7 @@ namespace BLL.Services
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");
 
-                if (presupuesto.Estado == 2) // Aprobado
-                    throw new InvalidOperationException("No se puede eliminar un presupuesto aprobado.");
-
+                // Eliminar físicamente de la base de datos
                 _unitOfWork.PresupuestoRepository.Delete(presupuesto);
                 _unitOfWork.Commit();
 
@@ -255,6 +265,29 @@ namespace BLL.Services
             }
         }
 
+        public bool Borrar(Guid id)
+        {
+            try
+            {
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+
+                if (presupuesto == null)
+                    throw new InvalidOperationException("El presupuesto no existe.");
+
+                presupuesto.Borrar();
+
+                _unitOfWork.PresupuestoRepository.Update(presupuesto);
+                _unitOfWork.Commit();
+
+                return true;
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
         public bool Aprobar(Guid id)
         {
             try
@@ -301,18 +334,27 @@ namespace BLL.Services
             }
         }
 
-        public IEnumerable<PresupuestoDTO> GetByEstados(params int[] estados)
+        public bool Facturar(Guid id)
         {
-            if (estados == null || estados.Length == 0)
-                return Enumerable.Empty<PresupuestoDTO>();
+            try
+            {
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
 
-            var todosPresupuestos = _unitOfWork.PresupuestoRepository.GetAllWithDetails();
-            var filtrados = todosPresupuestos.Where(p => estados.Contains(p.Estado));
-            var dtos = filtrados.Select(p => _mapper.Map<PresupuestoDTO>(p)).ToList();
+                if (presupuesto == null)
+                    throw new InvalidOperationException("El presupuesto no existe.");
 
-            EnriquecerDatosNavegacion(dtos);
+                presupuesto.Facturar();
 
-            return dtos;
+                _unitOfWork.PresupuestoRepository.Update(presupuesto);
+                _unitOfWork.Commit();
+
+                return true;
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
 
         public PresupuestoDTO Copiar(Guid idPresupuestoOriginal)
@@ -324,7 +366,7 @@ namespace BLL.Services
                 if (original == null)
                     throw new InvalidOperationException("El presupuesto original no existe.");
 
-                // Crear nuevo presupuesto
+                // Crear nuevo presupuesto (estado inicial: 2 = Emitido)
                 var nuevoNumero = GetNextNumero();
                 var nuevo = new PresupuestoDM(
                     nuevoNumero,

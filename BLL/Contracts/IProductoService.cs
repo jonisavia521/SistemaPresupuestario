@@ -19,5 +19,8 @@ namespace BLL.Contracts
         Task<bool> UpdateAsync(ProductoDTO productoDto);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ExisteCodigoAsync(string codigo, Guid? excludeId = null);
+        
+        // Métodos síncronos para compatibilidad
+        ProductoDTO GetByCodigo(string codigo);
     }
 }

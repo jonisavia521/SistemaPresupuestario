@@ -162,24 +162,28 @@ namespace DAL.Implementation.Repository
 
         public string GetNextNumero()
         {
-            var year = DateTime.Now.Year;
-            var prefix = $"PRES-{year}-";
-
+            // Obtener el último presupuesto ordenado por número
             var ultimoNumero = _context.Presupuesto
-                .Where(p => p.Numero.StartsWith(prefix))
                 .OrderByDescending(p => p.Numero)
                 .Select(p => p.Numero)
                 .FirstOrDefault();
 
-            if (string.IsNullOrEmpty(ultimoNumero))
+            int siguienteNumero = 1;
+
+            if (!string.IsNullOrEmpty(ultimoNumero))
             {
-                return $"{prefix}0001";
+                // Intentar extraer el número del formato actual (puede ser cualquier formato)
+                // Buscar dígitos al final del string
+                string digitosExtraidos = new string(ultimoNumero.Where(char.IsDigit).ToArray());
+                
+                if (!string.IsNullOrEmpty(digitosExtraidos) && int.TryParse(digitosExtraidos, out int numeroActual))
+                {
+                    siguienteNumero = numeroActual + 1;
+                }
             }
 
-            var numeroActual = int.Parse(ultimoNumero.Substring(prefix.Length));
-            var nuevoNumero = numeroActual + 1;
-
-            return $"{prefix}{nuevoNumero:D4}";
+            // Formato: 8 dígitos con ceros a la izquierda (ej: 00000001, 00000055)
+            return siguienteNumero.ToString("D8");
         }
 
         public bool ExisteNumero(string numero, Guid? idExcluir = null)
