@@ -35,6 +35,7 @@ namespace BLL.DTOs
         public Guid? IdListaPrecio { get; set; }
 
         // Propiedades navegacionales (para visualización)
+        public string ClienteCodigoCliente { get; set; }
         public string ClienteRazonSocial { get; set; }
         public string VendedorNombre { get; set; }
         public string EstadoDescripcion { get; set; }

@@ -57,6 +57,8 @@
             this.btnUltimo = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBuscar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnAprobar = new System.Windows.Forms.ToolStripButton();
             this.btnRechazar = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbpForm = new System.Windows.Forms.TableLayoutPanel();
@@ -110,8 +112,6 @@
             this.DataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.btnAprobar = new System.Windows.Forms.ToolStripButton();
             this.tsMenu.SuspendLayout();
             this.tbpForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgArticulos)).BeginInit();
@@ -291,6 +291,25 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButton1.Text = "Imprimir cotización";
+            // 
+            // btnAprobar
+            // 
+            this.btnAprobar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAprobar.Image = ((System.Drawing.Image)(resources.GetObject("btnAprobar.Image")));
+            this.btnAprobar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAprobar.Name = "btnAprobar";
+            this.btnAprobar.Size = new System.Drawing.Size(29, 28);
+            this.btnAprobar.Text = "Aprobar";
+            this.btnAprobar.Click += new System.EventHandler(this.btnAprobar_Click);
+            // 
             // btnRechazar
             // 
             this.btnRechazar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -325,7 +344,6 @@
             // 
             // dgArticulos
             // 
-            this.dgArticulos.AllowUserToAddRows = true;
             this.dgArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgArticulos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Codigo,
@@ -400,7 +418,7 @@
             this.Descuento.DataPropertyName = "Descuento";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = "0.00";
+            dataGridViewCellStyle3.NullValue = "0.000";
             this.Descuento.DefaultCellStyle = dataGridViewCellStyle3;
             this.Descuento.FillWeight = 70F;
             this.Descuento.HeaderText = "Desc %";
@@ -411,9 +429,6 @@
             // Total
             // 
             this.Total.DataPropertyName = "Total";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = "0.000";
             this.Total.DefaultCellStyle = dataGridViewCellStyle3;
             this.Total.FillWeight = 70F;
             this.Total.HeaderText = "Total";
@@ -587,7 +602,7 @@
             this.label8.Location = new System.Drawing.Point(24, 224);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(97, 16);
+            this.label8.Size = new System.Drawing.Size(102, 16);
             this.label8.TabIndex = 36;
             this.label8.Text = "Lista de precios";
             // 
@@ -968,25 +983,6 @@
             this.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11";
             this.DataGridViewTextBoxColumn11.ReadOnly = true;
             this.DataGridViewTextBoxColumn11.Width = 70;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
-            this.toolStripButton1.Text = "Imprimir cotización";
-            // 
-            // btnAprobar
-            // 
-            this.btnAprobar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAprobar.Image = ((System.Drawing.Image)(resources.GetObject("btnAprobar.Image")));
-            this.btnAprobar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAprobar.Name = "btnAprobar";
-            this.btnAprobar.Size = new System.Drawing.Size(29, 28);
-            this.btnAprobar.Text = "Aprobar";
-            this.btnAprobar.Click += new System.EventHandler(this.btnAprobar_Click);
             // 
             // frmPresupuesto
             // 

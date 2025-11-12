@@ -129,29 +129,28 @@ namespace SistemaPresupuestario.Presupuesto
                     break;
             }
 
-            // Ocultar texto de TODOS los botones, solo mostrar iconos
-            foreach (ToolStripItem item in tsMenu.Items)
-            {
-                if (item is ToolStripButton button)
-                {
-                    button.DisplayStyle = ToolStripItemDisplayStyle.Image;
-                }
-            }
+            
         }
 
         private void ConfigurarControles()
         {
             // Configurar ComboBox de Estado
             cmbEstado.Items.Clear();
-            cmbEstado.Items.Add(new { Value = 1, Text = "Borrado" });
-            cmbEstado.Items.Add(new { Value = 2, Text = "Emitido" });
-            cmbEstado.Items.Add(new { Value = 3, Text = "Aprobado" });
-            cmbEstado.Items.Add(new { Value = 4, Text = "Rechazado" });
-            cmbEstado.Items.Add(new { Value = 5, Text = "Vencido" });
-            cmbEstado.Items.Add(new { Value = 6, Text = "Facturado" });
+
+            var estadosLista = new List<dynamic>
+    {
+        new { Value = 1, Text = "Borrado" },
+        new { Value = 2, Text = "Emitido" },
+        new { Value = 3, Text = "Aprobado" },
+        new { Value = 4, Text = "Rechazado" },
+        new { Value = 5, Text = "Vencido" },
+        new { Value = 6, Text = "Facturado" }
+    };
+
+            cmbEstado.DataSource = estadosLista;
             cmbEstado.DisplayMember = "Text";
             cmbEstado.ValueMember = "Value";
-            cmbEstado.SelectedIndex = 1; // Emitido por defecto
+            cmbEstado.SelectedIndex = 1;
 
             // Configurar ComboBox de Condición de Pago
             CargarCondicionesPago();
@@ -387,7 +386,7 @@ namespace SistemaPresupuestario.Presupuesto
             }
 
             // Cargar cliente
-            txtCodigoCliente.Text = presupuesto.IdCliente.ToString().Substring(0, 8);
+            txtCodigoCliente.Text = presupuesto.ClienteCodigoCliente ?? "";
             txtCliente.Text = presupuesto.ClienteRazonSocial;
 
             // Cargar vendedor
@@ -593,6 +592,7 @@ namespace SistemaPresupuestario.Presupuesto
                     column.ReadOnly = !habilitar;
                 }
             }
+            txtCodigoListaPrecio.Enabled = habilitar;
         }
 
         private void HabilitarBotones(bool navegacion, bool edicion, bool guardar)
@@ -947,7 +947,7 @@ namespace SistemaPresupuestario.Presupuesto
         // ============= REPORTES =============
 
         /// <summary>
-        /// Vista previa del presupuesto actual
+        /// Vista previa del presupuesto currente
         /// </summary>
         private void VerReporte()
         {
@@ -1019,8 +1019,29 @@ namespace SistemaPresupuestario.Presupuesto
                         detalle.Descripcion = producto.Descripcion;
                         detalle.PorcentajeIVA = producto.PorcentajeIVA;
 
-                        // NOTA: El precio no está en la tabla Producto, dejar en 0 para que el usuario lo ingrese
-                        detalle.Precio = 0M;
+                        // NUEVO: Buscar el precio en la lista de precios seleccionada
+                        decimal precioDefault = 0M;
+                        if (_idListaPrecioSeleccionada.HasValue)
+                        {
+                            try
+                            {
+                                // Usar el método asíncrono de forma síncrona para obtener el precio
+                                var precioTask = _listaPrecioService.ObtenerPrecioProductoAsync(_idListaPrecioSeleccionada.Value, producto.Id);
+                                precioTask.Wait(); // Esperar el resultado
+                                
+                                if (precioTask.Result.HasValue)
+                                {
+                                    precioDefault = precioTask.Result.Value;
+                                }
+                            }
+                            catch
+                            {
+                                // Si hay error al buscar el precio, mantener en 0
+                                precioDefault = 0M;
+                            }
+                        }
+
+                        detalle.Precio = precioDefault;
 
                         // Refrescar la fila para mostrar los cambios
                         dgArticulos.Refresh();
@@ -1542,23 +1563,39 @@ namespace SistemaPresupuestario.Presupuesto
                     {
                         var detalle = _detalles[dgArticulos.CurrentRow.Index];
 
-                        // ✅ IMPORTANTE: Establecer el IdProducto (campo requerido para guardar)
                         detalle.IdProducto = producto.Id;
                         detalle.Codigo = producto.Codigo;
                         detalle.Descripcion = producto.Descripcion;
                         detalle.PorcentajeIVA = producto.PorcentajeIVA;
 
-                        // NOTA: El precio no está en la tabla Producto, dejar en 0 para que el usuario lo ingrese
-                        detalle.Precio = 0M;
+                        // NUEVO: Buscar el precio en la lista de precios seleccionada
+                        decimal precioDefault = 0M;
+                        if (_idListaPrecioSeleccionada.HasValue)
+                        {
+                            try
+                            {
+                                var precio = _listaPrecioService.ObtenerPrecioProductoAsync(_idListaPrecioSeleccionada.Value, producto.Id);
+                                precio.Wait();
+                                
+                                if (precio.Result.HasValue)
+                                {
+                                    precioDefault = precio.Result.Value;
+                                }
+                            }
+                            catch
+                            {
+                                precioDefault = 0M;
+                            }
+                        }
 
-                        // Refrescar la fila
+                        detalle.Precio = precioDefault;
                         dgArticulos.Refresh();
                     }
 
-                    return true; // Producto encontrado
+                    return true;
                 }
 
-                return false; // Producto no encontrado
+                return false;
             }
             catch (Exception ex)
             {
@@ -1637,19 +1674,37 @@ namespace SistemaPresupuestario.Presupuesto
                         // Verificar si la fila actual pertenece a _detalles
                         int rowIndex = dgArticulos.CurrentRow.Index;
 
+                        decimal precioDefault = 0M;
+                        if (_idListaPrecioSeleccionada.HasValue)
+                        {
+                            try
+                            {
+                                var precio = await _listaPrecioService.ObtenerPrecioProductoAsync(
+                                    _idListaPrecioSeleccionada.Value, 
+                                    productoSeleccionado.Id);
+                                
+                                if (precio.HasValue)
+                                {
+                                    precioDefault = precio.Value;
+                                }
+                            }
+                            catch
+                            {
+                                // Si hay error al buscar el precio, mantener en 0
+                                precioDefault = 0M;
+                            }
+                        }
+
                         if (rowIndex < _detalles.Count)
                         {
                             // Fila existente en _detalles
                             var detalle = _detalles[rowIndex];
 
-                            // ✅ IMPORTANTE: Establecer el IdProducto (campo requerido para guardar)
                             detalle.IdProducto = productoSeleccionado.Id;
                             detalle.Codigo = productoSeleccionado.Codigo;
                             detalle.Descripcion = productoSeleccionado.Descripcion;
                             detalle.PorcentajeIVA = productoSeleccionado.PorcentajeIVA;
-
-                            // NOTA: El precio no está en la tabla Producto, dejar en 0
-                            detalle.Precio = 0M;
+                            detalle.Precio = precioDefault;
                         }
                         else
                         {
@@ -1660,7 +1715,7 @@ namespace SistemaPresupuestario.Presupuesto
                                 Codigo = productoSeleccionado.Codigo,
                                 Descripcion = productoSeleccionado.Descripcion,
                                 PorcentajeIVA = productoSeleccionado.PorcentajeIVA,
-                                Precio = 0M,
+                                Precio = precioDefault,
                                 Cantidad = 1M
                             };
 
@@ -1703,21 +1758,46 @@ namespace SistemaPresupuestario.Presupuesto
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            ConfigurarEstadoInicial();
-
-            // Si estábamos en modo nuevo, volver a cargar los presupuestos
-            if (_modoEdicion && !_presupuestoActualId.HasValue)
+            try
             {
-                CargarPresupuestos();
-            }
-            else if (_modoEdicion && _presupuestoActualId.HasValue)
-            {
-                // Si estábamos editando, recargar el presupuesto actual
-                var presupuesto = _presupuestosCompletos.FirstOrDefault(p => p.Id == _presupuestoActualId.Value);
-                if (presupuesto != null)
+                // Si estábamos en modo nuevo sin presupuesto previo
+                if (_modoEdicion && !_presupuestoActualId.HasValue)
                 {
-                    MostrarPresupuesto(presupuesto);
+                    // Recargar todos los presupuestos
+                    CargarPresupuestos();
                 }
+                else if (_modoEdicion && _presupuestoActualId.HasValue)
+                {
+                    // Si estábamos editando, recargar el presupuesto actual desde la base de datos
+                    // Esto asegura que se descarten todos los cambios no guardados
+                    var presupuestoOriginal = _presupuestoService.GetById(_presupuestoActualId.Value);
+
+                    if (presupuestoOriginal != null)
+                    {
+                        // Actualizar en la lista local
+                        var indice = _presupuestosCompletos.FindIndex(p => p.Id == _presupuestoActualId.Value);
+                        if (indice >= 0)
+                        {
+                            _presupuestosCompletos[indice] = presupuestoOriginal;
+                        }
+
+                        // Mostrar el presupuesto original (esto recarga la grilla completa)
+                        MostrarPresupuesto(presupuestoOriginal);
+                    }
+                    else
+                    {
+                        // Si no se encuentra, recargar todo
+                        CargarPresupuestos();
+                    }
+                }
+
+                // Restaurar estado inicial de controles
+                ConfigurarEstadoInicial();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cancelar: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1912,6 +1992,50 @@ namespace SistemaPresupuestario.Presupuesto
         /// </summary>
         private void DgArticulos_KeyDown(object sender, KeyEventArgs e)
         {
+            // Manejar Enter en DataGridView
+            if (e.KeyCode == Keys.Enter && dgArticulos.CurrentCell != null)
+            {
+                dgArticulos.EndEdit();
+
+                int col = dgArticulos.CurrentCell.ColumnIndex;
+                int row = dgArticulos.CurrentCell.RowIndex;
+
+                // Si estamos en la última columna
+                if (col >= dgArticulos.ColumnCount - 1)
+                {
+                    // Si es la última fila (nueva fila), agregar el detalle y crear una nueva fila
+                    if (dgArticulos.Rows[row].IsNewRow)
+                    {
+                        // La fila nueva ya se agregó automáticamente al BindingList
+                        // Solo necesitamos movernos a la nueva fila
+                        if (row + 1 < dgArticulos.RowCount)
+                        {
+                            dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                            dgArticulos.BeginEdit(true);
+                        }
+                    }
+                    else
+                    {
+                        // Ir a la siguiente fila o crear una nueva
+                        if (row + 1 < dgArticulos.RowCount)
+                        {
+                            dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                            dgArticulos.BeginEdit(true);
+                        }
+                    }
+                }
+                else
+                {
+                    // Moverse a la siguiente columna
+                    dgArticulos.CurrentCell = dgArticulos[col + 1, row];
+                    dgArticulos.BeginEdit(true);
+                }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
             // Permitir eliminar fila con tecla Delete
             if (e.KeyCode == Keys.Delete && !dgArticulos.CurrentRow.IsNewRow)
             {
@@ -2046,69 +2170,59 @@ namespace SistemaPresupuestario.Presupuesto
         /// </summary>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            // Manejar Enter en DataGridView (solo columna Codigo)
+            // Manejar Enter en DataGridView
             if ((dgArticulos.Focused || dgArticulos.EditingControl != null) && keyData == Keys.Enter)
             {
-                // Solo procesar si estamos en la columna de código
-                if (dgArticulos.CurrentCell != null && dgArticulos.CurrentCell.ColumnIndex == 0) // Columna Codigo
-                {
-                    // Finalizar edición actual
-                    dgArticulos.EndEdit();
+                dgArticulos.EndEdit();
 
-                    // Obtener el código ingresado
+                if (dgArticulos.CurrentCell == null)
+                    return base.ProcessCmdKey(ref msg, keyData);
+
+                int col = dgArticulos.CurrentCell.ColumnIndex;
+                int row = dgArticulos.CurrentCell.RowIndex;
+
+                // Si estamos en la columna de código
+                if (col == 0)
+                {
                     var codigo = dgArticulos.CurrentCell.Value?.ToString()?.Trim();
 
                     if (!string.IsNullOrWhiteSpace(codigo))
                     {
-                        // Validar y buscar producto
                         bool productoEncontrado = BuscarYAplicarProductoPorCodigoEnter(codigo);
-
-                        if (productoEncontrado)
+                        if (!productoEncontrado)
                         {
-                            // Mover a la siguiente celda (Cantidad)
-                            int col = dgArticulos.CurrentCell.ColumnIndex;
-                            int row = dgArticulos.CurrentCell.RowIndex;
-
-                            if (col < dgArticulos.ColumnCount - 1)
-                            {
-                                dgArticulos.CurrentCell = dgArticulos[col + 1, row];
-                            }
-                        }
-                        else
-                        {
-                            // Mostrar selector de productos
                             MostrarSelectorProducto();
                         }
                     }
                     else
                     {
-                        // Campo vacío - mostrar selector directamente
                         MostrarSelectorProducto();
                     }
 
-                    return true; // Indicamos que manejamos la tecla
-                }
-                else
-                {
-                    // Para otras columnas, comportamiento normal de navegación
-                    dgArticulos.EndEdit();
-
-                    int col = dgArticulos.CurrentCell.ColumnIndex;
-                    int row = dgArticulos.CurrentCell.RowIndex;
-
-                    // Si no es la última columna
+                    // Moverse a la siguiente columna
                     if (col < dgArticulos.ColumnCount - 1)
                     {
                         dgArticulos.CurrentCell = dgArticulos[col + 1, row];
+                        dgArticulos.BeginEdit(true);
                     }
-                    // Si es la última columna y no es la última fila
-                    else if (row < dgArticulos.RowCount - 1)
+                }
+                else if (col >= dgArticulos.ColumnCount - 1)
+                {
+                    // Última columna: ir a la primera columna de la siguiente fila
+                    if (row + 1 < dgArticulos.RowCount)
                     {
                         dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                        dgArticulos.BeginEdit(true);
                     }
-
-                    return true;
                 }
+                else
+                {
+                    // Columnas intermedias: siguiente columna
+                    dgArticulos.CurrentCell = dgArticulos[col + 1, row];
+                    dgArticulos.BeginEdit(true);
+                }
+
+                return true;
             }
 
             // Manejar Enter en TextBox de código de cliente
@@ -2368,8 +2482,6 @@ namespace SistemaPresupuestario.Presupuesto
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // ...existing code...
     }
 
     /// <summary>

@@ -269,7 +269,7 @@ namespace BLL.Services
         {
             try
             {
-                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetByIdWithDetails(id);
 
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");
@@ -416,6 +416,7 @@ namespace BLL.Services
                     var cliente = _unitOfWork.ClienteRepository.GetById(dto.IdCliente);
                     if (cliente != null)
                     {
+                        dto.ClienteCodigoCliente = cliente.CodigoCliente;
                         dto.ClienteRazonSocial = cliente.RazonSocial;
                     }
                 }

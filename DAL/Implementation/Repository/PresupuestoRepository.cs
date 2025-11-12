@@ -90,7 +90,7 @@ namespace DAL.Implementation.Repository
         public IEnumerable<PresupuestoDM> GetAllWithDetails()
         {
             return _context.Presupuesto
-                .Include(p => p.Presupuesto_Detalle)
+                .Include(p => p.Presupuesto_Detalle).OrderBy(x=>x.Numero)
                 .ToList()
                 .Select(p => MapToDomain(p, true));
         }
