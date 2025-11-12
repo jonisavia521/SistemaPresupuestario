@@ -46,6 +46,7 @@
             this.tsArba = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalAyuda = new System.Windows.Forms.ToolStripMenuItem();
             this.txtUsuario = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             // tsPrincipalArchivo
             // 
             this.tsPrincipalArchivo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsConfiguracion,
             this.salirToolStripMenuItem});
             this.tsPrincipalArchivo.Name = "tsPrincipalArchivo";
             this.tsPrincipalArchivo.Size = new System.Drawing.Size(73, 24);
@@ -76,7 +78,7 @@
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(121, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -95,35 +97,35 @@
             // tsCliente
             // 
             this.tsCliente.Name = "tsCliente";
-            this.tsCliente.Size = new System.Drawing.Size(224, 26);
+            this.tsCliente.Size = new System.Drawing.Size(170, 26);
             this.tsCliente.Text = "Clientes";
             this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 
             this.tsProducto.Name = "tsProducto";
-            this.tsProducto.Size = new System.Drawing.Size(224, 26);
+            this.tsProducto.Size = new System.Drawing.Size(170, 26);
             this.tsProducto.Text = "Productos";
             this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 
             this.tsUsuario.Name = "tsUsuario";
-            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
+            this.tsUsuario.Size = new System.Drawing.Size(170, 26);
             this.tsUsuario.Text = "Usuarios";
             this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // tsVendedor
             // 
             this.tsVendedor.Name = "tsVendedor";
-            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
+            this.tsVendedor.Size = new System.Drawing.Size(170, 26);
             this.tsVendedor.Text = "Vendedores";
             this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
             // 
             // tsListaPrecio
             // 
             this.tsListaPrecio.Name = "tsListaPrecio";
-            this.tsListaPrecio.Size = new System.Drawing.Size(224, 26);
+            this.tsListaPrecio.Size = new System.Drawing.Size(170, 26);
             this.tsListaPrecio.Text = "Lista Precio";
             this.tsListaPrecio.Click += new System.EventHandler(this.tsListaPrecio_Click);
             // 
@@ -192,6 +194,13 @@
             this.txtUsuario.Size = new System.Drawing.Size(156, 24);
             this.txtUsuario.Text = "toolStripMenuItem1";
             // 
+            // tsConfiguracion
+            // 
+            this.tsConfiguracion.Name = "tsConfiguracion";
+            this.tsConfiguracion.Size = new System.Drawing.Size(224, 26);
+            this.tsConfiguracion.Text = "Configuración";
+            this.tsConfiguracion.Click += new System.EventHandler(this.tsConfiguracion_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -234,6 +243,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsRecibo;
         private System.Windows.Forms.ToolStripMenuItem tsArba;
         private System.Windows.Forms.ToolStripMenuItem tsListaPrecio;
+        private System.Windows.Forms.ToolStripMenuItem tsConfiguracion;
     }
 }
 

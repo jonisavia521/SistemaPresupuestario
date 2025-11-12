@@ -3,11 +3,12 @@ using IoC;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Services.DAL.Tools;
+using SistemaPresupuestario.Configuracion;
 using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Clientes;
-using SistemaPresupuestario.Maestros.Vendedores;
-using SistemaPresupuestario.Maestros.Productos;
 using SistemaPresupuestario.Maestros.ListaPrecio;
+using SistemaPresupuestario.Maestros.Productos;
+using SistemaPresupuestario.Maestros.Vendedores;
 using SistemaPresupuestario.Presupuesto;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,10 @@ namespace SistemaPresupuestario
                 .AddTransient<frmProductos>()
                 .AddTransient<frmListaPrecios>()
                 .AddTransient<frmListaPrecioAlta>()
-                .AddTransient<frmPresupuesto>();
+                .AddTransient<frmPresupuesto>()
+                .AddTransient<frmConfiguacionGeneral>()
+                
+                ;
 
         }
 
