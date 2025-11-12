@@ -18,6 +18,7 @@ namespace SistemaPresupuestario.Presupuesto
         private readonly IClienteService _clienteService;
         private readonly IVendedorService _vendedorService;
         private readonly IProductoService _productoService;
+        private readonly IListaPrecioService _listaPrecioService;
 
         private BindingList<PresupuestoDetalleDTO> _detalles;
         private List<PresupuestoDTO> _presupuestosCompletos;
@@ -25,9 +26,10 @@ namespace SistemaPresupuestario.Presupuesto
         private bool _modoEdicion = false;
         private Guid? _presupuestoActualId = null;
 
-        // Campos para almacenar IDs del cliente y vendedor seleccionados
+        // Campos para almacenar IDs del cliente, vendedor y lista de precios seleccionados
         private Guid? _idClienteSeleccionado = null;
         private Guid? _idVendedorSeleccionado = null;
+        private Guid? _idListaPrecioSeleccionada = null;
 
         // Caché de clientes para evitar múltiples llamadas asíncronas concurrentes
         private List<ClienteDTO> _clientesCache = null;
@@ -41,7 +43,8 @@ namespace SistemaPresupuestario.Presupuesto
             IPresupuestoService presupuestoService,
             IClienteService clienteService,
             IVendedorService vendedorService,
-            IProductoService productoService)
+            IProductoService productoService,
+            IListaPrecioService listaPrecioService)
         {
             InitializeComponent();
 
@@ -49,6 +52,7 @@ namespace SistemaPresupuestario.Presupuesto
             _clienteService = clienteService ?? throw new ArgumentNullException(nameof(clienteService));
             _vendedorService = vendedorService ?? throw new ArgumentNullException(nameof(vendedorService));
             _productoService = productoService ?? throw new ArgumentNullException(nameof(productoService));
+            _listaPrecioService = listaPrecioService ?? throw new ArgumentNullException(nameof(listaPrecioService));
 
             _detalles = new BindingList<PresupuestoDetalleDTO>();
             _presupuestosCompletos = new List<PresupuestoDTO>();
@@ -71,7 +75,7 @@ namespace SistemaPresupuestario.Presupuesto
 
                 ConfigurarControles();
                 ConfigurarGrilla();
-                ConfigurarSegunModo(); // Nueva lógica según modo
+                ConfigurarSegunModo();
                 CargarPresupuestos();
                 ConfigurarEstadoInicial();
             }
@@ -149,7 +153,7 @@ namespace SistemaPresupuestario.Presupuesto
             cmbEstado.ValueMember = "Value";
             cmbEstado.SelectedIndex = 1; // Emitido por defecto
 
-            // Configurar ComboBox de Condición de Pago (igual que en frmClienteAlta)
+            // Configurar ComboBox de Condición de Pago
             CargarCondicionesPago();
 
             // Configurar ComboBox de plazo de entrega
@@ -263,6 +267,23 @@ namespace SistemaPresupuestario.Presupuesto
             };
             dgArticulos.Columns.Add(colPrecio);
 
+            // Columna Descuento (NUEVA)
+            var colDescuento = new DataGridViewTextBoxColumn
+            {
+                Name = "Descuento",
+                HeaderText = "Desc %",
+                DataPropertyName = "Descuento",
+                Width = 70,
+                ValueType = typeof(decimal),
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Alignment = DataGridViewContentAlignment.MiddleRight,
+                    Format = "N2",
+                    NullValue = "0.00"
+                }
+            };
+            dgArticulos.Columns.Add(colDescuento);
+
             // Columna Total (ReadOnly - calculado)
             var colTotal = new DataGridViewTextBoxColumn
             {
@@ -354,6 +375,7 @@ namespace SistemaPresupuestario.Presupuesto
             _presupuestoActualId = presupuesto.Id;
             _idClienteSeleccionado = presupuesto.IdCliente;
             _idVendedorSeleccionado = presupuesto.IdVendedor;
+            _idListaPrecioSeleccionada = presupuesto.IdListaPrecio; // NUEVO
 
             txtCotizacion.Text = presupuesto.Numero;
             txtFecha.Value = presupuesto.FechaEmision;
@@ -371,6 +393,9 @@ namespace SistemaPresupuestario.Presupuesto
             // Cargar vendedor
             txtVendedor.Text = presupuesto.VendedorNombre ?? "";
 
+            // Cargar lista de precios (NUEVO)
+            CargarListaPrecioDelPresupuesto(presupuesto.IdListaPrecio);
+
             // Cargar condición de pago del cliente
             CargarCondicionPagoDelCliente(presupuesto.IdCliente);
 
@@ -385,6 +410,41 @@ namespace SistemaPresupuestario.Presupuesto
             }
 
             CalcularTotales();
+        }
+
+        /// <summary>
+        /// Carga la lista de precios en los controles correspondientes (NUEVO)
+        /// </summary>
+        private async void CargarListaPrecioDelPresupuesto(Guid? idListaPrecio)
+        {
+            try
+            {
+                if (idListaPrecio.HasValue)
+                {
+                    var lista = await _listaPrecioService.GetByIdAsync(idListaPrecio.Value);
+                    if (lista != null)
+                    {
+                        txtCodigoListaPrecio.Text = lista.Codigo;
+                        txtListaPrecio.Text = lista.Nombre;
+                    }
+                    else
+                    {
+                        txtCodigoListaPrecio.Clear();
+                        txtListaPrecio.Clear();
+                    }
+                }
+                else
+                {
+                    txtCodigoListaPrecio.Clear();
+                    txtListaPrecio.Clear();
+                }
+            }
+            catch
+            {
+                // Si hay error, limpiar los campos
+                txtCodigoListaPrecio.Clear();
+                txtListaPrecio.Clear();
+            }
         }
 
         /// <summary>
@@ -440,7 +500,7 @@ namespace SistemaPresupuestario.Presupuesto
             }
             catch
             {
-                // Si hayerror, dejar en blanco
+                // Si hay error, dejar en blanco
                 Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
                 if (control != null && control is ComboBox)
                 {
@@ -462,6 +522,7 @@ namespace SistemaPresupuestario.Presupuesto
             _presupuestoActualId = null;
             _idClienteSeleccionado = null;
             _idVendedorSeleccionado = null;
+            _idListaPrecioSeleccionada = null; // NUEVO
 
             txtCotizacion.Text = "NUEVO";
             txtFecha.Value = DateTime.Now;
@@ -471,6 +532,10 @@ namespace SistemaPresupuestario.Presupuesto
             txtCodigoCliente.Clear();
             txtCliente.Clear();
             txtVendedor.Clear();
+
+            // Limpiar lista de precios (NUEVO)
+            txtCodigoListaPrecio.Clear();
+            txtListaPrecio.Clear();
 
             // Limpiar condición de pago
             Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
@@ -854,9 +919,7 @@ namespace SistemaPresupuestario.Presupuesto
 
         private void txtCodigoCliente_KeyDown(object sender, KeyEventArgs e)
         {
-            // NOTA: Este evento ya no es necesario porque ProcessCmdKey maneja el Enter
-            // Lo dejamos por compatibilidad pero el Enter será manejado por ProcessCmdKey
-            if (e.KeyCode == Keys.F1) // Podemos usar F1 como atajo alternativo para selector
+            if (e.KeyCode == Keys.F1) // Usar F1 como atajo alternativo para selector
             {
                 e.SuppressKeyPress = true;
                 MostrarSelectorClienteDirecto();
@@ -884,7 +947,7 @@ namespace SistemaPresupuestario.Presupuesto
         // ============= REPORTES =============
 
         /// <summary>
-        /// Vista previa del presupuesto actuales
+        /// Vista previa del presupuesto actual
         /// </summary>
         private void VerReporte()
         {
@@ -924,66 +987,7 @@ namespace SistemaPresupuestario.Presupuesto
         }
 
         /// <summary>
-        /// Método para búsqueda y aplicación de productos por código (versión asíncrona)
-        /// </summary>
-        private async void BuscarYAplicarProductoPorCodigo(string codigo)
-        {
-            if (string.IsNullOrWhiteSpace(codigo))
-                return;
-
-            try
-            {
-                // Validar formato de código (optimizar según necesidad)
-                if (codigo.Length < 3)
-                {
-                    MessageBox.Show("El código del producto debe tener al menos 3 caracteres", "Advertencia",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Buscar producto por código
-                var producto = await _productoService.GetByCodigoAsync(codigo.Trim());
-                if (producto != null)
-                {
-                    // Aplicar datos del producto a la fila actual
-                    if (dgArticulos.CurrentRow != null)
-                    {
-                        dgArticulos.CurrentRow.Cells["Codigo"].Value = producto.Codigo;
-                        dgArticulos.CurrentRow.Cells["Descripcion"].Value = producto.Descripcion;
-                        // NOTA: El precio no está en la tabla Producto, dejar en 0 para que el usuario lo ingrese
-                        dgArticulos.CurrentRow.Cells["Precio"].Value = 0M;
-
-                        // Seleccionar siguiente celda
-                        if (dgArticulos.Columns.Contains("Cantidad"))
-                        {
-                            dgArticulos.CurrentCell = dgArticulos.CurrentRow.Cells["Cantidad"];
-                            dgArticulos.BeginEdit(true);
-                        }
-                    }
-                }
-                else
-                {
-                    // Si no se encuentra, limpiar campos relevantes
-                    if (dgArticulos.CurrentRow != null)
-                    {
-                        dgArticulos.CurrentRow.Cells["Codigo"].Value = null;
-                        dgArticulos.CurrentRow.Cells["Descripcion"].Value = null;
-                        dgArticulos.CurrentRow.Cells["Precio"].Value = null;
-                    }
-
-                    MessageBox.Show("Producto no encontrado", "Advertencia",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al buscar producto: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Busca un producto por código y lo aplica a la fila actual o abre el selector si no existe (versión síncrona)
+        /// Método para búsqueda y aplicación de productos por código (versión síncrona)
         /// </summary>
         private void BuscarYAplicarProductoPorCodigoSync(string codigo)
         {
@@ -1419,6 +1423,7 @@ namespace SistemaPresupuestario.Presupuesto
                         FechaVencimiento = dtEntrega.Value,
                         IdCliente = _idClienteSeleccionado.Value,
                         IdVendedor = _idVendedorSeleccionado, // Puede ser null
+                        IdListaPrecio = _idListaPrecioSeleccionada, // NUEVO: Puede ser null
                         Detalles = detallesValidos
                     };
 
@@ -1440,16 +1445,17 @@ namespace SistemaPresupuestario.Presupuesto
                 else
                 {
                     // Modo nuevo: crear presupuesto
-                    var presupuestoNuevo = new PresupuestoDTO();
-
-                    presupuestoNuevo.Numero = txtCotizacion.Text.Trim();
-                    presupuestoNuevo.FechaEmision = txtFecha.Value;
-                    presupuestoNuevo.Estado = estadoPresupuesto;
-                    presupuestoNuevo.FechaVencimiento = dtEntrega.Value;
-                    presupuestoNuevo.IdCliente = _idClienteSeleccionado.Value;
-                    presupuestoNuevo.IdVendedor = _idVendedorSeleccionado;
-                    presupuestoNuevo.Detalles = detallesValidos;
-
+                    var presupuestoNuevo = new PresupuestoDTO
+                    {
+                        Numero = txtCotizacion.Text.Trim(),
+                        FechaEmision = txtFecha.Value,
+                        Estado = estadoPresupuesto,
+                        FechaVencimiento = dtEntrega.Value,
+                        IdCliente = _idClienteSeleccionado.Value,
+                        IdVendedor = _idVendedorSeleccionado,
+                        IdListaPrecio = _idListaPrecioSeleccionada, // NUEVO: Puede ser null
+                        Detalles = detallesValidos
+                    };
 
                     // Validar datos requeridos
                     var resultadoValidacion = ValidarDatosPresupuesto(presupuestoNuevo);
@@ -1698,6 +1704,21 @@ namespace SistemaPresupuestario.Presupuesto
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             ConfigurarEstadoInicial();
+
+            // Si estábamos en modo nuevo, volver a cargar los presupuestos
+            if (_modoEdicion && !_presupuestoActualId.HasValue)
+            {
+                CargarPresupuestos();
+            }
+            else if (_modoEdicion && _presupuestoActualId.HasValue)
+            {
+                // Si estábamos editando, recargar el presupuesto actual
+                var presupuesto = _presupuestosCompletos.FirstOrDefault(p => p.Id == _presupuestoActualId.Value);
+                if (presupuesto != null)
+                {
+                    MostrarPresupuesto(presupuesto);
+                }
+            }
         }
 
         /// <summary>
@@ -1852,9 +1873,10 @@ namespace SistemaPresupuestario.Presupuesto
         /// </summary>
         private void DgArticulos_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            // Validar valores numéricos en columnas de cantidad y precio
+            // Validar valores numéricos en columnas de cantidad, precio y descuento
             if (e.ColumnIndex == dgArticulos.Columns["Cantidad"].Index ||
-                e.ColumnIndex == dgArticulos.Columns["Precio"].Index)
+                e.ColumnIndex == dgArticulos.Columns["Precio"].Index ||
+                e.ColumnIndex == dgArticulos.Columns["Descuento"].Index)
             {
                 if (!string.IsNullOrWhiteSpace(e.FormattedValue?.ToString()))
                 {
@@ -1918,6 +1940,7 @@ namespace SistemaPresupuestario.Presupuesto
             e.Row.Cells["Descripcion"].Value = "";
             e.Row.Cells["Cantidad"].Value = 1M;
             e.Row.Cells["Precio"].Value = 0M;
+            e.Row.Cells["Descuento"].Value = 0M;
             e.Row.Cells["Total"].Value = 0M;
         }
 
@@ -2108,6 +2131,26 @@ namespace SistemaPresupuestario.Presupuesto
                 return true; // Indicamos que manejamos la tecla
             }
 
+            // Manejar Enter en TextBox de código de lista de precios
+            if (txtCodigoListaPrecio.Focused && keyData == Keys.Enter)
+            {
+                // Suprimir el beep
+                var codigo = txtCodigoListaPrecio.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(codigo))
+                {
+                    // Campo vacío - mostrar selector directamente
+                    MostrarSelectorListaPrecio();
+                }
+                else
+                {
+                    // Validar lista de precios
+                    ValidarYMoverFocoListaPrecio();
+                }
+
+                return true; // Indicamos que manejamos la tecla
+            }
+
             // Manejar Enter en otros controles editables (simular Tab)
             if (keyData == Keys.Enter)
             {
@@ -2127,6 +2170,206 @@ namespace SistemaPresupuestario.Presupuesto
             // Para cualquier otra tecla, procesamiento normal
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        // ============= EVENTOS DE LISTA DE PRECIOS =============
+
+        /// <summary>
+        /// Evento al presionar Enter en el campo de código de lista de precios
+        /// </summary>
+        private void txtCodigoListaPrecio_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                var codigo = txtCodigoListaPrecio.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(codigo))
+                {
+                    // Campo vacío - mostrar selector directamente
+                    MostrarSelectorListaPrecio();
+                }
+                else
+                {
+                    // Validar lista de precios
+                    ValidarYMoverFocoListaPrecio();
+                }
+            }
+            else if (e.KeyCode == Keys.F1) // Usar F1 como atajo alternativo para selector
+            {
+                e.SuppressKeyPress = true;
+                MostrarSelectorListaPrecio();
+            }
+        }
+
+        /// <summary>
+        /// Evento al salir del campo de código de lista de precios
+        /// </summary>
+        private async void txtCodigoListaPrecio_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCodigoListaPrecio.Text))
+            {
+                txtListaPrecio.Clear();
+                _idListaPrecioSeleccionada = null;
+                return;
+            }
+
+            try
+            {
+                // Intentar buscar lista de precios por código
+                var listaPrecios = _listaPrecioService.GetActivas();
+                var lista = listaPrecios.FirstOrDefault(lp => lp.Codigo != null &&
+                    lp.Codigo.Trim().Equals(txtCodigoListaPrecio.Text.Trim(), StringComparison.OrdinalIgnoreCase));
+
+                if (lista != null)
+                {
+                    // Lista de precios encontrada - guardar ID y mostrar datos
+                    _idListaPrecioSeleccionada = lista.Id;
+                    txtCodigoListaPrecio.Text = lista.Codigo;
+                    txtListaPrecio.Text = lista.Nombre;
+                }
+                else
+                {
+                    // Lista de precios no encontrada - Mostrar selector
+                    MostrarSelectorListaPrecio();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al buscar lista de precios: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Muestra el selector de listas de precios para que el usuario elija una
+        /// </summary>
+        private void MostrarSelectorListaPrecio()
+        {
+            try
+            {
+                // Obtener todas las listas de precios activas
+                var listasPrecios = _listaPrecioService.GetActivas().ToList();
+
+                if (!listasPrecios.Any())
+                {
+                    MessageBox.Show("No hay listas de precios disponibles", "Advertencia",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Configurar el selector de listas de precios
+                var config = new SelectorConfig<ListaPrecioDTO>
+                {
+                    Titulo = "Seleccionar Lista de Precios",
+                    Datos = listasPrecios,
+                    PlaceholderBusqueda = "Buscar por código o nombre...",
+                    PermitirSeleccionMultiple = false,
+                    Columnas = new List<ColumnaConfig>
+                    {
+                        new ColumnaConfig
+                        {
+                            NombrePropiedad = "Codigo",
+                            TituloColumna = "Código",
+                            Ancho = 100,
+                            Visible = true
+                        },
+                        new ColumnaConfig
+                        {
+                            NombrePropiedad = "Nombre",
+                            TituloColumna = "Nombre",
+                            Ancho = 300,
+                            Visible = true
+                        }
+                    },
+                    FuncionFiltro = (busqueda, lista) =>
+                    {
+                        var textoBusqueda = busqueda.ToUpper();
+                        return (lista.Codigo != null && lista.Codigo.ToUpper().Contains(textoBusqueda)) ||
+                               (lista.Nombre != null && lista.Nombre.ToUpper().Contains(textoBusqueda));
+                    }
+                };
+
+                // Mostrar el selector
+                var selector = frmSelector.Mostrar(config);
+
+                if (selector.ShowDialog() == DialogResult.OK)
+                {
+                    var listaSeleccionada = selector.ElementoSeleccionado as ListaPrecioDTO;
+
+                    if (listaSeleccionada != null)
+                    {
+                        // Guardar ID
+                        _idListaPrecioSeleccionada = listaSeleccionada.Id;
+
+                        // Aplicar la lista de precios seleccionada
+                        txtCodigoListaPrecio.Text = listaSeleccionada.Codigo;
+                        txtListaPrecio.Text = listaSeleccionada.Nombre;
+                    }
+                }
+                else
+                {
+                    // Usuario canceló - limpiar campos
+                    txtCodigoListaPrecio.Clear();
+                    txtListaPrecio.Clear();
+                    _idListaPrecioSeleccionada = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al mostrar selector de listas de precios: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Valida la lista de precios ingresada y mueve el foco al siguiente control
+        /// Si no es válida, muestra el selector
+        /// </summary>
+        private void ValidarYMoverFocoListaPrecio()
+        {
+            try
+            {
+                var codigo = txtCodigoListaPrecio.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(codigo))
+                {
+                    txtListaPrecio.Clear();
+                    _idListaPrecioSeleccionada = null;
+
+                    // Mover al siguiente control
+                    this.SelectNextControl(txtCodigoListaPrecio, true, true, true, true);
+                    return;
+                }
+
+                // Intentar buscar lista de precios por código
+                var listasPrecios = _listaPrecioService.GetActivas();
+                var lista = listasPrecios.FirstOrDefault(lp => lp.Codigo != null &&
+                    lp.Codigo.Trim().Equals(codigo, StringComparison.OrdinalIgnoreCase));
+
+                if (lista != null)
+                {
+                    // Lista de precios encontrada - guardar ID y aplicar datos
+                    _idListaPrecioSeleccionada = lista.Id;
+                    txtCodigoListaPrecio.Text = lista.Codigo;
+                    txtListaPrecio.Text = lista.Nombre;
+
+                    // Mover al siguiente control
+                    this.SelectNextControl(txtCodigoListaPrecio, true, true, true, true);
+                }
+                else
+                {
+                    // Lista de precios no encontrada - Mostrar selector
+                    MostrarSelectorListaPrecio();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al buscar lista de precios: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ...existing code...
     }
 
     /// <summary>
