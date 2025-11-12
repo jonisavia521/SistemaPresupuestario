@@ -19,6 +19,8 @@ namespace DAL.Implementation.EntityFramework
         public virtual DbSet<Comprobante_Detalle> Comprobante_Detalle { get; set; }
         public virtual DbSet<Comprobantes> Comprobantes { get; set; }
         public virtual DbSet<Impuesto> Impuesto { get; set; }
+        public virtual DbSet<ListaPrecio> ListaPrecio { get; set; }
+        public virtual DbSet<ListaPrecio_Detalle> ListaPrecio_Detalle { get; set; }
         public virtual DbSet<Presupuesto> Presupuesto { get; set; }
         public virtual DbSet<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
@@ -250,6 +252,13 @@ namespace DAL.Implementation.EntityFramework
                 .WithOptional(e => e.Producto)
                 .HasForeignKey(e => e.IdProducto);
 
+            // ? NUEVA CONFIGURACIÓN: Relación entre Producto y ListaPrecio_Detalle
+            modelBuilder.Entity<Producto>()
+                .HasMany(e => e.ListaPrecio_Detalle)
+                .WithRequired(e => e.Producto)
+                .HasForeignKey(e => e.IdProducto)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Provincia>()
                 .Property(e => e.CodigoAFIP)
                 .IsUnicode(false);
@@ -332,6 +341,64 @@ namespace DAL.Implementation.EntityFramework
                 .HasMany(e => e.Presupuesto)
                 .WithOptional(e => e.Vendedor)
                 .HasForeignKey(e => e.IdVendedor);
+
+            // Configuración de ListaPrecio
+            modelBuilder.Entity<ListaPrecio>()
+                .ToTable("ListaPrecio");
+
+            modelBuilder.Entity<ListaPrecio>()
+                .HasKey(e => e.ID);
+
+            modelBuilder.Entity<ListaPrecio>()
+                .Property(e => e.Codigo)
+                .IsRequired()
+                .HasMaxLength(2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ListaPrecio>()
+                .Property(e => e.Nombre)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ListaPrecio>()
+                .Property(e => e.Activo)
+                .IsRequired();
+
+            modelBuilder.Entity<ListaPrecio>()
+                .Property(e => e.FechaAlta)
+                .IsRequired();
+
+            modelBuilder.Entity<ListaPrecio>()
+                .HasMany(e => e.ListaPrecio_Detalle)
+                .WithRequired(e => e.ListaPrecio)
+                .HasForeignKey(e => e.IdListaPrecio)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ListaPrecio>()
+                .HasMany(e => e.Presupuesto)
+                .WithOptional(e => e.ListaPrecio)
+                .HasForeignKey(e => e.IdListaPrecio);
+
+            // Configuración de ListaPrecio_Detalle
+            modelBuilder.Entity<ListaPrecio_Detalle>()
+                .ToTable("ListaPrecio_Detalle");
+
+            modelBuilder.Entity<ListaPrecio_Detalle>()
+                .HasKey(e => e.ID);
+
+            modelBuilder.Entity<ListaPrecio_Detalle>()
+                .Property(e => e.IdListaPrecio)
+                .IsRequired();
+
+            modelBuilder.Entity<ListaPrecio_Detalle>()
+                .Property(e => e.IdProducto)
+                .IsRequired();
+
+            modelBuilder.Entity<ListaPrecio_Detalle>()
+                .Property(e => e.Precio)
+                .IsRequired()
+                .HasPrecision(18, 4);
         }
     }
 }

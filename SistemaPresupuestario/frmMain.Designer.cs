@@ -36,6 +36,7 @@
             this.tsProducto = new System.Windows.Forms.ToolStripMenuItem();
             this.tsUsuario = new System.Windows.Forms.ToolStripMenuItem();
             this.tsVendedor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsListaPrecio = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalPresupuesto = new System.Windows.Forms.ToolStripMenuItem();
             this.tsGestionarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsAprobarCotizacion = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +86,8 @@
             this.tsCliente,
             this.tsProducto,
             this.tsUsuario,
-            this.tsVendedor});
+            this.tsVendedor,
+            this.tsListaPrecio});
             this.tsPrincipalMaestro.Name = "tsPrincipalMaestro";
             this.tsPrincipalMaestro.Size = new System.Drawing.Size(83, 24);
             this.tsPrincipalMaestro.Text = "Maestros";
@@ -93,30 +95,37 @@
             // tsCliente
             // 
             this.tsCliente.Name = "tsCliente";
-            this.tsCliente.Size = new System.Drawing.Size(170, 26);
+            this.tsCliente.Size = new System.Drawing.Size(224, 26);
             this.tsCliente.Text = "Clientes";
             this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 
             this.tsProducto.Name = "tsProducto";
-            this.tsProducto.Size = new System.Drawing.Size(170, 26);
+            this.tsProducto.Size = new System.Drawing.Size(224, 26);
             this.tsProducto.Text = "Productos";
             this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 
             this.tsUsuario.Name = "tsUsuario";
-            this.tsUsuario.Size = new System.Drawing.Size(170, 26);
+            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
             this.tsUsuario.Text = "Usuarios";
             this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // tsVendedor
             // 
             this.tsVendedor.Name = "tsVendedor";
-            this.tsVendedor.Size = new System.Drawing.Size(170, 26);
+            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
             this.tsVendedor.Text = "Vendedores";
             this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
+            // 
+            // tsListaPrecio
+            // 
+            this.tsListaPrecio.Name = "tsListaPrecio";
+            this.tsListaPrecio.Size = new System.Drawing.Size(224, 26);
+            this.tsListaPrecio.Text = "Lista Precio";
+            this.tsListaPrecio.Click += new System.EventHandler(this.tsListaPrecio_Click);
             // 
             // tsPrincipalPresupuesto
             // 
@@ -224,6 +233,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsFactura;
         private System.Windows.Forms.ToolStripMenuItem tsRecibo;
         private System.Windows.Forms.ToolStripMenuItem tsArba;
+        private System.Windows.Forms.ToolStripMenuItem tsListaPrecio;
     }
 }
 

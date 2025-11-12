@@ -32,10 +32,14 @@ namespace BLL.DTOs
 
         public Guid? IdVendedor { get; set; }
 
+        public Guid? IdListaPrecio { get; set; }
+
         // Propiedades navegacionales (para visualización)
         public string ClienteRazonSocial { get; set; }
         public string VendedorNombre { get; set; }
         public string EstadoDescripcion { get; set; }
+        public string ListaPrecioCodigo { get; set; }
+        public string ListaPrecioNombre { get; set; }
 
         /// <summary>
         /// Propiedad auxiliar para mostrar el texto del estado en grillas

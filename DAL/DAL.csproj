@@ -94,7 +94,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\EntityFramework\ListaPrecio.cs" />
+    <Compile Include="Implementation\EntityFramework\ListaPrecio_Detalle.cs" />
     <Compile Include="Implementation\Repository\ClienteRepository.cs" />
+    <Compile Include="Implementation\Repository\ListaPrecioRepository.cs" />
     <Compile Include="Implementation\Repository\PresupuestoRepository.cs" />
     <Compile Include="Implementation\Repository\ProductoRepository.cs" />
     <Compile Include="Implementation\Repository\VendedorRepository.cs" />

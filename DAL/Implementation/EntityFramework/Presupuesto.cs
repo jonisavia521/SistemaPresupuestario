@@ -34,7 +34,11 @@ namespace DAL.Implementation.EntityFramework
 
         public Guid? IdVendedor { get; set; }
 
+        public Guid? IdListaPrecio { get; set; }
+
         public virtual Cliente Cliente { get; set; }
+
+        public virtual ListaPrecio ListaPrecio { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }

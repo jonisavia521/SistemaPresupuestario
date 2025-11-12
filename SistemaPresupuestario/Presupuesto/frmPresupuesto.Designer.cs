@@ -65,6 +65,7 @@
             this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descuento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
             this.txtSUB = new System.Windows.Forms.TextBox();
@@ -74,6 +75,9 @@
             this.txtIva = new System.Windows.Forms.TextBox();
             this.Label11 = new System.Windows.Forms.Label();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtListaPrecio = new System.Windows.Forms.TextBox();
+            this.txtCodigoListaPrecio = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -328,6 +332,7 @@
             this.Descripcion,
             this.Cantidad,
             this.Precio,
+            this.Descuento,
             this.Total});
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
@@ -389,6 +394,19 @@
             this.Precio.MinimumWidth = 6;
             this.Precio.Name = "Precio";
             this.Precio.Width = 70;
+            // 
+            // Descuento
+            // 
+            this.Descuento.DataPropertyName = "Descuento";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N2";
+            dataGridViewCellStyle3.NullValue = "0.00";
+            this.Descuento.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Descuento.FillWeight = 70F;
+            this.Descuento.HeaderText = "Desc %";
+            this.Descuento.MinimumWidth = 6;
+            this.Descuento.Name = "Descuento";
+            this.Descuento.Width = 70;
             // 
             // Total
             // 
@@ -507,6 +525,9 @@
             // GroupBox1
             // 
             this.GroupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox1.Controls.Add(this.txtListaPrecio);
+            this.GroupBox1.Controls.Add(this.txtCodigoListaPrecio);
+            this.GroupBox1.Controls.Add(this.label8);
             this.GroupBox1.Controls.Add(this.comboBox3);
             this.GroupBox1.Controls.Add(this.label7);
             this.GroupBox1.Controls.Add(this.comboBox2);
@@ -537,6 +558,39 @@
             this.GroupBox1.TabIndex = 0;
             this.GroupBox1.TabStop = false;
             // 
+            // txtListaPrecio
+            // 
+            this.txtListaPrecio.BackColor = System.Drawing.Color.LightGray;
+            this.txtListaPrecio.Enabled = false;
+            this.txtListaPrecio.Location = new System.Drawing.Point(235, 221);
+            this.txtListaPrecio.Margin = new System.Windows.Forms.Padding(5);
+            this.txtListaPrecio.Name = "txtListaPrecio";
+            this.txtListaPrecio.Size = new System.Drawing.Size(432, 22);
+            this.txtListaPrecio.TabIndex = 38;
+            // 
+            // txtCodigoListaPrecio
+            // 
+            this.txtCodigoListaPrecio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCodigoListaPrecio.Location = new System.Drawing.Point(133, 221);
+            this.txtCodigoListaPrecio.Margin = new System.Windows.Forms.Padding(5);
+            this.txtCodigoListaPrecio.Name = "txtCodigoListaPrecio";
+            this.txtCodigoListaPrecio.Size = new System.Drawing.Size(92, 22);
+            this.txtCodigoListaPrecio.TabIndex = 37;
+            this.txtCodigoListaPrecio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodigoListaPrecio_KeyDown);
+            this.txtCodigoListaPrecio.Leave += new System.EventHandler(this.txtCodigoListaPrecio_Leave);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(24, 224);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(97, 16);
+            this.label8.TabIndex = 36;
+            this.label8.Text = "Lista de precios";
+            // 
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
@@ -547,7 +601,7 @@
             this.comboBox3.Location = new System.Drawing.Point(453, 160);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(214, 24);
-            this.comboBox3.TabIndex = 36;
+            this.comboBox3.TabIndex = 33;
             // 
             // label7
             // 
@@ -558,7 +612,7 @@
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(82, 16);
-            this.label7.TabIndex = 35;
+            this.label7.TabIndex = 32;
             this.label7.Text = "A partir de la";
             // 
             // comboBox2
@@ -571,7 +625,7 @@
             this.comboBox2.Location = new System.Drawing.Point(235, 159);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 24);
-            this.comboBox2.TabIndex = 34;
+            this.comboBox2.TabIndex = 31;
             // 
             // comboBox1
             // 
@@ -595,7 +649,7 @@
             this.comboBox1.Location = new System.Drawing.Point(133, 159);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(92, 24);
-            this.comboBox1.TabIndex = 33;
+            this.comboBox1.TabIndex = 30;
             // 
             // txtFormaPago
             // 
@@ -605,7 +659,7 @@
             this.txtFormaPago.Margin = new System.Windows.Forms.Padding(5);
             this.txtFormaPago.Name = "txtFormaPago";
             this.txtFormaPago.Size = new System.Drawing.Size(432, 22);
-            this.txtFormaPago.TabIndex = 32;
+            this.txtFormaPago.TabIndex = 29;
             // 
             // txtVendedor
             // 
@@ -615,7 +669,7 @@
             this.txtVendedor.Margin = new System.Windows.Forms.Padding(5);
             this.txtVendedor.Name = "txtVendedor";
             this.txtVendedor.Size = new System.Drawing.Size(534, 22);
-            this.txtVendedor.TabIndex = 31;
+            this.txtVendedor.TabIndex = 28;
             // 
             // txtCliente
             // 
@@ -625,7 +679,7 @@
             this.txtCliente.Margin = new System.Windows.Forms.Padding(5);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(432, 22);
-            this.txtCliente.TabIndex = 30;
+            this.txtCliente.TabIndex = 27;
             // 
             // Label13
             // 
@@ -634,7 +688,7 @@
             this.Label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label13.Name = "Label13";
             this.Label13.Size = new System.Drawing.Size(81, 16);
-            this.Label13.TabIndex = 28;
+            this.Label13.TabIndex = 25;
             this.Label13.Text = "Vencimiento";
             // 
             // dtEntrega
@@ -644,7 +698,7 @@
             this.dtEntrega.Margin = new System.Windows.Forms.Padding(4);
             this.dtEntrega.Name = "dtEntrega";
             this.dtEntrega.Size = new System.Drawing.Size(136, 22);
-            this.dtEntrega.TabIndex = 29;
+            this.dtEntrega.TabIndex = 26;
             // 
             // txtCodigoFormaPago
             // 
@@ -1012,6 +1066,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descuento;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.TextBox txtFormaPago;
         private System.Windows.Forms.TextBox txtVendedor;
@@ -1029,5 +1084,8 @@
         private System.Windows.Forms.ToolStripButton btnBuscar;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton btnAprobar;
+        private System.Windows.Forms.TextBox txtListaPrecio;
+        private System.Windows.Forms.TextBox txtCodigoListaPrecio;
+        private System.Windows.Forms.Label label8;
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SistemaPresupuestario.Maestros.ListaPrecio;
 
 namespace SistemaPresupuestario
 {
@@ -221,6 +222,23 @@ namespace SistemaPresupuestario
                 hijo.EstablecerModo(modo); // IMPORTANTE: establecer modo antes de mostrar
                 hijo.MdiParent = this;
                 hijo.Text = titulo;
+                hijo.Show();
+            }
+        }
+
+        private void tsListaPrecio_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<frmListaPrecios>()
+               .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(frmListaPrecios)) as frmListaPrecios;
+                hijo.MdiParent = this;
                 hijo.Show();
             }
         }

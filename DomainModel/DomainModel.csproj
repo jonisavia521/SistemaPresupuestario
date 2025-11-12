@@ -78,12 +78,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IClienteRepository.cs" />
+    <Compile Include="Contract\IListaPrecioRepository.cs" />
     <Compile Include="Contract\IPresupuestoRepository.cs" />
     <Compile Include="Contract\IProductoRepository.cs" />
     <Compile Include="Contract\IRepository.cs" />
     <Compile Include="Contract\IUnitOfWork.cs" />
     <Compile Include="Contract\IVendedorRepository.cs" />
     <Compile Include="Domain\ClienteDM.cs" />
+    <Compile Include="Domain\ListaPrecioDM.cs" />
     <Compile Include="Domain\PresupuestoDM.cs" />
     <Compile Include="Domain\ProductoDM.cs" />
     <Compile Include="Domain\UsuarioDM.cs" />

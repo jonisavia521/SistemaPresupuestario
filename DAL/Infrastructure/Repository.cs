@@ -7,10 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Infraestructure
+namespace DAL.Infrastructure
 {
-  
-
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly SistemaPresupuestario _context;

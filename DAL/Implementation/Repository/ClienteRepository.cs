@@ -1,5 +1,5 @@
 using DAL.Implementation.EntityFramework;
-using DAL.Infraestructure;
+using DAL.Infrastructure;
 using DomainModel.Contract;
 using DomainModel.Domain;
 using System;

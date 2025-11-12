@@ -29,6 +29,7 @@ namespace DAL
             services.AddScoped<IVendedorRepository, VendedorRepository>();
             services.AddScoped<IProductoRepository, ProductoRepository>();
             services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
+            services.AddScoped<ListaPrecioRepository>(); // Sin interfaz, clase concreta solamente
             
             return services;
         }

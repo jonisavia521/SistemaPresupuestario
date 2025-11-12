@@ -17,13 +17,19 @@ namespace BLL
         public static IServiceCollection AddBLLDependencies(this IServiceCollection services)
         {
             // Registrar AutoMapper con los perfiles
-            services.AddAutoMapper(typeof(ClienteMappingProfile), typeof(VendedorMappingProfile), typeof(ProductoMappingProfile), typeof(PresupuestoMappingProfile));
+            services.AddAutoMapper(
+                typeof(ClienteMappingProfile), 
+                typeof(VendedorMappingProfile), 
+                typeof(ProductoMappingProfile), 
+                typeof(PresupuestoMappingProfile),
+                typeof(ListaPrecioMappingProfile));
             
             // Registrar servicios
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IVendedorService, VendedorService>();
             services.AddScoped<IProductoService, ProductoService>();
             services.AddScoped<IPresupuestoService, PresupuestoService>();
+            services.AddScoped<IListaPrecioService, ListaPrecioService>();
             
             return services;
         }
