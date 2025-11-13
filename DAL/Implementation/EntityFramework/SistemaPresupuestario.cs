@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Linq;
 
 namespace DAL.Implementation.EntityFramework
@@ -10,10 +11,18 @@ namespace DAL.Implementation.EntityFramework
         public SistemaPresupuestario()
             : base("name=SistemaPresupuestario")
         {
+            // Habilitar el seguimiento de cambios y proxy de carga diferida
+            this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.ProxyCreationEnabled = true;
         }
+        
         public SistemaPresupuestario(string connectionString) : base(connectionString)
         {
+            // Habilitar el seguimiento de cambios y proxy de carga diferida
+            this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.ProxyCreationEnabled = true;
         }
+        
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Cliente_Impuesto> Cliente_Impuesto { get; set; }
         public virtual DbSet<Comprobante_Detalle> Comprobante_Detalle { get; set; }
@@ -39,10 +48,6 @@ namespace DAL.Implementation.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Cliente>()
-                .Property(e => e.IdProvincia)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Cliente>()
                 .Property(e => e.Localidad)
                 .IsUnicode(false);
 
@@ -63,7 +68,7 @@ namespace DAL.Implementation.EntityFramework
                 .IsUnicode(false)
                 .HasMaxLength(10);
             
-            // Configuraci�n de nuevos campos de Cliente
+            // Configuración de nuevos campos de Cliente
             // NOTA: CodigoVendedor fue eliminado - ahora se usa IdVendedor (FK)
 
             modelBuilder.Entity<Cliente>()
@@ -104,6 +109,12 @@ namespace DAL.Implementation.EntityFramework
                 .WithRequired(e => e.Cliente)
                 .HasForeignKey(e => e.IdCliente)
                 .WillCascadeOnDelete(false);
+
+            // NUEVO: Configuración de relación Cliente -> Provincia
+            modelBuilder.Entity<Cliente>()
+                .HasOptional(e => e.Provincia)
+                .WithMany(p => p.Cliente)
+                .HasForeignKey(e => e.IdProvincia);
 
             modelBuilder.Entity<Comprobante_Detalle>()
                 .Property(e => e.TipoComprobante)
@@ -217,7 +228,10 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.Codigo)
                 .IsRequired()       
                 .HasMaxLength(50)  
-                .IsUnicode(false);  
+                .IsUnicode(false)
+                .HasColumnAnnotation("Index", new IndexAnnotation( 
+        new IndexAttribute("IX_Producto_Codigo") { IsUnique = true }
+    ));
 
             modelBuilder.Entity<Producto>()
                 .Property(e => e.Descripcion)
@@ -252,7 +266,7 @@ namespace DAL.Implementation.EntityFramework
                 .WithOptional(e => e.Producto)
                 .HasForeignKey(e => e.IdProducto);
 
-            // ? NUEVA CONFIGURACI�N: Relaci�n entre Producto y ListaPrecio_Detalle
+            // ? NUEVA CONFIGURACIÓN: Relación entre Producto y ListaPrecio_Detalle
             modelBuilder.Entity<Producto>()
                 .HasMany(e => e.ListaPrecio_Detalle)
                 .WithRequired(e => e.Producto)
@@ -304,7 +318,7 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.Telefono)
                 .IsUnicode(false);
             
-            // Configuraci�n de nuevos campos de Vendedor
+            // Configuración de nuevos campos de Vendedor
             modelBuilder.Entity<Vendedor>()
                 .Property(e => e.CodigoVendedor)
                 .IsUnicode(false)
@@ -342,7 +356,7 @@ namespace DAL.Implementation.EntityFramework
                 .WithOptional(e => e.Vendedor)
                 .HasForeignKey(e => e.IdVendedor);
 
-            // Configuraci�n de ListaPrecio
+            // Configuración de ListaPrecio
             modelBuilder.Entity<ListaPrecio>()
                 .ToTable("ListaPrecio");
 
@@ -366,21 +380,27 @@ namespace DAL.Implementation.EntityFramework
                 .IsRequired();
 
             modelBuilder.Entity<ListaPrecio>()
+                .Property(e => e.IncluyeIva)
+                .IsRequired();
+
+            modelBuilder.Entity<ListaPrecio>()
                 .Property(e => e.FechaAlta)
                 .IsRequired();
 
+            // ✅ CAMBIO CRÍTICO: Habilitar eliminación en cascada para ListaPrecio_Detalle
+            // Esto permite que Entity Framework elimine automáticamente los detalles huérfanos
             modelBuilder.Entity<ListaPrecio>()
                 .HasMany(e => e.ListaPrecio_Detalle)
                 .WithRequired(e => e.ListaPrecio)
                 .HasForeignKey(e => e.IdListaPrecio)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true); // ⬅️ Cambiado de false a true
 
             modelBuilder.Entity<ListaPrecio>()
                 .HasMany(e => e.Presupuesto)
                 .WithOptional(e => e.ListaPrecio)
                 .HasForeignKey(e => e.IdListaPrecio);
 
-            // Configuraci�n de ListaPrecio_Detalle
+            // Configuración de ListaPrecio_Detalle
             modelBuilder.Entity<ListaPrecio_Detalle>()
                 .ToTable("ListaPrecio_Detalle");
 

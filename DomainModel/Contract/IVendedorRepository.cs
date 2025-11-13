@@ -1,7 +1,6 @@
 using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DomainModel.Contract
 {
@@ -14,31 +13,26 @@ namespace DomainModel.Contract
         /// <summary>
         /// Busca un vendedor por su código único
         /// </summary>
-        Task<VendedorDM> GetByCodigoAsync(string codigoVendedor);
+        VendedorDM GetByCodigo(string codigoVendedor);
 
         /// <summary>
         /// Busca un vendedor por su CUIT
         /// </summary>
-        Task<VendedorDM> GetByCUITAsync(string cuit);
+        VendedorDM GetByCUIT(string cuit);
 
         /// <summary>
         /// Obtiene todos los vendedores activos
         /// </summary>
-        Task<IEnumerable<VendedorDM>> GetActivosAsync();
+        IEnumerable<VendedorDM> GetActivos();
 
         /// <summary>
         /// Verifica si existe un vendedor con el código especificado
         /// </summary>
-        Task<bool> ExisteCodigoAsync(string codigoVendedor, Guid? excluyendoId = null);
+        bool ExisteCodigo(string codigoVendedor, Guid? excluyendoId = null);
 
         /// <summary>
         /// Verifica si existe un vendedor con el CUIT especificado
         /// </summary>
-        Task<bool> ExisteCUITAsync(string cuit, Guid? excluyendoId = null);
-
-        /// <summary>
-        /// Obtiene un vendedor por ID (versión síncrona)
-        /// </summary>
-        VendedorDM GetById(Guid id);
+        bool ExisteCUIT(string cuit, Guid? excluyendoId = null);
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Implementation.Repository
 {
@@ -20,10 +19,10 @@ namespace DAL.Implementation.Repository
         {
         }
 
-        public async Task<VendedorDM> GetByCodigoAsync(string codigoVendedor)
+        public VendedorDM GetByCodigo(string codigoVendedor)
         {
-            var vendedorEF = await _context.Vendedor
-                .FirstOrDefaultAsync(v => v.CodigoVendedor == codigoVendedor);
+            var vendedorEF = _context.Vendedor
+                .FirstOrDefault(v => v.CodigoVendedor == codigoVendedor);
 
             if (vendedorEF == null)
                 return null;
@@ -31,10 +30,10 @@ namespace DAL.Implementation.Repository
             return MapearADominio(vendedorEF);
         }
 
-        public async Task<VendedorDM> GetByCUITAsync(string cuit)
+        public VendedorDM GetByCUIT(string cuit)
         {
-            var vendedorEF = await _context.Vendedor
-                .FirstOrDefaultAsync(v => v.CUIT == cuit);
+            var vendedorEF = _context.Vendedor
+                .FirstOrDefault(v => v.CUIT == cuit);
 
             if (vendedorEF == null)
                 return null;
@@ -42,40 +41,40 @@ namespace DAL.Implementation.Repository
             return MapearADominio(vendedorEF);
         }
 
-        public async Task<IEnumerable<VendedorDM>> GetActivosAsync()
+        public IEnumerable<VendedorDM> GetActivos()
         {
-            var vendedoresEF = await _context.Vendedor
+            var vendedoresEF = _context.Vendedor
                 .Where(v => v.Activo)
-                .ToListAsync();
+                .ToList();
 
             return vendedoresEF.Select(MapearADominio);
         }
 
-        public async Task<bool> ExisteCodigoAsync(string codigoVendedor, Guid? excluyendoId = null)
+        public bool ExisteCodigo(string codigoVendedor, Guid? excluyendoId = null)
         {
             if (excluyendoId.HasValue)
             {
-                return await _context.Vendedor
-                    .AnyAsync(v => v.CodigoVendedor == codigoVendedor && v.ID != excluyendoId.Value);
+                return _context.Vendedor
+                    .Any(v => v.CodigoVendedor == codigoVendedor && v.ID != excluyendoId.Value);
             }
 
-            return await _context.Vendedor
-                .AnyAsync(v => v.CodigoVendedor == codigoVendedor);
+            return _context.Vendedor
+                .Any(v => v.CodigoVendedor == codigoVendedor);
         }
 
-        public async Task<bool> ExisteCUITAsync(string cuit, Guid? excluyendoId = null)
+        public bool ExisteCUIT(string cuit, Guid? excluyendoId = null)
         {
             if (excluyendoId.HasValue)
             {
-                return await _context.Vendedor
-                    .AnyAsync(v => v.CUIT == cuit && v.ID != excluyendoId.Value);
+                return _context.Vendedor
+                    .Any(v => v.CUIT == cuit && v.ID != excluyendoId.Value);
             }
 
-            return await _context.Vendedor
-                .AnyAsync(v => v.CUIT == cuit);
+            return _context.Vendedor
+                .Any(v => v.CUIT == cuit);
         }
 
-        public VendedorDM GetById(Guid id)
+        public new VendedorDM GetById(Guid id)
         {
             var vendedorEF = _context.Vendedor.Find(id);
             if (vendedorEF == null)
@@ -85,19 +84,10 @@ namespace DAL.Implementation.Repository
         }
 
         // Sobrescribir métodos base para usar el mapeo personalizado
-        public new async Task<IEnumerable<VendedorDM>> GetAllAsync()
+        public new IEnumerable<VendedorDM> GetAll()
         {
-            var vendedoresEF = await _context.Vendedor.ToListAsync();
+            var vendedoresEF = _context.Vendedor.ToList();
             return vendedoresEF.Select(MapearADominio);
-        }
-
-        public new async Task<VendedorDM> GetByIdAsync(Guid id)
-        {
-            var vendedorEF = await _context.Vendedor.FindAsync(id);
-            if (vendedorEF == null)
-                return null;
-
-            return MapearADominio(vendedorEF);
         }
 
         public new void Add(VendedorDM entidad)

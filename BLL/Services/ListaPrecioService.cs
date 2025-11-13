@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -29,11 +28,11 @@ namespace BLL.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<ListaPrecioDTO> GetByIdAsync(Guid id)
+        public ListaPrecioDTO GetById(Guid id)
         {
             try
             {
-                var listaPrecioObj = await _unitOfWork.ListaPrecioRepository.GetByIdWithDetailsAsync(id);
+                var listaPrecioObj = _unitOfWork.ListaPrecioRepository.GetByIdWithDetails(id);
                 if (listaPrecioObj == null)
                     return null;
 
@@ -45,11 +44,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<ListaPrecioDTO> GetByCodigoAsync(string codigo)
+        public ListaPrecioDTO GetByCodigo(string codigo)
         {
             try
             {
-                var listaPrecioObj = await _unitOfWork.ListaPrecioRepository.GetByCodigoAsync(codigo);
+                var listaPrecioObj = _unitOfWork.ListaPrecioRepository.GetByCodigo(codigo);
                 if (listaPrecioObj == null)
                     return null;
 
@@ -61,11 +60,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IEnumerable<ListaPrecioDTO>> GetAllAsync()
+        public IEnumerable<ListaPrecioDTO> GetAll()
         {
             try
             {
-                var listasObj = await _unitOfWork.ListaPrecioRepository.GetAllWithDetailsAsync();
+                var listasObj = _unitOfWork.ListaPrecioRepository.GetAllWithDetails();
                 var listasDTOs = new List<ListaPrecioDTO>();
 
                 foreach (var listaObj in listasObj)
@@ -81,11 +80,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IEnumerable<ListaPrecioDTO>> GetActivasAsync()
+        public IEnumerable<ListaPrecioDTO> GetActivas()
         {
             try
             {
-                var listasObj = await _unitOfWork.ListaPrecioRepository.GetActivasAsync();
+                var listasObj = _unitOfWork.ListaPrecioRepository.GetActivas();
                 var listasDTOs = new List<ListaPrecioDTO>();
 
                 foreach (var listaObj in listasObj)
@@ -101,19 +100,20 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> AddAsync(ListaPrecioDTO listaPrecioDTO)
+        public bool Add(ListaPrecioDTO listaPrecioDTO)
         {
             try
             {
                 // Validar que no exista el código
-                var existe = await _unitOfWork.ListaPrecioRepository.ExisteCodigoAsync(listaPrecioDTO.Codigo);
+                var existe = _unitOfWork.ListaPrecioRepository.ExisteCodigo(listaPrecioDTO.Codigo);
                 if (existe)
                     throw new InvalidOperationException($"Ya existe una lista de precios con el código '{listaPrecioDTO.Codigo}'");
 
                 // Convertir DTO a dominio para validaciones
                 var domainModel = new ListaPrecioDM(
                     listaPrecioDTO.Codigo,
-                    listaPrecioDTO.Nombre
+                    listaPrecioDTO.Nombre,
+                    listaPrecioDTO.IncluyeIva
                 );
 
                 // Agregar detalles al dominio
@@ -142,7 +142,7 @@ namespace BLL.Services
                 // Actualizar el ID en el DTO
                 listaPrecioDTO.Id = domainModel.Id;
 
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -150,17 +150,17 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(ListaPrecioDTO listaPrecioDTO)
+        public bool Update(ListaPrecioDTO listaPrecioDTO)
         {
             try
             {
                 // Obtener la lista existente
-                var listaPrecioExistenteObj = await _unitOfWork.ListaPrecioRepository.GetByIdWithDetailsAsync(listaPrecioDTO.Id);
+                var listaPrecioExistenteObj = _unitOfWork.ListaPrecioRepository.GetByIdWithDetails(listaPrecioDTO.Id);
                 if (listaPrecioExistenteObj == null)
                     throw new InvalidOperationException("Lista de precios no encontrada");
 
                 // Validar que no exista el código en otro registro
-                var existe = await _unitOfWork.ListaPrecioRepository.ExisteCodigoAsync(listaPrecioDTO.Codigo, listaPrecioDTO.Id);
+                var existe = _unitOfWork.ListaPrecioRepository.ExisteCodigo(listaPrecioDTO.Codigo, listaPrecioDTO.Id);
                 if (existe)
                     throw new InvalidOperationException($"Ya existe otra lista de precios con el código '{listaPrecioDTO.Codigo}'");
 
@@ -171,7 +171,9 @@ namespace BLL.Services
                     listaPrecioDTO.Nombre,
                     listaPrecioDTO.Activo,
                     listaPrecioDTO.FechaAlta,
-                    listaPrecioDTO.FechaModificacion
+                    listaPrecioDTO.FechaModificacion,
+                    null,
+                    listaPrecioDTO.IncluyeIva
                 );
 
                 // Limpiar y agregar detalles nuevos
@@ -198,7 +200,7 @@ namespace BLL.Services
                 _unitOfWork.ListaPrecioRepository.Update(listaPrecioExistenteObj);
                 _unitOfWork.SaveChanges();
 
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -206,12 +208,12 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public bool Delete(Guid id)
         {
             try
             {
                 // Obtener la lista existente
-                var listaPrecioObj = await _unitOfWork.ListaPrecioRepository.GetByIdWithDetailsAsync(id);
+                var listaPrecioObj = _unitOfWork.ListaPrecioRepository.GetByIdWithDetails(id);
                 if (listaPrecioObj == null)
                     throw new InvalidOperationException("Lista de precios no encontrada");
 
@@ -224,7 +226,7 @@ namespace BLL.Services
                 _unitOfWork.ListaPrecioRepository.Update(listaPrecioObj);
                 _unitOfWork.SaveChanges();
 
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -232,12 +234,12 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> ReactivarAsync(Guid id)
+        public bool Reactivar(Guid id)
         {
             try
             {
                 // Obtener la lista existente
-                var listaPrecioObj = await _unitOfWork.ListaPrecioRepository.GetByIdWithDetailsAsync(id);
+                var listaPrecioObj = _unitOfWork.ListaPrecioRepository.GetByIdWithDetails(id);
                 if (listaPrecioObj == null)
                     throw new InvalidOperationException("Lista de precios no encontrada");
 
@@ -250,7 +252,7 @@ namespace BLL.Services
                 _unitOfWork.ListaPrecioRepository.Update(listaPrecioObj);
                 _unitOfWork.SaveChanges();
 
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -258,50 +260,14 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> ExisteCodigoAsync(string codigo, Guid? excludeId = null)
+        public bool ExisteCodigo(string codigo, Guid? excludeId = null)
         {
-            return await _unitOfWork.ListaPrecioRepository.ExisteCodigoAsync(codigo, excludeId);
+            return _unitOfWork.ListaPrecioRepository.ExisteCodigo(codigo, excludeId);
         }
 
-        public async Task<decimal?> ObtenerPrecioProductoAsync(Guid idListaPrecio, Guid idProducto)
+        public decimal? ObtenerPrecioProducto(Guid idListaPrecio, Guid idProducto)
         {
-            return await _unitOfWork.ListaPrecioRepository.ObtenerPrecioProductoAsync(idListaPrecio, idProducto);
-        }
-
-        // Métodos síncronos
-        public ListaPrecioDTO GetById(Guid id)
-        {
-            var listaPrecioObj = _unitOfWork.ListaPrecioRepository.GetByIdWithDetails(id);
-            if (listaPrecioObj == null)
-                return null;
-
-            return MapearDesdeEF(listaPrecioObj);
-        }
-
-        public IEnumerable<ListaPrecioDTO> GetAll()
-        {
-            var listasObj = _unitOfWork.ListaPrecioRepository.GetAllWithDetails();
-            var listasDTOs = new List<ListaPrecioDTO>();
-
-            foreach (var listaObj in listasObj)
-            {
-                listasDTOs.Add(MapearDesdeEF(listaObj));
-            }
-
-            return listasDTOs;
-        }
-
-        public IEnumerable<ListaPrecioDTO> GetActivas()
-        {
-            var listasObj = _unitOfWork.ListaPrecioRepository.GetActivas();
-            var listasDTOs = new List<ListaPrecioDTO>();
-
-            foreach (var listaObj in listasObj)
-            {
-                listasDTOs.Add(MapearDesdeEF(listaObj));
-            }
-
-            return listasDTOs;
+            return _unitOfWork.ListaPrecioRepository.ObtenerPrecioProducto(idListaPrecio, idProducto);
         }
 
         // Métodos privados para mapeo usando reflection
@@ -315,6 +281,7 @@ namespace BLL.Services
                 Codigo = (string)tipo.GetProperty("Codigo").GetValue(listaPrecioEF),
                 Nombre = (string)tipo.GetProperty("Nombre").GetValue(listaPrecioEF),
                 Activo = (bool)tipo.GetProperty("Activo").GetValue(listaPrecioEF),
+                IncluyeIva = (bool)tipo.GetProperty("IncluyeIva").GetValue(listaPrecioEF),
                 FechaAlta = (DateTime)tipo.GetProperty("FechaAlta").GetValue(listaPrecioEF),
                 FechaModificacion = (DateTime?)tipo.GetProperty("FechaModificacion").GetValue(listaPrecioEF)
             };
@@ -372,6 +339,7 @@ namespace BLL.Services
             tipoListaPrecio.GetProperty("Codigo").SetValue(listaPrecioEF, domainModel.Codigo);
             tipoListaPrecio.GetProperty("Nombre").SetValue(listaPrecioEF, domainModel.Nombre);
             tipoListaPrecio.GetProperty("Activo").SetValue(listaPrecioEF, domainModel.Activo);
+            tipoListaPrecio.GetProperty("IncluyeIva").SetValue(listaPrecioEF, domainModel.IncluyeIva);
             tipoListaPrecio.GetProperty("FechaAlta").SetValue(listaPrecioEF, domainModel.FechaAlta);
 
             // Crear colección de detalles
@@ -398,30 +366,58 @@ namespace BLL.Services
         {
             var tipo = listaPrecioEF.GetType();
 
-            // Actualizar propiedades
+            // Actualizar propiedades principales
             tipo.GetProperty("Codigo").SetValue(listaPrecioEF, domainModel.Codigo);
             tipo.GetProperty("Nombre").SetValue(listaPrecioEF, domainModel.Nombre);
             tipo.GetProperty("Activo").SetValue(listaPrecioEF, domainModel.Activo);
+            tipo.GetProperty("IncluyeIva").SetValue(listaPrecioEF, domainModel.IncluyeIva);
             tipo.GetProperty("FechaModificacion").SetValue(listaPrecioEF, DateTime.Now);
 
-            // Limpiar detalles existentes
+            // Obtener la colección actual de detalles
             var detallesEF = tipo.GetProperty("ListaPrecio_Detalle").GetValue(listaPrecioEF);
-            var clearMethod = detallesEF.GetType().GetMethod("Clear");
-            clearMethod.Invoke(detallesEF, null);
+            
+            // Convertir a lista para poder iterar de forma segura
+            var detallesActuales = new List<object>();
+            foreach (var detalle in (System.Collections.IEnumerable)detallesEF)
+            {
+                detallesActuales.Add(detalle);
+            }
 
-            // Agregar nuevos detalles
+            // Obtener el contexto de Entity Framework desde la colección
             var assembly = Assembly.Load("DAL");
             var tipoDetalle = assembly.GetType("DAL.Implementation.EntityFramework.ListaPrecio_Detalle");
+            var removeMethod = detallesEF.GetType().GetMethod("Remove");
+
+            // Remover cada detalle existente de la colección
+            // Entity Framework los marcará como "Deleted" en el contexto
+            foreach (var detalleActual in detallesActuales)
+            {
+                removeMethod.Invoke(detallesEF, new[] { detalleActual });
+            }
+
+            // Agregar los nuevos detalles
             var addMethod = detallesEF.GetType().GetMethod("Add");
 
             foreach (var detalleDM in domainModel.Detalles)
             {
+                // Crear nuevo detalle
                 var detalleEF = Activator.CreateInstance(tipoDetalle);
-                tipoDetalle.GetProperty("ID").SetValue(detalleEF, detalleDM.Id);
+                
+                // Establecer propiedades del detalle
+                tipoDetalle.GetProperty("ID").SetValue(detalleEF, Guid.NewGuid()); // Nuevo ID para cada detalle
                 tipoDetalle.GetProperty("IdListaPrecio").SetValue(detalleEF, domainModel.Id);
                 tipoDetalle.GetProperty("IdProducto").SetValue(detalleEF, detalleDM.IdProducto);
                 tipoDetalle.GetProperty("Precio").SetValue(detalleEF, detalleDM.Precio);
 
+                // CRÍTICO: Establecer la referencia a la entidad padre
+                // Esto asegura que Entity Framework reconozca la relación correctamente
+                var propListaPrecio = tipoDetalle.GetProperty("ListaPrecio");
+                if (propListaPrecio != null)
+                {
+                    propListaPrecio.SetValue(detalleEF, listaPrecioEF);
+                }
+
+                // Agregar a la colección
                 addMethod.Invoke(detallesEF, new[] { detalleEF });
             }
         }

@@ -32,7 +32,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             _vendedorId = vendedorId;
         }
 
-        private async void frmVendedorAlta_Load(object sender, EventArgs e)
+        private void frmVendedorAlta_Load(object sender, EventArgs e)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
                 // Si es modo edición, cargar datos
                 if (_vendedorId.HasValue)
                 {
-                    await CargarDatosVendedor();
+                    CargarDatosVendedor();
                     this.Text = "Editar Vendedor";
                     txtCodigoVendedor.Enabled = false; // El código no se modifica
                 }
@@ -57,9 +57,9 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             }
         }
 
-        private async System.Threading.Tasks.Task CargarDatosVendedor()
+        private void CargarDatosVendedor()
         {
-            var vendedor = await _vendedorService.GetByIdAsync(_vendedorId.Value);
+            var vendedor = _vendedorService.GetById(_vendedorId.Value);
 
             if (vendedor == null)
             {
@@ -78,7 +78,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             txtDireccion.Text = vendedor.Direccion;
         }
 
-        private async void btnAceptar_Click(object sender, EventArgs e)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
             if (!ValidarFormulario())
                 return;
@@ -104,14 +104,14 @@ namespace SistemaPresupuestario.Maestros.Vendedores
                 if (_vendedorId.HasValue)
                 {
                     // Modo EDICIÓN
-                    resultado = await _vendedorService.UpdateAsync(vendedorDTO);
+                    resultado = _vendedorService.Update(vendedorDTO);
                     MessageBox.Show("Vendedor actualizado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     // Modo NUEVO
-                    resultado = await _vendedorService.AddAsync(vendedorDTO);
+                    resultado = _vendedorService.Add(vendedorDTO);
                     MessageBox.Show("Vendedor creado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

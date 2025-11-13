@@ -77,7 +77,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var producto = await _productoService.GetByIdAsync(_productoId.Value);
+                var producto = _productoService.GetById(_productoId.Value);
 
                 if (producto == null)
                 {
@@ -166,11 +166,11 @@ namespace SistemaPresupuestario.Maestros.Productos
                 bool resultado;
                 if (_esNuevo)
                 {
-                    resultado = await _productoService.AddAsync(productoDTO);
+                    resultado = _productoService.Add(productoDTO);
                 }
                 else
                 {
-                    resultado = await _productoService.UpdateAsync(productoDTO);
+                    resultado =  _productoService.Update(productoDTO);
                 }
 
                 if (resultado)

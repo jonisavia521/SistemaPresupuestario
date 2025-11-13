@@ -21,6 +21,8 @@ namespace BLL.DTOs
 
         public bool Activo { get; set; }
 
+        public bool IncluyeIva { get; set; }
+
         public DateTime FechaAlta { get; set; }
 
         public DateTime? FechaModificacion { get; set; }
@@ -32,6 +34,7 @@ namespace BLL.DTOs
         public ListaPrecioDTO()
         {
             Activo = true;
+            IncluyeIva = false;
             FechaAlta = DateTime.Now;
             Detalles = new List<ListaPrecioDetalleDTO>();
         }

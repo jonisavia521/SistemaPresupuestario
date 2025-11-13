@@ -33,6 +33,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.chkActivo = new System.Windows.Forms.CheckBox();
+            this.chkIncluyeIva = new System.Windows.Forms.CheckBox();
             this.groupBoxDetalles = new System.Windows.Forms.GroupBox();
             this.dgvDetalles = new System.Windows.Forms.DataGridView();
             this.btnAceptar = new System.Windows.Forms.Button();
@@ -87,13 +88,23 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             this.chkActivo.Text = "Activo";
             this.chkActivo.UseVisualStyleBackColor = true;
             // 
+            // chkIncluyeIva
+            // 
+            this.chkIncluyeIva.AutoSize = true;
+            this.chkIncluyeIva.Location = new System.Drawing.Point(570, 49);
+            this.chkIncluyeIva.Name = "chkIncluyeIva";
+            this.chkIncluyeIva.Size = new System.Drawing.Size(81, 17);
+            this.chkIncluyeIva.TabIndex = 5;
+            this.chkIncluyeIva.Text = "Incluye IVA";
+            this.chkIncluyeIva.UseVisualStyleBackColor = true;
+            // 
             // groupBoxDetalles
             // 
             this.groupBoxDetalles.Controls.Add(this.dgvDetalles);
             this.groupBoxDetalles.Location = new System.Drawing.Point(20, 80);
             this.groupBoxDetalles.Name = "groupBoxDetalles";
             this.groupBoxDetalles.Size = new System.Drawing.Size(740, 350);
-            this.groupBoxDetalles.TabIndex = 5;
+            this.groupBoxDetalles.TabIndex = 6;
             this.groupBoxDetalles.TabStop = false;
             this.groupBoxDetalles.Text = "Productos y Precios";
             // 
@@ -110,7 +121,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             this.btnAceptar.Location = new System.Drawing.Point(590, 450);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(80, 30);
-            this.btnAceptar.TabIndex = 6;
+            this.btnAceptar.TabIndex = 7;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
@@ -121,7 +132,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             this.btnCancelar.Location = new System.Drawing.Point(680, 450);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(80, 30);
-            this.btnCancelar.TabIndex = 7;
+            this.btnCancelar.TabIndex = 8;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
@@ -136,6 +147,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.groupBoxDetalles);
+            this.Controls.Add(this.chkIncluyeIva);
             this.Controls.Add(this.chkActivo);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
@@ -162,6 +174,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.CheckBox chkActivo;
+        private System.Windows.Forms.CheckBox chkIncluyeIva;
         private System.Windows.Forms.GroupBox groupBoxDetalles;
         private System.Windows.Forms.DataGridView dgvDetalles;
         private System.Windows.Forms.Button btnAceptar;

@@ -13,15 +13,17 @@ namespace DomainModel.Domain
         public string Codigo { get; private set; }
         public string Nombre { get; private set; }
         public bool Activo { get; private set; }
+        public bool IncluyeIva { get; private set; }
         public DateTime FechaAlta { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
         public List<ListaPrecioDetalleDM> Detalles { get; private set; }
 
         // Constructor para creación inicial
-        public ListaPrecioDM(string codigo, string nombre)
+        public ListaPrecioDM(string codigo, string nombre, bool incluyeIva = false)
         {
             Id = Guid.NewGuid();
             Activo = true;
+            IncluyeIva = incluyeIva;
             FechaAlta = DateTime.Now;
             Detalles = new List<ListaPrecioDetalleDM>();
 
@@ -37,7 +39,8 @@ namespace DomainModel.Domain
             bool activo,
             DateTime fechaAlta,
             DateTime? fechaModificacion,
-            List<ListaPrecioDetalleDM> detalles = null)
+            List<ListaPrecioDetalleDM> detalles = null,
+            bool incluyeIva = false)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID no puede ser vacío.", nameof(id));
@@ -46,15 +49,17 @@ namespace DomainModel.Domain
             Codigo = codigo;
             Nombre = nombre;
             Activo = activo;
+            IncluyeIva = incluyeIva;
             FechaAlta = fechaAlta;
             FechaModificacion = fechaModificacion;
             Detalles = detalles ?? new List<ListaPrecioDetalleDM>();
         }
 
         // Método de actualización
-        public void ActualizarDatos(string nombre)
+        public void ActualizarDatos(string nombre, bool incluyeIva)
         {
             ValidarYEstablecerNombre(nombre);
+            IncluyeIva = incluyeIva;
             FechaModificacion = DateTime.Now;
         }
 

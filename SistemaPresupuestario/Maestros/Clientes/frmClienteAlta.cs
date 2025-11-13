@@ -13,9 +13,10 @@ namespace SistemaPresupuestario.Maestros.Clientes
     public partial class frmClienteAlta : Form
     {
         private readonly IClienteService _clienteService;
-        private readonly IVendedorService _vendedorService; // AGREGADO
+        private readonly IVendedorService _vendedorService;
+        private readonly IProvinciaService _provinciaService; // NUEVO
         private Guid? _clienteId;
-        private Guid? _vendedorSeleccionadoId; // AGREGADO para guardar el ID del vendedor
+        private Guid? _vendedorSeleccionadoId;
 
         // Evento para notificar que se guardó exitosamente
         public event EventHandler ClienteGuardado;
@@ -24,24 +25,26 @@ namespace SistemaPresupuestario.Maestros.Clientes
         public Guid? ClienteId => _clienteId;
 
         // Constructor para modo NUEVO
-        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService) // MODIFICADO
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService) // MODIFICADO
         {
             InitializeComponent();
             _clienteService = clienteService;
-            _vendedorService = vendedorService; // AGREGADO
+            _vendedorService = vendedorService;
+            _provinciaService = provinciaService; // NUEVO
             _clienteId = null;
         }
 
         // Constructor para modo EDICIÓN
-        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, Guid clienteId) // MODIFICADO
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService, Guid clienteId) // MODIFICADO
         {
             InitializeComponent();
             _clienteService = clienteService;
-            _vendedorService = vendedorService; // AGREGADO
+            _vendedorService = vendedorService;
+            _provinciaService = provinciaService; // NUEVO
             _clienteId = clienteId;
         }
 
-        private async void frmClienteAlta_Load(object sender, EventArgs e)
+        private  void frmClienteAlta_Load(object sender, EventArgs e)
         {
             try
             {
@@ -51,11 +54,12 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 CargarTiposDocumento();
                 CargarTiposIva();
                 CargarCondicionesPago();
+                CargarProvincias(); // NUEVO
 
                 // Si es modo edición, cargar datos
                 if (_clienteId.HasValue)
                 {
-                    await CargarDatosCliente();
+                    CargarDatosCliente();
                     this.Text = "Editar Cliente";
                     txtCodigoCliente.Enabled = false; // El código no se modifica
                 }
@@ -122,9 +126,9 @@ namespace SistemaPresupuestario.Maestros.Clientes
             txtCodigoCliente.Text = $"CLI-{DateTime.Now:yyyyMMddHHmmss}";
         }
 
-        private async System.Threading.Tasks.Task CargarDatosCliente()
+        private  void CargarDatosCliente()
         {
-            var cliente = await _clienteService.GetByIdAsync(_clienteId.Value);
+            var cliente = _clienteService.GetById(_clienteId.Value);
 
             if (cliente == null)
             {
@@ -139,11 +143,29 @@ namespace SistemaPresupuestario.Maestros.Clientes
             cboTipoDocumento.SelectedItem = cliente.TipoDocumento;
             txtNumeroDocumento.Text = cliente.NumeroDocumento;
             
-            // MODIFICADO: Cargar vendedor si existe
+            // Cargar vendedor si existe
             _vendedorSeleccionadoId = cliente.IdVendedor;
             if (_vendedorSeleccionadoId.HasValue)
             {
-                await CargarVendedorEnTextBox(_vendedorSeleccionadoId.Value);
+                CargarVendedorEnTextBox(_vendedorSeleccionadoId.Value);
+            }
+            
+            // NUEVO: Seleccionar provincia si existe
+            if (cliente.IdProvincia.HasValue)
+            {
+                for (int i = 0; i < cboProvincia.Items.Count; i++)
+                {
+                    dynamic item = cboProvincia.Items[i];
+                    if (item.Id != null && item.Id == cliente.IdProvincia.Value)
+                    {
+                        cboProvincia.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                cboProvincia.SelectedIndex = 0; // Sin provincia
             }
             
             // Seleccionar el tipo de IVA
@@ -169,11 +191,11 @@ namespace SistemaPresupuestario.Maestros.Clientes
         }
 
         // NUEVO: Cargar información del vendedor en el TextBox
-        private async System.Threading.Tasks.Task CargarVendedorEnTextBox(Guid idVendedor)
+        private  void CargarVendedorEnTextBox(Guid idVendedor)
         {
             try
             {
-                var vendedor = await _vendedorService.GetByIdAsync(idVendedor);
+                var vendedor = _vendedorService.GetById(idVendedor);
                 if (vendedor != null)
                 {
                     txtCodigoVendedor.Text = $"{vendedor.CodigoVendedor} - {vendedor.Nombre}";
@@ -203,7 +225,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             var config = new SelectorConfig<VendedorDTO>
             {
                 Titulo = "Seleccionar Vendedor",
-                Datos = System.Threading.Tasks.Task.Run(() => _vendedorService.GetActivosAsync()).Result,
+                Datos = System.Threading.Tasks.Task.Run(() => _vendedorService.GetActivos()).Result,
                 PlaceholderBusqueda = "Buscar por código, nombre o CUIT...",
                 PermitirSeleccionMultiple = false,
                 
@@ -238,8 +260,42 @@ namespace SistemaPresupuestario.Maestros.Clientes
             selector.Dispose();
         }
 
-        private async void btnAceptar_Click(object sender, EventArgs e)
+        // NUEVO: Cargar provincias en el ComboBox
+        private void CargarProvincias()
         {
+            try
+            {
+                var provincias = _provinciaService.GetAllOrdenadas();
+                
+                cboProvincia.Items.Clear();
+                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = "(Sin provincia)" });
+
+                foreach (var provincia in provincias)
+                {
+                    cboProvincia.Items.Add(new { Id = (Guid?)provincia.Id, Text = provincia.NombreCompleto });
+                }
+
+                cboProvincia.DisplayMember = "Text";
+                cboProvincia.ValueMember = "Id";
+                cboProvincia.SelectedIndex = 0; // Sin provincia por defecto
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar provincias: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private  void btnAceptar_Click(object sender, EventArgs e)
+        {
+            // Obtener el Id de la provincia seleccionada (puede ser null)
+            Guid? idProvinciaSeleccionada = null;
+            if (cboProvincia.SelectedItem != null)
+            {
+                dynamic provinciaItem = cboProvincia.SelectedItem;
+                idProvinciaSeleccionada = provinciaItem.Id;
+            }
+
             var clienteDTO = new ClienteDTO
             {
                 Id = _clienteId ?? Guid.Empty,
@@ -247,7 +303,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 RazonSocial = txtRazonSocial.Text.Trim(),
                 TipoDocumento = cboTipoDocumento.SelectedItem.ToString(),
                 NumeroDocumento = txtNumeroDocumento.Text.Trim(),
-                IdVendedor = _vendedorSeleccionadoId, // MODIFICADO: Usar IdVendedor en lugar de CodigoVendedor
+                IdVendedor = _vendedorSeleccionadoId,
+                IdProvincia = idProvinciaSeleccionada, // NUEVO
                 TipoIva = cboTipoIva.SelectedItem.ToString(),
                 CondicionPago = ((dynamic)cboCondicionPago.SelectedItem).Value,
                 Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
@@ -268,14 +325,14 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 if (_clienteId.HasValue)
                 {
                     // Modo EDICIÓN
-                    resultado = await _clienteService.UpdateAsync(clienteDTO);
+                    resultado = _clienteService.Update(clienteDTO);
                     MessageBox.Show("Cliente actualizado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     // Modo NUEVO
-                    resultado = await _clienteService.AddAsync(clienteDTO);
+                    resultado = _clienteService.Add(clienteDTO);
                     MessageBox.Show("Cliente creado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -371,6 +428,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
                     return txtTelefono;
                 case nameof(ClienteDTO.Direccion):
                     return txtDireccion;
+                case nameof(ClienteDTO.IdProvincia): // NUEVO: Añadir el mapeo para IdProvincia
+                    return cboProvincia;
                 default:
                     return null; // No se encontró un control
             }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Implementation.Repository
 {
@@ -20,11 +19,11 @@ namespace DAL.Implementation.Repository
         {
         }
 
-        public async Task<ClienteDM> GetByCodigoAsync(string codigoCliente)
+        public ClienteDM GetByCodigo(string codigoCliente)
         {
             // Buscar en la tabla EF Cliente
-            var clienteEF = await _context.Cliente
-                .FirstOrDefaultAsync(c => c.CodigoCliente == codigoCliente);
+            var clienteEF = _context.Cliente
+                .FirstOrDefault(c => c.CodigoCliente == codigoCliente);
 
             if (clienteEF == null)
                 return null;
@@ -33,11 +32,11 @@ namespace DAL.Implementation.Repository
             return MapearADominio(clienteEF);
         }
 
-        public async Task<ClienteDM> GetByDocumentoAsync(string numeroDocumento)
+        public ClienteDM GetByDocumento(string numeroDocumento)
         {
             // Buscar en la tabla EF Cliente por CUIT (que almacena el número de documento)
-            var clienteEF = await _context.Cliente
-                .FirstOrDefaultAsync(c => c.CUIT == numeroDocumento);
+            var clienteEF = _context.Cliente
+                .FirstOrDefault(c => c.CUIT == numeroDocumento);
 
             if (clienteEF == null)
                 return null;
@@ -45,40 +44,40 @@ namespace DAL.Implementation.Repository
             return MapearADominio(clienteEF);
         }
 
-        public async Task<IEnumerable<ClienteDM>> GetActivosAsync()
+        public IEnumerable<ClienteDM> GetActivos()
         {
-            var clientesEF = await _context.Cliente
+            var clientesEF = _context.Cliente
                 .Where(c => c.Activo)
-                .ToListAsync();
+                .ToList();
 
             return clientesEF.Select(MapearADominio);
         }
 
-        public async Task<bool> ExisteCodigoAsync(string codigoCliente, Guid? excluyendoId = null)
+        public bool ExisteCodigo(string codigoCliente, Guid? excluyendoId = null)
         {
             if (excluyendoId.HasValue)
             {
-                return await _context.Cliente
-                    .AnyAsync(c => c.CodigoCliente == codigoCliente && c.ID != excluyendoId.Value);
+                return _context.Cliente
+                    .Any(c => c.CodigoCliente == codigoCliente && c.ID != excluyendoId.Value);
             }
 
-            return await _context.Cliente
-                .AnyAsync(c => c.CodigoCliente == codigoCliente);
+            return _context.Cliente
+                .Any(c => c.CodigoCliente == codigoCliente);
         }
 
-        public async Task<bool> ExisteDocumentoAsync(string numeroDocumento, Guid? excluyendoId = null)
+        public bool ExisteDocumento(string numeroDocumento, Guid? excluyendoId = null)
         {
             if (excluyendoId.HasValue)
             {
-                return await _context.Cliente
-                    .AnyAsync(c => c.CUIT == numeroDocumento && c.ID != excluyendoId.Value);
+                return _context.Cliente
+                    .Any(c => c.CUIT == numeroDocumento && c.ID != excluyendoId.Value);
             }
 
-            return await _context.Cliente
-                .AnyAsync(c => c.CUIT == numeroDocumento);
+            return _context.Cliente
+                .Any(c => c.CUIT == numeroDocumento);
         }
 
-        public ClienteDM GetById(Guid id)
+        public new ClienteDM GetById(Guid id)
         {
             var clienteEF = _context.Cliente.Find(id);
             if (clienteEF == null)
@@ -88,19 +87,10 @@ namespace DAL.Implementation.Repository
         }
 
         // Sobrescribir métodos base para usar el mapeo personalizado
-        public new async Task<IEnumerable<ClienteDM>> GetAllAsync()
+        public new IEnumerable<ClienteDM> GetAll()
         {
-            var clientesEF = await _context.Cliente.ToListAsync();
+            var clientesEF = _context.Cliente.ToList();
             return clientesEF.Select(MapearADominio);
-        }
-
-        public new async Task<ClienteDM> GetByIdAsync(Guid id)
-        {
-            var clienteEF = await _context.Cliente.FindAsync(id);
-            if (clienteEF == null)
-                return null;
-
-            return MapearADominio(clienteEF);
         }
 
         public new void Add(ClienteDM entidad)
@@ -147,6 +137,9 @@ namespace DAL.Implementation.Repository
             // IdVendedor ahora es Guid? (FK)
             Guid? idVendedor = clienteEF.IdVendedor;
 
+            // IdProvincia ahora es Guid? (FK)
+            Guid? idProvincia = clienteEF.IdProvincia;
+
             // Usar los campos de condición de pago
             string condicionPago = clienteEF.CondicionPago ?? "01";
             string tipoIva = clienteEF.TipoIva ?? "RESPONSABLE INSCRIPTO";
@@ -169,12 +162,13 @@ namespace DAL.Implementation.Repository
                 clienteEF.RazonSocial,
                 tipoDocumento,
                 numeroDocumento,
-                idVendedor, // MODIFICADO
+                idVendedor,
                 tipoIva,
                 condicionPago,
                 activo,
                 fechaAlta,
                 fechaModificacion,
+                idProvincia,
                 email,
                 telefono,
                 direccion,
@@ -194,7 +188,8 @@ namespace DAL.Implementation.Repository
                 RazonSocial = dominio.RazonSocial,
                 TipoDocumento = dominio.TipoDocumento,
                 CUIT = dominio.NumeroDocumento,
-                IdVendedor = dominio.IdVendedor, // MODIFICADO
+                IdVendedor = dominio.IdVendedor,
+                IdProvincia = dominio.IdProvincia,
                 TipoIva = dominio.TipoIva,
                 CondicionPago = dominio.CondicionPago,
                 Email = dominio.Email,
@@ -204,8 +199,7 @@ namespace DAL.Implementation.Repository
                 Localidad = dominio.Localidad,
                 Activo = dominio.Activo,
                 FechaAlta = dominio.FechaAlta,
-                FechaModificacion = dominio.FechaModificacion,
-                IdProvincia = null
+                FechaModificacion = dominio.FechaModificacion
             };
         }
     }

@@ -3,7 +3,6 @@ using BLL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.Productos
@@ -21,18 +20,18 @@ namespace SistemaPresupuestario.Maestros.Productos
             _listaCompletaProductos = new List<ProductoDTO>();
         }
 
-        private async void frmProductos_Load(object sender, EventArgs e)
+        private void frmProductos_Load(object sender, EventArgs e)
         {
-            await CargarProductos();
+            CargarProductos();
         }
 
-        private async Task CargarProductos()
+        private void CargarProductos()
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var productos = await _productoService.GetAllAsync();
+                var productos = _productoService.GetAll(); // ?? CAMBIO: Quitado await
                 _listaCompletaProductos = productos.ToList();
                 AplicarFiltros();
             }
@@ -61,7 +60,7 @@ namespace SistemaPresupuestario.Maestros.Productos
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ProductoGuardado += async (s, ev) => await CargarProductos();
+                frmAlta.ProductoGuardado += (s, ev) => CargarProductos(); // ?? CAMBIO: Quitado async
                 
                 frmAlta.Show();
             }
@@ -95,7 +94,7 @@ namespace SistemaPresupuestario.Maestros.Productos
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ProductoGuardado += async (s, ev) => await CargarProductos();
+                frmAlta.ProductoGuardado += (s, ev) => CargarProductos(); // ?? CAMBIO: Quitado async
                 
                 frmAlta.Show();
             }
@@ -105,7 +104,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             }
         }
 
-        private async void btnEliminar_Click(object sender, EventArgs e)
+        private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvProductos.CurrentRow == null)
             {
@@ -135,12 +134,12 @@ namespace SistemaPresupuestario.Maestros.Productos
                 {
                     this.Cursor = Cursors.WaitCursor;
 
-                    await _productoService.DeleteAsync(productoDTO.Id);
+                    _productoService.Delete(productoDTO.Id); // ?? CAMBIO: Quitado await
 
                     MessageBox.Show("Producto inhabilitado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    await CargarProductos();
+                    CargarProductos(); // ?? CAMBIO: Quitado await
                 }
                 catch (Exception ex)
                 {

@@ -5,6 +5,7 @@ using SistemaPresupuestario.Maestros.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -414,13 +415,13 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Carga la lista de precios en los controles correspondientes (NUEVO)
         /// </summary>
-        private async void CargarListaPrecioDelPresupuesto(Guid? idListaPrecio)
+        private void CargarListaPrecioDelPresupuesto(Guid? idListaPrecio)
         {
             try
             {
                 if (idListaPrecio.HasValue)
                 {
-                    var lista = await _listaPrecioService.GetByIdAsync(idListaPrecio.Value);
+                    var lista = _listaPrecioService.GetById(idListaPrecio.Value);
                     if (lista != null)
                     {
                         txtCodigoListaPrecio.Text = lista.Codigo;
@@ -449,11 +450,11 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Carga la condición de pago del cliente en el control correspondiente
         /// </summary>
-        private async void CargarCondicionPagoDelCliente(Guid idCliente)
+        private void CargarCondicionPagoDelCliente(Guid idCliente)
         {
             try
             {
-                var cliente = await _clienteService.GetByIdAsync(idCliente);
+                var cliente = _clienteService.GetById(idCliente);
                 if (cliente != null && !string.IsNullOrEmpty(cliente.CondicionPago))
                 {
                     // Si txtCodigoFormaPago es un ComboBox, seleccionar el valor
@@ -746,7 +747,7 @@ namespace SistemaPresupuestario.Presupuesto
 
         // ============= EVENTOS DE CLIENTE =============
 
-        private async void txtCodigoCliente_Leave(object sender, EventArgs e)
+        private void txtCodigoCliente_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCodigoCliente.Text))
             {
@@ -760,7 +761,7 @@ namespace SistemaPresupuestario.Presupuesto
             try
             {
                 // Intentar buscar cliente por código
-                var clientes = await _clienteService.GetAllAsync();
+                var clientes = _clienteService.GetAll();
                 var cliente = clientes.FirstOrDefault(c => c.CodigoCliente != null &&
                     c.CodigoCliente.Trim().Equals(txtCodigoCliente.Text.Trim(), StringComparison.OrdinalIgnoreCase));
 
@@ -776,7 +777,7 @@ namespace SistemaPresupuestario.Presupuesto
                     // Cargar nombre del vendedor si tiene
                     if (cliente.IdVendedor.HasValue)
                     {
-                        var vendedor = await _vendedorService.GetByIdAsync(cliente.IdVendedor.Value);
+                        var vendedor = _vendedorService.GetById(cliente.IdVendedor.Value);
                         if (vendedor != null)
                         {
                             txtVendedor.Text = vendedor.Nombre;
@@ -810,7 +811,7 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Muestra el selector de clientes para que el usuario elija uno
         /// </summary>
-        private async void MostrarSelectorCliente(List<ClienteDTO> clientes)
+        private void MostrarSelectorCliente(List<ClienteDTO> clientes)
         {
             try
             {
@@ -881,7 +882,7 @@ namespace SistemaPresupuestario.Presupuesto
                         // Cargar nombre del vendedor si tiene
                         if (clienteSeleccionado.IdVendedor.HasValue)
                         {
-                            var vendedor = await _vendedorService.GetByIdAsync(clienteSeleccionado.IdVendedor.Value);
+                            var vendedor = _vendedorService.GetById(clienteSeleccionado.IdVendedor.Value);
                             if (vendedor != null)
                             {
                                 txtVendedor.Text = vendedor.Nombre;
@@ -929,12 +930,12 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Muestra el selector de clientes directamente (cuando se presiona Enter en campo vacío)
         /// </summary>
-        private async void MostrarSelectorClienteDirecto()
+        private void MostrarSelectorClienteDirecto()
         {
             try
             {
                 // Obtener todos los clientes
-                var clientes = await _clienteService.GetAllAsync();
+                var clientes = _clienteService.GetAll();
                 MostrarSelectorCliente(clientes.ToList());
             }
             catch (Exception ex)
@@ -1026,12 +1027,11 @@ namespace SistemaPresupuestario.Presupuesto
                             try
                             {
                                 // Usar el método asíncrono de forma síncrona para obtener el precio
-                                var precioTask = _listaPrecioService.ObtenerPrecioProductoAsync(_idListaPrecioSeleccionada.Value, producto.Id);
-                                precioTask.Wait(); // Esperar el resultado
-                                
-                                if (precioTask.Result.HasValue)
+                                var precioTask = _listaPrecioService.ObtenerPrecioProducto(_idListaPrecioSeleccionada.Value, producto.Id);
+                             
+                                if (precioTask.HasValue)
                                 {
-                                    precioDefault = precioTask.Result.Value;
+                                    precioDefault = precioTask.Value;
                                 }
                             }
                             catch
@@ -1396,7 +1396,7 @@ namespace SistemaPresupuestario.Presupuesto
             }
         }
 
-        private async void btnAceptar_Click(object sender, EventArgs e)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1574,12 +1574,11 @@ namespace SistemaPresupuestario.Presupuesto
                         {
                             try
                             {
-                                var precio = _listaPrecioService.ObtenerPrecioProductoAsync(_idListaPrecioSeleccionada.Value, producto.Id);
-                                precio.Wait();
+                                var precio = _listaPrecioService.ObtenerPrecioProducto(_idListaPrecioSeleccionada.Value, producto.Id);
                                 
-                                if (precio.Result.HasValue)
+                                if (precio.HasValue)
                                 {
-                                    precioDefault = precio.Result.Value;
+                                    precioDefault = precio.Value;
                                 }
                             }
                             catch
@@ -1608,12 +1607,12 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Muestra el selector de productos y aplica el seleccionado a la fila actual
         /// </summary>
-        private async void MostrarSelectorProducto()
+        private void MostrarSelectorProducto()
         {
             try
             {
                 // Obtener todos los productos activos
-                var productos = await _productoService.GetActivosAsync();
+                var productos = _productoService.GetActivos();
                 var listaProductos = productos.ToList();
 
                 if (!listaProductos.Any())
@@ -1679,7 +1678,7 @@ namespace SistemaPresupuestario.Presupuesto
                         {
                             try
                             {
-                                var precio = await _listaPrecioService.ObtenerPrecioProductoAsync(
+                                var precio = _listaPrecioService.ObtenerPrecioProducto(
                                     _idListaPrecioSeleccionada.Value, 
                                     productoSeleccionado.Id);
                                 
@@ -2095,7 +2094,7 @@ namespace SistemaPresupuestario.Presupuesto
         /// Valida el cliente ingresado y mueve el foco al siguiente control
         /// Si no es válido, muestra el selector
         /// </summary>
-        private async void ValidarYMoverFocoCliente()
+        private void ValidarYMoverFocoCliente()
         {
             try
             {
@@ -2114,7 +2113,7 @@ namespace SistemaPresupuestario.Presupuesto
                 }
 
                 // Intentar buscar cliente por código
-                var clientes = await _clienteService.GetAllAsync();
+                var clientes = _clienteService.GetAll();
                 var cliente = clientes.FirstOrDefault(c => c.CodigoCliente != null &&
                     c.CodigoCliente.Trim().Equals(codigo, StringComparison.OrdinalIgnoreCase));
 
@@ -2130,7 +2129,7 @@ namespace SistemaPresupuestario.Presupuesto
                     // Cargar nombre del vendedor si tiene
                     if (cliente.IdVendedor.HasValue)
                     {
-                        var vendedor = await _vendedorService.GetByIdAsync(cliente.IdVendedor.Value);
+                        var vendedor = _vendedorService.GetById(cliente.IdVendedor.Value);
                         if (vendedor != null)
                         {
                             txtVendedor.Text = vendedor.Nombre;
@@ -2173,19 +2172,61 @@ namespace SistemaPresupuestario.Presupuesto
             // Manejar Enter en DataGridView
             if ((dgArticulos.Focused || dgArticulos.EditingControl != null) && keyData == Keys.Enter)
             {
-                dgArticulos.EndEdit();
-
                 if (dgArticulos.CurrentCell == null)
                     return base.ProcessCmdKey(ref msg, keyData);
 
+                // 1. Capturamos el estado actual ANTES de confirmar
                 int col = dgArticulos.CurrentCell.ColumnIndex;
                 int row = dgArticulos.CurrentCell.RowIndex;
+                bool esFilaNueva = dgArticulos.Rows[row].IsNewRow;
 
                 // Si estamos en la columna de código
                 if (col == 0)
                 {
-                    var codigo = dgArticulos.CurrentCell.Value?.ToString()?.Trim();
+                    // Obtener el valor
+                    var codigo = dgArticulos[col, row].Value?.ToString()?.Trim();
 
+                    dgArticulos.EndEdit();
+
+                    // *** SOLO agregar fila si REALMENTE es la fila nueva plantilla ***
+                    if (esFilaNueva && dgArticulos.DataSource is BindingList<PresupuestoDetalleDTO> bindingList)
+                    {
+                        // Guardar referencia al DataSource
+                        var dataSource = dgArticulos.DataSource;
+
+                        // Desvincular temporalmente
+                        dgArticulos.DataSource = null;
+
+                        try
+                        {
+                            // Crear un nuevo DTO
+                            var nuevoDetalle = new PresupuestoDetalleDTO();
+
+                            // Asignar el código si existe
+                            if (!string.IsNullOrWhiteSpace(codigo))
+                            {
+                                nuevoDetalle.Codigo = codigo;
+                            }
+
+                            // Agregar al BindingList
+                            bindingList.Add(nuevoDetalle);
+                        }
+                        finally
+                        {
+                            // Revincular el DataSource
+                            dgArticulos.DataSource = dataSource;
+                        }
+
+                        // *** IMPORTANTE: La fila que acabamos de agregar tiene el mismo índice 'row' ***
+                        // NO necesitamos recalcular porque el DataGridView mantiene el índice
+                        // La nueva fila plantilla será row + 1
+
+                        // Posicionar en la fila recién creada (mantener el mismo índice)
+                        dgArticulos.CurrentCell = dgArticulos[col, row];
+                    }
+
+                    // --- LÓGICA DE VALIDACIÓN ---
+                    // En este punto, 'row' sigue apuntando a la fila correcta
                     if (!string.IsNullOrWhiteSpace(codigo))
                     {
                         bool productoEncontrado = BuscarYAplicarProductoPorCodigoEnter(codigo);
@@ -2199,7 +2240,7 @@ namespace SistemaPresupuestario.Presupuesto
                         MostrarSelectorProducto();
                     }
 
-                    // Moverse a la siguiente columna
+                    // Moverse a la siguiente columna de la MISMA fila
                     if (col < dgArticulos.ColumnCount - 1)
                     {
                         dgArticulos.CurrentCell = dgArticulos[col + 1, row];
@@ -2208,16 +2249,35 @@ namespace SistemaPresupuestario.Presupuesto
                 }
                 else if (col >= dgArticulos.ColumnCount - 1)
                 {
-                    // Última columna: ir a la primera columna de la siguiente fila
-                    if (row + 1 < dgArticulos.RowCount)
+                    // Última columna
+                    dgArticulos.EndEdit();
+
+                    // Obtener la fila actual después del EndEdit
+                    int filaActual = dgArticulos.CurrentCell?.RowIndex ?? row;
+                    bool eraFilaNueva = dgArticulos.Rows[filaActual].IsNewRow;
+
+                    if (eraFilaNueva)
                     {
-                        dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                        // Si estamos en la fila nueva plantilla, ir a ella
+                        int nuevaPlantillaIndex = dgArticulos.Rows.Count - 1;
+
+                        if (nuevaPlantillaIndex >= 0 && nuevaPlantillaIndex < dgArticulos.Rows.Count)
+                        {
+                            dgArticulos.CurrentCell = dgArticulos[0, nuevaPlantillaIndex];
+                            dgArticulos.BeginEdit(true);
+                        }
+                    }
+                    else if (filaActual + 1 < dgArticulos.RowCount)
+                    {
+                        // Si estamos en una fila normal, ir a la SIGUIENTE fila
+                        dgArticulos.CurrentCell = dgArticulos[0, filaActual + 1];
                         dgArticulos.BeginEdit(true);
                     }
                 }
                 else
                 {
-                    // Columnas intermedias: siguiente columna
+                    // Columnas intermedias: siguiente columna en la MISMA fila
+                    dgArticulos.EndEdit();
                     dgArticulos.CurrentCell = dgArticulos[col + 1, row];
                     dgArticulos.BeginEdit(true);
                 }
@@ -2228,41 +2288,35 @@ namespace SistemaPresupuestario.Presupuesto
             // Manejar Enter en TextBox de código de cliente
             if (txtCodigoCliente.Focused && keyData == Keys.Enter)
             {
-                // Suprimir el beep
                 var codigo = txtCodigoCliente.Text.Trim();
 
                 if (string.IsNullOrWhiteSpace(codigo))
                 {
-                    // Campo vacío - mostrar selector directamente
                     MostrarSelectorClienteDirecto();
                 }
                 else
                 {
-                    // Validar cliente
                     ValidarYMoverFocoCliente();
                 }
 
-                return true; // Indicamos que manejamos la tecla
+                return true;
             }
 
             // Manejar Enter en TextBox de código de lista de precios
             if (txtCodigoListaPrecio.Focused && keyData == Keys.Enter)
             {
-                // Suprimir el beep
                 var codigo = txtCodigoListaPrecio.Text.Trim();
 
                 if (string.IsNullOrWhiteSpace(codigo))
                 {
-                    // Campo vacío - mostrar selector directamente
                     MostrarSelectorListaPrecio();
                 }
                 else
                 {
-                    // Validar lista de precios
                     ValidarYMoverFocoListaPrecio();
                 }
 
-                return true; // Indicamos que manejamos la tecla
+                return true;
             }
 
             // Manejar Enter en otros controles editables (simular Tab)
@@ -2270,18 +2324,15 @@ namespace SistemaPresupuestario.Presupuesto
             {
                 Control controlActual = this.ActiveControl;
 
-                // Lista de controles donde Enter debe funcionar como Tab
                 if (controlActual is TextBox ||
                     controlActual is ComboBox ||
                     controlActual is DateTimePicker)
                 {
-                    // Simular Tab
                     this.SelectNextControl(controlActual, true, true, true, true);
                     return true;
                 }
             }
 
-            // Para cualquier otra tecla, procesamiento normal
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -2318,7 +2369,7 @@ namespace SistemaPresupuestario.Presupuesto
         /// <summary>
         /// Evento al salir del campo de código de lista de precios
         /// </summary>
-        private async void txtCodigoListaPrecio_Leave(object sender, EventArgs e)
+        private void txtCodigoListaPrecio_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCodigoListaPrecio.Text))
             {

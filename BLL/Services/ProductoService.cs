@@ -6,13 +6,13 @@ using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
     /// <summary>
     /// Servicio de lógica de negocio para Producto
     /// Coordina operaciones entre UI y DAL, aplicando reglas de negocio
+    /// TODOS LOS MÉTODOS SON SÍNCRONOS para evitar deadlocks en Windows Forms
     /// </summary>
     public class ProductoService : IProductoService
     {
@@ -30,36 +30,51 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductoDTO>> GetAllAsync()
+        /// <summary>
+        /// Obtiene todos los productos
+        /// </summary>
+        public IEnumerable<ProductoDTO> GetAll()
         {
-            var entidades = await _productoRepository.GetAllAsync();
+            var entidades = _productoRepository.GetAll();
             return _mapper.Map<IEnumerable<ProductoDTO>>(entidades);
         }
 
-        public async Task<IEnumerable<ProductoDTO>> GetActivosAsync()
+        /// <summary>
+        /// Obtiene todos los productos activos
+        /// </summary>
+        public IEnumerable<ProductoDTO> GetActivos()
         {
-            var entidades = await _productoRepository.GetActivosAsync();
+            var entidades = _productoRepository.GetActivos();
             return _mapper.Map<IEnumerable<ProductoDTO>>(entidades);
         }
 
-        public async Task<ProductoDTO> GetByIdAsync(Guid id)
+        /// <summary>
+        /// Obtiene un producto por ID
+        /// </summary>
+        public ProductoDTO GetById(Guid id)
         {
-            var entidad = await _productoRepository.GetByIdAsync(id);
+            var entidad = _productoRepository.GetById(id);
             return _mapper.Map<ProductoDTO>(entidad);
         }
 
-        public async Task<ProductoDTO> GetByCodigoAsync(string codigo)
+        /// <summary>
+        /// Busca un producto por código
+        /// </summary>
+        public ProductoDTO GetByCodigo(string codigo)
         {
-            var entidad = await _productoRepository.GetByCodigoAsync(codigo);
+            var entidad = _productoRepository.GetByCodigo(codigo);
             return _mapper.Map<ProductoDTO>(entidad);
         }
 
-        public async Task<bool> AddAsync(ProductoDTO productoDto)
+        /// <summary>
+        /// Agrega un nuevo producto
+        /// </summary>
+        public bool Add(ProductoDTO productoDto)
         {
             try
             {
                 // Validar que no exista el código
-                if (await _productoRepository.ExisteCodigoAsync(productoDto.Codigo))
+                if (_productoRepository.ExisteCodigo(productoDto.Codigo))
                     throw new InvalidOperationException($"Ya existe un producto con el código '{productoDto.Codigo}'");
 
                 // Mapear DTO a entidad de dominio
@@ -93,25 +108,28 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(ProductoDTO productoDto)
+        /// <summary>
+        /// Actualiza un producto existente
+        /// </summary>
+        public bool Update(ProductoDTO productoDto)
         {
             try
             {
                 // Obtener la entidad existente
-                var entidadExistente = await _productoRepository.GetByIdAsync(productoDto.Id);
+                var entidadExistente = _productoRepository.GetById(productoDto.Id);
                 
                 if (entidadExistente == null)
                     throw new InvalidOperationException($"No se encontró el producto con ID '{productoDto.Id}'");
 
                 // Validar que no exista otro producto con el mismo código
-                if (await _productoRepository.ExisteCodigoAsync(productoDto.Codigo, productoDto.Id))
+                if (_productoRepository.ExisteCodigo(productoDto.Codigo, productoDto.Id))
                     throw new InvalidOperationException($"Ya existe otro producto con el código '{productoDto.Codigo}'");
 
                 // Actualizar datos
                 entidadExistente.Codigo = productoDto.Codigo;
                 entidadExistente.Descripcion = productoDto.Descripcion;
                 entidadExistente.Inhabilitado = productoDto.Inhabilitado;
-                entidadExistente.PorcentajeIVA = productoDto.PorcentajeIVA; // AGREGADO
+                entidadExistente.PorcentajeIVA = productoDto.PorcentajeIVA;
 
                 // Validación de negocio
                 var errores = entidadExistente.ValidarNegocio();
@@ -136,11 +154,14 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        /// <summary>
+        /// Elimina un producto (eliminación lógica)
+        /// </summary>
+        public bool Delete(Guid id)
         {
             try
             {
-                var entidad = await _productoRepository.GetByIdAsync(id);
+                var entidad = _productoRepository.GetById(id);
                 
                 if (entidad == null)
                     throw new InvalidOperationException($"No se encontró el producto con ID '{id}'");
@@ -164,16 +185,12 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> ExisteCodigoAsync(string codigo, Guid? excludeId = null)
+        /// <summary>
+        /// Verifica si un código de producto ya existe
+        /// </summary>
+        public bool ExisteCodigo(string codigo, Guid? excludeId = null)
         {
-            return await _productoRepository.ExisteCodigoAsync(codigo, excludeId);
-        }
-
-        // Método síncrono para compatibilidad con código existente
-        public ProductoDTO GetByCodigo(string codigo)
-        {
-            var entidad = _productoRepository.GetByCodigoAsync(codigo).GetAwaiter().GetResult();
-            return _mapper.Map<ProductoDTO>(entidad);
+            return _productoRepository.ExisteCodigo(codigo, excludeId);
         }
     }
 }

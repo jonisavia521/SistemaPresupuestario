@@ -6,7 +6,6 @@ using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -30,46 +29,46 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ClienteDTO>> GetAllAsync()
+        public IEnumerable<ClienteDTO> GetAll()
         {
-            var entidades = await _clienteRepository.GetAllAsync();
+            var entidades = _clienteRepository.GetAll();
             return _mapper.Map<IEnumerable<ClienteDTO>>(entidades);
         }
 
-        public async Task<IEnumerable<ClienteDTO>> GetActivosAsync()
+        public IEnumerable<ClienteDTO> GetActivos()
         {
-            var entidades = await _clienteRepository.GetActivosAsync();
+            var entidades = _clienteRepository.GetActivos();
             return _mapper.Map<IEnumerable<ClienteDTO>>(entidades);
         }
 
-        public async Task<ClienteDTO> GetByIdAsync(Guid id)
+        public ClienteDTO GetById(Guid id)
         {
-            var entidad = await _clienteRepository.GetByIdAsync(id);
+            var entidad = _clienteRepository.GetById(id);
             return _mapper.Map<ClienteDTO>(entidad);
         }
 
-        public async Task<ClienteDTO> GetByCodigoAsync(string codigoCliente)
+        public ClienteDTO GetByCodigo(string codigoCliente)
         {
-            var entidad = await _clienteRepository.GetByCodigoAsync(codigoCliente);
+            var entidad = _clienteRepository.GetByCodigo(codigoCliente);
             return _mapper.Map<ClienteDTO>(entidad);
         }
 
-        public async Task<ClienteDTO> GetByDocumentoAsync(string numeroDocumento)
+        public ClienteDTO GetByDocumento(string numeroDocumento)
         {
-            var entidad = await _clienteRepository.GetByDocumentoAsync(numeroDocumento);
+            var entidad = _clienteRepository.GetByDocumento(numeroDocumento);
             return _mapper.Map<ClienteDTO>(entidad);
         }
 
-        public async Task<bool> AddAsync(ClienteDTO clienteDTO)
+        public bool Add(ClienteDTO clienteDTO)
         {
             try
             {
                 // Validar que no exista el código
-                if (await _clienteRepository.ExisteCodigoAsync(clienteDTO.CodigoCliente))
+                if (_clienteRepository.ExisteCodigo(clienteDTO.CodigoCliente))
                     throw new InvalidOperationException($"Ya existe un cliente con el código '{clienteDTO.CodigoCliente}'");
 
                 // Validar que no exista el documento
-                if (await _clienteRepository.ExisteDocumentoAsync(clienteDTO.NumeroDocumento))
+                if (_clienteRepository.ExisteDocumento(clienteDTO.NumeroDocumento))
                     throw new InvalidOperationException($"Ya existe un cliente con el documento '{clienteDTO.NumeroDocumento}'");
 
                 // Crear la entidad de dominio (las validaciones de negocio se ejecutan en el constructor)
@@ -78,9 +77,10 @@ namespace BLL.Services
                     clienteDTO.RazonSocial,
                     clienteDTO.TipoDocumento,
                     clienteDTO.NumeroDocumento,
-                    clienteDTO.IdVendedor, // MODIFICADO - ahora es Guid?
+                    clienteDTO.IdVendedor,
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
+                    clienteDTO.IdProvincia,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
                     clienteDTO.Direccion,
@@ -108,18 +108,18 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(ClienteDTO clienteDTO)
+        public bool Update(ClienteDTO clienteDTO)
         {
             try
             {
                 // Obtener la entidad existente
-                var entidadExistente = await _clienteRepository.GetByIdAsync(clienteDTO.Id);
+                var entidadExistente = _clienteRepository.GetById(clienteDTO.Id);
                 
                 if (entidadExistente == null)
                     throw new InvalidOperationException($"No se encontró el cliente con ID '{clienteDTO.Id}'");
 
                 // Validar que no exista otro cliente con el mismo documento
-                if (await _clienteRepository.ExisteDocumentoAsync(clienteDTO.NumeroDocumento, clienteDTO.Id))
+                if (_clienteRepository.ExisteDocumento(clienteDTO.NumeroDocumento, clienteDTO.Id))
                     throw new InvalidOperationException($"Ya existe otro cliente con el documento '{clienteDTO.NumeroDocumento}'");
 
                 // Actualizar datos (las validaciones de negocio se ejecutan en el método)
@@ -127,9 +127,10 @@ namespace BLL.Services
                     clienteDTO.RazonSocial,
                     clienteDTO.TipoDocumento,
                     clienteDTO.NumeroDocumento,
-                    clienteDTO.IdVendedor, // MODIFICADO - ahora es Guid?
+                    clienteDTO.IdVendedor,
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
+                    clienteDTO.IdProvincia,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
                     clienteDTO.Direccion,
@@ -157,11 +158,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public bool Delete(Guid id)
         {
             try
             {
-                var entidad = await _clienteRepository.GetByIdAsync(id);
+                var entidad = _clienteRepository.GetById(id);
                 
                 if (entidad == null)
                     throw new InvalidOperationException($"No se encontró el cliente con ID '{id}'");
@@ -185,11 +186,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> ReactivarAsync(Guid id)
+        public bool Reactivar(Guid id)
         {
             try
             {
-                var entidad = await _clienteRepository.GetByIdAsync(id);
+                var entidad = _clienteRepository.GetById(id);
                 
                 if (entidad == null)
                     throw new InvalidOperationException($"No se encontró el cliente con ID '{id}'");

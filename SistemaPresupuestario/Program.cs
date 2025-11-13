@@ -56,6 +56,7 @@ namespace SistemaPresupuestario
             .AddSingleton<SqlServerHelper>()
             .AddIoCDependencies(csSetting)
                 .AddServicesDependencies(csSetting, app)
+                .AddBLLDependencies() // Esto ya registra IProvinciaService
                 .AddTransient<frmLogin>()
                 .AddTransient<frmMain>()
                 .AddTransient<frmUsuarios>()
@@ -69,9 +70,7 @@ namespace SistemaPresupuestario
                 .AddTransient<frmListaPrecioAlta>()
                 .AddTransient<frmPresupuesto>()
                 .AddTransient<frmConfiguacionGeneral>()
-                
                 ;
-
         }
 
     }

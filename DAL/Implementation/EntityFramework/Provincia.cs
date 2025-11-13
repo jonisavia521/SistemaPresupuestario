@@ -13,6 +13,7 @@ namespace DAL.Implementation.EntityFramework
         public Provincia()
         {
             Impuesto = new HashSet<Impuesto>();
+            Cliente = new HashSet<Cliente>();
         }
 
         public Guid ID { get; set; }
@@ -25,5 +26,8 @@ namespace DAL.Implementation.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Impuesto> Impuesto { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cliente> Cliente { get; set; }
     }
 }

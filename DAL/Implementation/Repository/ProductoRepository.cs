@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Implementation.Repository
 {
     /// <summary>
     /// Repositorio de acceso a datos para Producto
     /// Implementa las operaciones de persistencia específicas de Producto
+    /// TODOS LOS MÉTODOS SON SÍNCRONOS para evitar deadlocks en Windows Forms
     /// </summary>
     public class ProductoRepository : Repository<ProductoDM>, IProductoRepository
     {
@@ -20,63 +20,90 @@ namespace DAL.Implementation.Repository
         {
         }
 
-        public async Task<ProductoDM> GetByCodigoAsync(string codigo)
+        /// <summary>
+        /// Busca un producto por su código único
+        /// </summary>
+        public ProductoDM GetByCodigo(string codigo)
         {
-            // Buscar en la tabla EF Producto
-            var productoEF = await _context.Producto
-                .FirstOrDefaultAsync(p => p.Codigo == codigo);
+            // Buscar con AsNoTracking para evitar lazy loading y mejorar rendimiento
+            var productoEF = _context.Producto
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Codigo == codigo);
 
             if (productoEF == null)
                 return null;
 
-            // Convertir de entidad EF a entidad de dominio
             return MapearADominio(productoEF);
         }
 
-        public async Task<IEnumerable<ProductoDM>> GetActivosAsync()
+        /// <summary>
+        /// Obtiene todos los productos activos (no inhabilitados)
+        /// </summary>
+        public IEnumerable<ProductoDM> GetActivos()
         {
-            var productosEF = await _context.Producto
+            var productosEF = _context.Producto
+                .AsNoTracking()
                 .Where(p => !p.Inhabilitado)
-                .ToListAsync();
+                .ToList();
 
             return productosEF.Select(MapearADominio);
         }
 
-        public async Task<bool> ExisteCodigoAsync(string codigo, Guid? excludeId = null)
+        /// <summary>
+        /// Verifica si un código de producto ya existe
+        /// </summary>
+        public bool ExisteCodigo(string codigo, Guid? excludeId = null)
         {
             if (excludeId.HasValue)
             {
-                return await _context.Producto
-                    .AnyAsync(p => p.Codigo == codigo && p.ID != excludeId.Value);
+                return _context.Producto
+                    .AsNoTracking()
+                    .Any(p => p.Codigo == codigo && p.ID != excludeId.Value);
             }
 
-            return await _context.Producto
-                .AnyAsync(p => p.Codigo == codigo);
+            return _context.Producto
+                .AsNoTracking()
+                .Any(p => p.Codigo == codigo);
         }
 
+        /// <summary>
+        /// Obtiene un producto por ID
+        /// </summary>
         public ProductoDM GetById(Guid id)
         {
-            var productoEF = _context.Producto.Find(id);
+            var productoEF = _context.Producto
+                .AsNoTracking()
+                .FirstOrDefault(p => p.ID == id);
+            
             if (productoEF == null)
                 return null;
 
             return MapearADominio(productoEF);
         }
 
-        // Sobrescribir métodos base para usar el mapeo personalizado
-        public new async Task<IEnumerable<ProductoDM>> GetAllAsync()
+        /// <summary>
+        /// Obtiene todos los productos
+        /// </summary>
+        public IEnumerable<ProductoDM> GetAll()
         {
-            var productosEF = await _context.Producto.ToListAsync();
+            var productosEF = _context.Producto
+                .AsNoTracking()
+                .ToList();
+            
             return productosEF.Select(MapearADominio);
         }
 
-        public new async Task<ProductoDM> GetByIdAsync(Guid id)
+        // Sobrescribir métodos del base para que no se usen
+        [Obsolete("Use GetAll() instead", true)]
+        public new System.Threading.Tasks.Task<IEnumerable<ProductoDM>> GetAllAsync()
         {
-            var productoEF = await _context.Producto.FindAsync(id);
-            if (productoEF == null)
-                return null;
+            throw new NotSupportedException("Use el método síncrono GetAll()");
+        }
 
-            return MapearADominio(productoEF);
+        [Obsolete("Use GetById() instead", true)]
+        public new System.Threading.Tasks.Task<ProductoDM> GetByIdAsync(Guid id)
+        {
+            throw new NotSupportedException("Use el método síncrono GetById()");
         }
 
         public new void Add(ProductoDM entidad)
@@ -96,6 +123,7 @@ namespace DAL.Implementation.Repository
                 existente.Codigo = productoEF.Codigo;
                 existente.Descripcion = productoEF.Descripcion;
                 existente.Inhabilitado = productoEF.Inhabilitado;
+                existente.PorcentajeIVA = productoEF.PorcentajeIVA;
                 
                 _context.Entry(existente).State = EntityState.Modified;
             }

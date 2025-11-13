@@ -1,7 +1,6 @@
 using BLL.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
@@ -11,14 +10,14 @@ namespace BLL.Contracts
     /// </summary>
     public interface IVendedorService
     {
-        Task<IEnumerable<VendedorDTO>> GetAllAsync();
-        Task<IEnumerable<VendedorDTO>> GetActivosAsync();
-        Task<VendedorDTO> GetByIdAsync(Guid id);
-        Task<VendedorDTO> GetByCodigoAsync(string codigoVendedor);
-        Task<VendedorDTO> GetByCUITAsync(string cuit);
-        Task<bool> AddAsync(VendedorDTO vendedorDTO);
-        Task<bool> UpdateAsync(VendedorDTO vendedorDTO);
-        Task<bool> DeleteAsync(Guid id);
-        Task<bool> ReactivarAsync(Guid id);
+        IEnumerable<VendedorDTO> GetAll();
+        IEnumerable<VendedorDTO> GetActivos();
+        VendedorDTO GetById(Guid id);
+        VendedorDTO GetByCodigo(string codigoVendedor);
+        VendedorDTO GetByCUIT(string cuit);
+        bool Add(VendedorDTO vendedorDTO);
+        bool Update(VendedorDTO vendedorDTO);
+        bool Delete(Guid id);
+        bool Reactivar(Guid id);
     }
 }

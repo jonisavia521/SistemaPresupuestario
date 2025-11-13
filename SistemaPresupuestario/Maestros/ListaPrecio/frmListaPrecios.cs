@@ -23,10 +23,10 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             _listaCompletaPrecios = new List<ListaPrecioDTO>();
         }
 
-        private async void frmListaPrecios_Load(object sender, EventArgs e)
+        private  void frmListaPrecios_Load(object sender, EventArgs e)
         {
             ConfigurarGrilla();
-            await CargarListasPrecios();
+            CargarListasPrecios();
         }
 
         private void ConfigurarGrilla()
@@ -80,13 +80,13 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             });
         }
 
-        private async Task CargarListasPrecios()
+        private  void CargarListasPrecios()
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var listas = await _listaPrecioService.GetAllAsync();
+                var listas = _listaPrecioService.GetAll();
                 _listaCompletaPrecios = listas.ToList();
                 AplicarFiltros();
             }
@@ -135,7 +135,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 if (frmAlta.ShowDialog() == DialogResult.OK)
                 {
                     // Recargar lista si se guardó correctamente
-                    _ = CargarListasPrecios();
+                    CargarListasPrecios();
                 }
             }
             catch (Exception ex)
@@ -164,7 +164,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 if (frmEditar.ShowDialog() == DialogResult.OK)
                 {
                     // Recargar lista si se guardó correctamente
-                    _ = CargarListasPrecios();
+                    CargarListasPrecios();
                 }
             }
             catch (Exception ex)
@@ -174,7 +174,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
         }
 
-        private async void btnDesactivar_Click(object sender, EventArgs e)
+        private  void btnDesactivar_Click(object sender, EventArgs e)
         {
             if (dgvListaPrecios.SelectedRows.Count == 0)
             {
@@ -198,11 +198,11 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                     this.Cursor = Cursors.WaitCursor;
                     var listaId = (Guid)dgvListaPrecios.SelectedRows[0].Cells["Id"].Value;
 
-                    await _listaPrecioService.DeleteAsync(listaId);
+                    _listaPrecioService.Delete(listaId);
 
                     MessageBox.Show("Lista de precios desactivada exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await CargarListasPrecios();
+                    CargarListasPrecios();
                 }
                 catch (Exception ex)
                 {
@@ -216,7 +216,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
         }
 
-        private async void btnReactivar_Click(object sender, EventArgs e)
+        private  void btnReactivar_Click(object sender, EventArgs e)
         {
             if (dgvListaPrecios.SelectedRows.Count == 0)
             {
@@ -240,11 +240,11 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                     this.Cursor = Cursors.WaitCursor;
                     var listaId = (Guid)dgvListaPrecios.SelectedRows[0].Cells["Id"].Value;
 
-                    await _listaPrecioService.ReactivarAsync(listaId);
+                    _listaPrecioService.Reactivar(listaId);
 
                     MessageBox.Show("Lista de precios reactivada exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await CargarListasPrecios();
+                    CargarListasPrecios();
                 }
                 catch (Exception ex)
                 {

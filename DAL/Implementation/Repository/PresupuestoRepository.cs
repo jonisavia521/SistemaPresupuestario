@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Implementation.Repository
 {
@@ -19,19 +18,19 @@ namespace DAL.Implementation.Repository
         }
 
         // Implementación de IRepository<PresupuestoDM>
-        public async Task<IEnumerable<PresupuestoDM>> GetAllAsync()
+        public IEnumerable<PresupuestoDM> GetAll()
         {
-            var presupuestos = await _context.Presupuesto.ToListAsync();
+            var presupuestos = _context.Presupuesto.ToList();
             return presupuestos.Select(p => MapToDomain(p, false));
         }
 
-        public async Task<PresupuestoDM> GetByIdAsync(Guid id)
+        public PresupuestoDM GetById(Guid id)
         {
-            var presupuestoEF = await _context.Presupuesto.FindAsync(id);
+            var presupuestoEF = _context.Presupuesto.Find(id);
             return presupuestoEF != null ? MapToDomain(presupuestoEF, false) : null;
         }
 
-        public async Task<PresupuestoDM> GetByIdAsync(int id)
+        public PresupuestoDM GetById(int id)
         {
             // No aplicable para presupuestos (usan Guid), lanzar excepción o devolver null
             throw new NotSupportedException("Presupuesto usa Guid como identificador, no int");
@@ -65,12 +64,6 @@ namespace DAL.Implementation.Repository
             }
         }
 
-        public PresupuestoDM GetById(Guid id)
-        {
-            var presupuestoEF = _context.Presupuesto.Find(id);
-            return presupuestoEF != null ? MapToDomain(presupuestoEF, false) : null;
-        }
-
         public PresupuestoDM GetByIdWithDetails(Guid id)
         {
             var presupuestoEF = _context.Presupuesto
@@ -78,13 +71,6 @@ namespace DAL.Implementation.Repository
                 .FirstOrDefault(p => p.ID == id);
 
             return presupuestoEF != null ? MapToDomain(presupuestoEF, true) : null;
-        }
-
-        public IEnumerable<PresupuestoDM> GetAll()
-        {
-            return _context.Presupuesto
-                .ToList()
-                .Select(p => MapToDomain(p, false));
         }
 
         public IEnumerable<PresupuestoDM> GetAllWithDetails()

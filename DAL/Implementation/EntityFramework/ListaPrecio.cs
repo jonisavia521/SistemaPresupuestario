@@ -29,6 +29,9 @@ namespace DAL.Implementation.EntityFramework
         public bool Activo { get; set; }
 
         [Required]
+        public bool IncluyeIva { get; set; }
+
+        [Required]
         public DateTime FechaAlta { get; set; }
 
         public DateTime? FechaModificacion { get; set; }

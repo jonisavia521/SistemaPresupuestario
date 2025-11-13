@@ -24,8 +24,7 @@ namespace DAL.Implementation.EntityFramework
         [StringLength(50)]
         public string RazonSocial { get; set; }
 
-        [StringLength(50)]
-        public string IdProvincia { get; set; }
+        public Guid? IdProvincia { get; set; }
 
         [StringLength(50)]
         public string Localidad { get; set; }
@@ -61,6 +60,8 @@ namespace DAL.Implementation.EntityFramework
         public DateTime FechaAlta { get; set; }
         
         public DateTime? FechaModificacion { get; set; }
+
+        public virtual Provincia Provincia { get; set; }
 
         public virtual Vendedor Vendedor { get; set; }
 

@@ -1,5 +1,4 @@
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Services.BLL.Contracts
 {
@@ -9,19 +8,17 @@ namespace Services.BLL.Contracts
     public interface IBackupRestoreService
     {
         /// <summary>
-        /// Crea un backup de la base de datos de forma asíncrona
+        /// Crea un backup de la base de datos
         /// </summary>
         /// <param name="rutaArchivo">Ruta completa del archivo de backup (.bak)</param>
         /// <param name="usuarioApp">Usuario de la aplicación que ejecuta el backup</param>
-        /// <returns>Task que representa la operación asíncrona</returns>
-        Task CrearBackupAsync(string rutaArchivo, string usuarioApp);
+        void CrearBackup(string rutaArchivo, string usuarioApp);
 
         /// <summary>
-        /// Restaura un backup de la base de datos de forma asíncrona
+        /// Restaura un backup de la base de datos
         /// </summary>
         /// <param name="rutaArchivo">Ruta completa del archivo de backup (.bak)</param>
-        /// <returns>Task que representa la operación asíncrona</returns>
-        Task RestaurarBackupAsync(string rutaArchivo);
+        void RestaurarBackup(string rutaArchivo);
 
         /// <summary>
         /// Obtiene el historial de backups realizados

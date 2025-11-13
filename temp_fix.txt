@@ -1,0 +1,63 @@
+        /// <summary>
+        /// Evento para manejar teclas en el DataGridView
+        /// </summary>
+        private void DgArticulos_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Manejar Enter en DataGridView
+            if (e.KeyCode == Keys.Enter && dgArticulos.CurrentCell != null)
+            {
+                dgArticulos.EndEdit();
+
+                int col = dgArticulos.CurrentCell.ColumnIndex;
+                int row = dgArticulos.CurrentCell.RowIndex;
+
+                // Si estamos en la última columna
+                if (col >= dgArticulos.ColumnCount - 1)
+                {
+                    // Verificar si hay una siguiente fila disponible (que no sea la fila de agregar)
+                    bool hayFilaSiguiente = row + 1 < dgArticulos.RowCount && !dgArticulos.Rows[row + 1].IsNewRow;
+                    
+                    if (hayFilaSiguiente)
+                    {
+                        // Ya existe una fila siguiente con datos, moverse a ella
+                        dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                        dgArticulos.BeginEdit(true);
+                    }
+                    else if (row + 1 < dgArticulos.RowCount)
+                    {
+                        // Existe la fila de agregar (IsNewRow), moverse a ella
+                        // El DataGridView automáticamente creará una nueva fila vacía después
+                        dgArticulos.CurrentCell = dgArticulos[0, row + 1];
+                        dgArticulos.BeginEdit(true);
+                    }
+                    // Si no hay más filas, no hacer nada (el usuario debe agregar manualmente)
+                }
+                else
+                {
+                    // Moverse a la siguiente columna en la misma fila
+                    dgArticulos.CurrentCell = dgArticulos[col + 1, row];
+                    dgArticulos.BeginEdit(true);
+                }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // Permitir eliminar fila con tecla Delete
+            if (e.KeyCode == Keys.Delete && !dgArticulos.CurrentRow.IsNewRow)
+            {
+                var result = MessageBox.Show("¿Está seguro de eliminar este detalle?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    dgArticulos.Rows.Remove(dgArticulos.CurrentRow);
+                    CalcularTotales();
+                }
+
+                e.Handled = true;
+            }
+        }

@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Infrastructure
 {
@@ -20,9 +18,9 @@ namespace DAL.Infrastructure
             _dbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
-        public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
-        public async Task<T> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
+        public IEnumerable<T> GetAll() => _dbSet.ToList();
+        public T GetById(int id) => _dbSet.Find(id);
+        public T GetById(Guid id) => _dbSet.Find(id);
         public void Add(T entity) => _dbSet.Add(entity);
         public void Update(T entity)
         {

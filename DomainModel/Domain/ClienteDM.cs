@@ -14,7 +14,8 @@ namespace DomainModel.Domain
         public string RazonSocial { get; private set; }
         public string TipoDocumento { get; private set; } // DNI|CUIT|CUIL
         public string NumeroDocumento { get; private set; }
-        public Guid? IdVendedor { get; private set; } // FK a Vendedor - MODIFICADO
+        public Guid? IdVendedor { get; private set; } // FK a Vendedor
+        public Guid? IdProvincia { get; private set; } // FK a Provincia - NUEVO
         public string TipoIva { get; private set; }
         public string CondicionPago { get; private set; } // 2 dígitos
         public string Email { get; private set; }
@@ -31,9 +32,10 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            Guid? idVendedor, // MODIFICADO
+            Guid? idVendedor,
             string tipoIva,
             string condicionPago,
+            Guid? idProvincia = null, // NUEVO
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -47,7 +49,8 @@ namespace DomainModel.Domain
             ValidarYEstablecerRazonSocial(razonSocial);
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
-            IdVendedor = idVendedor; // MODIFICADO - Ahora es Guid?
+            IdVendedor = idVendedor;
+            IdProvincia = idProvincia; // NUEVO
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
             
@@ -64,12 +67,13 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            Guid? idVendedor, // MODIFICADO
+            Guid? idVendedor,
             string tipoIva,
             string condicionPago,
             bool activo,
             DateTime fechaAlta,
             DateTime? fechaModificacion,
+            Guid? idProvincia = null, // NUEVO
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -83,7 +87,8 @@ namespace DomainModel.Domain
             RazonSocial = razonSocial;
             TipoDocumento = tipoDocumento;
             NumeroDocumento = numeroDocumento;
-            IdVendedor = idVendedor; // MODIFICADO
+            IdVendedor = idVendedor;
+            IdProvincia = idProvincia; // NUEVO
             TipoIva = tipoIva;
             CondicionPago = condicionPago;
             Activo = activo;
@@ -100,9 +105,10 @@ namespace DomainModel.Domain
             string razonSocial,
             string tipoDocumento,
             string numeroDocumento,
-            Guid? idVendedor, // MODIFICADO
+            Guid? idVendedor,
             string tipoIva,
             string condicionPago,
+            Guid? idProvincia = null, // NUEVO
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -111,7 +117,8 @@ namespace DomainModel.Domain
             ValidarYEstablecerRazonSocial(razonSocial);
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
-            IdVendedor = idVendedor; // MODIFICADO
+            IdVendedor = idVendedor;
+            IdProvincia = idProvincia; // NUEVO
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
             

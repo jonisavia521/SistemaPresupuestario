@@ -6,7 +6,6 @@ using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -23,53 +22,53 @@ namespace BLL.Services
         public VendedorService(
             IUnitOfWork unitOfWork,
             IVendedorRepository vendedorRepository,
-            IMapper mapper)
+            IMapper _mapper)
         {
             _unitOfWork = unitOfWork;
             _vendedorRepository = vendedorRepository;
-            _mapper = mapper;
+            this._mapper = _mapper;
         }
 
-        public async Task<IEnumerable<VendedorDTO>> GetAllAsync()
+        public IEnumerable<VendedorDTO> GetAll()
         {
-            var entidades = await _vendedorRepository.GetAllAsync();
+            var entidades = _vendedorRepository.GetAll();
             return _mapper.Map<IEnumerable<VendedorDTO>>(entidades);
         }
 
-        public async Task<IEnumerable<VendedorDTO>> GetActivosAsync()
+        public IEnumerable<VendedorDTO> GetActivos()
         {
-            var entidades = await _vendedorRepository.GetActivosAsync();
+            var entidades = _vendedorRepository.GetActivos();
             return _mapper.Map<IEnumerable<VendedorDTO>>(entidades);
         }
 
-        public async Task<VendedorDTO> GetByIdAsync(Guid id)
+        public VendedorDTO GetById(Guid id)
         {
-            var entidad = await _vendedorRepository.GetByIdAsync(id);
+            var entidad = _vendedorRepository.GetById(id);
             return _mapper.Map<VendedorDTO>(entidad);
         }
 
-        public async Task<VendedorDTO> GetByCodigoAsync(string codigoVendedor)
+        public VendedorDTO GetByCodigo(string codigoVendedor)
         {
-            var entidad = await _vendedorRepository.GetByCodigoAsync(codigoVendedor);
+            var entidad = _vendedorRepository.GetByCodigo(codigoVendedor);
             return _mapper.Map<VendedorDTO>(entidad);
         }
 
-        public async Task<VendedorDTO> GetByCUITAsync(string cuit)
+        public VendedorDTO GetByCUIT(string cuit)
         {
-            var entidad = await _vendedorRepository.GetByCUITAsync(cuit);
+            var entidad = _vendedorRepository.GetByCUIT(cuit);
             return _mapper.Map<VendedorDTO>(entidad);
         }
 
-        public async Task<bool> AddAsync(VendedorDTO vendedorDTO)
+        public bool Add(VendedorDTO vendedorDTO)
         {
             try
             {
                 // Validar que no exista el código
-                if (await _vendedorRepository.ExisteCodigoAsync(vendedorDTO.CodigoVendedor))
+                if (_vendedorRepository.ExisteCodigo(vendedorDTO.CodigoVendedor))
                     throw new InvalidOperationException($"Ya existe un vendedor con el código '{vendedorDTO.CodigoVendedor}'");
 
                 // Validar que no exista el CUIT
-                if (await _vendedorRepository.ExisteCUITAsync(vendedorDTO.CUIT))
+                if (_vendedorRepository.ExisteCUIT(vendedorDTO.CUIT))
                     throw new InvalidOperationException($"Ya existe un vendedor con el CUIT '{vendedorDTO.CUIT}'");
 
                 // Crear la entidad de dominio (las validaciones de negocio se ejecutan en el constructor)
@@ -104,18 +103,18 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(VendedorDTO vendedorDTO)
+        public bool Update(VendedorDTO vendedorDTO)
         {
             try
             {
                 // Obtener la entidad existente
-                var entidadExistente = await _vendedorRepository.GetByIdAsync(vendedorDTO.Id);
+                var entidadExistente = _vendedorRepository.GetById(vendedorDTO.Id);
                 
                 if (entidadExistente == null)
                     throw new InvalidOperationException($"No se encontró el vendedor con ID '{vendedorDTO.Id}'");
 
                 // Validar que no exista otro vendedor con el mismo CUIT
-                if (await _vendedorRepository.ExisteCUITAsync(vendedorDTO.CUIT, vendedorDTO.Id))
+                if (_vendedorRepository.ExisteCUIT(vendedorDTO.CUIT, vendedorDTO.Id))
                     throw new InvalidOperationException($"Ya existe otro vendedor con el CUIT '{vendedorDTO.CUIT}'");
 
                 // Actualizar datos (las validaciones de negocio se ejecutan en el método)
@@ -149,11 +148,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public bool Delete(Guid id)
         {
             try
             {
-                var entidad = await _vendedorRepository.GetByIdAsync(id);
+                var entidad = _vendedorRepository.GetById(id);
                 
                 if (entidad == null)
                     throw new InvalidOperationException($"No se encontró el vendedor con ID '{id}'");
@@ -177,11 +176,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<bool> ReactivarAsync(Guid id)
+        public bool Reactivar(Guid id)
         {
             try
             {
-                var entidad = await _vendedorRepository.GetByIdAsync(id);
+                var entidad = _vendedorRepository.GetById(id);
                 
                 if (entidad == null)
                     throw new InvalidOperationException($"No se encontró el vendedor con ID '{id}'");

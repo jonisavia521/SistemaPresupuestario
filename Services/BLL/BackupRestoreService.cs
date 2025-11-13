@@ -2,7 +2,6 @@ using Services.BLL.Contracts;
 using Services.DAL;
 using System;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Services.BLL
 {
@@ -21,12 +20,12 @@ namespace Services.BLL
         }
 
         /// <summary>
-        /// Crea un backup de la base de datos de forma asíncrona
+        /// Crea un backup de la base de datos
         /// Registra el resultado en la tabla de historial
         /// </summary>
         /// <param name="rutaArchivo">Ruta completa del archivo de backup (.bak)</param>
         /// <param name="usuarioApp">Usuario de la aplicación que ejecuta el backup</param>
-        public async Task CrearBackupAsync(string rutaArchivo, string usuarioApp)
+        public void CrearBackup(string rutaArchivo, string usuarioApp)
         {
             if (string.IsNullOrWhiteSpace(rutaArchivo))
                 throw new ArgumentException("La ruta del archivo de backup no puede estar vacía", nameof(rutaArchivo));
@@ -39,8 +38,8 @@ namespace Services.BLL
 
             try
             {
-                // Ejecutar el backup de forma asíncrona
-                await Task.Run(() => _repository.ExecuteBackup(rutaArchivo));
+                // Ejecutar el backup
+                _repository.ExecuteBackup(rutaArchivo);
 
                 estado = "Exitoso";
             }
@@ -65,18 +64,18 @@ namespace Services.BLL
         }
 
         /// <summary>
-        /// Restaura un backup de la base de datos de forma asíncrona
+        /// Restaura un backup de la base de datos
         /// </summary>
         /// <param name="rutaArchivo">Ruta completa del archivo de backup (.bak)</param>
-        public async Task RestaurarBackupAsync(string rutaArchivo)
+        public void RestaurarBackup(string rutaArchivo)
         {
             if (string.IsNullOrWhiteSpace(rutaArchivo))
                 throw new ArgumentException("La ruta del archivo de restore no puede estar vacía", nameof(rutaArchivo));
 
             try
             {
-                // Ejecutar el restore de forma asíncrona
-                await Task.Run(() => _repository.ExecuteRestore(rutaArchivo));
+                // Ejecutar el restore
+                _repository.ExecuteRestore(rutaArchivo);
             }
             catch (Exception ex)
             {

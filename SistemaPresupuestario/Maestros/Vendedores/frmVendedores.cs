@@ -21,18 +21,18 @@ namespace SistemaPresupuestario.Maestros
             dgvVendedores.AutoGenerateColumns = false;
         }
 
-        private async void frmVendedores_Load(object sender, EventArgs e)
+        private  void frmVendedores_Load(object sender, EventArgs e)
         {
-            await CargarVendedores();
+            CargarVendedores();
         }
 
-        private async Task CargarVendedores()
+        private  void CargarVendedores()
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var vendedores = await _vendedorService.GetAllAsync();
+                var vendedores = _vendedorService.GetAll();
                 _listaCompleta = vendedores.ToList(); 
                 
                 dgvVendedores.DataSource = _listaCompleta;
@@ -60,7 +60,7 @@ namespace SistemaPresupuestario.Maestros
                     MdiParent = this.MdiParent
                 };
                 
-                frmAlta.VendedorGuardado += async (s, ev) => await CargarVendedores();
+                frmAlta.VendedorGuardado +=  (s, ev) => CargarVendedores();
                 
                 frmAlta.Show();
             }
@@ -91,7 +91,7 @@ namespace SistemaPresupuestario.Maestros
                     MdiParent = this.MdiParent
                 };
                 
-                frmAlta.VendedorGuardado += async (s, ev) => await CargarVendedores();
+                frmAlta.VendedorGuardado +=  (s, ev) => CargarVendedores();
                 
                 frmAlta.Show();
             }
@@ -101,7 +101,7 @@ namespace SistemaPresupuestario.Maestros
             }
         }
 
-        private async void btnEliminar_Click(object sender, EventArgs e)
+        private  void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvVendedores.CurrentRow == null)
             {
@@ -124,12 +124,12 @@ namespace SistemaPresupuestario.Maestros
                 {
                     this.Cursor = Cursors.WaitCursor;
 
-                    await _vendedorService.DeleteAsync(vendedorDTO.Id);
+                     _vendedorService.Delete(vendedorDTO.Id);
 
                     MessageBox.Show("Vendedor desactivado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    await CargarVendedores();
+                    CargarVendedores();
                 }
                 catch (Exception ex)
                 {
@@ -143,7 +143,7 @@ namespace SistemaPresupuestario.Maestros
             }
         }
 
-        private async void btnReactivar_Click(object sender, EventArgs e)
+        private  void btnReactivar_Click(object sender, EventArgs e)
         {
             if (dgvVendedores.CurrentRow == null)
             {
@@ -165,12 +165,12 @@ namespace SistemaPresupuestario.Maestros
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                await _vendedorService.ReactivarAsync(vendedorDTO.Id);
+                _vendedorService.Reactivar(vendedorDTO.Id);
 
                 MessageBox.Show("Vendedor reactivado exitosamente", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                await CargarVendedores();
+                CargarVendedores();
             }
             catch (Exception ex)
             {

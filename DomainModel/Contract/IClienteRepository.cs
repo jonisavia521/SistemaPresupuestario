@@ -1,7 +1,6 @@
 using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DomainModel.Contract
 {
@@ -14,31 +13,26 @@ namespace DomainModel.Contract
         /// <summary>
         /// Busca un cliente por su código único
         /// </summary>
-        Task<ClienteDM> GetByCodigoAsync(string codigoCliente);
+        ClienteDM GetByCodigo(string codigoCliente);
 
         /// <summary>
         /// Busca un cliente por su número de documento
         /// </summary>
-        Task<ClienteDM> GetByDocumentoAsync(string numeroDocumento);
+        ClienteDM GetByDocumento(string numeroDocumento);
 
         /// <summary>
         /// Obtiene todos los clientes activos
         /// </summary>
-        Task<IEnumerable<ClienteDM>> GetActivosAsync();
+        IEnumerable<ClienteDM> GetActivos();
 
         /// <summary>
         /// Verifica si existe un cliente con el código especificado
         /// </summary>
-        Task<bool> ExisteCodigoAsync(string codigoCliente, Guid? excluyendoId = null);
+        bool ExisteCodigo(string codigoCliente, Guid? excluyendoId = null);
 
         /// <summary>
         /// Verifica si existe un cliente con el número de documento especificado
         /// </summary>
-        Task<bool> ExisteDocumentoAsync(string numeroDocumento, Guid? excluyendoId = null);
-
-        /// <summary>
-        /// Obtiene un cliente por ID (versión síncrona)
-        /// </summary>
-        ClienteDM GetById(Guid id);
+        bool ExisteDocumento(string numeroDocumento, Guid? excluyendoId = null);
     }
 }

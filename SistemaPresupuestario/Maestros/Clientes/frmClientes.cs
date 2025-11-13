@@ -12,30 +12,32 @@ namespace SistemaPresupuestario.Maestros
     public partial class frmClientes : Form
     {
         private readonly IClienteService _clienteService;
-        private readonly IVendedorService _vendedorService; // AGREGADO
+        private readonly IVendedorService _vendedorService;
+        private readonly IProvinciaService _provinciaService; // NUEVO
         private List<ClienteDTO> _listaCompletaClientes;
 
-        public frmClientes(IClienteService clienteService, IVendedorService vendedorService) // MODIFICADO
+        public frmClientes(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService) // MODIFICADO
         {
             InitializeComponent();
             dgvClientes.AutoGenerateColumns = false;
             _clienteService = clienteService;
-            _vendedorService = vendedorService; // AGREGADO
+            _vendedorService = vendedorService;
+            _provinciaService = provinciaService; // NUEVO
             _listaCompletaClientes = new List<ClienteDTO>();
         }
 
-        private async void frmClientes_Load(object sender, EventArgs e)
+        private  void frmClientes_Load(object sender, EventArgs e)
         {
-            await CargarClientes();
+            CargarClientes();
         }
 
-        private async Task CargarClientes()
+        private  void CargarClientes()
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var clientes = await _clienteService.GetAllAsync();
+                var clientes = _clienteService.GetAll();
                 _listaCompletaClientes = clientes.ToList();
                 AplicarFiltros();
             }
@@ -58,13 +60,13 @@ namespace SistemaPresupuestario.Maestros
             if (formAbierto == null)
             {
                 // Crear una nueva instancia si el formulario no está abierto
-                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService) // MODIFICADO
+                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService, _provinciaService) // MODIFICADO
                 {
                     MdiParent = this.MdiParent
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ClienteGuardado += async (s, ev) => await CargarClientes();
+                frmAlta.ClienteGuardado +=  (s, ev) => CargarClientes();
                 
                 frmAlta.Show();
             }
@@ -92,13 +94,13 @@ namespace SistemaPresupuestario.Maestros
 
             if (formAbierto == null)
             {
-                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService, clienteDTO.Id) // MODIFICADO
+                var frmAlta = new frmClienteAlta(_clienteService, _vendedorService, _provinciaService, clienteDTO.Id) // MODIFICADO
                 {
                     MdiParent = this.MdiParent
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ClienteGuardado += async (s, ev) => await CargarClientes();
+                frmAlta.ClienteGuardado +=  (s, ev) => CargarClientes();
                 
                 frmAlta.Show();
             }
@@ -108,7 +110,7 @@ namespace SistemaPresupuestario.Maestros
             }
         }
 
-        private async void btnEliminar_Click(object sender, EventArgs e)
+        private  void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvClientes.CurrentRow == null)
             {
@@ -131,12 +133,12 @@ namespace SistemaPresupuestario.Maestros
                 {
                     this.Cursor = Cursors.WaitCursor;
 
-                    await _clienteService.DeleteAsync(clienteDTO.Id);
+                    _clienteService.Delete(clienteDTO.Id);
 
                     MessageBox.Show("Cliente desactivado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    await CargarClientes();
+                    CargarClientes();
                 }
                 catch (Exception ex)
                 {
@@ -150,7 +152,7 @@ namespace SistemaPresupuestario.Maestros
             }
         }
 
-        private async void btnReactivar_Click(object sender, EventArgs e)
+        private  void btnReactivar_Click(object sender, EventArgs e)
         {
             if (dgvClientes.CurrentRow == null)
             {
@@ -172,12 +174,12 @@ namespace SistemaPresupuestario.Maestros
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                await _clienteService.ReactivarAsync(clienteDTO.Id);
+                _clienteService.Reactivar(clienteDTO.Id);
 
                 MessageBox.Show("Cliente reactivado exitosamente", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                await CargarClientes();
+                CargarClientes();
             }
             catch (Exception ex)
             {

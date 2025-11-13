@@ -34,6 +34,12 @@ namespace BLL.DTOs
         // Propiedad auxiliar para mostrar el nombre del vendedor
         public string NombreVendedor { get; set; }
 
+        // NUEVO: IdProvincia - FK a Provincia
+        public Guid? IdProvincia { get; set; }
+
+        // NUEVO: Propiedad auxiliar para mostrar el nombre de la provincia
+        public string NombreProvincia { get; set; }
+
         [Required(ErrorMessage = "El tipo de IVA es obligatorio")]
         public string TipoIva { get; set; }
 

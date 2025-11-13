@@ -21,7 +21,8 @@ namespace BLL.Mappers
                     dto.Activo,
                     dto.FechaAlta,
                     dto.FechaModificacion,
-                    dto.Detalles != null ? dto.Detalles.Select(d => MapToDetalleDomain(d)).ToList() : null
+                    dto.Detalles != null ? dto.Detalles.Select(d => MapToDetalleDomain(d)).ToList() : null,
+                    dto.IncluyeIva
                 ));
 
             // Mapeo de ListaPrecioDetalleDM a ListaPrecioDetalleDTO

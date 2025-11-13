@@ -131,6 +131,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             txtCodigo.Text = _listaPrecioActual.Codigo;
             txtNombre.Text = _listaPrecioActual.Nombre;
             chkActivo.Checked = _listaPrecioActual.Activo;
+            chkIncluyeIva.Checked = _listaPrecioActual.IncluyeIva;
 
             // Cargar detalles en el BindingList
             _detalles.Clear();
@@ -415,12 +416,12 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
         /// <summary>
         /// Muestra el selector de productos y aplica el seleccionado a la fila actual
         /// </summary>
-        private async void MostrarSelectorProducto()
+        private void MostrarSelectorProducto()
         {
             try
             {
                 // Obtener todos los productos activos
-                var productos = await _productoService.GetActivosAsync();
+                var productos = _productoService.GetActivos();
                 var listaProductos = productos.ToList();
 
                 if (!listaProductos.Any())
@@ -568,7 +569,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             return detallesValidos;
         }
 
-        private async void btnAceptar_Click(object sender, EventArgs e)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -610,13 +611,14 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                     Codigo = txtCodigo.Text.Trim(),
                     Nombre = txtNombre.Text.Trim(),
                     Activo = chkActivo.Checked,
+                    IncluyeIva = chkIncluyeIva.Checked,
                     Detalles = detallesValidos
                 };
 
                 if (_listaPrecioActual == null)
                 {
                     // Modo nuevo
-                    await _listaPrecioService.AddAsync(dto);
+                    _listaPrecioService.Add(dto);
                     MessageBox.Show("Lista de precios creada exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -624,7 +626,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 {
                     // Modo edición
                     dto.Id = _listaPrecioActual.Id;
-                    await _listaPrecioService.UpdateAsync(dto);
+                    _listaPrecioService.Update(dto);
                     MessageBox.Show("Lista de precios actualizada exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
