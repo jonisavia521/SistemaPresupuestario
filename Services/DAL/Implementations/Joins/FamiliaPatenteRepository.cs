@@ -2,6 +2,7 @@
 using Services.DAL.Contracts;
 using Services.DAL.Factory;
 using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
 using Services.Services.Extensions;
 using System;
@@ -28,7 +29,8 @@ namespace Services.DAL.Implementations.Joins
             _iExceptionBLL = iExceptionBLL;
             //_patenteRepository = patenteRepository;
             _sqlHelper = sqlHelper;
-        
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
+
         }
         public void Add(Familia obj)
         {
@@ -56,6 +58,7 @@ namespace Services.DAL.Implementations.Joins
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdFamilia", obj.IdComponent.ToString()) };
+                
                 using (var table = _sqlHelper.ExecuteReader("SELECT [IdFamilia],[IdPatente] FROM Familia_Patente WHERE [IdFamilia] = @IdFamilia",default,paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)

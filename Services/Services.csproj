@@ -67,6 +67,12 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
@@ -107,10 +113,13 @@
     <Compile Include="DAL\Implementations\LanguageRepository.cs" />
     <Compile Include="DAL\Implementations\LoggerRepository.cs" />
     <Compile Include="DAL\Implementations\PatenteRepository.cs" />
+    <Compile Include="DAL\Implementations\PresupuestoPdfRepository.cs" />
     <Compile Include="DAL\Implementations\UsuarioRepository.cs" />
+    <Compile Include="DAL\Tools\Enums\enumDataBase.cs" />
     <Compile Include="DAL\Tools\SqlServerHelper.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="DomainModel\Exceptions\WordNotFoundException.cs" />
+    <Compile Include="DomainModel\PresupuestoPdfModel.cs" />
     <Compile Include="DomainModel\Security\Composite\Component.cs" />
     <Compile Include="DomainModel\Security\Composite\Familia.cs" />
     <Compile Include="DomainModel\Security\Composite\Patente.cs" />
@@ -120,6 +129,7 @@
     <Compile Include="Services\Contracts\ILogger.cs" />
     <Compile Include="Services\Contracts\ILogin.cs" />
     <Compile Include="Services\Contracts\IPatenteService.cs" />
+    <Compile Include="Services\Contracts\IPresupuestoPdfService.cs" />
     <Compile Include="Services\Contracts\IUsuarioService.cs" />
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\Extensions\ExceptionExtension.cs" />
@@ -127,6 +137,7 @@
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\LoginServices.cs" />
     <Compile Include="Services\PatenteService.cs" />
+    <Compile Include="Services\PresupuestoPdfService.cs" />
     <Compile Include="Services\UsuarioService.cs" />
   </ItemGroup>
   <ItemGroup>

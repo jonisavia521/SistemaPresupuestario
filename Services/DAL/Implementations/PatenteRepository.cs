@@ -1,16 +1,17 @@
-﻿using Services.DAL.Contracts;
+﻿using Services.BLL.Contracts;
+using Services.DAL.Contracts;
+using Services.DAL.Implementations.Adapter;
+using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
+using Services.Services.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Services.DAL.Tools;
-using System.Data.SqlClient;
-using Services.Services.Extensions;
-using Services.DAL.Implementations.Adapter;
-using System.Data;
-using Services.BLL.Contracts;
 
 namespace Services.DAL.Implementations
 {
@@ -26,6 +27,7 @@ namespace Services.DAL.Implementations
             _iExceptionBLL = iExceptionBLL;
             _patenteAdapter = patenteAdapter;
             _sqlHelper = sqlHelper;
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
         }
 
 
@@ -73,6 +75,7 @@ namespace Services.DAL.Implementations
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdPatente", id) };
+                
                 using (var table = _sqlHelper.ExecuteReader("SELECT [IdPatente],[Nombre],[Vista] FROM Patente WHERE IdPatente = @IdPatente", default,paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)

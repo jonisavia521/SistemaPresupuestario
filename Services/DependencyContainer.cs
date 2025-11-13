@@ -7,6 +7,7 @@ using Services.DAL.Implementations;
 using Services.DAL.Implementations.Adapter;
 using Services.DAL.Implementations.Contracts;
 using Services.DAL.Implementations.Joins;
+using Services.DAL.Tools;
 using Services.DomainModel.Security.Composite;
 using Services.Services;
 using Services.Services.Contracts;
@@ -28,10 +29,17 @@ System.Collections.Specialized.NameValueCollection app)
         {
             services.AddSingleton(csSetting);
             services.AddSingleton(app);
-            services.AddSingleton<ILogin,LoginServices>();
+
+            services.AddSingleton(provider =>
+            {
+                var appSettings = provider.GetRequiredService<System.Collections.Specialized.NameValueCollection>();
+                return new SqlServerHelper(appSettings);
+            });
+
+            services.AddSingleton<ILogin, LoginServices>();
             services.AddSingleton<ILogger, LoggerService>();
             services.AddSingleton<ILoggerBLL, LoggerBLL>();
-            services.AddSingleton<IExceptionBLL,ExceptionBLL>();
+            services.AddSingleton<IExceptionBLL, ExceptionBLL>();
             services.AddSingleton<IUsuarioService, UsuarioService>();
 
             services.AddSingleton<IGenericRepository<Familia>, FamiliaRepository>();
@@ -56,6 +64,7 @@ System.Collections.Specialized.NameValueCollection app)
 
             services.AddSingleton<IFamiliaService, FamiliaService>();
             services.AddSingleton<IPatenteService, PatenteService>();
+            services.AddSingleton<IPresupuestoPdfService, PresupuestoPdfService>();
             return services;
         }
     }

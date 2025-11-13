@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.DAL.Tools.Enums;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -14,9 +15,47 @@ namespace Services.DAL.Tools
     {
         private string conString;
 
-         public SqlServerHelper(NameValueCollection app)
+        public SqlServerHelper(NameValueCollection app)
         {
-            conString = ConfigurationManager.ConnectionStrings["Seguridad"].ConnectionString;
+            //var connectionString = ConfigurationManager.ConnectionStrings["Huamani_SistemaPresupuestario"];
+            
+            //if (connectionString == null)
+            //{
+            //    connectionString = ConfigurationManager.ConnectionStrings["Huamani_Seguridad"];
+            //}
+            
+            //if (connectionString == null)
+            //{
+            //    throw new InvalidOperationException("No se encontró ninguna cadena de conexión válida en App.config");
+            //}
+            
+            //conString = connectionString.ConnectionString;
+        }
+        // 1. EL PARÁMETRO AHORA ES DEL TIPO enumDataBase, NO string
+        public void setDataBase(enumDataBase dataBase)
+        {
+            string stringConnectionParameter;
+
+            // 2. EL SWITCH AHORA ES LIMPIO Y SEGURO
+            switch (dataBase)
+            {
+                // 3. LOS CASE SON DIRECTAMENTE SOBRE LOS MIEMBROS DEL ENUM
+                case enumDataBase.Huamani_SistemaPresupuestario:
+                    stringConnectionParameter = "Huamani_SistemaPresupuestario";
+                    break;
+
+                case enumDataBase.Huamani_Seguridad:
+                    stringConnectionParameter = "Huamani_Seguridad";
+                    break;
+
+                default:
+                    // 4. ESTA EXCEPCIÓN AHORA ES PARA CASOS DE PROGRAMACIÓN NO PREVISTOS
+                    // (Ej: si añades un nuevo miembro al enum y olvidas actualizar este switch)
+                    throw new ArgumentOutOfRangeException(nameof(dataBase), dataBase, "Valor de enum no soportado.");
+            }
+
+            // 5. OBTÉN LA CADENA DE CONEXIÓN AL FINAL
+            conString = ConfigurationManager.ConnectionStrings[stringConnectionParameter].ConnectionString;
         }
         public Object ExecuteScalar(String commandText,
            CommandType commandType, params SqlParameter[] parameters)
@@ -71,7 +110,5 @@ namespace Services.DAL.Tools
                 }
             }
         }
-
-
     }
 }

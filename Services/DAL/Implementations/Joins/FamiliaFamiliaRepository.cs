@@ -1,16 +1,17 @@
-﻿using Services.DAL.Contracts;
+﻿using Services.BLL.Contracts;
+using Services.DAL.Contracts;
+using Services.DAL.Factory;
 using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
 using Services.Services.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data;
-using Services.BLL.Contracts;
-using Services.DAL.Factory;
 
 namespace Services.DAL.Implementations.Joins
 {
@@ -26,8 +27,9 @@ namespace Services.DAL.Implementations.Joins
         {
             _exceptionBLL = exceptionBLL;
             _sqlHelper = sqlHelper;
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
             //_familiaRepository = familiaRepository;
-            
+
         }
         public void Add(Familia obj)
         {
@@ -89,6 +91,7 @@ namespace Services.DAL.Implementations.Joins
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdFamilia", obj.IdComponent.ToString()) };
+                
                 using (var table = _sqlHelper.ExecuteReader("Select * from Familia_Familia where IdFamilia=@IdFamilia", default, paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)

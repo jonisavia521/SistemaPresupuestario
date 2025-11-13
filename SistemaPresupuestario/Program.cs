@@ -47,7 +47,7 @@ namespace SistemaPresupuestario
         }
         private static void InjectionServices(IServiceCollection services)
         {
-            var csSetting = ConfigurationManager.ConnectionStrings["SistemaPresupuestario"];
+            var csSetting = ConfigurationManager.ConnectionStrings["Huamani_SistemaPresupuestario"];
             if (csSetting == null)
                 throw new InvalidOperationException("No se encontró la connection string 'SistemaPresupuestario' en App.config");
             var app = ConfigurationManager.AppSettings;

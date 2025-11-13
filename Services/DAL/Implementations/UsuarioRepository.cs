@@ -3,6 +3,7 @@ using Services.DAL.Contracts;
 using Services.DAL.Factory;
 using Services.DAL.Implementations.Adapter;
 using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
 using Services.Services.Extensions;
 using System;
@@ -26,6 +27,7 @@ namespace Services.DAL.Implementations
             _iExceptionBLL = iExceptionBLL;
             _usuarioAdapter=usuarioAdapter;
             _sqlHelper = sqlHelper;
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
         }
 
         public void Add(Usuario obj)
@@ -95,7 +97,6 @@ namespace Services.DAL.Implementations
                     new SqlParameter("@Usuario", obj.User),
                     new SqlParameter("@Clave", obj.HashPassword)
                 };
-
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE Usuario=@Usuario AND Clave=@Clave",
                     default,
@@ -194,7 +195,7 @@ namespace Services.DAL.Implementations
                 {
                     new SqlParameter("@IdUsuario", id)
                 };
-
+                
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE IdUsuario = @IdUsuario",
                     default,

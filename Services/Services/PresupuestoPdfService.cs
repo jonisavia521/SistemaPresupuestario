@@ -1,26 +1,32 @@
-using BLL.DTOs;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Services.DAL.Implementations;
+using Services.DAL.Tools;
+using Services.DomainModel;
+using Services.Services.Contracts;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace SistemaPresupuestario.Reports
+namespace Services.Services
 {
     /// <summary>
-    /// Clase responsable de generar PDFs de presupuestos
-    /// Desacoplada de la lógica del formulario
+    /// Servicio para generar PDFs de presupuestos
+    /// Implementación interna que usa ADO.NET para acceder a datos
     /// </summary>
-    public class PresupuestoPdfGenerator
+    internal class PresupuestoPdfService : IPresupuestoPdfService
     {
+        private readonly PresupuestoPdfRepository _repository;
         private readonly Font _fontTitle;
         private readonly Font _fontSubtitle;
         private readonly Font _fontNormal;
         private readonly Font _fontBold;
         private readonly Font _fontSmall;
 
-        public PresupuestoPdfGenerator()
+        public PresupuestoPdfService(SqlServerHelper sqlHelper)
         {
+            _repository = new PresupuestoPdfRepository(sqlHelper);
+
             // Configurar fuentes
             _fontTitle = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK);
             _fontSubtitle = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK);
@@ -30,14 +36,15 @@ namespace SistemaPresupuestario.Reports
         }
 
         /// <summary>
-        /// Genera un PDF del presupuesto y lo guarda en la ruta del sistema
+        /// Genera un PDF del presupuesto y lo guarda en el sistema
         /// </summary>
-        /// <param name="presupuesto">DTO del presupuesto con todos sus datos</param>
-        /// <returns>Ruta completa del archivo PDF generado</returns>
-        public string GenerarPdf(PresupuestoDTO presupuesto)
+        public string GenerarPdf(Guid idPresupuesto)
         {
+            // Obtener datos del presupuesto desde la base de datos
+            var presupuesto = _repository.ObtenerPresupuestoParaPdf(idPresupuesto);
+
             if (presupuesto == null)
-                throw new ArgumentNullException(nameof(presupuesto));
+                throw new Exception($"No se encontró el presupuesto con ID {idPresupuesto}");
 
             // Obtener ruta del sistema
             string rutaSistema = AppDomain.CurrentDomain.BaseDirectory;
@@ -88,13 +95,13 @@ namespace SistemaPresupuestario.Reports
         /// <summary>
         /// Genera el PDF y lo abre automáticamente
         /// </summary>
-        public void GenerarYAbrirPdf(PresupuestoDTO presupuesto)
+        public void GenerarYAbrirPdf(Guid idPresupuesto)
         {
-            string rutaPdf = GenerarPdf(presupuesto);
+            string rutaPdf = GenerarPdf(idPresupuesto);
             Process.Start(rutaPdf);
         }
 
-        private void AgregarEncabezado(Document document, PresupuestoDTO presupuesto)
+        private void AgregarEncabezado(Document document, PresupuestoPdfModel presupuesto)
         {
             // Título principal
             Paragraph titulo = new Paragraph("PRESUPUESTO", _fontTitle);
@@ -122,7 +129,7 @@ namespace SistemaPresupuestario.Reports
             PdfPCell cellRight = new PdfPCell();
             cellRight.Border = Rectangle.NO_BORDER;
             cellRight.HorizontalAlignment = Element.ALIGN_RIGHT;
-            cellRight.AddElement(new Paragraph($"Estado: {presupuesto.EstadoTexto}", _fontBold));
+            cellRight.AddElement(new Paragraph($"Estado: {presupuesto.Estado}", _fontBold));
             cellRight.AddElement(new Paragraph($"Fecha Generación: {DateTime.Now:dd/MM/yyyy HH:mm}", _fontSmall));
 
             tableInfo.AddCell(cellLeft);
@@ -131,7 +138,7 @@ namespace SistemaPresupuestario.Reports
             document.Add(tableInfo);
         }
 
-        private void AgregarDatosCliente(Document document, PresupuestoDTO presupuesto)
+        private void AgregarDatosCliente(Document document, PresupuestoPdfModel presupuesto)
         {
             Paragraph subtitulo = new Paragraph("DATOS DEL CLIENTE", _fontSubtitle);
             document.Add(subtitulo);
@@ -142,13 +149,13 @@ namespace SistemaPresupuestario.Reports
             table.WidthPercentage = 100;
             table.SetWidths(new float[] { 1, 3 });
 
-            AgregarFila(table, "Código:", presupuesto.ClienteCodigoCliente ?? "N/A");
+            AgregarFila(table, "Código:", presupuesto.ClienteCodigo ?? "N/A");
             AgregarFila(table, "Razón Social:", presupuesto.ClienteRazonSocial ?? "N/A");
 
             document.Add(table);
         }
 
-        private void AgregarDatosVendedor(Document document, PresupuestoDTO presupuesto)
+        private void AgregarDatosVendedor(Document document, PresupuestoPdfModel presupuesto)
         {
             if (!string.IsNullOrWhiteSpace(presupuesto.VendedorNombre))
             {
@@ -167,7 +174,7 @@ namespace SistemaPresupuestario.Reports
             }
         }
 
-        private void AgregarTablaDetalles(Document document, PresupuestoDTO presupuesto)
+        private void AgregarTablaDetalles(Document document, PresupuestoPdfModel presupuesto)
         {
             Paragraph subtitulo = new Paragraph("DETALLE DE ARTÍCULOS", _fontSubtitle);
             document.Add(subtitulo);
@@ -204,7 +211,7 @@ namespace SistemaPresupuestario.Reports
             document.Add(table);
         }
 
-        private void AgregarTotales(Document document, PresupuestoDTO presupuesto)
+        private void AgregarTotales(Document document, PresupuestoPdfModel presupuesto)
         {
             // Crear tabla de totales alineada a la derecha
             PdfPTable table = new PdfPTable(2);

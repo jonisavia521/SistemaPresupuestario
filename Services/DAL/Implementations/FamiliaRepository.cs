@@ -2,6 +2,7 @@
 using Services.DAL.Contracts;
 using Services.DAL.Implementations.Adapter;
 using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
 using Services.Services.Extensions;
 using System;
@@ -26,6 +27,7 @@ namespace Services.DAL.Implementations
             _exceptionBLL = exceptionBLL;
             _familiaAdapter = familiaAdapter;
             _sqlHelper = sqlHelper;
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
         }
 
         public void Add(Familia obj)
@@ -47,6 +49,7 @@ namespace Services.DAL.Implementations
             try
             {
                 // ✅ Obtener todas las familias de la base de datos
+                
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT [IdFamilia],[Nombre],[Vista] FROM Familia",
                     default))

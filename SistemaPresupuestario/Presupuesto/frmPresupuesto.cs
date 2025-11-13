@@ -1,8 +1,8 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs;
 using BLL.Enums;
+using Services.Services.Contracts;
 using SistemaPresupuestario.Maestros.Shared;
-using SistemaPresupuestario.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +21,7 @@ namespace SistemaPresupuestario.Presupuesto
         private readonly IVendedorService _vendedorService;
         private readonly IProductoService _productoService;
         private readonly IListaPrecioService _listaPrecioService;
+        private readonly IPresupuestoPdfService _pdfService;
 
         private BindingList<PresupuestoDetalleDTO> _detalles;
         private List<PresupuestoDTO> _presupuestosCompletos;
@@ -44,15 +45,15 @@ namespace SistemaPresupuestario.Presupuesto
         // Nuevo: Modo de operación del formulario
         private ModoPresupuesto _modoOperacion = ModoPresupuesto.Gestionar;
 
-        // NUEVO: Generador de PDF
-        private readonly PresupuestoPdfGenerator _pdfGenerator;
+        
 
         public frmPresupuesto(
             IPresupuestoService presupuestoService,
             IClienteService clienteService,
             IVendedorService vendedorService,
             IProductoService productoService,
-            IListaPrecioService listaPrecioService)
+            IListaPrecioService listaPrecioService,
+            IPresupuestoPdfService pdfService)
         {
             InitializeComponent();
 
@@ -66,7 +67,7 @@ namespace SistemaPresupuestario.Presupuesto
             _presupuestosCompletos = new List<PresupuestoDTO>();
 
             // NUEVO: Inicializar generador de PDF
-            _pdfGenerator = new PresupuestoPdfGenerator();
+             _pdfService = pdfService ?? throw new ArgumentNullException(nameof(pdfService));
         }
 
         /// <summary>
@@ -1059,7 +1060,7 @@ namespace SistemaPresupuestario.Presupuesto
                 }
 
                 // Generar y abrir el PDF
-                _pdfGenerator.GenerarYAbrirPdf(presupuesto);
+                _pdfService.GenerarYAbrirPdf(presupuesto.Id);
 
                 MessageBox.Show("PDF generado exitosamente", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

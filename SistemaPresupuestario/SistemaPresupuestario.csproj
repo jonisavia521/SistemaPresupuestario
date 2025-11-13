@@ -230,7 +230,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\PresupuestoPdfGenerator.cs" />
     <EmbeddedResource Include="Configuracion\frmConfiguacionGeneral.resx">
       <DependentUpon>frmConfiguacionGeneral.cs</DependentUpon>
     </EmbeddedResource>
@@ -312,6 +311,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

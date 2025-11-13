@@ -2,6 +2,7 @@
 using Services.DAL.Contracts;
 using Services.DAL.Factory;
 using Services.DAL.Tools;
+using Services.DAL.Tools.Enums;
 using Services.DomainModel.Security.Composite;
 using Services.Services.Extensions;
 using System;
@@ -78,6 +79,7 @@ namespace Services.DAL.Implementations.Joins
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdUsuario", obj.Id.ToString()) };
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader("SELECT IdUsuario,IdPatente FROM Usuario_Patente WHERE IdUsuario = @IdUsuario", default, paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)
