@@ -2,6 +2,7 @@
 using BLL.DTOs;
 using BLL.Enums;
 using SistemaPresupuestario.Maestros.Shared;
+using SistemaPresupuestario.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,6 +44,9 @@ namespace SistemaPresupuestario.Presupuesto
         // Nuevo: Modo de operación del formulario
         private ModoPresupuesto _modoOperacion = ModoPresupuesto.Gestionar;
 
+        // NUEVO: Generador de PDF
+        private readonly PresupuestoPdfGenerator _pdfGenerator;
+
         public frmPresupuesto(
             IPresupuestoService presupuestoService,
             IClienteService clienteService,
@@ -60,6 +64,9 @@ namespace SistemaPresupuestario.Presupuesto
 
             _detalles = new BindingList<PresupuestoDetalleDTO>();
             _presupuestosCompletos = new List<PresupuestoDTO>();
+
+            // NUEVO: Inicializar generador de PDF
+            _pdfGenerator = new PresupuestoPdfGenerator();
         }
 
         /// <summary>
@@ -1026,106 +1033,7 @@ namespace SistemaPresupuestario.Presupuesto
         }
 
         /// <summary>
-        /// Método para búsqueda y aplicación de productos por código (versión síncrona)
-        /// </summary>
-        private void BuscarYAplicarProductoPorCodigoSync(string codigo)
-        {
-            if (string.IsNullOrWhiteSpace(codigo))
-                return;
-
-            try
-            {
-                // Validar formato de código (optimizar según necesidad)
-                if (codigo.Length < 3)
-                {
-                    MessageBox.Show("El código del producto debe tener al menos 3 caracteres", "Advertencia",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Buscar producto por código
-                var producto = _productoService.GetByCodigo(codigo.Trim());
-                if (producto != null)
-                {
-                    // Aplicar datos del producto a la fila actual
-                    if (dgArticulos.CurrentRow != null && dgArticulos.CurrentRow.Index < _detalles.Count)
-                    {
-                        var detalle = _detalles[dgArticulos.CurrentRow.Index];
-
-                        // ✅ IMPORTANTE: Establecer el IdProducto (campo requerido para guardar)
-                        detalle.IdProducto = producto.Id;
-                        detalle.Codigo = producto.Codigo;
-                        detalle.Descripcion = producto.Descripcion;
-                        detalle.PorcentajeIVA = producto.PorcentajeIVA;
-
-                        // NUEVO: Buscar el precio en la lista de precios seleccionada
-                        decimal precioDefault = 0M;
-                        if (_idListaPrecioSeleccionada.HasValue)
-                        {
-                            try
-                            {
-                                // Usar el método asíncrono de forma síncrona para obtener el precio
-                                var precioTask = _listaPrecioService.ObtenerPrecioProducto(_idListaPrecioSeleccionada.Value, producto.Id);
-                             
-                                if (precioTask.HasValue)
-                                {
-                                    precioDefault = precioTask.Value;
-                                }
-                            }
-                            catch
-                            {
-                                // Si hay error al buscar el precio, mantener en 0
-                                precioDefault = 0M;
-                            }
-                        }
-
-                        detalle.Precio = precioDefault;
-
-                        // Refrescar la fila para mostrar los cambios
-                        dgArticulos.Refresh();
-
-                        // Seleccionar siguiente celda (Cantidad)
-                        if (dgArticulos.Columns.Contains("Cantidad"))
-                        {
-                            dgArticulos.CurrentCell = dgArticulos.CurrentRow.Cells["Cantidad"];
-                            dgArticulos.BeginEdit(true);
-                        }
-                    }
-                }
-                else
-                {
-                    // Si no se encuentra, limpiar campos relevantes
-                    if (dgArticulos.CurrentRow != null && dgArticulos.CurrentRow.Index < _detalles.Count)
-                    {
-                        var detalle = _detalles[dgArticulos.CurrentRow.Index];
-                        detalle.IdProducto = null;
-                        detalle.Codigo = null;
-                        detalle.Descripcion = null;
-                        detalle.Precio = 0M;
-
-                        dgArticulos.Refresh();
-                    }
-
-                    MessageBox.Show("Producto no encontrado", "Advertencia",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al buscar producto: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // ============= IMPRESIÓN =============
-
-        private void btnImprimir_Click(object sender, EventArgs e)
-        {
-            ImprimirPresupuesto();
-        }
-
-        /// <summary>
-        /// Imprime el presupuesto actual utilizando el diseño de PrintDocument
+        /// Genera e imprime el presupuesto actual en formato PDF
         /// </summary>
         private void ImprimirPresupuesto()
         {
@@ -1138,82 +1046,32 @@ namespace SistemaPresupuestario.Presupuesto
 
             try
             {
-                // Obtener el presupuesto
+                this.Cursor = Cursors.WaitCursor;
+
+                // Obtener el presupuesto con todos sus datos
                 var presupuesto = _presupuestosCompletos.FirstOrDefault(p => p.Id == _presupuestoActualId.Value);
+                
                 if (presupuesto == null)
-                    throw new Exception("Presupuesto no encontrado");
-
-                // Configurar y mostrar el diálogo de impresión
-                PrintDialog printDialog = new PrintDialog();
-                PrintDocument printDocument = new PrintDocument();
-
-                printDialog.Document = printDocument;
-                printDocument.PrintPage += (sender, e) => PrintDocument_PrintPage(sender, e, presupuesto);
-
-                if (printDialog.ShowDialog() == DialogResult.OK)
                 {
-                    printDocument.Print();
+                    MessageBox.Show("No se pudo cargar el presupuesto", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                // Generar y abrir el PDF
+                _pdfGenerator.GenerarYAbrirPdf(presupuesto);
+
+                MessageBox.Show("PDF generado exitosamente", "Éxito",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al imprimir presupuesto: {ex.Message}", "Error",
+                MessageBox.Show($"Error al generar el PDF: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        /// <summary>
-        /// Evento para personalizar la impresión del presupuesto
-        /// </summary>
-        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e, PresupuestoDTO presupuesto)
-        {
-            try
+            finally
             {
-                // Configurar fuente
-                Font fontTitle = new Font("Arial", 12, FontStyle.Bold);
-                Font fontNormal = new Font("Arial", 10);
-                Font fontSubtitle = new Font("Arial", 11, FontStyle.Bold);
-
-                // Información del presupuesto
-                if (presupuesto != null)
-                {
-                    // Imprimir encabezado
-                    e.Graphics.DrawString("Presupuesto:", fontTitle, Brushes.Black, 50, 50);
-                    e.Graphics.DrawString($"Número: {presupuesto.Numero}", fontNormal, Brushes.Black, 50, 80);
-                    e.Graphics.DrawString($"Fecha: {presupuesto.FechaEmision.ToShortDateString()}", fontNormal, Brushes.Black, 50, 110);
-                    e.Graphics.DrawString($"Estado: {presupuesto.EstadoTexto}", fontNormal, Brushes.Black, 50, 140);
-
-                    // Información del cliente
-                    e.Graphics.DrawString("Cliente:", fontSubtitle, Brushes.Black, 50, 180);
-                    e.Graphics.DrawString($"Código: {presupuesto.IdCliente}", fontNormal, Brushes.Black, 50, 210);
-                    e.Graphics.DrawString($"Nombre: {presupuesto.ClienteRazonSocial}", fontNormal, Brushes.Black, 50, 240);
-
-                    // Información del vendedor
-                    e.Graphics.DrawString("Vendedor:", fontSubtitle, Brushes.Black, 350, 180);
-                    e.Graphics.DrawString($"Nombre: {presupuesto.VendedorNombre}", fontNormal, Brushes.Black, 350, 210);
-
-                    // Detalle de artículos
-                    e.Graphics.DrawString("Detalles:", fontSubtitle, Brushes.Black, 50, 280);
-
-                    float yPos = 310;
-                    foreach (var detalle in presupuesto.Detalles)
-                    {
-                        e.Graphics.DrawString($"Renglon {detalle.Renglon}: {detalle.Descripcion} - Cantidad: {detalle.Cantidad} - Precio: {detalle.PrecioUnitario}",
-                            fontNormal, Brushes.Black, 50, yPos);
-                        yPos += 20;
-                    }
-
-                    // Totales
-                    e.Graphics.DrawString($"Total Bruto: {presupuesto.TotalBruto:C}", fontNormal, Brushes.Black, 400, yPos);
-                    e.Graphics.DrawString($"Total Descuentos: {presupuesto.TotalDescuentos:C}", fontNormal, Brushes.Black, 400, yPos + 30);
-                    e.Graphics.DrawString($"Total Neto: {presupuesto.TotalNeto:C}", fontNormal, Brushes.Black, 400, yPos + 60);
-                    e.Graphics.DrawString($"Total IVA: {presupuesto.TotalIva:C}", fontNormal, Brushes.Black, 400, yPos + 90);
-                    e.Graphics.DrawString($"Total Final: {presupuesto.TotalFinal:C}", fontTitle, Brushes.Black, 400, yPos + 120);
-                }
-            }
-            catch (Exception ex)
-            {
-                e.Graphics.DrawString($"Error al imprimir: {ex.Message}", new Font("Arial", 10), Brushes.Red, 50, 50);
+                this.Cursor = Cursors.Default;
             }
         }
 
@@ -1283,7 +1141,7 @@ namespace SistemaPresupuestario.Presupuesto
                     var codigo = dgArticulos.Rows[e.RowIndex].Cells[0].Value.ToString();
                     if (!string.IsNullOrWhiteSpace(codigo))
                     {
-                        BuscarYAplicarProductoPorCodigoSync(codigo);
+                        BuscarYAplicarProductoPorCodigoEnter(codigo);
                     }
                 }
 
@@ -2625,7 +2483,7 @@ namespace SistemaPresupuestario.Presupuesto
 
         private void btnImprimir_Click_1(object sender, EventArgs e)
         {
-
+            ImprimirPresupuesto();
         }
     }
 
