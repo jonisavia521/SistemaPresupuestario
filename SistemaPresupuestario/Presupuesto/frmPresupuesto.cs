@@ -31,6 +31,9 @@ namespace SistemaPresupuestario.Presupuesto
         private Guid? _idClienteSeleccionado = null;
         private Guid? _idVendedorSeleccionado = null;
         private Guid? _idListaPrecioSeleccionada = null;
+        
+        // NUEVO: Campo para almacenar si la lista de precios incluye IVA
+        private bool _listaPrecioIncluyeIva = false;
 
         // Caché de clientes para evitar múltiples llamadas asíncronas concurrentes
         private List<ClienteDTO> _clientesCache = null;
@@ -409,7 +412,10 @@ namespace SistemaPresupuestario.Presupuesto
                 }
             }
 
-            CalcularTotales();
+            // MODIFICADO: Cargar totales persistidos en lugar de calcularlos
+            txtSUB.Text = presupuesto.Subtotal.ToString("N2");
+            txtIva.Text = presupuesto.TotalIva.ToString("N2");
+            txtTotal.Text = presupuesto.Total.ToString("N2");
         }
 
         /// <summary>
@@ -426,17 +432,22 @@ namespace SistemaPresupuestario.Presupuesto
                     {
                         txtCodigoListaPrecio.Text = lista.Codigo;
                         txtListaPrecio.Text = lista.Nombre;
+                        
+                        // NUEVO: Almacenar el estado IncluyeIva
+                        _listaPrecioIncluyeIva = lista.IncluyeIva;
                     }
                     else
                     {
                         txtCodigoListaPrecio.Clear();
                         txtListaPrecio.Clear();
+                        _listaPrecioIncluyeIva = false;
                     }
                 }
                 else
                 {
                     txtCodigoListaPrecio.Clear();
                     txtListaPrecio.Clear();
+                    _listaPrecioIncluyeIva = false;
                 }
             }
             catch
@@ -444,6 +455,7 @@ namespace SistemaPresupuestario.Presupuesto
                 // Si hay error, limpiar los campos
                 txtCodigoListaPrecio.Clear();
                 txtListaPrecio.Clear();
+                _listaPrecioIncluyeIva = false;
             }
         }
 
@@ -522,11 +534,12 @@ namespace SistemaPresupuestario.Presupuesto
             _presupuestoActualId = null;
             _idClienteSeleccionado = null;
             _idVendedorSeleccionado = null;
-            _idListaPrecioSeleccionada = null; // NUEVO
+            _idListaPrecioSeleccionada = null;
+            _listaPrecioIncluyeIva = false;
 
             txtCotizacion.Text = "NUEVO";
             txtFecha.Value = DateTime.Now;
-            cmbEstado.SelectedIndex = 1; // Emitido por defecto (estado 2)
+            cmbEstado.SelectedIndex = 1;
             dtEntrega.Value = DateTime.Now.AddDays(7);
 
             txtCodigoCliente.Clear();
@@ -653,6 +666,7 @@ namespace SistemaPresupuestario.Presupuesto
 
         /// <summary>
         /// Calcula y actualiza los totales del presupuesto en los controles
+        /// NUEVO: Considera si la lista de precios incluye IVA o no
         /// </summary>
         private void CalcularTotales()
         {
@@ -662,11 +676,35 @@ namespace SistemaPresupuestario.Presupuesto
                 decimal iva = 0;
                 decimal total = 0;
 
-                foreach (var detalle in _detalles)
+                if (_listaPrecioIncluyeIva)
                 {
-                    subtotal += detalle.Total;
-                    iva += detalle.Iva;
-                    total += detalle.TotalConIva;
+                    // Si la lista de precios INCLUYE IVA:
+                    // El "Total" de cada detalle YA incluye el IVA
+                    // Necesitamos calcular el IVA restando el neto del total
+                    foreach (var detalle in _detalles)
+                    {
+                        decimal totalConIva = detalle.Total;
+                        
+                        // Calcular el IVA implícito usando la fórmula: Total - (Total / (1 + PorcentajeIVA/100))
+                        decimal divisor = 1 + (detalle.PorcentajeIVA / 100);
+                        decimal totalSinIva = totalConIva / divisor;
+                        decimal ivaCalculado = totalConIva - totalSinIva;
+                        
+                        subtotal += totalSinIva;
+                        iva += ivaCalculado;
+                        total += totalConIva;
+                    }
+                }
+                else
+                {
+                    // Si la lista de precios NO INCLUYE IVA:
+                    // Cálculo tradicional (el actual)
+                    foreach (var detalle in _detalles)
+                    {
+                        subtotal += detalle.Total;
+                        iva += detalle.Iva;
+                        total += detalle.TotalConIva;
+                    }
                 }
 
                 txtSUB.Text = subtotal.ToString("N2");
@@ -1235,7 +1273,7 @@ namespace SistemaPresupuestario.Presupuesto
                 if (e.RowIndex >= _detalles.Count)
                     return;
 
-                // Actualizar renglon y calcular totales
+                // Actualizar renglon
                 var detalle = _detalles[e.RowIndex];
                 detalle.Renglon = e.RowIndex + 1;
 
@@ -1249,6 +1287,18 @@ namespace SistemaPresupuestario.Presupuesto
                     }
                 }
 
+                // ✅ NUEVO: Si el usuario modificó Cantidad, Precio o Descuento, recalcular el Total
+                string columnName = dgArticulos.Columns[e.ColumnIndex].Name;
+                if (columnName == "Cantidad" || columnName == "Precio" || columnName == "Descuento")
+                {
+                    // Llamar explícitamente a RecalcularTotal()
+                    detalle.RecalcularTotal();
+                    
+                    // Refrescar la fila para mostrar el Total actualizado en la grilla
+                    dgArticulos.InvalidateRow(e.RowIndex);
+                }
+
+                // Recalcular totales del presupuesto
                 CalcularTotales();
             }
             catch (Exception ex)
@@ -1432,6 +1482,26 @@ namespace SistemaPresupuestario.Presupuesto
                     estadoPresupuesto = (int)cmbEstado.SelectedValue;
                 }
 
+                // NUEVO: Parsear los totales desde los TextBox
+                decimal subtotalCalculado = 0;
+                decimal ivaCalculado = 0;
+                decimal totalCalculado = 0;
+
+                if (!string.IsNullOrWhiteSpace(txtSUB.Text))
+                {
+                    decimal.TryParse(txtSUB.Text, out subtotalCalculado);
+                }
+
+                if (!string.IsNullOrWhiteSpace(txtIva.Text))
+                {
+                    decimal.TryParse(txtIva.Text, out ivaCalculado);
+                }
+
+                if (!string.IsNullOrWhiteSpace(txtTotal.Text))
+                {
+                    decimal.TryParse(txtTotal.Text, out totalCalculado);
+                }
+
                 if (_modoEdicion && _presupuestoActualId.HasValue)
                 {
                     // Modo edición: actualizar presupuesto existente
@@ -1445,7 +1515,11 @@ namespace SistemaPresupuestario.Presupuesto
                         IdCliente = _idClienteSeleccionado.Value,
                         IdVendedor = _idVendedorSeleccionado, // Puede ser null
                         IdListaPrecio = _idListaPrecioSeleccionada, // NUEVO: Puede ser null
-                        Detalles = detallesValidos
+                        Detalles = detallesValidos,
+                        // NUEVO: Asignar totales calculados
+                        Subtotal = subtotalCalculado,
+                        TotalIva = ivaCalculado,
+                        Total = totalCalculado
                     };
 
                     // Validar datos requeridos
@@ -1475,7 +1549,11 @@ namespace SistemaPresupuestario.Presupuesto
                         IdCliente = _idClienteSeleccionado.Value,
                         IdVendedor = _idVendedorSeleccionado,
                         IdListaPrecio = _idListaPrecioSeleccionada, // NUEVO: Puede ser null
-                        Detalles = detallesValidos
+                        Detalles = detallesValidos,
+                        // NUEVO: Asignar totales calculados
+                        Subtotal = subtotalCalculado,
+                        TotalIva = ivaCalculado,
+                        Total = totalCalculado
                     };
 
                     // Validar datos requeridos
@@ -2153,7 +2231,7 @@ namespace SistemaPresupuestario.Presupuesto
                 else
                 {
                     // Cliente no encontrado - Mostrar selector
-                    MostrarSelectorCliente(clientes.ToList());
+                    MostrarSelectorClienteDirecto();
                 }
             }
             catch (Exception ex)
@@ -2292,10 +2370,12 @@ namespace SistemaPresupuestario.Presupuesto
 
                 if (string.IsNullOrWhiteSpace(codigo))
                 {
+                    // Campo vacío - mostrar selector directamente
                     MostrarSelectorClienteDirecto();
                 }
                 else
                 {
+                    // Validar lista de precios
                     ValidarYMoverFocoCliente();
                 }
 
@@ -2309,10 +2389,12 @@ namespace SistemaPresupuestario.Presupuesto
 
                 if (string.IsNullOrWhiteSpace(codigo))
                 {
+                    // Campo vacío - mostrar selector directamente
                     MostrarSelectorListaPrecio();
                 }
                 else
                 {
+                    // Validar lista de precios
                     ValidarYMoverFocoListaPrecio();
                 }
 
@@ -2391,6 +2473,9 @@ namespace SistemaPresupuestario.Presupuesto
                     _idListaPrecioSeleccionada = lista.Id;
                     txtCodigoListaPrecio.Text = lista.Codigo;
                     txtListaPrecio.Text = lista.Nombre;
+
+                    // NUEVO: Almacenar el estado IncluyeIva
+                    _listaPrecioIncluyeIva = lista.IncluyeIva;
                 }
                 else
                 {
@@ -2469,6 +2554,9 @@ namespace SistemaPresupuestario.Presupuesto
                         // Aplicar la lista de precios seleccionada
                         txtCodigoListaPrecio.Text = listaSeleccionada.Codigo;
                         txtListaPrecio.Text = listaSeleccionada.Nombre;
+                        
+                        // NUEVO: Almacenar el estado IncluyeIva
+                        _listaPrecioIncluyeIva = listaSeleccionada.IncluyeIva;
                     }
                 }
                 else
@@ -2477,6 +2565,7 @@ namespace SistemaPresupuestario.Presupuesto
                     txtCodigoListaPrecio.Clear();
                     txtListaPrecio.Clear();
                     _idListaPrecioSeleccionada = null;
+                    _listaPrecioIncluyeIva = false;
                 }
             }
             catch (Exception ex)
@@ -2532,6 +2621,11 @@ namespace SistemaPresupuestario.Presupuesto
                 MessageBox.Show($"Error al buscar lista de precios: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnImprimir_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 

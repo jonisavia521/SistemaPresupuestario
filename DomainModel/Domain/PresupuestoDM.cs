@@ -26,6 +26,11 @@ namespace DomainModel.Domain
         public Guid? IdVendedor { get; private set; }
         public List<PresupuestoDetalleDM> Detalles { get; private set; }
 
+        // NUEVOS CAMPOS: Totales persistidos (se guardan en la base de datos)
+        public decimal Subtotal { get; private set; }
+        public decimal TotalIva { get; private set; }
+        public decimal Total { get; private set; }
+
         // Constructor para creación inicial (nuevo presupuesto)
         public PresupuestoDM(
             string numero,
@@ -45,6 +50,11 @@ namespace DomainModel.Domain
             ValidarYEstablecerFechaVencimiento(fechaVencimiento);
             IdVendedor = idVendedor;
             IdPresupuestoPadre = idPresupuestoPadre;
+
+            // Inicializar totales en 0
+            Subtotal = 0;
+            TotalIva = 0;
+            Total = 0;
         }
 
         // Constructor para cargar desde base de datos
@@ -57,7 +67,10 @@ namespace DomainModel.Domain
             DateTime? fechaVencimiento,
             Guid? idPresupuestoPadre,
             Guid? idVendedor,
-            List<PresupuestoDetalleDM> detalles = null)
+            List<PresupuestoDetalleDM> detalles = null,
+            decimal subtotal = 0,
+            decimal totalIva = 0,
+            decimal total = 0)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del presupuesto no puede ser vacío.", nameof(id));
@@ -71,6 +84,11 @@ namespace DomainModel.Domain
             IdPresupuestoPadre = idPresupuestoPadre;
             IdVendedor = idVendedor;
             Detalles = detalles ?? new List<PresupuestoDetalleDM>();
+
+            // Cargar totales persistidos
+            Subtotal = subtotal;
+            TotalIva = totalIva;
+            Total = total;
         }
 
         // Método de actualización
@@ -235,7 +253,7 @@ namespace DomainModel.Domain
             return Estado;
         }
 
-        // Cálculos
+        // Cálculos (sin persistir, solo para validación)
         public decimal CalcularSubtotal()
         {
             return Detalles.Sum(d => d.CalcularTotal());
@@ -249,6 +267,26 @@ namespace DomainModel.Domain
         public decimal CalcularTotal()
         {
             return Detalles.Sum(d => d.CalcularTotalConIva());
+        }
+
+        /// <summary>
+        /// Establece los totales persistidos del presupuesto
+        /// Este método debe ser llamado por la capa BLL antes de persistir
+        /// </summary>
+        public void EstablecerTotales(decimal subtotal, decimal totalIva, decimal total)
+        {
+            if (subtotal < 0)
+                throw new ArgumentException("El subtotal no puede ser negativo.", nameof(subtotal));
+
+            if (totalIva < 0)
+                throw new ArgumentException("El total de IVA no puede ser negativo.", nameof(totalIva));
+
+            if (total < 0)
+                throw new ArgumentException("El total no puede ser negativo.", nameof(total));
+
+            Subtotal = subtotal;
+            TotalIva = totalIva;
+            Total = total;
         }
 
         // ==================== VALIDACIONES DE NEGOCIO ====================
@@ -313,6 +351,9 @@ namespace DomainModel.Domain
         public int Renglon { get; private set; }
         public decimal PorcentajeIVA { get; private set; } // IVA del producto
 
+        // NUEVO CAMPO: Total persistido del detalle
+        public decimal TotalPersistido { get; private set; }
+
         // Constructor para creación inicial
         public PresupuestoDetalleDM(
             Guid? idProducto,
@@ -328,6 +369,9 @@ namespace DomainModel.Domain
             ValidarYEstablecerPrecio(precio);
             ValidarYEstablecerDescuento(descuento);
             PorcentajeIVA = porcentajeIVA;
+
+            // Calcular y establecer el total
+            TotalPersistido = CalcularTotal();
         }
 
         // Constructor para cargar desde base de datos
@@ -340,7 +384,8 @@ namespace DomainModel.Domain
             decimal precio,
             decimal descuento,
             int renglon,
-            decimal porcentajeIVA)
+            decimal porcentajeIVA,
+            decimal? totalPersistido = null)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del detalle no puede ser vacío.", nameof(id));
@@ -354,6 +399,10 @@ namespace DomainModel.Domain
             Descuento = descuento;
             Renglon = renglon;
             PorcentajeIVA = porcentajeIVA;
+
+            // MODIFICADO: Usar el total persistido tal cual viene de BD (incluso si es NULL → 0)
+            // NO recalcular nunca al cargar desde BD
+            TotalPersistido = totalPersistido.HasValue ? totalPersistido.Value : 0m;
         }
 
         // Métodos internos para la entidad padre
@@ -386,6 +435,9 @@ namespace DomainModel.Domain
             ValidarYEstablecerPrecio(precio);
             ValidarYEstablecerDescuento(descuento);
             PorcentajeIVA = porcentajeIVA;
+
+            // Recalcular el total persistido
+            TotalPersistido = CalcularTotal();
         }
 
         // Cálculos
@@ -412,6 +464,18 @@ namespace DomainModel.Domain
         public decimal CalcularTotalConIva()
         {
             return CalcularTotal() + CalcularIva();
+        }
+
+        /// <summary>
+        /// Establece el total persistido del detalle
+        /// Este método debe ser llamado por la capa BLL antes de persistir
+        /// </summary>
+        public void EstablecerTotalPersistido(decimal total)
+        {
+            if (total < 0)
+                throw new ArgumentException("El total no puede ser negativo.", nameof(total));
+
+            TotalPersistido = total;
         }
 
         // ==================== VALIDACIONES DE NEGOCIO ====================

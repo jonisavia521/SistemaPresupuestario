@@ -25,6 +25,9 @@ namespace DAL.Implementation.EntityFramework
 
         public int? Renglon { get; set; }
 
+        // NUEVO CAMPO: Total del detalle (persistido)
+        public decimal? Total { get; set; }
+
         public virtual Presupuesto Presupuesto { get; set; }
 
         public virtual Producto Producto { get; set; }

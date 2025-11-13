@@ -119,6 +119,13 @@ namespace BLL.Services
                     }
                 }
 
+                // NUEVO: Calcular y establecer totales desde el DTO (que vienen de la UI)
+                presupuesto.EstablecerTotales(
+                    presupuestoDto.Subtotal,
+                    presupuestoDto.TotalIva,
+                    presupuestoDto.Total
+                );
+
                 // Validar reglas de negocio
                 presupuesto.ValidarNegocio();
 
@@ -174,6 +181,13 @@ namespace BLL.Services
                         presupuesto.AgregarDetalle(detalle);
                     }
                 }
+
+                // NUEVO: Calcular y establecer totales desde el DTO (que vienen de la UI)
+                presupuesto.EstablecerTotales(
+                    presupuestoDto.Subtotal,
+                    presupuestoDto.TotalIva,
+                    presupuestoDto.Total
+                );
 
                 // Validar reglas de negocio
                 presupuesto.ValidarNegocio();

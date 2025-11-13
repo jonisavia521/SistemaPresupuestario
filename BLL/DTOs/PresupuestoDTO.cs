@@ -135,10 +135,17 @@ namespace BLL.DTOs
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
 
-        // Campos calculados
+        // MODIFICADO: Total ahora es persistible (se carga desde BD y NO se recalcula automáticamente)
+        private decimal _total = 0M;
+        public decimal Total 
+        { 
+            get => _total;
+            set => _total = value;
+        }
+
+        // Campos calculados (mantener para compatibilidad y cálculos manuales)
         public decimal Subtotal => Cantidad * Precio;
         public decimal DescuentoMonto => Subtotal * (Descuento / 100);
-        public decimal Total => Subtotal - DescuentoMonto;
         public decimal Iva => Total * (PorcentajeIVA / 100);
         public decimal TotalConIva => Total + Iva;
 
@@ -152,6 +159,17 @@ namespace BLL.DTOs
         public decimal ImporteTotal => TotalConIva;
         public decimal ImporteNeto => Total;
         public decimal ImporteBruto => Subtotal;
+
+        /// <summary>
+        /// Método público para recalcular el total manualmente
+        /// SOLO debe ser llamado desde el formulario cuando el usuario edita una celda
+        /// </summary>
+        public void RecalcularTotal()
+        {
+            decimal subtotal = Cantidad * Precio;
+            decimal descuentoMonto = subtotal * (Descuento / 100);
+            _total = subtotal - descuentoMonto;
+        }
 
         public PresupuestoDetalleDTO()
         {

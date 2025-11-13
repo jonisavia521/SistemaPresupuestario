@@ -11,9 +11,10 @@ namespace BLL.Mappers
         {
             // Mapeo de PresupuestoDM a PresupuestoDTO
             CreateMap<PresupuestoDM, PresupuestoDTO>()
-                .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.CalcularSubtotal()))
-                .ForMember(dest => dest.TotalIva, opt => opt.MapFrom(src => src.CalcularIva()))
-                .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.CalcularTotal()))
+                // MODIFICADO: Usar totales persistidos en lugar de calcularlos
+                .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
+                .ForMember(dest => dest.TotalIva, opt => opt.MapFrom(src => src.TotalIva))
+                .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.Total))
                 .ForMember(dest => dest.ClienteRazonSocial, opt => opt.Ignore())
                 .ForMember(dest => dest.VendedorNombre, opt => opt.Ignore())
                 .ForMember(dest => dest.EstadoDescripcion, opt => opt.MapFrom(src => ObtenerEstadoDescripcion(src.Estado)));
@@ -29,11 +30,16 @@ namespace BLL.Mappers
                     dto.FechaVencimiento,
                     dto.IdPresupuestoPadre,
                     dto.IdVendedor,
-                    dto.Detalles != null ? dto.Detalles.Select(d => MapToDetalleDomain(d)).ToList() : null
+                    dto.Detalles != null ? dto.Detalles.Select(d => MapToDetalleDomain(d)).ToList() : null,
+                    dto.Subtotal,
+                    dto.TotalIva,
+                    dto.Total
                 ));
 
             // Mapeo de PresupuestoDetalleDM a PresupuestoDetalleDTO
             CreateMap<PresupuestoDetalleDM, PresupuestoDetalleDTO>()
+                // MODIFICADO: Mapear TotalPersistido a Total
+                .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.TotalPersistido))
                 .ForMember(dest => dest.Codigo, opt => opt.Ignore())
                 .ForMember(dest => dest.Descripcion, opt => opt.Ignore());
 
@@ -48,7 +54,8 @@ namespace BLL.Mappers
                     dto.Precio,
                     dto.Descuento,
                     dto.Renglon,
-                    dto.PorcentajeIVA
+                    dto.PorcentajeIVA,
+                    dto.Total // Mapear Total persistido
                 ));
         }
 
@@ -75,7 +82,8 @@ namespace BLL.Mappers
                 dto.Precio,
                 dto.Descuento,
                 dto.Renglon,
-                dto.PorcentajeIVA
+                dto.PorcentajeIVA,
+                dto.Total // Mapear Total persistido
             );
         }
     }

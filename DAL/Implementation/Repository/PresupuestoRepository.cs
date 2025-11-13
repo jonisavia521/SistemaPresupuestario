@@ -120,6 +120,11 @@ namespace DAL.Implementation.Repository
             presupuestoEF.IdVendedor = entity.IdVendedor;
             presupuestoEF.IdPresupuestoPadre = entity.IdPresupuestoPadre;
 
+            // NUEVO: Actualizar totales persistidos
+            presupuestoEF.Subtotal = entity.Subtotal;
+            presupuestoEF.TotalIva = entity.TotalIva;
+            presupuestoEF.Total = entity.Total;
+
             // Actualizar detalles
             // Eliminar detalles existentes
             var detallesExistentes = _context.Presupuesto_Detalle.Where(d => d.IdPresupuesto == entity.Id).ToList();
@@ -137,7 +142,8 @@ namespace DAL.Implementation.Repository
                     Cantidad = detalleDM.Cantidad,
                     Precio = detalleDM.Precio,
                     Descuento = detalleDM.Descuento,
-                    Renglon = detalleDM.Renglon
+                    Renglon = detalleDM.Renglon,
+                    Total = detalleDM.TotalPersistido  // NUEVO: Mapear total persistido
                 };
 
                 _context.Presupuesto_Detalle.Add(detalleEF);
@@ -196,6 +202,7 @@ namespace DAL.Implementation.Repository
                     .ToList();
             }
 
+            // NUEVO: Incluir totales persistidos al mapear desde EF
             return new PresupuestoDM(
                 presupuestoEF.ID,
                 presupuestoEF.Numero,
@@ -205,7 +212,10 @@ namespace DAL.Implementation.Repository
                 presupuestoEF.FechaVencimiento,
                 presupuestoEF.IdPresupuestoPadre,
                 presupuestoEF.IdVendedor,
-                detalles
+                detalles,
+                presupuestoEF.Subtotal,
+                presupuestoEF.TotalIva,
+                presupuestoEF.Total
             );
         }
 
@@ -222,6 +232,7 @@ namespace DAL.Implementation.Repository
                 }
             }
 
+            // NUEVO: Incluir total persistido al mapear desde EF
             return new PresupuestoDetalleDM(
                 detalleEF.ID,
                 detalleEF.Numero,
@@ -231,7 +242,8 @@ namespace DAL.Implementation.Repository
                 detalleEF.Precio ?? 0,
                 detalleEF.Descuento ?? 0,
                 detalleEF.Renglon ?? 0,
-                porcentajeIVA
+                porcentajeIVA,
+                detalleEF.Total
             );
         }
 
@@ -246,7 +258,11 @@ namespace DAL.Implementation.Repository
                 Estado = presupuestoDM.Estado,
                 FechaVencimiento = presupuestoDM.FechaVencimiento,
                 IdPresupuestoPadre = presupuestoDM.IdPresupuestoPadre,
-                IdVendedor = presupuestoDM.IdVendedor
+                IdVendedor = presupuestoDM.IdVendedor,
+                // NUEVO: Mapear totales persistidos
+                Subtotal = presupuestoDM.Subtotal,
+                TotalIva = presupuestoDM.TotalIva,
+                Total = presupuestoDM.Total
             };
 
             // Mapear detalles
@@ -261,7 +277,8 @@ namespace DAL.Implementation.Repository
                     Cantidad = detalleDM.Cantidad,
                     Precio = detalleDM.Precio,
                     Descuento = detalleDM.Descuento,
-                    Renglon = detalleDM.Renglon
+                    Renglon = detalleDM.Renglon,
+                    Total = detalleDM.TotalPersistido  // NUEVO: Mapear total persistido
                 };
 
                 presupuestoEF.Presupuesto_Detalle.Add(detalleEF);

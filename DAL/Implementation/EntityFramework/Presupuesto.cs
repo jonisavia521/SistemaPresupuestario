@@ -36,6 +36,13 @@ namespace DAL.Implementation.EntityFramework
 
         public Guid? IdListaPrecio { get; set; }
 
+        // NUEVOS CAMPOS: Totales persistidos
+        public decimal Subtotal { get; set; }
+
+        public decimal TotalIva { get; set; }
+
+        public decimal Total { get; set; }
+
         public virtual Cliente Cliente { get; set; }
 
         public virtual ListaPrecio ListaPrecio { get; set; }
