@@ -80,6 +80,7 @@ namespace BLL.Services
                     clienteDTO.IdVendedor,
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
+                    clienteDTO.AlicuotaArba, // NUEVO
                     clienteDTO.IdProvincia,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
@@ -130,6 +131,7 @@ namespace BLL.Services
                     clienteDTO.IdVendedor,
                     clienteDTO.TipoIva,
                     clienteDTO.CondicionPago,
+                    clienteDTO.AlicuotaArba, // NUEVO
                     clienteDTO.IdProvincia,
                     clienteDTO.Email,
                     clienteDTO.Telefono,
@@ -206,6 +208,57 @@ namespace BLL.Services
                 _unitOfWork.Commit();
 
                 return true;
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Actualiza las alícuotas ARBA de todos los clientes Responsables Inscriptos
+        /// con valores aleatorios razonables (entre 0.5% y 5%)
+        /// </summary>
+        public int ActualizarAlicuotasArba()
+        {
+            try
+            {
+                // Obtener todos los clientes Responsables Inscriptos
+                var clientes = _clienteRepository.GetAll()
+                    .Where(c => c.TipoIva != null && 
+                               c.TipoIva.ToUpper().Contains("RESPONSABLE INSCRIPTO"))
+                    .ToList();
+
+                if (!clientes.Any())
+                    return 0;
+
+                // Iniciar transacción
+                _unitOfWork.BeginTransaction();
+
+                var random = new Random();
+                int clientesActualizados = 0;
+
+                foreach (var cliente in clientes)
+                {
+                    // Generar alícuota aleatoria entre 0.5% y 5%
+                    // Valores típicos de ARBA: 0.5%, 1%, 1.5%, 2%, 2.5%, 3%, 3.5%, 4%, 4.5%, 5%
+                    var alicuotasComunes = new[] { 0.5m, 1m, 1.5m, 2m, 2.5m, 3m, 3.5m, 4m, 4.5m, 5m };
+                    var alicuotaRandom = alicuotasComunes[random.Next(alicuotasComunes.Length)];
+
+                    // Actualizar la alícuota usando el método de la entidad de dominio
+                    cliente.ActualizarAlicuotaArba(alicuotaRandom);
+
+                    // Actualizar en el repositorio
+                    _clienteRepository.Update(cliente);
+                    
+                    clientesActualizados++;
+                }
+
+                // Confirmar cambios
+                _unitOfWork.Commit();
+
+                return clientesActualizados;
             }
             catch
             {

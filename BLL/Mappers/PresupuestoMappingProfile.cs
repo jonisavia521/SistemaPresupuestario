@@ -15,6 +15,7 @@ namespace BLL.Mappers
                 .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
                 .ForMember(dest => dest.TotalIva, opt => opt.MapFrom(src => src.TotalIva))
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.Total))
+                .ForMember(dest => dest.ImporteArba, opt => opt.MapFrom(src => src.ImporteArba)) // NUEVO
                 .ForMember(dest => dest.ClienteRazonSocial, opt => opt.Ignore())
                 .ForMember(dest => dest.VendedorNombre, opt => opt.Ignore())
                 .ForMember(dest => dest.EstadoDescripcion, opt => opt.MapFrom(src => ObtenerEstadoDescripcion(src.Estado)));
@@ -33,7 +34,8 @@ namespace BLL.Mappers
                     dto.Detalles != null ? dto.Detalles.Select(d => MapToDetalleDomain(d)).ToList() : null,
                     dto.Subtotal,
                     dto.TotalIva,
-                    dto.Total
+                    dto.Total,
+                    dto.ImporteArba // NUEVO
                 ));
 
             // Mapeo de PresupuestoDetalleDM a PresupuestoDetalleDTO

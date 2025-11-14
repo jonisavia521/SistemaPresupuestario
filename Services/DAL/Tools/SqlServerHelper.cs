@@ -47,6 +47,9 @@ namespace Services.DAL.Tools
                 case enumDataBase.Huamani_Seguridad:
                     stringConnectionParameter = "Huamani_Seguridad";
                     break;
+                case enumDataBase.Master:
+                    stringConnectionParameter = "Master";
+                    break;
 
                 default:
                     // 4. ESTA EXCEPCIÓN AHORA ES PARA CASOS DE PROGRAMACIÓN NO PREVISTOS

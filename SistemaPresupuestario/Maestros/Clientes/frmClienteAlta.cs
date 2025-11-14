@@ -14,7 +14,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
     {
         private readonly IClienteService _clienteService;
         private readonly IVendedorService _vendedorService;
-        private readonly IProvinciaService _provinciaService; // NUEVO
+        private readonly IProvinciaService _provinciaService;
         private Guid? _clienteId;
         private Guid? _vendedorSeleccionadoId;
 
@@ -54,7 +54,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 CargarTiposDocumento();
                 CargarTiposIva();
                 CargarCondicionesPago();
-                CargarProvincias(); // NUEVO
+                CargarProvincias();
 
                 // Si es modo edición, cargar datos
                 if (_clienteId.HasValue)
@@ -67,6 +67,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 {
                     this.Text = "Nuevo Cliente";
                     GenerarCodigoCliente();
+                    txtAlicuotaArba.Text = "0"; // NUEVO: Valor por defecto
                 }
             }
             finally
@@ -150,7 +151,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 CargarVendedorEnTextBox(_vendedorSeleccionadoId.Value);
             }
             
-            // NUEVO: Seleccionar provincia si existe
+            // Seleccionar provincia si existe
             if (cliente.IdProvincia.HasValue)
             {
                 for (int i = 0; i < cboProvincia.Items.Count; i++)
@@ -183,6 +184,9 @@ namespace SistemaPresupuestario.Maestros.Clientes
                     break;
                 }
             }
+
+            // NUEVO: Cargar AlicuotaArba
+            txtAlicuotaArba.Text = cliente.AlicuotaArba.ToString("N2");
 
             txtEmail.Text = cliente.Email;
             txtTelefono.Text = cliente.Telefono;
@@ -296,6 +300,16 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 idProvinciaSeleccionada = provinciaItem.Id;
             }
 
+            // NUEVO: Parsear AlicuotaArba
+            decimal alicuotaArba = 0;
+            if (!decimal.TryParse(txtAlicuotaArba.Text, out alicuotaArba))
+            {
+                MessageBox.Show("La alícuota ARBA debe ser un número válido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAlicuotaArba.Focus();
+                return;
+            }
+
             var clienteDTO = new ClienteDTO
             {
                 Id = _clienteId ?? Guid.Empty,
@@ -304,9 +318,10 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 TipoDocumento = cboTipoDocumento.SelectedItem.ToString(),
                 NumeroDocumento = txtNumeroDocumento.Text.Trim(),
                 IdVendedor = _vendedorSeleccionadoId,
-                IdProvincia = idProvinciaSeleccionada, // NUEVO
+                IdProvincia = idProvinciaSeleccionada,
                 TipoIva = cboTipoIva.SelectedItem.ToString(),
                 CondicionPago = ((dynamic)cboCondicionPago.SelectedItem).Value,
+                AlicuotaArba = alicuotaArba, // NUEVO
                 Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
@@ -422,13 +437,15 @@ namespace SistemaPresupuestario.Maestros.Clientes
                     return cboTipoIva;
                 case nameof(ClienteDTO.CondicionPago):
                     return cboCondicionPago;
+                case nameof(ClienteDTO.AlicuotaArba): // NUEVO
+                    return txtAlicuotaArba;
                 case nameof(ClienteDTO.Email):
                     return txtEmail;
                 case nameof(ClienteDTO.Telefono):
                     return txtTelefono;
                 case nameof(ClienteDTO.Direccion):
                     return txtDireccion;
-                case nameof(ClienteDTO.IdProvincia): // NUEVO: Añadir el mapeo para IdProvincia
+                case nameof(ClienteDTO.IdProvincia):
                     return cboProvincia;
                 default:
                     return null; // No se encontró un control

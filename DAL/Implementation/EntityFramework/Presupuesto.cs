@@ -43,6 +43,9 @@ namespace DAL.Implementation.EntityFramework
 
         public decimal Total { get; set; }
 
+        // NUEVO: ImporteArba (Percepción IIBB ARBA)
+        public decimal ImporteArba { get; set; }
+
         public virtual Cliente Cliente { get; set; }
 
         public virtual ListaPrecio ListaPrecio { get; set; }

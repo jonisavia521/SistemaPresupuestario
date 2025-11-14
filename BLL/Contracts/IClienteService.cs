@@ -19,5 +19,11 @@ namespace BLL.Contracts
         bool Update(ClienteDTO clienteDTO);
         bool Delete(Guid id);
         bool Reactivar(Guid id);
+        
+        /// <summary>
+        /// Actualiza las alícuotas ARBA de todos los clientes Responsables Inscriptos
+        /// Devuelve el número de clientes actualizados
+        /// </summary>
+        int ActualizarAlicuotasArba();
     }
 }

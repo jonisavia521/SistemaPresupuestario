@@ -23,7 +23,8 @@ namespace BLL
                 typeof(ProductoMappingProfile), 
                 typeof(PresupuestoMappingProfile),
                 typeof(ListaPrecioMappingProfile),
-                typeof(ProvinciaMappingProfile));
+                typeof(ProvinciaMappingProfile),
+                typeof(ConfiguracionMappingProfile)); // NUEVO
             
             // Registrar servicios
             services.AddScoped<IClienteService, ClienteService>();
@@ -32,6 +33,7 @@ namespace BLL
             services.AddScoped<IPresupuestoService, PresupuestoService>();
             services.AddScoped<IListaPrecioService, ListaPrecioService>();
             services.AddScoped<IProvinciaService, ProvinciaService>();
+            services.AddScoped<IConfiguracionService, ConfiguracionService>(); // NUEVO
             
             return services;
         }

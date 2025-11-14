@@ -36,6 +36,7 @@ namespace DAL.Implementation.EntityFramework
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<TipoImpuesto> TipoImpuesto { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
+        public virtual DbSet<Configuracion> Configuracion { get; set; } // NUEVO
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -80,6 +81,12 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.CondicionPago)
                 .IsUnicode(false)
                 .HasMaxLength(2);
+
+            // NUEVO: Configuración de AlicuotaArba
+            modelBuilder.Entity<Cliente>()
+                .Property(e => e.AlicuotaArba)
+                .IsRequired()
+                .HasPrecision(18, 4);
 
             modelBuilder.Entity<Cliente>()
                 .Property(e => e.Email)
@@ -187,6 +194,11 @@ namespace DAL.Implementation.EntityFramework
             modelBuilder.Entity<Presupuesto>()
                 .Property(e => e.Numero)
                 .IsUnicode(false);
+
+            // NUEVO: Configuración de ImporteArba
+            modelBuilder.Entity<Presupuesto>()
+                .Property(e => e.ImporteArba)
+                .HasPrecision(18, 4);
 
             modelBuilder.Entity<Presupuesto>()
                 .HasMany(e => e.Presupuesto_Detalle)
@@ -419,6 +431,66 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.Precio)
                 .IsRequired()
                 .HasPrecision(18, 4);
+
+            // NUEVO: Configuración de Configuracion
+            modelBuilder.Entity<Configuracion>()
+                .ToTable("Configuracion");
+
+            modelBuilder.Entity<Configuracion>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.RazonSocial)
+                .IsRequired()
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.CUIT)
+                .IsRequired()
+                .HasMaxLength(11)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.TipoIva)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.Direccion)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.Localidad)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.Telefono)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.Idioma)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Configuracion>()
+                .Property(e => e.FechaAlta)
+                .IsRequired();
+
+            modelBuilder.Entity<Configuracion>()
+                .HasOptional(e => e.Provincia)
+                .WithMany()
+                .HasForeignKey(e => e.IdProvincia);
         }
     }
 }

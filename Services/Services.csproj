@@ -94,7 +94,7 @@
     <Compile Include="BLL\ExceptionBLL.cs" />
     <Compile Include="BLL\LanguageBLL.cs" />
     <Compile Include="BLL\LoggerBLL.cs" />
-    <Compile Include="DAL\BackupRepository.cs" />
+    <Compile Include="DAL\Implementations\BackupRepository.cs" />
     <Compile Include="DAL\Contracts\IAdapter.cs" />
     <Compile Include="DAL\Contracts\IGenericRepository.cs" />
     <Compile Include="DAL\Contracts\IJoinRepository.cs" />

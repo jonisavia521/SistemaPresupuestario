@@ -9,6 +9,7 @@ namespace Services.DAL.Tools.Enums
     public enum enumDataBase
     {
         Huamani_SistemaPresupuestario,
-        Huamani_Seguridad
+        Huamani_Seguridad,
+        Master
     }
 }

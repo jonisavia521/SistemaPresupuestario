@@ -100,9 +100,11 @@ namespace DAL.Implementation.Repository
         public IEnumerable<PresupuestoDM> GetByEstado(int estado)
         {
             return _context.Presupuesto
+                .Include(p => p.Presupuesto_Detalle)  // AGREGADO: Incluir detalles
                 .Where(p => p.Estado == estado)
+                .OrderBy(p => p.Numero)
                 .ToList()
-                .Select(p => MapToDomain(p, false));
+                .Select(p => MapToDomain(p, true));  // CAMBIADO: De false a true
         }
 
         public void Update(PresupuestoDM entity)
@@ -202,7 +204,7 @@ namespace DAL.Implementation.Repository
                     .ToList();
             }
 
-            // NUEVO: Incluir totales persistidos al mapear desde EF
+            
             return new PresupuestoDM(
                 presupuestoEF.ID,
                 presupuestoEF.Numero,
@@ -215,7 +217,8 @@ namespace DAL.Implementation.Repository
                 detalles,
                 presupuestoEF.Subtotal,
                 presupuestoEF.TotalIva,
-                presupuestoEF.Total
+                presupuestoEF.Total,
+                presupuestoEF.ImporteArba
             );
         }
 

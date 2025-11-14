@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IClienteService.cs" />
+    <Compile Include="Contracts\IConfiguracionService.cs" />
     <Compile Include="Contracts\IGenericBusinessService.cs" />
     <Compile Include="Contracts\IListaPrecioService.cs" />
     <Compile Include="Contracts\IPresupuestoService.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Contracts\IVendedorService.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="DTOs\ClienteDTO.cs" />
+    <Compile Include="DTOs\ConfiguracionDTO.cs" />
     <Compile Include="DTOs\ListaPrecioDTO.cs" />
     <Compile Include="DTOs\PresupuestoDTO.cs" />
     <Compile Include="DTOs\ProductoDTO.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="Enums\ModoPresupuesto.cs" />
     <Compile Include="Mappers\ClienteMappingProfile.cs" />
+    <Compile Include="Mappers\ConfiguracionMappingProfile.cs" />
     <Compile Include="Mappers\ListaPrecioMappingProfile.cs" />
     <Compile Include="Mappers\PresupuestoMappingProfile.cs" />
     <Compile Include="Mappers\ProductoMappingProfile.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="Mappers\VendedorMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClienteService.cs" />
+    <Compile Include="Services\ConfiguracionService.cs" />
     <Compile Include="Services\ListaPrecioService.cs" />
     <Compile Include="Services\PresupuestoService.cs" />
     <Compile Include="Services\ProductoService.cs" />

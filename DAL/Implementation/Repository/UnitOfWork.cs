@@ -16,7 +16,8 @@ namespace DAL.Implementation.Repository
         private IProductoRepository _productoRepository;
         private IPresupuestoRepository _presupuestoRepository;
         private IListaPrecioRepository _listaPrecioRepository;
-        private IProvinciaRepository _provinciaRepository; // NUEVO
+        private IProvinciaRepository _provinciaRepository;
+        private IConfiguracionRepository _configuracionRepository; // NUEVO
 
         public UnitOfWork(SistemaPresupuestario context)
         {
@@ -49,10 +50,15 @@ namespace DAL.Implementation.Repository
             get { return _listaPrecioRepository ?? (_listaPrecioRepository = new ListaPrecioRepository(_context)); }
         }
 
-        // NUEVO: Repositorio de Provincia
         public IProvinciaRepository ProvinciaRepository
         {
             get { return _provinciaRepository ?? (_provinciaRepository = new ProvinciaRepository(_context)); }
+        }
+
+        // NUEVO: Repositorio de Configuracion
+        public IConfiguracionRepository ConfiguracionRepository
+        {
+            get { return _configuracionRepository ?? (_configuracionRepository = new ConfiguracionRepository(_context)); }
         }
 
         public void BeginTransaction()

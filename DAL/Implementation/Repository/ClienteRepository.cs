@@ -143,6 +143,9 @@ namespace DAL.Implementation.Repository
             // Usar los campos de condición de pago
             string condicionPago = clienteEF.CondicionPago ?? "01";
             string tipoIva = clienteEF.TipoIva ?? "RESPONSABLE INSCRIPTO";
+            
+            // AlicuotaArba
+            decimal alicuotaArba = clienteEF.AlicuotaArba;
 
             // Usar los campos de contacto reales
             string email = clienteEF.Email;
@@ -168,6 +171,7 @@ namespace DAL.Implementation.Repository
                 activo,
                 fechaAlta,
                 fechaModificacion,
+                alicuotaArba, // NUEVO
                 idProvincia,
                 email,
                 telefono,
@@ -192,6 +196,7 @@ namespace DAL.Implementation.Repository
                 IdProvincia = dominio.IdProvincia,
                 TipoIva = dominio.TipoIva,
                 CondicionPago = dominio.CondicionPago,
+                AlicuotaArba = dominio.AlicuotaArba, // NUEVO
                 Email = dominio.Email,
                 Telefono = dominio.Telefono,
                 DireccionLegal = dominio.Direccion,

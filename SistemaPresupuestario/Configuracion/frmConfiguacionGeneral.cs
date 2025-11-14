@@ -1,4 +1,4 @@
-﻿using Services.BLL;
+﻿using BLL.Contracts;
 using Services.BLL.Contracts;
 using System;
 using System.Configuration;
@@ -6,21 +6,38 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using BLL.DTOs;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SistemaPresupuestario.Configuracion
 {
     /// <summary>
     /// Formulario para gestionar configuración general del sistema, idioma y Backup/Restore
     /// Dividido en 3 pestañas para mejor organización
+    /// REFACTORIZADO: Ahora usa inyección de dependencias
     /// </summary>
     public partial class frmConfiguacionGeneral : Form
     {
         private readonly IBackupRestoreService _servicio;
+        private readonly IProvinciaService _provinciaService;
+        private readonly IConfiguracionService _configuracionService;
+        private ErrorProvider _errorProvider;
 
-        public frmConfiguacionGeneral()
+        public frmConfiguacionGeneral(
+            IBackupRestoreService servicio, 
+            IProvinciaService provinciaService,
+            IConfiguracionService configuracionService)
         {
             InitializeComponent();
-            _servicio = new BackupRestoreService();
+            _servicio = servicio ?? throw new ArgumentNullException(nameof(servicio));
+            _provinciaService = provinciaService ?? throw new ArgumentNullException(nameof(provinciaService));
+            _configuracionService = configuracionService ?? throw new ArgumentNullException(nameof(configuracionService));
+            
+            // Inicializar ErrorProvider
+            _errorProvider = new ErrorProvider();
+            _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
         }
 
         /// <summary>
@@ -31,7 +48,9 @@ namespace SistemaPresupuestario.Configuracion
             try
             {
                 // Cargar configuración general
-                CargarConfiguracionEmpresa();
+                CargarTiposIva();
+                CargarProvincias();
+                CargarConfiguracion();
                 
                 // Cargar configuración de idioma
                 CargarConfiguracionIdioma();
@@ -52,77 +71,159 @@ namespace SistemaPresupuestario.Configuracion
 
         #region Configuración General de la Empresa
 
-        /// <summary>
-        /// Carga los datos de configuración de la empresa desde el archivo de configuración
-        /// </summary>
-        private void CargarConfiguracionEmpresa()
+        private void CargarConfiguracion()
         {
             try
             {
-                var config = ConfigurationManager.AppSettings;
+                var configuracion = _configuracionService.ObtenerConfiguracion();
                 
-                txtRazonSocial.Text = config["EmpresaRazonSocial"] ?? "";
-                txtCUIT.Text = config["EmpresaCUIT"] ?? "";
-                txtProvincia.Text = config["EmpresaProvincia"] ?? "";
-                txtLocalidad.Text = config["EmpresaLocalidad"] ?? "";
-                txtDireccion.Text = config["EmpresaDireccion"] ?? "";
-                txtEmail.Text = config["EmpresaEmail"] ?? "";
-                txtTelefono.Text = config["EmpresaTelefono"] ?? "";
+                if (configuracion != null)
+                {
+                    txtRazonSocial.Text = configuracion.RazonSocial;
+                    txtCUIT.Text = configuracion.CUIT;
+                    txtDireccion.Text = configuracion.Direccion;
+                    txtLocalidad.Text = configuracion.Localidad;
+                    txtEmail.Text = configuracion.Email;
+                    txtTelefono.Text = configuracion.Telefono;
+                    
+                    // Seleccionar tipo de IVA
+                    if (!string.IsNullOrEmpty(configuracion.TipoIva))
+                    {
+                        cboTipoIva.SelectedItem = configuracion.TipoIva;
+                    }
+                    
+                    // Seleccionar provincia
+                    if (configuracion.IdProvincia.HasValue)
+                    {
+                        for (int i = 0; i < cboProvincia.Items.Count; i++)
+                        {
+                            var item = cboProvincia.Items[i];
+                            var idProvincia = (Guid?)item.GetType().GetProperty("Id").GetValue(item);
+                            if (idProvincia == configuracion.IdProvincia)
+                            {
+                                cboProvincia.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar configuración de la empresa: {ex.Message}", 
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar la configuración: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarTiposIva()
+        {
+            cboTipoIva.Items.Clear();
+            cboTipoIva.Items.AddRange(new object[]
+            {
+                "RESPONSABLE INSCRIPTO",
+                "MONOTRIBUTISTA",
+                "EXENTO",
+                "CONSUMIDOR FINAL",
+                "NO RESPONSABLE"
+            });
+            cboTipoIva.SelectedIndex = 0; // Responsable Inscripto por defecto
+        }
+
+        private void CargarProvincias()
+        {
+            try
+            {
+                var provincias = _provinciaService.GetAllOrdenadas();
+
+                cboProvincia.Items.Clear();
+                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = "(Sin provincia)" });
+
+                foreach (var provincia in provincias)
+                {
+                    cboProvincia.Items.Add(new { Id = (Guid?)provincia.Id, Text = provincia.NombreCompleto });
+                }
+
+                cboProvincia.DisplayMember = "Text";
+                cboProvincia.ValueMember = "Id";
+                cboProvincia.SelectedIndex = 0; // Sin provincia por defecto
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar provincias: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Guarda la configuración de la empresa en el archivo de configuración
+        /// Guarda la configuración de la empresa en la base de datos
         /// </summary>
         private void btnGuardarConfiguracion_Click(object sender, EventArgs e)
         {
             try
             {
-                // Validar datos requeridos
-                if (string.IsNullOrWhiteSpace(txtRazonSocial.Text))
+                // Limpiar errores previos
+                _errorProvider.Clear();
+
+                // Crear el DTO
+                var dto = new ConfiguracionDTO
                 {
-                    MessageBox.Show("La Razón Social es obligatoria", "Validación",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtRazonSocial.Focus();
+                    RazonSocial = txtRazonSocial.Text?.Trim(),
+                    CUIT = txtCUIT.Text?.Replace("-", "").Replace(" ", "").Trim(),
+                    TipoIva = cboTipoIva.SelectedItem?.ToString(),
+                    Direccion = txtDireccion.Text?.Trim(),
+                    Localidad = txtLocalidad.Text?.Trim(),
+                    Email = txtEmail.Text?.Trim(),
+                    Telefono = txtTelefono.Text?.Trim(),
+                    Idioma = rbEspanol.Checked ? "es-AR" : "en-US"
+                };
+
+                // Obtener provincia seleccionada
+                if (cboProvincia.SelectedIndex > 0)
+                {
+                    var itemSeleccionado = cboProvincia.SelectedItem;
+                    dto.IdProvincia = (Guid?)itemSeleccionado.GetType().GetProperty("Id").GetValue(itemSeleccionado);
+                }
+
+                // Validar con DataAnnotations
+                var contextoValidacion = new ValidationContext(dto);
+                var resultadosValidacion = new List<ValidationResult>();
+                
+                if (!Validator.TryValidateObject(dto, contextoValidacion, resultadosValidacion, true))
+                {
+                    // Mostrar errores con ErrorProvider
+                    foreach (var resultado in resultadosValidacion)
+                    {
+                        foreach (var nombrePropiedad in resultado.MemberNames)
+                        {
+                            Control control = null;
+                            
+                            switch (nombrePropiedad)
+                            {
+                                case "RazonSocial":
+                                    control = txtRazonSocial;
+                                    break;
+                                case "CUIT":
+                                    control = txtCUIT;
+                                    break;
+                                case "TipoIva":
+                                    control = cboTipoIva;
+                                    break;
+                                case "Email":
+                                    control = txtEmail;
+                                    break;
+                            }
+                            
+                            if (control != null)
+                            {
+                                _errorProvider.SetError(control, resultado.ErrorMessage);
+                            }
+                        }
+                    }
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(txtCUIT.Text))
-                {
-                    MessageBox.Show("El CUIT es obligatorio", "Validación",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCUIT.Focus();
-                    return;
-                }
-
-                // Validar formato CUIT (XX-XXXXXXXX-X)
-                if (txtCUIT.Text.Replace("-", "").Length != 11)
-                {
-                    MessageBox.Show("El CUIT debe tener 11 dígitos (formato: XX-XXXXXXXX-X)", 
-                        "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCUIT.Focus();
-                    return;
-                }
-
-                // Guardar en App.config
-                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                var settings = configFile.AppSettings.Settings;
-
-                ActualizarOAgregarSetting(settings, "EmpresaRazonSocial", txtRazonSocial.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaCUIT", txtCUIT.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaProvincia", txtProvincia.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaLocalidad", txtLocalidad.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaDireccion", txtDireccion.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaEmail", txtEmail.Text.Trim());
-                ActualizarOAgregarSetting(settings, "EmpresaTelefono", txtTelefono.Text.Trim());
-
-                configFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                // Guardar en base de datos
+                _configuracionService.GuardarConfiguracion(dto);
 
                 MessageBox.Show("Configuración guardada exitosamente", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -131,21 +232,6 @@ namespace SistemaPresupuestario.Configuracion
             {
                 MessageBox.Show($"Error al guardar configuración: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Helper para actualizar o agregar un setting en el archivo de configuración
-        /// </summary>
-        private void ActualizarOAgregarSetting(KeyValueConfigurationCollection settings, string key, string value)
-        {
-            if (settings[key] == null)
-            {
-                settings.Add(key, value);
-            }
-            else
-            {
-                settings[key].Value = value;
             }
         }
 
@@ -160,22 +246,42 @@ namespace SistemaPresupuestario.Configuracion
         {
             try
             {
-                var idiomaActual = Thread.CurrentThread.CurrentUICulture.Name;
+                // Primero intentar cargar desde la configuración guardada
+                var configuracion = _configuracionService.ObtenerConfiguracion();
                 
-                if (idiomaActual.StartsWith("es"))
+                if (configuracion != null && !string.IsNullOrEmpty(configuracion.Idioma))
                 {
-                    rbEspanol.Checked = true;
-                    lblIdiomaActual.Text = "Español";
-                }
-                else if (idiomaActual.StartsWith("en"))
-                {
-                    rbIngles.Checked = true;
-                    lblIdiomaActual.Text = "English";
+                    if (configuracion.Idioma.StartsWith("es"))
+                    {
+                        rbEspanol.Checked = true;
+                        lblIdiomaActual.Text = "Español";
+                    }
+                    else if (configuracion.Idioma.StartsWith("en"))
+                    {
+                        rbIngles.Checked = true;
+                        lblIdiomaActual.Text = "English";
+                    }
                 }
                 else
                 {
-                    rbEspanol.Checked = true;
-                    lblIdiomaActual.Text = "Español (por defecto)";
+                    // Si no hay configuración, usar el idioma actual del thread
+                    var idiomaActual = Thread.CurrentThread.CurrentUICulture.Name;
+                    
+                    if (idiomaActual.StartsWith("es"))
+                    {
+                        rbEspanol.Checked = true;
+                        lblIdiomaActual.Text = "Español";
+                    }
+                    else if (idiomaActual.StartsWith("en"))
+                    {
+                        rbIngles.Checked = true;
+                        lblIdiomaActual.Text = "English";
+                    }
+                    else
+                    {
+                        rbEspanol.Checked = true;
+                        lblIdiomaActual.Text = "Español (por defecto)";
+                    }
                 }
             }
             catch (Exception ex)
@@ -206,20 +312,35 @@ namespace SistemaPresupuestario.Configuracion
                     nombreIdioma = "English";
                 }
 
-                // Guardar en App.config
-                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                var settings = configFile.AppSettings.Settings;
-
-                ActualizarOAgregarSetting(settings, "IdiomaActual", nuevoIdioma);
-
-                configFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                // Obtener la configuración actual
+                var configuracion = _configuracionService.ObtenerConfiguracion();
+                
+                if (configuracion != null)
+                {
+                    // Actualizar solo el idioma
+                    configuracion.Idioma = nuevoIdioma;
+                    
+                    // Guardar en base de datos
+                    _configuracionService.GuardarConfiguracion(configuracion);
+                }
+                else
+                {
+                    // Si no existe configuración, mostrar mensaje de error
+                    MessageBox.Show(
+                        "No se encontró configuración del sistema.\n\n" +
+                        "Por favor, complete primero los datos de configuración en la pestaña 'Configuración General'.",
+                        "Configuración Requerida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
 
                 // Actualizar el label
                 lblIdiomaActual.Text = nombreIdioma;
 
                 MessageBox.Show(
                     $"Idioma cambiado a: {nombreIdioma}\n\n" +
+                    "El cambio se ha guardado en la configuración del sistema.\n\n" +
                     "La aplicación se reiniciará para aplicar los cambios.",
                     "Cambio de Idioma",
                     MessageBoxButtons.OK,
@@ -373,22 +494,11 @@ namespace SistemaPresupuestario.Configuracion
         {
             try
             {
-                dgvHistorial.DataSource = _servicio.ObtenerHistorial();
-
-                // Configurar apariencia de la grilla
-                if (dgvHistorial.Columns.Count > 0)
-                {
-                    dgvHistorial.Columns["ID"].Width = 50;
-                    dgvHistorial.Columns["FechaHora"].HeaderText = "Fecha/Hora";
-                    dgvHistorial.Columns["FechaHora"].Width = 150;
-                    dgvHistorial.Columns["RutaArchivo"].HeaderText = "Ruta del Archivo";
-                    dgvHistorial.Columns["RutaArchivo"].Width = 300;
-                    dgvHistorial.Columns["Estado"].Width = 100;
-                    dgvHistorial.Columns["MensajeError"].HeaderText = "Mensaje de Error";
-                    dgvHistorial.Columns["MensajeError"].Width = 200;
-                    dgvHistorial.Columns["UsuarioApp"].HeaderText = "Usuario";
-                    dgvHistorial.Columns["UsuarioApp"].Width = 150;
-                }
+                var historial = _servicio.ObtenerHistorial();
+                
+                // Asignar el DataTable al DataSource
+                // Las columnas ya están definidas en el Designer con DataPropertyName
+                dgvHistorial.DataSource = historial;
             }
             catch (Exception ex)
             {

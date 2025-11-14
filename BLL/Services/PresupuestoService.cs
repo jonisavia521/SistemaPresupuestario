@@ -123,7 +123,8 @@ namespace BLL.Services
                 presupuesto.EstablecerTotales(
                     presupuestoDto.Subtotal,
                     presupuestoDto.TotalIva,
-                    presupuestoDto.Total
+                    presupuestoDto.Total,
+                    presupuestoDto.ImporteArba // NUEVO
                 );
 
                 // Validar reglas de negocio
@@ -186,7 +187,8 @@ namespace BLL.Services
                 presupuesto.EstablecerTotales(
                     presupuestoDto.Subtotal,
                     presupuestoDto.TotalIva,
-                    presupuestoDto.Total
+                    presupuestoDto.Total,
+                    presupuestoDto.ImporteArba // NUEVO
                 );
 
                 // Validar reglas de negocio
@@ -236,7 +238,8 @@ namespace BLL.Services
         {
             try
             {
-                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+                // ? CORRECCIÓN: Usar GetByIdWithDetails() para cargar también los detalles
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetByIdWithDetails(id);
 
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");
@@ -306,7 +309,8 @@ namespace BLL.Services
         {
             try
             {
-                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+                // ? CORRECCIÓN: Usar GetByIdWithDetails() para cargar también los detalles
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetByIdWithDetails(id);
 
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");
@@ -329,7 +333,8 @@ namespace BLL.Services
         {
             try
             {
-                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+                // ? CORRECCIÓN: Usar GetByIdWithDetails() para cargar también los detalles
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetByIdWithDetails(id);
 
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");
@@ -352,7 +357,8 @@ namespace BLL.Services
         {
             try
             {
-                var presupuesto = _unitOfWork.PresupuestoRepository.GetById(id);
+                // ? CORRECCIÓN: Usar GetByIdWithDetails() para cargar también los detalles
+                var presupuesto = _unitOfWork.PresupuestoRepository.GetByIdWithDetails(id);
 
                 if (presupuesto == null)
                     throw new InvalidOperationException("El presupuesto no existe.");

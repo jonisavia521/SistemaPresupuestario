@@ -30,6 +30,7 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsPrincipalArchivo = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalMaestro = new System.Windows.Forms.ToolStripMenuItem();
             this.tsCliente = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,6 @@
             this.tsArba = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalAyuda = new System.Windows.Forms.ToolStripMenuItem();
             this.txtUsuario = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,10 +75,17 @@
             this.tsPrincipalArchivo.Size = new System.Drawing.Size(73, 24);
             this.tsPrincipalArchivo.Text = "Archivo";
             // 
+            // tsConfiguracion
+            // 
+            this.tsConfiguracion.Name = "tsConfiguracion";
+            this.tsConfiguracion.Size = new System.Drawing.Size(185, 26);
+            this.tsConfiguracion.Text = "Configuración";
+            this.tsConfiguracion.Click += new System.EventHandler(this.tsConfiguracion_Click);
+            // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -179,6 +186,7 @@
             this.tsArba.Name = "tsArba";
             this.tsArba.Size = new System.Drawing.Size(244, 26);
             this.tsArba.Text = "Actualizar Padrón Arba";
+            this.tsArba.Click += new System.EventHandler(this.tsArba_Click);
             // 
             // tsPrincipalAyuda
             // 
@@ -193,13 +201,6 @@
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(156, 24);
             this.txtUsuario.Text = "toolStripMenuItem1";
-            // 
-            // tsConfiguracion
-            // 
-            this.tsConfiguracion.Name = "tsConfiguracion";
-            this.tsConfiguracion.Size = new System.Drawing.Size(224, 26);
-            this.tsConfiguracion.Text = "Configuración";
-            this.tsConfiguracion.Click += new System.EventHandler(this.tsConfiguracion_Click);
             // 
             // frmMain
             // 

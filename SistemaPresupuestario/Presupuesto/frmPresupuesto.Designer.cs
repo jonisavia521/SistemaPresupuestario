@@ -112,6 +112,8 @@
             this.DataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtIIBBArba = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tsMenu.SuspendLayout();
             this.tbpForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgArticulos)).BeginInit();
@@ -441,6 +443,8 @@
             // GroupBox2
             // 
             this.GroupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox2.Controls.Add(this.txtIIBBArba);
+            this.GroupBox2.Controls.Add(this.label4);
             this.GroupBox2.Controls.Add(this.txtSUB);
             this.GroupBox2.Controls.Add(this.Label26);
             this.GroupBox2.Controls.Add(this.txtTotal);
@@ -461,7 +465,7 @@
             this.txtSUB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSUB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSUB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSUB.Location = new System.Drawing.Point(912, 32);
+            this.txtSUB.Location = new System.Drawing.Point(787, 32);
             this.txtSUB.Margin = new System.Windows.Forms.Padding(4);
             this.txtSUB.Name = "txtSUB";
             this.txtSUB.ReadOnly = true;
@@ -476,7 +480,7 @@
             this.Label26.AutoSize = true;
             this.Label26.BackColor = System.Drawing.Color.Transparent;
             this.Label26.ForeColor = System.Drawing.Color.Black;
-            this.Label26.Location = new System.Drawing.Point(908, 13);
+            this.Label26.Location = new System.Drawing.Point(783, 13);
             this.Label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label26.Name = "Label26";
             this.Label26.Size = new System.Drawing.Size(56, 16);
@@ -985,6 +989,33 @@
             this.DataGridViewTextBoxColumn11.ReadOnly = true;
             this.DataGridViewTextBoxColumn11.Width = 70;
             // 
+            // txtIIBBArba
+            // 
+            this.txtIIBBArba.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtIIBBArba.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtIIBBArba.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtIIBBArba.Location = new System.Drawing.Point(913, 32);
+            this.txtIIBBArba.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIIBBArba.Name = "txtIIBBArba";
+            this.txtIIBBArba.ReadOnly = true;
+            this.txtIIBBArba.Size = new System.Drawing.Size(114, 23);
+            this.txtIIBBArba.TabIndex = 13;
+            this.txtIIBBArba.TabStop = false;
+            this.txtIIBBArba.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(916, 13);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 16);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "IIBB Arba";
+            // 
             // frmPresupuesto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1084,5 +1115,7 @@
         private System.Windows.Forms.TextBox txtListaPrecio;
         private System.Windows.Forms.TextBox txtCodigoListaPrecio;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtIIBBArba;
+        private System.Windows.Forms.Label label4;
     }
 }

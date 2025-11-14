@@ -49,6 +49,8 @@ namespace DAL.Implementation.EntityFramework
         [StringLength(2)]
         public string CondicionPago { get; set; }
         
+        public decimal AlicuotaArba { get; set; }
+
         [StringLength(100)]
         public string Email { get; set; }
         

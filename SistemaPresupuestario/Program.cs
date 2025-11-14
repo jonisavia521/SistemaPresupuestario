@@ -3,6 +3,7 @@ using IoC;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 using Services.DAL.Tools;
+using SistemaPresupuestario.Arba;
 using SistemaPresupuestario.Configuracion;
 using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Clientes;
@@ -70,6 +71,7 @@ namespace SistemaPresupuestario
                 .AddTransient<frmListaPrecioAlta>()
                 .AddTransient<frmPresupuesto>()
                 .AddTransient<frmConfiguacionGeneral>()
+                .AddTransient<frmActualizarPadronArba>() // NUEVO
                 ;
         }
 

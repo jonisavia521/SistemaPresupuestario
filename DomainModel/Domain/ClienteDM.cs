@@ -15,9 +15,10 @@ namespace DomainModel.Domain
         public string TipoDocumento { get; private set; } // DNI|CUIT|CUIL
         public string NumeroDocumento { get; private set; }
         public Guid? IdVendedor { get; private set; } // FK a Vendedor
-        public Guid? IdProvincia { get; private set; } // FK a Provincia - NUEVO
+        public Guid? IdProvincia { get; private set; } // FK a Provincia
         public string TipoIva { get; private set; }
         public string CondicionPago { get; private set; } // 2 dígitos
+        public decimal AlicuotaArba { get; private set; } // NUEVO: Alícuota ARBA
         public string Email { get; private set; }
         public string Telefono { get; private set; }
         public string Direccion { get; private set; }
@@ -35,7 +36,8 @@ namespace DomainModel.Domain
             Guid? idVendedor,
             string tipoIva,
             string condicionPago,
-            Guid? idProvincia = null, // NUEVO
+            decimal alicuotaArba = 0, // NUEVO
+            Guid? idProvincia = null,
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -50,9 +52,10 @@ namespace DomainModel.Domain
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
             IdVendedor = idVendedor;
-            IdProvincia = idProvincia; // NUEVO
+            IdProvincia = idProvincia;
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
+            ValidarYEstablecerAlicuotaArba(alicuotaArba); // NUEVO
             
             Email = email;
             Telefono = telefono;
@@ -73,7 +76,8 @@ namespace DomainModel.Domain
             bool activo,
             DateTime fechaAlta,
             DateTime? fechaModificacion,
-            Guid? idProvincia = null, // NUEVO
+            decimal alicuotaArba = 0, // NUEVO
+            Guid? idProvincia = null,
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -88,9 +92,10 @@ namespace DomainModel.Domain
             TipoDocumento = tipoDocumento;
             NumeroDocumento = numeroDocumento;
             IdVendedor = idVendedor;
-            IdProvincia = idProvincia; // NUEVO
+            IdProvincia = idProvincia;
             TipoIva = tipoIva;
             CondicionPago = condicionPago;
+            AlicuotaArba = alicuotaArba; // NUEVO
             Activo = activo;
             FechaAlta = fechaAlta;
             FechaModificacion = fechaModificacion;
@@ -108,7 +113,8 @@ namespace DomainModel.Domain
             Guid? idVendedor,
             string tipoIva,
             string condicionPago,
-            Guid? idProvincia = null, // NUEVO
+            decimal alicuotaArba, // NUEVO
+            Guid? idProvincia = null,
             string email = null,
             string telefono = null,
             string direccion = null,
@@ -118,9 +124,10 @@ namespace DomainModel.Domain
             ValidarYEstablecerTipoDocumento(tipoDocumento);
             ValidarYEstablecerNumeroDocumento(numeroDocumento, tipoDocumento);
             IdVendedor = idVendedor;
-            IdProvincia = idProvincia; // NUEVO
+            IdProvincia = idProvincia;
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
+            ValidarYEstablecerAlicuotaArba(alicuotaArba); // NUEVO
             
             Email = email;
             Telefono = telefono;
@@ -138,6 +145,16 @@ namespace DomainModel.Domain
         public void Reactivar()
         {
             Activo = true;
+            FechaModificacion = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Actualiza la alícuota ARBA del cliente
+        /// Usado para actualizaciones masivas del padrón de ARBA
+        /// </summary>
+        public void ActualizarAlicuotaArba(decimal nuevaAlicuota)
+        {
+            ValidarYEstablecerAlicuotaArba(nuevaAlicuota);
             FechaModificacion = DateTime.Now;
         }
 
@@ -272,6 +289,18 @@ namespace DomainModel.Domain
             CondicionPago = condicionPago;
         }
 
+        // NUEVO: Validación de AlicuotaArba
+        private void ValidarYEstablecerAlicuotaArba(decimal alicuotaArba)
+        {
+            if (alicuotaArba < 0)
+                throw new ArgumentException("La alícuota ARBA no puede ser negativa.", nameof(alicuotaArba));
+
+            if (alicuotaArba > 100)
+                throw new ArgumentException("La alícuota ARBA no puede ser mayor a 100.", nameof(alicuotaArba));
+
+            AlicuotaArba = alicuotaArba;
+        }
+
         /// <summary>
         /// Método principal de validación de negocio
         /// Se puede invocar desde la BLL antes de persistir
@@ -283,6 +312,7 @@ namespace DomainModel.Domain
             ValidarYEstablecerNumeroDocumento(NumeroDocumento, TipoDocumento);
             ValidarYEstablecerTipoIva(TipoIva);
             ValidarYEstablecerCondicionPago(CondicionPago);
+            ValidarYEstablecerAlicuotaArba(AlicuotaArba); // NUEVO
         }
     }
 }

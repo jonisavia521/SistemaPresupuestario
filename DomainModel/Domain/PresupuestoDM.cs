@@ -30,6 +30,7 @@ namespace DomainModel.Domain
         public decimal Subtotal { get; private set; }
         public decimal TotalIva { get; private set; }
         public decimal Total { get; private set; }
+        public decimal ImporteArba { get; private set; } // NUEVO: Percepción IIBB ARBA
 
         // Constructor para creación inicial (nuevo presupuesto)
         public PresupuestoDM(
@@ -55,6 +56,7 @@ namespace DomainModel.Domain
             Subtotal = 0;
             TotalIva = 0;
             Total = 0;
+            ImporteArba = 0; // NUEVO
         }
 
         // Constructor para cargar desde base de datos
@@ -70,7 +72,8 @@ namespace DomainModel.Domain
             List<PresupuestoDetalleDM> detalles = null,
             decimal subtotal = 0,
             decimal totalIva = 0,
-            decimal total = 0)
+            decimal total = 0,
+            decimal importeArba = 0) // NUEVO
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del presupuesto no puede ser vacío.", nameof(id));
@@ -89,6 +92,7 @@ namespace DomainModel.Domain
             Subtotal = subtotal;
             TotalIva = totalIva;
             Total = total;
+            ImporteArba = importeArba; // NUEVO
         }
 
         // Método de actualización
@@ -119,7 +123,7 @@ namespace DomainModel.Domain
             if (Estado == 6) // Facturado
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto facturado.");
 
-            if (Estado == 1) // Borrado
+            if ( Estado == 1) // Borrado
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto borrado.");
 
             detalle.EstablecerPresupuesto(Id);
@@ -273,7 +277,7 @@ namespace DomainModel.Domain
         /// Establece los totales persistidos del presupuesto
         /// Este método debe ser llamado por la capa BLL antes de persistir
         /// </summary>
-        public void EstablecerTotales(decimal subtotal, decimal totalIva, decimal total)
+        public void EstablecerTotales(decimal subtotal, decimal totalIva, decimal total, decimal importeArba = 0)
         {
             if (subtotal < 0)
                 throw new ArgumentException("El subtotal no puede ser negativo.", nameof(subtotal));
@@ -284,9 +288,13 @@ namespace DomainModel.Domain
             if (total < 0)
                 throw new ArgumentException("El total no puede ser negativo.", nameof(total));
 
+            if (importeArba < 0)
+                throw new ArgumentException("El importe ARBA no puede ser negativo.", nameof(importeArba));
+
             Subtotal = subtotal;
             TotalIva = totalIva;
             Total = total;
+            ImporteArba = importeArba; // NUEVO
         }
 
         // ==================== VALIDACIONES DE NEGOCIO ====================

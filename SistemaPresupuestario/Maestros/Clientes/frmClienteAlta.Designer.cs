@@ -42,6 +42,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
             this.grpDatosComerciales = new System.Windows.Forms.GroupBox();
             this.cboCondicionPago = new System.Windows.Forms.ComboBox();
             this.lblCondicionPago = new System.Windows.Forms.Label();
+            this.txtAlicuotaArba = new System.Windows.Forms.TextBox();
+            this.lblAlicuotaArba = new System.Windows.Forms.Label();
             this.cboTipoIva = new System.Windows.Forms.ComboBox();
             this.lblTipoIva = new System.Windows.Forms.Label();
             this.txtCodigoVendedor = new System.Windows.Forms.TextBox();
@@ -167,13 +169,15 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             this.grpDatosComerciales.Controls.Add(this.cboCondicionPago);
             this.grpDatosComerciales.Controls.Add(this.lblCondicionPago);
+            this.grpDatosComerciales.Controls.Add(this.txtAlicuotaArba);
+            this.grpDatosComerciales.Controls.Add(this.lblAlicuotaArba);
             this.grpDatosComerciales.Controls.Add(this.cboTipoIva);
             this.grpDatosComerciales.Controls.Add(this.lblTipoIva);
             this.grpDatosComerciales.Controls.Add(this.txtCodigoVendedor);
             this.grpDatosComerciales.Controls.Add(this.lblCodigoVendedor);
             this.grpDatosComerciales.Location = new System.Drawing.Point(12, 224);
             this.grpDatosComerciales.Name = "grpDatosComerciales";
-            this.grpDatosComerciales.Size = new System.Drawing.Size(460, 140);
+            this.grpDatosComerciales.Size = new System.Drawing.Size(460, 180);
             this.grpDatosComerciales.TabIndex = 2;
             this.grpDatosComerciales.TabStop = false;
             this.grpDatosComerciales.Text = "Datos Comerciales";
@@ -182,19 +186,37 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             this.cboCondicionPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCondicionPago.FormattingEnabled = true;
-            this.cboCondicionPago.Location = new System.Drawing.Point(130, 100);
+            this.cboCondicionPago.Location = new System.Drawing.Point(130, 140);
             this.cboCondicionPago.Name = "cboCondicionPago";
             this.cboCondicionPago.Size = new System.Drawing.Size(200, 24);
-            this.cboCondicionPago.TabIndex = 5;
+            this.cboCondicionPago.TabIndex = 7;
             // 
             // lblCondicionPago
             // 
             this.lblCondicionPago.AutoSize = true;
-            this.lblCondicionPago.Location = new System.Drawing.Point(15, 103);
+            this.lblCondicionPago.Location = new System.Drawing.Point(15, 143);
             this.lblCondicionPago.Name = "lblCondicionPago";
             this.lblCondicionPago.Size = new System.Drawing.Size(106, 16);
-            this.lblCondicionPago.TabIndex = 4;
+            this.lblCondicionPago.TabIndex = 6;
             this.lblCondicionPago.Text = "Condición Pago:";
+            // 
+            // txtAlicuotaArba
+            // 
+            this.txtAlicuotaArba.Location = new System.Drawing.Point(130, 100);
+            this.txtAlicuotaArba.MaxLength = 10;
+            this.txtAlicuotaArba.Name = "txtAlicuotaArba";
+            this.txtAlicuotaArba.Size = new System.Drawing.Size(100, 22);
+            this.txtAlicuotaArba.TabIndex = 5;
+            this.txtAlicuotaArba.Text = "0";
+            // 
+            // lblAlicuotaArba
+            // 
+            this.lblAlicuotaArba.AutoSize = true;
+            this.lblAlicuotaArba.Location = new System.Drawing.Point(15, 103);
+            this.lblAlicuotaArba.Name = "lblAlicuotaArba";
+            this.lblAlicuotaArba.Size = new System.Drawing.Size(95, 16);
+            this.lblAlicuotaArba.TabIndex = 4;
+            this.lblAlicuotaArba.Text = "Alícuota ARBA:";
             // 
             // cboTipoIva
             // 
@@ -245,7 +267,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             this.grpContacto.Controls.Add(this.lblTelefono);
             this.grpContacto.Controls.Add(this.txtEmail);
             this.grpContacto.Controls.Add(this.lblEmail);
-            this.grpContacto.Location = new System.Drawing.Point(12, 370);
+            this.grpContacto.Location = new System.Drawing.Point(12, 410);
             this.grpContacto.Name = "grpContacto";
             this.grpContacto.Size = new System.Drawing.Size(460, 220);
             this.grpContacto.TabIndex = 3;
@@ -340,7 +362,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(285, 605);
+            this.btnAceptar.Location = new System.Drawing.Point(285, 645);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(90, 30);
             this.btnAceptar.TabIndex = 4;
@@ -350,7 +372,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(382, 605);
+            this.btnCancelar.Location = new System.Drawing.Point(382, 645);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(90, 30);
             this.btnCancelar.TabIndex = 5;
@@ -366,7 +388,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 647);
+            this.ClientSize = new System.Drawing.Size(484, 687);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.grpContacto);
@@ -408,6 +430,8 @@ namespace SistemaPresupuestario.Maestros.Clientes
         private System.Windows.Forms.GroupBox grpDatosComerciales;
         private System.Windows.Forms.ComboBox cboCondicionPago;
         private System.Windows.Forms.Label lblCondicionPago;
+        private System.Windows.Forms.TextBox txtAlicuotaArba;
+        private System.Windows.Forms.Label lblAlicuotaArba;
         private System.Windows.Forms.ComboBox cboTipoIva;
         private System.Windows.Forms.Label lblTipoIva;
         private System.Windows.Forms.TextBox txtCodigoVendedor;

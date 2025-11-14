@@ -69,6 +69,7 @@ namespace BLL.DTOs
         public decimal Subtotal { get; set; }
         public decimal TotalIva { get; set; }
         public decimal Total { get; set; }
+        public decimal ImporteArba { get; set; } // NUEVO: Percepción IIBB ARBA
 
         // Propiedades adicionales para compatibilidad con el formulario
         public decimal TotalBruto { get; set; }

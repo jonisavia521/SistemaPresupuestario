@@ -260,5 +260,22 @@ namespace SistemaPresupuestario
                 hijo.Show();
             }
         }
+
+        private void tsArba_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<SistemaPresupuestario.Arba.frmActualizarPadronArba>()
+               .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(SistemaPresupuestario.Arba.frmActualizarPadronArba)) as SistemaPresupuestario.Arba.frmActualizarPadronArba;
+                hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
     }
 }

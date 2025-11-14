@@ -11,7 +11,8 @@ namespace DomainModel.Contract
         IProductoRepository ProductoRepository { get; }
         IPresupuestoRepository PresupuestoRepository { get; }
         IListaPrecioRepository ListaPrecioRepository { get; }
-        IProvinciaRepository ProvinciaRepository { get; } // NUEVO
+        IProvinciaRepository ProvinciaRepository { get; }
+        IConfiguracionRepository ConfiguracionRepository { get; } // NUEVO
 
         // Métodos para manejar transacciones y confirmar los cambios
         void BeginTransaction();               // Inicia una transacción

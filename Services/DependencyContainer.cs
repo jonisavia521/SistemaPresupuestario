@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Services.BLL;
 using Services.BLL.Contracts;
+using Services.DAL;
 using Services.DAL.Contracts;
 using Services.DAL.Factory;
 using Services.DAL.Implementations;
@@ -58,6 +59,10 @@ System.Collections.Specialized.NameValueCollection app)
 
             services.AddSingleton<ILoggerRepository, LoggerRepository>();
             services.AddSingleton<ILanguageRepository, LanguageRepository>();
+            
+            // Registro de Backup/Restore
+            services.AddSingleton<BackupRepository>();
+            services.AddSingleton<IBackupRestoreService, BackupRestoreService>();
 
             services.AddSingleton<ServiceFactory>();
             services.AddSingleton<Usuario>();

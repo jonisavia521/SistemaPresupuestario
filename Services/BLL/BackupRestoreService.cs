@@ -1,5 +1,6 @@
 using Services.BLL.Contracts;
 using Services.DAL;
+using Services.DAL.Implementations;
 using System;
 using System.Data;
 
@@ -9,14 +10,15 @@ namespace Services.BLL
     /// Servicio de lógica de negocio para Backup y Restore de SQL Server
     /// Esta es la clase "inteligente" que orquesta toda la funcionalidad
     /// Es la única clase que la UI debe conocer e instanciar
+    /// REFACTORIZADO: Ahora usa inyección de dependencias
     /// </summary>
     public class BackupRestoreService : IBackupRestoreService
     {
         private readonly BackupRepository _repository;
 
-        public BackupRestoreService()
+        public BackupRestoreService(BackupRepository repository)
         {
-            _repository = new BackupRepository();
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         /// <summary>

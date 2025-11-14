@@ -34,10 +34,10 @@ namespace BLL.DTOs
         // Propiedad auxiliar para mostrar el nombre del vendedor
         public string NombreVendedor { get; set; }
 
-        // NUEVO: IdProvincia - FK a Provincia
+        // IdProvincia - FK a Provincia
         public Guid? IdProvincia { get; set; }
 
-        // NUEVO: Propiedad auxiliar para mostrar el nombre de la provincia
+        // Propiedad auxiliar para mostrar el nombre de la provincia
         public string NombreProvincia { get; set; }
 
         [Required(ErrorMessage = "El tipo de IVA es obligatorio")]
@@ -46,6 +46,11 @@ namespace BLL.DTOs
         [Required(ErrorMessage = "La condición de pago es obligatoria")]
         [RegularExpression(@"^\d{2}$", ErrorMessage = "La condición de pago debe tener 2 dígitos")]
         public string CondicionPago { get; set; }
+
+        // NUEVO: Alícuota ARBA
+        [Required(ErrorMessage = "La alícuota ARBA es obligatoria")]
+        [Range(0, 100, ErrorMessage = "La alícuota ARBA debe estar entre 0 y 100")]
+        public decimal AlicuotaArba { get; set; }
 
         [EmailAddress(ErrorMessage = "El email no tiene un formato válido")]
         [StringLength(100, ErrorMessage = "El email no puede exceder los 100 caracteres")]

@@ -36,6 +36,9 @@ namespace SistemaPresupuestario.Presupuesto
         
         // NUEVO: Campo para almacenar si la lista de precios incluye IVA
         private bool _listaPrecioIncluyeIva = false;
+        
+        // NUEVO: Campo para almacenar la alícuota ARBA del cliente
+        private decimal _alicuotaArbaCliente = 0M;
 
         // Caché de clientes para evitar múltiples llamadas asíncronas concurrentes
         private List<ClienteDTO> _clientesCache = null;
@@ -423,6 +426,7 @@ namespace SistemaPresupuestario.Presupuesto
             // MODIFICADO: Cargar totales persistidos en lugar de calcularlos
             txtSUB.Text = presupuesto.Subtotal.ToString("N2");
             txtIva.Text = presupuesto.TotalIva.ToString("N2");
+            txtIIBBArba.Text = presupuesto.ImporteArba.ToString("N2"); // NUEVO
             txtTotal.Text = presupuesto.Total.ToString("N2");
         }
 
@@ -469,58 +473,71 @@ namespace SistemaPresupuestario.Presupuesto
 
         /// <summary>
         /// Carga la condición de pago del cliente en el control correspondiente
+        /// NUEVO: También carga la alícuota ARBA del cliente
         /// </summary>
         private void CargarCondicionPagoDelCliente(Guid idCliente)
         {
             try
             {
                 var cliente = _clienteService.GetById(idCliente);
-                if (cliente != null && !string.IsNullOrEmpty(cliente.CondicionPago))
+                if (cliente != null)
                 {
-                    // Si txtCodigoFormaPago es un ComboBox, seleccionar el valor
-                    Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
-                    if (control != null && control is ComboBox)
+                    // NUEVO: Cargar alícuota ARBA del cliente
+                    _alicuotaArbaCliente = cliente.AlicuotaArba;
+                    
+                    // Cargar condición de pago si existe
+                    if (!string.IsNullOrEmpty(cliente.CondicionPago))
                     {
-                        ComboBox cboCondicionPago = (ComboBox)control;
-                        // Buscar el item con el Value correspondiente
-                        for (int i = 0; i < cboCondicionPago.Items.Count; i++)
+                        // Si txtCodigoFormaPago es un ComboBox, seleccionar el valor
+                        Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
+                        if (control != null && control is ComboBox)
                         {
-                            dynamic item = cboCondicionPago.Items[i];
-                            if (item.Value == cliente.CondicionPago)
+                            ComboBox cboCondicionPago = (ComboBox)control;
+                            // Buscar el item con el Value correspondiente
+                            for (int i = 0; i < cboCondicionPago.Items.Count; i++)
                             {
-                                cboCondicionPago.SelectedIndex = i;
-                                break;
+                                dynamic item = cboCondicionPago.Items[i];
+                                if (item.Value == cliente.CondicionPago)
+                                {
+                                    cboCondicionPago.SelectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (txtCodigoFormaPago != null)
+                        {
+                            // Si es TextBox, establecer el código
+                            txtCodigoFormaPago.Text = cliente.CondicionPago;
+
+                            // Establecer la descripción en txtFormaPago si existe
+                            if (txtFormaPago != null)
+                            {
+                                var descripciones = new Dictionary<string, string>
+                                {
+                                    { "01", "01 - Contado" },
+                                    { "02", "02 - 30 días" },
+                                    { "03", "03 - 60 días" },
+                                    { "04", "04 - 90 días" },
+                                    { "05", "05 - 120 días" }
+                                };
+
+                                if (descripciones.ContainsKey(cliente.CondicionPago))
+                                {
+                                    txtFormaPago.Text = descripciones[cliente.CondicionPago];
+                                }
                             }
                         }
                     }
-                    else if (txtCodigoFormaPago != null)
-                    {
-                        // Si es TextBox, establecer el código
-                        txtCodigoFormaPago.Text = cliente.CondicionPago;
-
-                        // Establecer la descripción en txtFormaPago si existe
-                        if (txtFormaPago != null)
-                        {
-                            var descripciones = new Dictionary<string, string>
-                            {
-                                { "01", "01 - Contado" },
-                                { "02", "02 - 30 días" },
-                                { "03", "03 - 60 días" },
-                                { "04", "04 - 90 días" },
-                                { "05", "05 - 120 días" }
-                            };
-
-                            if (descripciones.ContainsKey(cliente.CondicionPago))
-                            {
-                                txtFormaPago.Text = descripciones[cliente.CondicionPago];
-                            }
-                        }
-                    }
+                    
+                    // Recalcular totales con la nueva alícuota ARBA
+                    CalcularTotales();
                 }
             }
             catch
             {
-                // Si hay error, dejar en blanco
+                // Si hay error, establecer ARBA en 0 y limpiar campos
+                _alicuotaArbaCliente = 0M;
+                
                 Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
                 if (control != null && control is ComboBox)
                 {
@@ -544,6 +561,7 @@ namespace SistemaPresupuestario.Presupuesto
             _idVendedorSeleccionado = null;
             _idListaPrecioSeleccionada = null;
             _listaPrecioIncluyeIva = false;
+            _alicuotaArbaCliente = 0M; // NUEVO
 
             txtCotizacion.Text = "NUEVO";
             txtFecha.Value = DateTime.Now;
@@ -674,7 +692,13 @@ namespace SistemaPresupuestario.Presupuesto
 
         /// <summary>
         /// Calcula y actualiza los totales del presupuesto en los controles
-        /// NUEVO: Considera si la lista de precios incluye IVA o no
+        /// NUEVO: Considera si la lista de precios incluye IVA o no y calcula la percepción ARBA
+        /// 
+        /// Fórmula de cálculo:
+        /// 1. Subtotal Neto (Base Imponible) = Suma(Cantidad * Precio - Descuento) de todos los detalles
+        /// 2. Percepción ARBA = Subtotal Neto * AlicuotaArba del cliente
+        /// 3. IVA = Subtotal Neto * Porcentaje IVA
+        /// 4. Total = Subtotal Neto + Percepción ARBA + IVA
         /// </summary>
         private void CalcularTotales()
         {
@@ -682,13 +706,14 @@ namespace SistemaPresupuestario.Presupuesto
             {
                 decimal subtotal = 0;
                 decimal iva = 0;
+                decimal arba = 0;
                 decimal total = 0;
 
                 if (_listaPrecioIncluyeIva)
                 {
                     // Si la lista de precios INCLUYE IVA:
                     // El "Total" de cada detalle YA incluye el IVA
-                    // Necesitamos calcular el IVA restando el neto del total
+                    // Necesitamos calcular el IVA implícito usando la fórmula: Total - (Total / (1 + PorcentajeIVA/100))
                     foreach (var detalle in _detalles)
                     {
                         decimal totalConIva = detalle.Total;
@@ -700,23 +725,37 @@ namespace SistemaPresupuestario.Presupuesto
                         
                         subtotal += totalSinIva;
                         iva += ivaCalculado;
-                        total += totalConIva;
                     }
+                    
+                    // Calcular percepción ARBA sobre la base imponible (subtotal sin IVA)
+                    arba = subtotal * (_alicuotaArbaCliente / 100);
+                    
+                    // Total = Subtotal + ARBA + IVA
+                    total = subtotal + arba + iva;
                 }
                 else
                 {
                     // Si la lista de precios NO INCLUYE IVA:
-                    // Cálculo tradicional (el actual)
+                    // Cálculo tradicional
                     foreach (var detalle in _detalles)
                     {
+                        // El Total del detalle es la base imponible (sin IVA)
                         subtotal += detalle.Total;
+                        
+                        // Calcular IVA sobre la base
                         iva += detalle.Iva;
-                        total += detalle.TotalConIva;
                     }
+                    
+                    // Calcular percepción ARBA sobre la base imponible (subtotal sin IVA)
+                    arba = subtotal * (_alicuotaArbaCliente / 100);
+                    
+                    // Total = Subtotal + ARBA + IVA
+                    total = subtotal + arba + iva;
                 }
 
                 txtSUB.Text = subtotal.ToString("N2");
                 txtIva.Text = iva.ToString("N2");
+                txtIIBBArba.Text = arba.ToString("N2"); // NUEVO: Mostrar percepción ARBA
                 txtTotal.Text = total.ToString("N2");
             }
             catch (Exception ex)
@@ -816,6 +855,7 @@ namespace SistemaPresupuestario.Presupuesto
                     // Cliente encontrado - guardar IDs y mostrar datos
                     _idClienteSeleccionado = cliente.Id;
                     _idVendedorSeleccionado = cliente.IdVendedor;
+                    _alicuotaArbaCliente = cliente.AlicuotaArba; // NUEVO
 
                     txtCodigoCliente.Text = cliente.CodigoCliente;
                     txtCliente.Text = cliente.RazonSocial;
@@ -838,7 +878,7 @@ namespace SistemaPresupuestario.Presupuesto
                         txtVendedor.Clear();
                     }
 
-                    // Cargar condición de pago del cliente
+                    // Cargar condición de pago del cliente (también cargará AlicuotaArba y recalculará)
                     CargarCondicionPagoDelCliente(cliente.Id);
                 }
                 else
@@ -917,9 +957,10 @@ namespace SistemaPresupuestario.Presupuesto
 
                     if (clienteSeleccionado != null)
                     {
-                        // Guardar IDs
+                        // Guardar IDs y alícuota ARBA
                         _idClienteSeleccionado = clienteSeleccionado.Id;
                         _idVendedorSeleccionado = clienteSeleccionado.IdVendedor;
+                        _alicuotaArbaCliente = clienteSeleccionado.AlicuotaArba; // NUEVO
 
                         // Aplicar el cliente seleccionado
                         txtCodigoCliente.Text = clienteSeleccionado.CodigoCliente;
@@ -943,7 +984,7 @@ namespace SistemaPresupuestario.Presupuesto
                             txtVendedor.Clear();
                         }
 
-                        // Cargar condición de pago del cliente
+                        // Cargar condición de pago del cliente (también recalculará totales)
                         CargarCondicionPagoDelCliente(clienteSeleccionado.Id);
                     }
                 }
@@ -955,6 +996,7 @@ namespace SistemaPresupuestario.Presupuesto
                     txtVendedor.Clear();
                     _idClienteSeleccionado = null;
                     _idVendedorSeleccionado = null;
+                    _alicuotaArbaCliente = 0M; // NUEVO
                 }
             }
             catch (Exception ex)
@@ -2059,6 +2101,7 @@ namespace SistemaPresupuestario.Presupuesto
                     // Cliente encontrado - guardar IDs y aplicar datos
                     _idClienteSeleccionado = cliente.Id;
                     _idVendedorSeleccionado = cliente.IdVendedor;
+                    _alicuotaArbaCliente = cliente.AlicuotaArba; // NUEVO
 
                     txtCodigoCliente.Text = cliente.CodigoCliente;
                     txtCliente.Text = cliente.RazonSocial;
@@ -2081,7 +2124,7 @@ namespace SistemaPresupuestario.Presupuesto
                         txtVendedor.Clear();
                     }
 
-                    // Cargar condición de pago del cliente
+                    // Cargar condición de pago del cliente (también recalculará totales)
                     CargarCondicionPagoDelCliente(cliente.Id);
 
                     // Mover al siguiente control
