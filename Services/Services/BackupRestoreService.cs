@@ -1,10 +1,11 @@
 using Services.BLL.Contracts;
 using Services.DAL;
 using Services.DAL.Implementations;
+using Services.Services.Contracts;
 using System;
 using System.Data;
 
-namespace Services.BLL
+namespace Services.Services
 {
     /// <summary>
     /// Servicio de lógica de negocio para Backup y Restore de SQL Server

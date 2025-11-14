@@ -87,8 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\BackupRestoreService.cs" />
-    <Compile Include="BLL\Contracts\IBackupRestoreService.cs" />
+    <Compile Include="Services\BackupRestoreService.cs" />
+    <Compile Include="Services\Contracts\IBackupRestoreService.cs" />
     <Compile Include="BLL\Contracts\IExceptionBLL.cs" />
     <Compile Include="BLL\Contracts\ILoggerBLL.cs" />
     <Compile Include="BLL\ExceptionBLL.cs" />

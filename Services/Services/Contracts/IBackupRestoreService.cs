@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace Services.BLL.Contracts
+namespace Services.Services.Contracts
 {
     /// <summary>
     /// Contrato para el servicio de Backup y Restore de SQL Server

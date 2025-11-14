@@ -25,6 +25,7 @@ namespace Services.DomainModel
         // Totales
         public decimal Subtotal { get; set; }
         public decimal TotalIva { get; set; }
+        public decimal ImporteArba { get; set; }
         public decimal Total { get; set; }
 
         // Detalles

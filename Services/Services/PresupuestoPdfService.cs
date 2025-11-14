@@ -225,6 +225,12 @@ namespace Services.Services
             // IVA
             AgregarFilaTotal(table, "IVA:", presupuesto.TotalIva.ToString("C2"));
 
+            // ImporteArba (solo si es mayor a 0, redondeando a 2 decimales)
+            if (Math.Round(presupuesto.ImporteArba, 2) > 0)
+            {
+                AgregarFilaTotal(table, "Percepción IIBB ARBA:", presupuesto.ImporteArba.ToString("C2"));
+            }
+
             // Total
             PdfPCell cellLabel = new PdfPCell(new Phrase("TOTAL:", _fontBold));
             cellLabel.Border = Rectangle.TOP_BORDER;

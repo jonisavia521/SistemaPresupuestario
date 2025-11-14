@@ -1,5 +1,4 @@
 ﻿using BLL.Contracts;
-using Services.BLL.Contracts;
 using System;
 using System.Configuration;
 using System.Globalization;
@@ -10,6 +9,7 @@ using BLL.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
+using Services.Services.Contracts;
 
 namespace SistemaPresupuestario.Configuracion
 {
