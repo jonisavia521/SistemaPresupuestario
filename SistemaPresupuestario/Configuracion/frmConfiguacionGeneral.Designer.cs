@@ -31,25 +31,30 @@ namespace SistemaPresupuestario.Configuracion
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabConfiguracionGeneral = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cboProvincia = new System.Windows.Forms.ComboBox();
+            this.lblProvincia = new System.Windows.Forms.Label();
+            this.cboTipoIva = new System.Windows.Forms.ComboBox();
+            this.lblTipoIva = new System.Windows.Forms.Label();
             this.btnGuardarConfiguracion = new System.Windows.Forms.Button();
             this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblTelefono = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblEmail = new System.Windows.Forms.Label();
+            this.txtDireccion = new System.Windows.Forms.TextBox();
+            this.lblDireccion = new System.Windows.Forms.Label();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblLocalidad = new System.Windows.Forms.Label();
             this.txtCUIT = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblCUIT = new System.Windows.Forms.Label();
             this.txtRazonSocial = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblRazonSocial = new System.Windows.Forms.Label();
             this.tabIdioma = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnCambiarIdioma = new System.Windows.Forms.Button();
             this.rbIngles = new System.Windows.Forms.RadioButton();
             this.rbEspanol = new System.Windows.Forms.RadioButton();
             this.lblIdiomaActual = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblIdiomaActualLabel = new System.Windows.Forms.Label();
             this.tabBackup = new System.Windows.Forms.TabPage();
             this.lblEstado = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
@@ -58,11 +63,6 @@ namespace SistemaPresupuestario.Configuracion
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnRestaurar = new System.Windows.Forms.Button();
             this.btnCrearBackup = new System.Windows.Forms.Button();
-            this.cboTipoIva = new System.Windows.Forms.ComboBox();
-            this.lblTipoIva = new System.Windows.Forms.Label();
-            this.txtDireccion = new System.Windows.Forms.TextBox();
-            this.cboProvincia = new System.Windows.Forms.ComboBox();
-            this.lblProvincia = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabConfiguracionGeneral.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -107,17 +107,17 @@ namespace SistemaPresupuestario.Configuracion
             this.groupBox3.Controls.Add(this.lblTipoIva);
             this.groupBox3.Controls.Add(this.btnGuardarConfiguracion);
             this.groupBox3.Controls.Add(this.txtTelefono);
-            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.lblTelefono);
             this.groupBox3.Controls.Add(this.txtEmail);
-            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.lblEmail);
             this.groupBox3.Controls.Add(this.txtDireccion);
-            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.lblDireccion);
             this.groupBox3.Controls.Add(this.txtLocalidad);
-            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.lblLocalidad);
             this.groupBox3.Controls.Add(this.txtCUIT);
-            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.lblCUIT);
             this.groupBox3.Controls.Add(this.txtRazonSocial);
-            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.lblRazonSocial);
             this.groupBox3.Location = new System.Drawing.Point(27, 25);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
@@ -127,13 +127,49 @@ namespace SistemaPresupuestario.Configuracion
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Datos de la Empresa";
             // 
+            // cboProvincia
+            // 
+            this.cboProvincia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboProvincia.FormattingEnabled = true;
+            this.cboProvincia.Location = new System.Drawing.Point(200, 247);
+            this.cboProvincia.Name = "cboProvincia";
+            this.cboProvincia.Size = new System.Drawing.Size(320, 24);
+            this.cboProvincia.TabIndex = 16;
+            // 
+            // lblProvincia
+            // 
+            this.lblProvincia.AutoSize = true;
+            this.lblProvincia.Location = new System.Drawing.Point(40, 250);
+            this.lblProvincia.Name = "lblProvincia";
+            this.lblProvincia.Size = new System.Drawing.Size(66, 16);
+            this.lblProvincia.TabIndex = 15;
+            this.lblProvincia.Text = "Provincia:";
+            // 
+            // cboTipoIva
+            // 
+            this.cboTipoIva.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipoIva.FormattingEnabled = true;
+            this.cboTipoIva.Location = new System.Drawing.Point(200, 153);
+            this.cboTipoIva.Name = "cboTipoIva";
+            this.cboTipoIva.Size = new System.Drawing.Size(280, 24);
+            this.cboTipoIva.TabIndex = 14;
+            // 
+            // lblTipoIva
+            // 
+            this.lblTipoIva.AutoSize = true;
+            this.lblTipoIva.Location = new System.Drawing.Point(40, 156);
+            this.lblTipoIva.Name = "lblTipoIva";
+            this.lblTipoIva.Size = new System.Drawing.Size(62, 16);
+            this.lblTipoIva.TabIndex = 13;
+            this.lblTipoIva.Text = "Tipo IVA:";
+            // 
             // btnGuardarConfiguracion
             // 
             this.btnGuardarConfiguracion.Location = new System.Drawing.Point(400, 455);
             this.btnGuardarConfiguracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGuardarConfiguracion.Name = "btnGuardarConfiguracion";
             this.btnGuardarConfiguracion.Size = new System.Drawing.Size(200, 43);
-            this.btnGuardarConfiguracion.TabIndex = 14;
+            this.btnGuardarConfiguracion.TabIndex = 12;
             this.btnGuardarConfiguracion.Text = "Guardar Configuración";
             this.btnGuardarConfiguracion.UseVisualStyleBackColor = true;
             this.btnGuardarConfiguracion.Click += new System.EventHandler(this.btnGuardarConfiguracion_Click);
@@ -144,17 +180,17 @@ namespace SistemaPresupuestario.Configuracion
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(732, 22);
-            this.txtTelefono.TabIndex = 13;
+            this.txtTelefono.TabIndex = 11;
             // 
-            // label8
+            // lblTelefono
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(40, 398);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 16);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Teléfono:";
+            this.lblTelefono.AutoSize = true;
+            this.lblTelefono.Location = new System.Drawing.Point(40, 398);
+            this.lblTelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTelefono.Name = "lblTelefono";
+            this.lblTelefono.Size = new System.Drawing.Size(64, 16);
+            this.lblTelefono.TabIndex = 10;
+            this.lblTelefono.Text = "Teléfono:";
             // 
             // txtEmail
             // 
@@ -162,27 +198,36 @@ namespace SistemaPresupuestario.Configuracion
             this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(732, 22);
-            this.txtEmail.TabIndex = 11;
+            this.txtEmail.TabIndex = 9;
             // 
-            // label7
+            // lblEmail
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(40, 348);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 16);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Email:";
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(40, 348);
+            this.lblEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(44, 16);
+            this.lblEmail.TabIndex = 8;
+            this.lblEmail.Text = "Email:";
             // 
-            // label6
+            // txtDireccion
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(40, 201);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 16);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Dirección:";
+            this.txtDireccion.Location = new System.Drawing.Point(200, 197);
+            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDireccion.Multiline = true;
+            this.txtDireccion.Name = "txtDireccion";
+            this.txtDireccion.Size = new System.Drawing.Size(732, 25);
+            this.txtDireccion.TabIndex = 7;
+            // 
+            // lblDireccion
+            // 
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(40, 201);
+            this.lblDireccion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(67, 16);
+            this.lblDireccion.TabIndex = 6;
+            this.lblDireccion.Text = "Dirección:";
             // 
             // txtLocalidad
             // 
@@ -190,17 +235,17 @@ namespace SistemaPresupuestario.Configuracion
             this.txtLocalidad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(732, 22);
-            this.txtLocalidad.TabIndex = 7;
+            this.txtLocalidad.TabIndex = 5;
             // 
-            // label5
+            // lblLocalidad
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(40, 299);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 16);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Localidad:";
+            this.lblLocalidad.AutoSize = true;
+            this.lblLocalidad.Location = new System.Drawing.Point(40, 299);
+            this.lblLocalidad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLocalidad.Name = "lblLocalidad";
+            this.lblLocalidad.Size = new System.Drawing.Size(70, 16);
+            this.lblLocalidad.TabIndex = 4;
+            this.lblLocalidad.Text = "Localidad:";
             // 
             // txtCUIT
             // 
@@ -211,15 +256,15 @@ namespace SistemaPresupuestario.Configuracion
             this.txtCUIT.Size = new System.Drawing.Size(332, 22);
             this.txtCUIT.TabIndex = 3;
             // 
-            // label3
+            // lblCUIT
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(40, 102);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "CUIT:";
+            this.lblCUIT.AutoSize = true;
+            this.lblCUIT.Location = new System.Drawing.Point(40, 102);
+            this.lblCUIT.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCUIT.Name = "lblCUIT";
+            this.lblCUIT.Size = new System.Drawing.Size(41, 16);
+            this.lblCUIT.TabIndex = 2;
+            this.lblCUIT.Text = "CUIT:";
             // 
             // txtRazonSocial
             // 
@@ -229,15 +274,15 @@ namespace SistemaPresupuestario.Configuracion
             this.txtRazonSocial.Size = new System.Drawing.Size(732, 22);
             this.txtRazonSocial.TabIndex = 1;
             // 
-            // label2
+            // lblRazonSocial
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(40, 53);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 16);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Razón Social:";
+            this.lblRazonSocial.AutoSize = true;
+            this.lblRazonSocial.Location = new System.Drawing.Point(40, 53);
+            this.lblRazonSocial.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRazonSocial.Name = "lblRazonSocial";
+            this.lblRazonSocial.Size = new System.Drawing.Size(90, 16);
+            this.lblRazonSocial.TabIndex = 0;
+            this.lblRazonSocial.Text = "Razón Social:";
             // 
             // tabIdioma
             // 
@@ -257,7 +302,7 @@ namespace SistemaPresupuestario.Configuracion
             this.groupBox4.Controls.Add(this.rbIngles);
             this.groupBox4.Controls.Add(this.rbEspanol);
             this.groupBox4.Controls.Add(this.lblIdiomaActual);
-            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.lblIdiomaActualLabel);
             this.groupBox4.Location = new System.Drawing.Point(27, 25);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox4.Name = "groupBox4";
@@ -313,15 +358,15 @@ namespace SistemaPresupuestario.Configuracion
             this.lblIdiomaActual.TabIndex = 1;
             this.lblIdiomaActual.Text = "Español";
             // 
-            // label9
+            // lblIdiomaActualLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(40, 75);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(91, 16);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Idioma Actual:";
+            this.lblIdiomaActualLabel.AutoSize = true;
+            this.lblIdiomaActualLabel.Location = new System.Drawing.Point(40, 75);
+            this.lblIdiomaActualLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIdiomaActualLabel.Name = "lblIdiomaActualLabel";
+            this.lblIdiomaActualLabel.Size = new System.Drawing.Size(91, 16);
+            this.lblIdiomaActualLabel.TabIndex = 0;
+            this.lblIdiomaActualLabel.Text = "Idioma Actual:";
             // 
             // tabBackup
             // 
@@ -433,51 +478,6 @@ namespace SistemaPresupuestario.Configuracion
             this.btnCrearBackup.UseVisualStyleBackColor = true;
             this.btnCrearBackup.Click += new System.EventHandler(this.btnCrearBackup_Click);
             // 
-            // cboTipoIva
-            // 
-            this.cboTipoIva.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTipoIva.FormattingEnabled = true;
-            this.cboTipoIva.Location = new System.Drawing.Point(200, 153);
-            this.cboTipoIva.Name = "cboTipoIva";
-            this.cboTipoIva.Size = new System.Drawing.Size(280, 24);
-            this.cboTipoIva.TabIndex = 5;
-            // 
-            // lblTipoIva
-            // 
-            this.lblTipoIva.AutoSize = true;
-            this.lblTipoIva.Location = new System.Drawing.Point(40, 153);
-            this.lblTipoIva.Name = "lblTipoIva";
-            this.lblTipoIva.Size = new System.Drawing.Size(62, 16);
-            this.lblTipoIva.TabIndex = 4;
-            this.lblTipoIva.Text = "Tipo IVA:";
-            // 
-            // txtDireccion
-            // 
-            this.txtDireccion.Location = new System.Drawing.Point(200, 197);
-            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
-            this.txtDireccion.Multiline = true;
-            this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(732, 25);
-            this.txtDireccion.TabIndex = 9;
-            // 
-            // cboProvincia
-            // 
-            this.cboProvincia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboProvincia.FormattingEnabled = true;
-            this.cboProvincia.Location = new System.Drawing.Point(200, 247);
-            this.cboProvincia.Name = "cboProvincia";
-            this.cboProvincia.Size = new System.Drawing.Size(320, 24);
-            this.cboProvincia.TabIndex = 9;
-            // 
-            // lblProvincia
-            // 
-            this.lblProvincia.AutoSize = true;
-            this.lblProvincia.Location = new System.Drawing.Point(44, 250);
-            this.lblProvincia.Name = "lblProvincia";
-            this.lblProvincia.Size = new System.Drawing.Size(66, 16);
-            this.lblProvincia.TabIndex = 8;
-            this.lblProvincia.Text = "Provincia:";
-            // 
             // frmConfiguacionGeneral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -513,23 +513,28 @@ namespace SistemaPresupuestario.Configuracion
         // Pestaña Configuración General
         private System.Windows.Forms.TabPage tabConfiguracionGeneral;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblRazonSocial;
         private System.Windows.Forms.TextBox txtRazonSocial;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblCUIT;
         private System.Windows.Forms.TextBox txtCUIT;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTipoIva;
+        private System.Windows.Forms.ComboBox cboTipoIva;
+        private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.TextBox txtDireccion;
+        private System.Windows.Forms.Label lblProvincia;
+        private System.Windows.Forms.ComboBox cboProvincia;
+        private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.TextBox txtLocalidad;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Button btnGuardarConfiguracion;
         
         // Pestaña Idioma
         private System.Windows.Forms.TabPage tabIdioma;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblIdiomaActualLabel;
         private System.Windows.Forms.Label lblIdiomaActual;
         private System.Windows.Forms.RadioButton rbEspanol;
         private System.Windows.Forms.RadioButton rbIngles;
@@ -542,18 +547,7 @@ namespace SistemaPresupuestario.Configuracion
         private System.Windows.Forms.Button btnCrearBackup;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgvHistorial;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFechaHora;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRutaArchivo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMensajeError;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUsuarioApp;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lblEstado;
-        private System.Windows.Forms.ComboBox cboTipoIva;
-        private System.Windows.Forms.Label lblTipoIva;
-        private System.Windows.Forms.ComboBox cboProvincia;
-        private System.Windows.Forms.Label lblProvincia;
-        private System.Windows.Forms.TextBox txtDireccion;
     }
 }

@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers; // NUEVO
 
 namespace SistemaPresupuestario.Configuracion
 {
@@ -38,6 +39,48 @@ namespace SistemaPresupuestario.Configuracion
             // Inicializar ErrorProvider
             _errorProvider = new ErrorProvider();
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            
+            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+            
+            // Actualizar columnas del DataGridView si tiene datos
+            if (dgvHistorial.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla de historial
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvHistorial.Columns)
+            {
+                // Guardar el texto original en el Tag si aún no está
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                // Traducir usando el texto del Tag
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         /// <summary>
@@ -58,13 +101,13 @@ namespace SistemaPresupuestario.Configuracion
                 // Cargar historial de backups
                 ActualizarGrilla();
                 
-                lblEstado.Text = "Listo";
+                lblEstado.Text = I18n.T("Listo");
                 lblEstado.Visible = false;
                 progressBar.Visible = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar el formulario")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -136,7 +179,7 @@ namespace SistemaPresupuestario.Configuracion
                 var provincias = _provinciaService.GetAllOrdenadas();
 
                 cboProvincia.Items.Clear();
-                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = "(Sin provincia)" });
+                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = I18n.T("(Sin provincia)") });
 
                 foreach (var provincia in provincias)
                 {
@@ -149,7 +192,7 @@ namespace SistemaPresupuestario.Configuracion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar provincias: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar provincias")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -215,7 +258,7 @@ namespace SistemaPresupuestario.Configuracion
                             
                             if (control != null)
                             {
-                                _errorProvider.SetError(control, resultado.ErrorMessage);
+                                _errorProvider.SetError(control, I18n.T(resultado.ErrorMessage));
                             }
                         }
                     }
@@ -225,12 +268,12 @@ namespace SistemaPresupuestario.Configuracion
                 // Guardar en base de datos
                 _configuracionService.GuardarConfiguracion(dto);
 
-                MessageBox.Show("Configuración guardada exitosamente", "Éxito",
+                MessageBox.Show(I18n.T("Configuración guardada exitosamente"), I18n.T("Éxito"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar configuración: {ex.Message}", "Error",
+               MessageBox.Show($"{I18n.T("Error al guardar configuración")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -254,12 +297,12 @@ namespace SistemaPresupuestario.Configuracion
                     if (configuracion.Idioma.StartsWith("es"))
                     {
                         rbEspanol.Checked = true;
-                        lblIdiomaActual.Text = "Español";
+                        lblIdiomaActual.Text = I18n.T("Español");
                     }
                     else if (configuracion.Idioma.StartsWith("en"))
                     {
                         rbIngles.Checked = true;
-                        lblIdiomaActual.Text = "English";
+                        lblIdiomaActual.Text = I18n.T("English");
                     }
                 }
                 else
@@ -270,29 +313,30 @@ namespace SistemaPresupuestario.Configuracion
                     if (idiomaActual.StartsWith("es"))
                     {
                         rbEspanol.Checked = true;
-                        lblIdiomaActual.Text = "Español";
+                        lblIdiomaActual.Text = I18n.T("Español");
                     }
                     else if (idiomaActual.StartsWith("en"))
                     {
                         rbIngles.Checked = true;
-                        lblIdiomaActual.Text = "English";
+                        lblIdiomaActual.Text = I18n.T("English");
                     }
                     else
                     {
                         rbEspanol.Checked = true;
-                        lblIdiomaActual.Text = "Español (por defecto)";
+                        lblIdiomaActual.Text = I18n.T("Español");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar configuración de idioma: {ex.Message}", 
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{I18n.T("Error al cargar configuración de idioma")}: {ex.Message}", 
+                    I18n.T("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
         /// Cambia el idioma de la aplicación y lo guarda en la configuración
+        /// MODIFICADO: Ahora usa I18n.SetLanguage() para cambio dinámico en tiempo real
         /// </summary>
         private void btnCambiarIdioma_Click(object sender, EventArgs e)
         {
@@ -304,12 +348,12 @@ namespace SistemaPresupuestario.Configuracion
                 if (rbEspanol.Checked)
                 {
                     nuevoIdioma = "es-AR";
-                    nombreIdioma = "Español";
+                    nombreIdioma = I18n.T("Español");
                 }
                 else if (rbIngles.Checked)
                 {
                     nuevoIdioma = "en-US";
-                    nombreIdioma = "English";
+                    nombreIdioma = I18n.T("English");
                 }
 
                 // Obtener la configuración actual
@@ -327,31 +371,30 @@ namespace SistemaPresupuestario.Configuracion
                 {
                     // Si no existe configuración, mostrar mensaje de error
                     MessageBox.Show(
-                        "No se encontró configuración del sistema.\n\n" +
-                        "Por favor, complete primero los datos de configuración en la pestaña 'Configuración General'.",
-                        "Configuración Requerida",
+                        I18n.T("No se encontró configuración del sistema.") + "\n\n" +
+                        I18n.T("Por favor, complete primero los datos de configuración en la pestaña 'Configuración General'."),
+                        I18n.T("Configuración Requerida"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                     return;
                 }
 
+                // ✅ NUEVO: Cambiar idioma dinámicamente sin reiniciar
+                I18n.SetLanguage(nuevoIdioma);
+
                 // Actualizar el label
                 lblIdiomaActual.Text = nombreIdioma;
 
                 MessageBox.Show(
-                    $"Idioma cambiado a: {nombreIdioma}\n\n" +
-                    "El cambio se ha guardado en la configuración del sistema.\n\n" +
-                    "La aplicación se reiniciará para aplicar los cambios.",
-                    "Cambio de Idioma",
+                    $"{I18n.T("Idioma cambiado a")}: {nombreIdioma}\n\n" +
+                    I18n.T("Todos los formularios abiertos se han actualizado automáticamente."),
+                    I18n.T("Cambio de Idioma"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
-                // Reiniciar la aplicación
-                Application.Restart();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cambiar idioma: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cambiar idioma")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -368,16 +411,16 @@ namespace SistemaPresupuestario.Configuracion
             // Configurar SaveFileDialog
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = "Archivos de Backup (*.bak)|*.bak|Todos los archivos (*.*)|*.*";
-                saveFileDialog.Title = "Guardar Backup";
+                saveFileDialog.Filter = I18n.T("Archivos de Backup (*.bak)|*.bak|Todos los archivos (*.*)|*.*");
+                saveFileDialog.Title = I18n.T("Guardar Backup");
                 saveFileDialog.DefaultExt = "bak";
-                saveFileDialog.FileName = $"SistemaPresupuestario_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
+                saveFileDialog.FileName = $"{I18n.T("SistemaPresupuestario_Backup_")}{DateTime.Now:yyyyMMdd_HHmmss}.bak";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string rutaArchivo = saveFileDialog.FileName;
 
-                    SetTrabajando(true, "Creando backup... Por favor espere.");
+                    SetTrabajando(true, I18n.T("Creando backup... Por favor espere."));
 
                     try
                     {
@@ -387,12 +430,12 @@ namespace SistemaPresupuestario.Configuracion
                         // Llamar al servicio de forma síncrona
                         _servicio.CrearBackup(rutaArchivo, usuarioActual);
 
-                        MessageBox.Show($"Backup creado exitosamente en:\n{rutaArchivo}", "Éxito",
+                        MessageBox.Show($"{I18n.T("Backup creado exitosamente en")}:\n{rutaArchivo}", I18n.T("Éxito"),
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al crear el backup:\n{ex.Message}", "Error",
+                        MessageBox.Show($"{I18n.T("Error al crear el backup")}:\n{ex.Message}", I18n.T("Error"),
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     finally
@@ -413,8 +456,8 @@ namespace SistemaPresupuestario.Configuracion
             if (dgvHistorial.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
-                    "Por favor, seleccione un backup del historial para restaurar.",
-                    "Advertencia",
+                    I18n.T("Por favor, seleccione un backup del historial para restaurar."),
+                    I18n.T("Advertencia"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return;
@@ -427,8 +470,8 @@ namespace SistemaPresupuestario.Configuracion
             if (string.IsNullOrEmpty(rutaArchivo))
             {
                 MessageBox.Show(
-                    "No se pudo obtener la ruta del archivo de backup.",
-                    "Error",
+                    I18n.T("No se pudo obtener la ruta del archivo de backup."),
+                    I18n.T("Error"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
@@ -438,9 +481,9 @@ namespace SistemaPresupuestario.Configuracion
             if (!File.Exists(rutaArchivo))
             {
                 MessageBox.Show(
-                    $"El archivo de backup no existe en la ruta:\n{rutaArchivo}\n\n" +
-                    "Es posible que haya sido movido o eliminado.",
-                    "Archivo no encontrado",
+                    $"{I18n.T("El archivo de backup no existe en la ruta")}:\n{rutaArchivo}\n\n" +
+                    I18n.T("Es posible que haya sido movido o eliminado."),
+                    I18n.T("Archivo no encontrado"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
@@ -448,13 +491,13 @@ namespace SistemaPresupuestario.Configuracion
 
             // Mostrar advertencia crítica
             var result = MessageBox.Show(
-                "⚠️ ADVERTENCIA CRÍTICA ⚠️\n\n" +
-                "Esta operación reemplazará TODOS los datos actuales de la base de datos.\n\n" +
-                "Se perderán todos los cambios realizados desde el backup seleccionado.\n\n" +
-                $"Archivo a restaurar:\n{rutaArchivo}\n\n" +
-                "La aplicación se reiniciará automáticamente después de la restauración.\n\n" +
-                "¿Está SEGURO de que desea continuar?",
-                "Confirmar Restauración",
+                I18n.T("⚠️ ADVERTENCIA CRÍTICA ⚠️") + "\n\n" +
+                I18n.T("Esta operación reemplazará TODOS los datos actuales de la base de datos.") + "\n\n" +
+                I18n.T("Se perderán todos los cambios realizados desde el backup seleccionado.") + "\n\n" +
+                $"{I18n.T("Archivo a restaurar")}:\n{rutaArchivo}\n\n" +
+                I18n.T("La aplicación se reiniciará automáticamente después de la restauración.") + "\n\n" +
+                I18n.T("¿Está SEGURO de que desea continuar?"),
+                I18n.T("Confirmar Restauración"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button2);
@@ -462,7 +505,7 @@ namespace SistemaPresupuestario.Configuracion
             if (result != DialogResult.Yes)
                 return;
 
-            SetTrabajando(true, "Restaurando backup... Por favor espere. NO CIERRE LA APLICACIÓN.");
+            SetTrabajando(true, I18n.T("Restaurando backup... Por favor espere. NO CIERRE LA APLICACIÓN."));
 
             try
             {
@@ -470,9 +513,9 @@ namespace SistemaPresupuestario.Configuracion
                 _servicio.RestaurarBackup(rutaArchivo);
 
                 MessageBox.Show(
-                    "Restauración completada exitosamente.\n\n" +
-                    "La aplicación se reiniciará ahora.",
-                    "Restauración Exitosa",
+                    I18n.T("Restauración completada exitosamente.") + "\n\n" +
+                    I18n.T("La aplicación se reiniciará ahora."),
+                    I18n.T("Restauración Exitosa"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -481,7 +524,7 @@ namespace SistemaPresupuestario.Configuracion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al restaurar el backup:\n{ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al restaurar el backup")}:\n{ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SetTrabajando(false);
             }
@@ -499,10 +542,16 @@ namespace SistemaPresupuestario.Configuracion
                 // Asignar el DataTable al DataSource
                 // Las columnas ya están definidas en el Designer con DataPropertyName
                 dgvHistorial.DataSource = historial;
+                
+                // Actualizar los encabezados de columnas si ya existen
+                if (dgvHistorial.Columns.Count > 0)
+                {
+                    ActualizarColumnasGrilla();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar la grilla: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al actualizar la grilla")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -524,7 +573,7 @@ namespace SistemaPresupuestario.Configuracion
 
             // Actualizar label de estado
             lblEstado.Visible = trabajando;
-            lblEstado.Text = trabajando ? mensaje : "Listo";
+            lblEstado.Text = trabajando ? mensaje : I18n.T("Listo");
 
             // Actualizar cursor
             this.Cursor = trabajando ? Cursors.WaitCursor : Cursors.Default;

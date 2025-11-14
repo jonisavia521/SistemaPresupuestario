@@ -3,8 +3,8 @@ using System;
 namespace DomainModel.Domain
 {
     /// <summary>
-    /// Entidad de dominio Configuracion - Representa la configuración general del sistema
-    /// Esta tabla siempre tendrá un único registro
+    /// Entidad de dominio Configuracion - Representa la configuración general del sistema.
+    /// Esta tabla siempre tendrá un único registro.
     /// </summary>
     public class ConfiguracionDM
     {
@@ -14,10 +14,10 @@ namespace DomainModel.Domain
         public string TipoIva { get; private set; }
         public string Direccion { get; private set; }
         public string Localidad { get; private set; }
-        public Guid? IdProvincia { get; private set; } // FK a Provincia
+        public Guid? IdProvincia { get; private set; }
         public string Email { get; private set; }
         public string Telefono { get; private set; }
-        public string Idioma { get; private set; } // es-AR | en-US
+        public string Idioma { get; private set; }
         public DateTime FechaAlta { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
 
@@ -107,8 +107,7 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerRazonSocial(string razonSocial)
         {
             if (string.IsNullOrWhiteSpace(razonSocial))
@@ -128,20 +127,17 @@ namespace DomainModel.Domain
             if (string.IsNullOrWhiteSpace(cuit))
                 throw new ArgumentException("El CUIT es obligatorio.", nameof(cuit));
 
-            // Remover guiones y espacios
             var cuitLimpio = cuit.Replace("-", "").Replace(" ", "").Trim();
 
             if (cuitLimpio.Length != 11)
                 throw new ArgumentException("El CUIT debe tener 11 dígitos.", nameof(cuit));
 
-            // Validar que solo contenga números
             foreach (char c in cuitLimpio)
             {
                 if (!char.IsDigit(c))
                     throw new ArgumentException("El CUIT solo puede contener dígitos.", nameof(cuit));
             }
 
-            // Validar CUIT con algoritmo oficial
             if (!ValidarCUIT(cuitLimpio))
                 throw new ArgumentException("El CUIT no es válido.", nameof(cuit));
 
@@ -152,7 +148,6 @@ namespace DomainModel.Domain
         {
             if (numero.Length != 11) return false;
 
-            // Algoritmo de validación de CUIT
             int[] multiplicadores = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
             int suma = 0;
 
@@ -204,8 +199,8 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Método principal de validación de negocio
-        /// Se puede invocar desde la BLL antes de persistir
+        /// Método principal de validación de negocio.
+        /// Se puede invocar desde la BLL antes de persistir.
         /// </summary>
         public void ValidarNegocio()
         {

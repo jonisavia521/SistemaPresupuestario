@@ -1,5 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,42 @@ namespace SistemaPresupuestario.Maestros.Productos
             dgvProductos.AutoGenerateColumns = false;
             _productoService = productoService;
             _listaCompletaProductos = new List<ProductoDTO>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvProductos.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvProductos.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private void frmProductos_Load(object sender, EventArgs e)
@@ -31,13 +68,13 @@ namespace SistemaPresupuestario.Maestros.Productos
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                var productos = _productoService.GetAll(); // ?? CAMBIO: Quitado await
+                var productos = _productoService.GetAll();
                 _listaCompletaProductos = productos.ToList();
                 AplicarFiltros();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar productos")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -60,7 +97,7 @@ namespace SistemaPresupuestario.Maestros.Productos
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ProductoGuardado += (s, ev) => CargarProductos(); // ?? CAMBIO: Quitado async
+                frmAlta.ProductoGuardado += (s, ev) => CargarProductos();
                 
                 frmAlta.Show();
             }
@@ -75,7 +112,7 @@ namespace SistemaPresupuestario.Maestros.Productos
         {
             if (dgvProductos.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un producto para editar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un producto para editar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -94,7 +131,7 @@ namespace SistemaPresupuestario.Maestros.Productos
                 };
                 
                 // Suscribirse al evento de guardado exitoso
-                frmAlta.ProductoGuardado += (s, ev) => CargarProductos(); // ?? CAMBIO: Quitado async
+                frmAlta.ProductoGuardado += (s, ev) => CargarProductos();
                 
                 frmAlta.Show();
             }
@@ -108,7 +145,7 @@ namespace SistemaPresupuestario.Maestros.Productos
         {
             if (dgvProductos.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un producto para inhabilitar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un producto para inhabilitar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -117,14 +154,14 @@ namespace SistemaPresupuestario.Maestros.Productos
 
             if (productoDTO.Inhabilitado)
             {
-                MessageBox.Show("El producto ya está inhabilitado", "Información",
+                MessageBox.Show(I18n.T("El producto ya está inhabilitado"), I18n.T("Información"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             var result = MessageBox.Show(
-                $"¿Está seguro que desea inhabilitar el producto '{productoDTO.Codigo}'?",
-                "Confirmar Inhabilitación",
+                $"{I18n.T("¿Está seguro que desea inhabilitar el producto")} '{productoDTO.Codigo}'?",
+                I18n.T("Confirmar Inhabilitación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -134,16 +171,16 @@ namespace SistemaPresupuestario.Maestros.Productos
                 {
                     this.Cursor = Cursors.WaitCursor;
 
-                    _productoService.Delete(productoDTO.Id); // ?? CAMBIO: Quitado await
+                    _productoService.Delete(productoDTO.Id);
 
-                    MessageBox.Show("Producto inhabilitado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Producto inhabilitado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    CargarProductos(); // ?? CAMBIO: Quitado await
+                    CargarProductos();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al inhabilitar producto: {ex.Message}", "Error",
+                    MessageBox.Show($"{I18n.T("Error al inhabilitar producto")}: {ex.Message}", I18n.T("Error"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally

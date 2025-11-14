@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -137,6 +137,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuracion\frmConfiguacionGeneral.Designer.cs">
+      <DependentUpon>frmConfiguacionGeneral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\FormTranslator.cs" />
+    <Compile Include="Helpers\I18n.cs" />
     <Compile Include="Seguridad\frmDemoVerificadorProductos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,9 +159,6 @@
     </Compile>
     <Compile Include="Configuracion\frmConfiguacionGeneral.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Configuracion\frmConfiguacionGeneral.Designer.cs">
-      <DependentUpon>frmConfiguacionGeneral.cs</DependentUpon>
     </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
@@ -311,6 +316,9 @@
   <ItemGroup>
     <Content Include="Resources\1342639961_weight--arrow.png" />
     <Content Include="Resources\5527004.png" />
+    <Content Include="Textos_Controles_UI.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

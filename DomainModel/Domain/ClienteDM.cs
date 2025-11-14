@@ -12,13 +12,13 @@ namespace DomainModel.Domain
         public Guid Id { get; private set; }
         public string CodigoCliente { get; private set; }
         public string RazonSocial { get; private set; }
-        public string TipoDocumento { get; private set; } // DNI|CUIT|CUIL
+        public string TipoDocumento { get; private set; }
         public string NumeroDocumento { get; private set; }
-        public Guid? IdVendedor { get; private set; } // FK a Vendedor
-        public Guid? IdProvincia { get; private set; } // FK a Provincia
+        public Guid? IdVendedor { get; private set; }
+        public Guid? IdProvincia { get; private set; }
         public string TipoIva { get; private set; }
-        public string CondicionPago { get; private set; } // 2 dígitos
-        public decimal AlicuotaArba { get; private set; } // NUEVO: Alícuota ARBA
+        public string CondicionPago { get; private set; }
+        public decimal AlicuotaArba { get; private set; }
         public string Email { get; private set; }
         public string Telefono { get; private set; }
         public string Direccion { get; private set; }
@@ -36,7 +36,7 @@ namespace DomainModel.Domain
             Guid? idVendedor,
             string tipoIva,
             string condicionPago,
-            decimal alicuotaArba = 0, // NUEVO
+            decimal alicuotaArba = 0,
             Guid? idProvincia = null,
             string email = null,
             string telefono = null,
@@ -55,7 +55,7 @@ namespace DomainModel.Domain
             IdProvincia = idProvincia;
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
-            ValidarYEstablecerAlicuotaArba(alicuotaArba); // NUEVO
+            ValidarYEstablecerAlicuotaArba(alicuotaArba);
             
             Email = email;
             Telefono = telefono;
@@ -76,7 +76,7 @@ namespace DomainModel.Domain
             bool activo,
             DateTime fechaAlta,
             DateTime? fechaModificacion,
-            decimal alicuotaArba = 0, // NUEVO
+            decimal alicuotaArba = 0,
             Guid? idProvincia = null,
             string email = null,
             string telefono = null,
@@ -95,7 +95,7 @@ namespace DomainModel.Domain
             IdProvincia = idProvincia;
             TipoIva = tipoIva;
             CondicionPago = condicionPago;
-            AlicuotaArba = alicuotaArba; // NUEVO
+            AlicuotaArba = alicuotaArba;
             Activo = activo;
             FechaAlta = fechaAlta;
             FechaModificacion = fechaModificacion;
@@ -113,7 +113,7 @@ namespace DomainModel.Domain
             Guid? idVendedor,
             string tipoIva,
             string condicionPago,
-            decimal alicuotaArba, // NUEVO
+            decimal alicuotaArba,
             Guid? idProvincia = null,
             string email = null,
             string telefono = null,
@@ -127,7 +127,7 @@ namespace DomainModel.Domain
             IdProvincia = idProvincia;
             ValidarYEstablecerTipoIva(tipoIva);
             ValidarYEstablecerCondicionPago(condicionPago);
-            ValidarYEstablecerAlicuotaArba(alicuotaArba); // NUEVO
+            ValidarYEstablecerAlicuotaArba(alicuotaArba);
             
             Email = email;
             Telefono = telefono;
@@ -149,8 +149,8 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Actualiza la alícuota ARBA del cliente
-        /// Usado para actualizaciones masivas del padrón de ARBA
+        /// Actualiza la alícuota ARBA del cliente.
+        /// Usado para actualizaciones masivas del padrón de ARBA.
         /// </summary>
         public void ActualizarAlicuotaArba(decimal nuevaAlicuota)
         {
@@ -158,8 +158,7 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerCodigoCliente(string codigoCliente)
         {
             if (string.IsNullOrWhiteSpace(codigoCliente))
@@ -168,7 +167,6 @@ namespace DomainModel.Domain
             if (codigoCliente.Length > 20)
                 throw new ArgumentException("El código de cliente no puede exceder los 20 caracteres.", nameof(codigoCliente));
 
-            // Permitir solo alfanuméricos y guiones
             if (!Regex.IsMatch(codigoCliente, @"^[a-zA-Z0-9\-]+$"))
                 throw new ArgumentException("El código de cliente solo puede contener letras, números y guiones.", nameof(codigoCliente));
 
@@ -207,14 +205,11 @@ namespace DomainModel.Domain
             if (string.IsNullOrWhiteSpace(numeroDocumento))
                 throw new ArgumentException("El número de documento es obligatorio.", nameof(numeroDocumento));
 
-            // Remover guiones y espacios
             var numeroLimpio = numeroDocumento.Replace("-", "").Replace(" ", "").Trim();
 
-            // Validar que solo contenga números
             if (!Regex.IsMatch(numeroLimpio, @"^\d+$"))
                 throw new ArgumentException("El número de documento solo puede contener dígitos.", nameof(numeroDocumento));
 
-            // Validaciones específicas por tipo
             switch (tipoDocumento.ToUpper())
             {
                 case "DNI":
@@ -227,7 +222,6 @@ namespace DomainModel.Domain
                     if (numeroLimpio.Length != 11)
                         throw new ArgumentException($"El {tipoDocumento} debe tener 11 dígitos.", nameof(numeroDocumento));
                     
-                    // Validar formato CUIT/CUIL: XX-XXXXXXXX-X
                     if (!ValidarCUITCUIL(numeroLimpio))
                         throw new ArgumentException($"El {tipoDocumento} no es válido.", nameof(numeroDocumento));
                     break;
@@ -240,7 +234,6 @@ namespace DomainModel.Domain
         {
             if (numero.Length != 11) return false;
 
-            // Algoritmo de validación de CUIT/CUIL
             int[] multiplicadores = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
             int suma = 0;
 
@@ -289,7 +282,6 @@ namespace DomainModel.Domain
             CondicionPago = condicionPago;
         }
 
-        // NUEVO: Validación de AlicuotaArba
         private void ValidarYEstablecerAlicuotaArba(decimal alicuotaArba)
         {
             if (alicuotaArba < 0)
@@ -302,8 +294,8 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Método principal de validación de negocio
-        /// Se puede invocar desde la BLL antes de persistir
+        /// Método principal de validación de negocio.
+        /// Se puede invocar desde la BLL antes de persistir.
         /// </summary>
         public void ValidarNegocio()
         {
@@ -312,7 +304,7 @@ namespace DomainModel.Domain
             ValidarYEstablecerNumeroDocumento(NumeroDocumento, TipoDocumento);
             ValidarYEstablecerTipoIva(TipoIva);
             ValidarYEstablecerCondicionPago(CondicionPago);
-            ValidarYEstablecerAlicuotaArba(AlicuotaArba); // NUEVO
+            ValidarYEstablecerAlicuotaArba(AlicuotaArba);
         }
     }
 }

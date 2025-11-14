@@ -1,5 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,45 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             _listaPrecioService = listaPrecioService ?? throw new ArgumentNullException(nameof(listaPrecioService));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _listaCompletaPrecios = new List<ListaPrecioDTO>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvListaPrecios.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvListaPrecios.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private  void frmListaPrecios_Load(object sender, EventArgs e)
@@ -37,46 +77,51 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             dgvListaPrecios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Id",
-                HeaderText = "ID",
+                HeaderText = I18n.T("Id"),
                 DataPropertyName = "Id",
-                Visible = false
+                Visible = false,
+                Tag = "Id"
             });
 
             // Columna Código
             dgvListaPrecios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Codigo",
-                HeaderText = "Código",
+                HeaderText = I18n.T("Código"),
                 DataPropertyName = "Codigo",
-                Width = 100
+                Width = 100,
+                Tag = "Código"
             });
 
             // Columna Nombre
             dgvListaPrecios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Nombre",
-                HeaderText = "Nombre",
+                HeaderText = I18n.T("Nombre"),
                 DataPropertyName = "Nombre",
-                Width = 350
+                Width = 350,
+                Tag = "Nombre"
             });
 
             // Columna Fecha Alta
             dgvListaPrecios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "FechaAlta",
-                HeaderText = "Fecha Alta",
+                HeaderText = I18n.T("Fecha Alta"),
                 DataPropertyName = "FechaAlta",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" },
+                Tag = "Fecha Alta"
             });
 
             // Columna Estado
             dgvListaPrecios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "EstadoTexto",
-                HeaderText = "Estado",
+                HeaderText = I18n.T("Estado"),
                 DataPropertyName = "EstadoTexto",
-                Width = 100
+                Width = 100,
+                Tag = "Estado"
             });
         }
 
@@ -92,7 +137,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar listas de precios: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar listas de precios")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -140,7 +185,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir formulario de alta: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al abrir formulario de alta")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -149,7 +194,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
         {
             if (dgvListaPrecios.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una lista de precios para editar", "Advertencia",
+                MessageBox.Show(I18n.T("Seleccione una lista de precios para editar"), I18n.T("Advertencia"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -169,7 +214,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir formulario de edición: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al abrir formulario de edición")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -178,15 +223,15 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
         {
             if (dgvListaPrecios.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una lista de precios para desactivar", "Advertencia",
+                MessageBox.Show(I18n.T("Seleccione una lista de precios para desactivar"), I18n.T("Advertencia"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var listaNombre = dgvListaPrecios.SelectedRows[0].Cells["Nombre"].Value.ToString();
             var confirmResult = MessageBox.Show(
-                $"¿Está seguro que desea desactivar la lista '{listaNombre}'?",
-                "Confirmar Desactivación",
+                $"{I18n.T("¿Está seguro que desea desactivar la lista")} '{listaNombre}'?",
+                I18n.T("Confirmar Desactivación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -200,13 +245,13 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
                     _listaPrecioService.Delete(listaId);
 
-                    MessageBox.Show("Lista de precios desactivada exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Lista de precios desactivada exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarListasPrecios();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al desactivar lista de precios: {ex.Message}", "Error",
+                    MessageBox.Show($"{I18n.T("Error al desactivar lista de precios")}: {ex.Message}", I18n.T("Error"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -220,15 +265,15 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
         {
             if (dgvListaPrecios.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una lista de precios para reactivar", "Advertencia",
+                MessageBox.Show(I18n.T("Seleccione una lista de precios para reactivar"), I18n.T("Advertencia"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var listaNombre = dgvListaPrecios.SelectedRows[0].Cells["Nombre"].Value.ToString();
             var confirmResult = MessageBox.Show(
-                $"¿Está seguro que desea reactivar la lista '{listaNombre}'?",
-                "Confirmar Reactivación",
+                $"{I18n.T("¿Está seguro que desea reactivar la lista")} '{listaNombre}'?",
+                I18n.T("Confirmar Reactivación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -242,13 +287,13 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
                     _listaPrecioService.Reactivar(listaId);
 
-                    MessageBox.Show("Lista de precios reactivada exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Lista de precios reactivada exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarListasPrecios();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al reactivar lista de precios: {ex.Message}", "Error",
+                    MessageBox.Show($"{I18n.T("Error al reactivar lista de precios")}: {ex.Message}", I18n.T("Error"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally

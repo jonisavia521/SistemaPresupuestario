@@ -10,8 +10,8 @@ using System.Linq;
 namespace Services.DAL.Implementations
 {
     /// <summary>
-    /// Repositorio para obtener datos de presupuestos usando ADO.NET
-    /// Utilizado exclusivamente para la generación de PDFs
+    /// Repositorio para obtener datos de presupuestos usando ADO.NET.
+    /// Utilizado exclusivamente para la generación de PDFs.
     /// </summary>
     internal class PresupuestoPdfRepository
     {
@@ -20,7 +20,6 @@ namespace Services.DAL.Implementations
         public PresupuestoPdfRepository(SqlServerHelper sqlHelper)
         {
             _sqlHelper = sqlHelper;
-            _sqlHelper.setDataBase(enumDataBase.Huamani_SistemaPresupuestario);
         }
 
         /// <summary>
@@ -32,7 +31,6 @@ namespace Services.DAL.Implementations
             {
                 PresupuestoPdfModel presupuesto = null;
 
-                // Query para obtener los datos del presupuesto con joins a Cliente y Vendedor
                 string query = @"
                     SELECT 
                         p.ID,
@@ -57,6 +55,7 @@ namespace Services.DAL.Implementations
                     new SqlParameter("@IdPresupuesto", idPresupuesto)
                 };
                 
+                _sqlHelper.setDataBase(enumDataBase.Huamani_SistemaPresupuestario);
                 using (var table = _sqlHelper.ExecuteReader(query, CommandType.Text, parametros))
                 {
                     if (table != null && table.Rows.Count > 0)
@@ -79,7 +78,6 @@ namespace Services.DAL.Implementations
                             VendedorNombre = row.Field<string>("VendedorNombre")
                         };
 
-                        // Cargar detalles
                         presupuesto.Detalles = ObtenerDetalles(idPresupuesto).ToList();
                     }
                 }
@@ -97,7 +95,6 @@ namespace Services.DAL.Implementations
         /// </summary>
         private System.Collections.Generic.IEnumerable<PresupuestoDetallePdfModel> ObtenerDetalles(Guid idPresupuesto)
         {
-            // Query para obtener los detalles con join a Producto
             string query = @"
                 SELECT 
                     pd.Renglon,
@@ -117,6 +114,7 @@ namespace Services.DAL.Implementations
                 new SqlParameter("@IdPresupuesto", idPresupuesto)
             };
             
+            _sqlHelper.setDataBase(enumDataBase.Huamani_SistemaPresupuestario);
             using (var table = _sqlHelper.ExecuteReader(query, CommandType.Text, parametros))
             {
                 if (table != null && table.Rows.Count > 0)

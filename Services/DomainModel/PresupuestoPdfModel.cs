@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Services.DomainModel
 {
     /// <summary>
-    /// Modelo de dominio para representar un presupuesto completo para PDF
-    /// Contiene solo los datos necesarios para generar el documento
+    /// Modelo de dominio para representar un presupuesto completo para PDF.
+    /// Contiene solo los datos necesarios para generar el documento.
     /// </summary>
     public class PresupuestoPdfModel
     {
@@ -15,20 +15,15 @@ namespace Services.DomainModel
         public DateTime? FechaVencimiento { get; set; }
         public string Estado { get; set; }
 
-        // Cliente
         public string ClienteCodigo { get; set; }
         public string ClienteRazonSocial { get; set; }
-
-        // Vendedor
         public string VendedorNombre { get; set; }
 
-        // Totales
         public decimal Subtotal { get; set; }
         public decimal TotalIva { get; set; }
         public decimal ImporteArba { get; set; }
         public decimal Total { get; set; }
 
-        // Detalles
         public List<PresupuestoDetallePdfModel> Detalles { get; set; }
 
         public PresupuestoPdfModel()

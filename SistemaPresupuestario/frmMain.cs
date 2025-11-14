@@ -1,5 +1,6 @@
 ﻿using Services.DomainModel.Security.Composite;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers;
 using SistemaPresupuestario.Maestros;
 using SistemaPresupuestario.Maestros.Productos;
 using SistemaPresupuestario.Presupuesto;
@@ -12,7 +13,7 @@ using SistemaPresupuestario.Maestros.ListaPrecio;
 using SistemaPresupuestario.Configuracion;
 using SistemaPresupuestario.Venta.Arba;
 using SistemaPresupuestario.Venta.Factura;
-using SistemaPresupuestario.Seguridad; // NUEVO
+using SistemaPresupuestario.Seguridad;
 
 namespace SistemaPresupuestario
 {
@@ -26,35 +27,46 @@ namespace SistemaPresupuestario
             InitializeComponent();
             _login = login;
             _serviceProvider = serviceProvider;
+            
+            FormTranslator.Translate(this);
+            
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+            txtUsuario.Text = $"{I18n.T("Bienvenido")} {_login.user.Nombre}";
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            txtUsuario.Text = $"Bienvenido {_login.user.Nombre}";
-            ConfigurarVisibilidadMenu(); // Luego se ocultan los no autorizados
+            txtUsuario.Text = $"{I18n.T("Bienvenido")} {_login.user.Nombre}";
+            ConfigurarVisibilidadMenu();
         }
+        
         private void ConfigurarVisibilidadMenu()
         {
             try
             {
-                // Obtener todos los FormNames autorizados
                 var formNamesAutorizados = new HashSet<string>();
                 ObtenerFormNamesAutorizados(_login.user.Permisos, formNamesAutorizados);
 
-                // Procesar cada item del menú
                 foreach (ToolStripMenuItem menuItem in menuStrip1.Items.OfType<ToolStripMenuItem>())
                 {
-                    // Saltar items que siempre deben estar visibles
                     if (EsItemFijo(menuItem))
                         continue;
 
-                    // Procesar item y sus hijos recursivamente
                     ProcesarVisibilidadItem(menuItem, formNamesAutorizados);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al configurar el menú: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al configurar el menú")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -88,12 +100,13 @@ namespace SistemaPresupuestario
             }
         }
 
-        // Retorna true si el item o alguno de sus hijos debe estar visible
+        /// <summary>
+        /// Determina si el item o alguno de sus hijos debe estar visible
+        /// </summary>
         private bool ProcesarVisibilidadItem(ToolStripMenuItem menuItem, HashSet<string> formNamesAutorizados)
         {
             bool tieneHijosVisibles = false;
 
-            // Procesar subitems recursivamente
             foreach (ToolStripMenuItem subItem in menuItem.DropDownItems.OfType<ToolStripMenuItem>())
             {
                 bool subItemVisible = ProcesarVisibilidadItem(subItem, formNamesAutorizados);
@@ -103,7 +116,6 @@ namespace SistemaPresupuestario
                 }
             }
 
-            // El item es visible si está autorizado O tiene hijos visibles
             bool estaAutorizado = formNamesAutorizados.Contains(menuItem.Name);
             bool debeSerVisible = estaAutorizado || tieneHijosVisibles;
 
@@ -185,34 +197,29 @@ namespace SistemaPresupuestario
             }
         }
 
-        // ============= HANDLERS DE PRESUPUESTO =============
-
         /// <summary>
-        /// Abre el formulario de presupuestos en modo GESTIONAR
-        /// Muestra TODOS los presupuestos: Borrador, Emitido, Aprobado, Rechazado, Vencido, Facturado
-        /// Permite: Crear, Editar/Eliminar Borradores, Ver el resto, Copiar, Emitir borradores
+        /// Abre el formulario de presupuestos en modo GESTIONAR.
+        /// Muestra todos los presupuestos y permite crear, editar, eliminar y copiar.
         /// </summary>
         private void tsGestionarCotizacion_Click(object sender, EventArgs e)
         {
-            AbrirFormularioPresupuesto(ModoPresupuesto.Gestionar, "Gestión de Cotizaciones");
+            AbrirFormularioPresupuesto(ModoPresupuesto.Gestionar, I18n.T("Gestión de Cotizaciones"));
         }
 
         /// <summary>
-        /// Abre el formulario de presupuestos en modo APROBAR
-        /// Solo muestra presupuestos en estado Emitido
-        /// Permite: Aprobar o Rechazar
+        /// Abre el formulario de presupuestos en modo APROBAR.
+        /// Solo muestra presupuestos en estado Emitido y permite aprobar o rechazar.
         /// </summary>
         private void tsAprobarCotizacion_Click(object sender, EventArgs e)
         {
-            AbrirFormularioPresupuesto(ModoPresupuesto.Aprobar, "Aprobar Cotizaciones");
+            AbrirFormularioPresupuesto(ModoPresupuesto.Aprobar, I18n.T("Aprobar Cotizaciones"));
         }
 
         /// <summary>
-        /// Método helper para abrir el formulario de presupuestos en el modo especificado
+        /// Abre el formulario de presupuestos en el modo especificado
         /// </summary>
         private void AbrirFormularioPresupuesto(ModoPresupuesto modo, string titulo)
         {
-            // Verificar si ya hay una instancia abierta con el mismo modo
             var formAbierto = Application.OpenForms.OfType<frmPresupuesto>()
                 .FirstOrDefault(f => !f.IsDisposed && f.Text == titulo);
 
@@ -223,7 +230,7 @@ namespace SistemaPresupuestario
             else
             {
                 var hijo = _serviceProvider.GetService(typeof(frmPresupuesto)) as frmPresupuesto;
-                hijo.EstablecerModo(modo); // IMPORTANTE: establecer modo antes de mostrar
+                hijo.EstablecerModo(modo);
                 hijo.MdiParent = this;
                 hijo.Text = titulo;
                 hijo.Show();
@@ -309,7 +316,6 @@ namespace SistemaPresupuestario
             }
             else
             {
-                // Este formulario es autocontenido y no requiere inyección de dependencias
                 var hijo = new frmDemoVerificadorProductos();
                 hijo.MdiParent = this;
                 hijo.Show();

@@ -1,6 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Vendedores;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,45 @@ namespace SistemaPresupuestario.Maestros
             _vendedorService = vendedorService;
             
             dgvVendedores.AutoGenerateColumns = false;
+            
+            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvVendedores.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvVendedores.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private  void frmVendedores_Load(object sender, EventArgs e)
@@ -40,7 +80,7 @@ namespace SistemaPresupuestario.Maestros
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar vendedores: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar vendedores")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -74,7 +114,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvVendedores.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un vendedor para editar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un vendedor para editar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -105,7 +145,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvVendedores.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un vendedor para desactivar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un vendedor para desactivar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -113,8 +153,8 @@ namespace SistemaPresupuestario.Maestros
             var vendedorDTO = (VendedorDTO)dgvVendedores.CurrentRow.DataBoundItem;
 
             var result = MessageBox.Show(
-                $"¿Está seguro que desea desactivar el vendedor '{vendedorDTO.Nombre}'?",
-                "Confirmar Eliminación",
+                $"{I18n.T("¿Está seguro que desea desactivar el vendedor")} '{vendedorDTO.Nombre}'?",
+                I18n.T("Confirmar Eliminación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -126,14 +166,14 @@ namespace SistemaPresupuestario.Maestros
 
                      _vendedorService.Delete(vendedorDTO.Id);
 
-                    MessageBox.Show("Vendedor desactivado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Vendedor desactivado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     CargarVendedores();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al desactivar vendedor: {ex.Message}", "Error",
+                    MessageBox.Show($"{I18n.T("Error al desactivar vendedor")}: {ex.Message}", I18n.T("Error"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -147,7 +187,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvVendedores.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un vendedor para reactivar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un vendedor para reactivar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -156,7 +196,7 @@ namespace SistemaPresupuestario.Maestros
 
             if (vendedorDTO.Activo)
             {
-                MessageBox.Show("El vendedor ya está activo", "Información",
+                MessageBox.Show(I18n.T("El vendedor ya está activo"), I18n.T("Información"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -167,14 +207,14 @@ namespace SistemaPresupuestario.Maestros
 
                 _vendedorService.Reactivar(vendedorDTO.Id);
 
-                MessageBox.Show("Vendedor reactivado exitosamente", "Éxito",
+                MessageBox.Show(I18n.T("Vendedor reactivado exitosamente"), I18n.T("Éxito"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 CargarVendedores();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al reactivar vendedor: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al reactivar vendedor")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

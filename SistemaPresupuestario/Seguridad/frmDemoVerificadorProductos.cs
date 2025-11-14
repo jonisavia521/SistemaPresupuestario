@@ -1,3 +1,4 @@
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -33,6 +34,21 @@ namespace SistemaPresupuestario.Seguridad
             
             // Configuración inicial del DataGridView
             ConfigurarGrilla();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         #region Configuración Inicial

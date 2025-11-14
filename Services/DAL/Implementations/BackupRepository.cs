@@ -22,7 +22,7 @@ namespace Services.DAL.Implementations
             _sqlHelper = sqlHelper ?? throw new ArgumentNullException(nameof(sqlHelper));
             
             // SqlHelper principal para la base de datos SistemaPresupuestario
-            _sqlHelper.setDataBase(enumDataBase.Master);
+            
             
             
             // Extraer nombre de BD desde connection string
@@ -66,7 +66,7 @@ namespace Services.DAL.Implementations
             {
                 new SqlParameter("@RutaArchivo", rutaArchivo)
             };
-
+            _sqlHelper.setDataBase(enumDataBase.Master);
             _sqlHelper.ExecuteNonQuery(sql, CommandType.Text, parametrosSQL);
         }
 
@@ -88,7 +88,7 @@ namespace Services.DAL.Implementations
                     BEGIN
                         ALTER DATABASE [{_databaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
                     END";
-
+                _sqlHelper.setDataBase(enumDataBase.Master);
                 _sqlHelper.ExecuteNonQuery(sqlSingleUser, CommandType.Text);
 
                 // Paso 2: Ejecutar RESTORE
@@ -154,7 +154,7 @@ namespace Services.DAL.Implementations
                 new SqlParameter("@MensajeError", (object)error ?? DBNull.Value),
                 new SqlParameter("@UsuarioApp", usuario)
             };
-
+            _sqlHelper.setDataBase(enumDataBase.Master);
             _sqlHelper.ExecuteNonQuery(sql, CommandType.Text, parametrosSQL);
         }
 
@@ -174,7 +174,7 @@ namespace Services.DAL.Implementations
                     UsuarioApp
                 FROM {_databaseName}.dbo.HistorialBackups
                 ORDER BY ID DESC";
-
+            _sqlHelper.setDataBase(enumDataBase.Master);
             return _sqlHelper.ExecuteReader(sql, CommandType.Text);
         }
     }

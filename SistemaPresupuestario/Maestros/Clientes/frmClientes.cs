@@ -1,6 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Clientes;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,56 @@ namespace SistemaPresupuestario.Maestros
     {
         private readonly IClienteService _clienteService;
         private readonly IVendedorService _vendedorService;
-        private readonly IProvinciaService _provinciaService; // NUEVO
+        private readonly IProvinciaService _provinciaService;
         private List<ClienteDTO> _listaCompletaClientes;
 
-        public frmClientes(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService) // MODIFICADO
+        public frmClientes(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService)
         {
             InitializeComponent();
             dgvClientes.AutoGenerateColumns = false;
             _clienteService = clienteService;
             _vendedorService = vendedorService;
-            _provinciaService = provinciaService; // NUEVO
+            _provinciaService = provinciaService;
             _listaCompletaClientes = new List<ClienteDTO>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvClientes.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvClientes.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private  void frmClientes_Load(object sender, EventArgs e)
@@ -43,7 +83,7 @@ namespace SistemaPresupuestario.Maestros
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar clientes: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar clientes")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -81,7 +121,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvClientes.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un cliente para editar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un cliente para editar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -114,7 +154,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvClientes.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un cliente para eliminar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un cliente para eliminar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -122,8 +162,8 @@ namespace SistemaPresupuestario.Maestros
             var clienteDTO = (ClienteDTO)dgvClientes.CurrentRow.DataBoundItem;
 
             var result = MessageBox.Show(
-                $"¿Está seguro que desea desactivar el cliente '{clienteDTO.RazonSocial}'?",
-                "Confirmar Eliminación",
+                $"{I18n.T("¿Está seguro que desea desactivar el cliente")} '{clienteDTO.RazonSocial}'?",
+                I18n.T("Confirmar Eliminación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -135,14 +175,14 @@ namespace SistemaPresupuestario.Maestros
 
                     _clienteService.Delete(clienteDTO.Id);
 
-                    MessageBox.Show("Cliente desactivado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Cliente desactivado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     CargarClientes();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al desactivar cliente: {ex.Message}", "Error",
+                    MessageBox.Show($"{I18n.T("Error al desactivar cliente")}: {ex.Message}", I18n.T("Error"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -156,7 +196,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvClientes.CurrentRow == null)
             {
-                MessageBox.Show("Debe seleccionar un cliente para reactivar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar un cliente para reactivar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -165,7 +205,7 @@ namespace SistemaPresupuestario.Maestros
 
             if (clienteDTO.Activo)
             {
-                MessageBox.Show("El cliente ya está activo", "Información",
+                MessageBox.Show(I18n.T("El cliente ya está activo"), I18n.T("Información"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -176,14 +216,14 @@ namespace SistemaPresupuestario.Maestros
 
                 _clienteService.Reactivar(clienteDTO.Id);
 
-                MessageBox.Show("Cliente reactivado exitosamente", "Éxito",
+                MessageBox.Show(I18n.T("Cliente reactivado exitosamente"), I18n.T("Éxito"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 CargarClientes();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al reactivar cliente: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al reactivar cliente")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

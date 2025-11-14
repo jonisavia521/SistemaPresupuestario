@@ -1,6 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Shared;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,21 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             _listaPrecioService = listaPrecioService ?? throw new ArgumentNullException(nameof(listaPrecioService));
             _productoService = productoService ?? throw new ArgumentNullException(nameof(productoService));
             _detalles = new BindingList<ListaPrecioDetalleDTO>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         private void frmListaPrecioAlta_Load(object sender, EventArgs e)

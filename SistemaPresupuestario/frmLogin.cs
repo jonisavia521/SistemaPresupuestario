@@ -1,5 +1,6 @@
 ﻿using Services.Services;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,18 +20,38 @@ namespace SistemaPresupuestario
         {
             _login = login;
             InitializeComponent();
+            
+            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            
             this.Cursor = Cursors.WaitCursor;
             if (_login.Login(txtUser.Text, txtPassword.Text))
             {
                 this.DialogResult = DialogResult.OK;
             }
             else
-                MessageBox.Show("Usuario o contraseña invalida","ADVERTENCIA",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            {
+                MessageBox.Show(
+                    I18n.T("Usuario o contraseña invalida"),
+                    I18n.T("ADVERTENCIA"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
             this.Cursor = Cursors.Default;
         }
 

@@ -3,8 +3,8 @@ using System;
 namespace DomainModel.Domain
 {
     /// <summary>
-    /// Entidad de dominio Provincia - Representa una provincia de Argentina
-    /// Esta entidad es principalmente de referencia (catálogo)
+    /// Entidad de dominio Provincia - Representa una provincia de Argentina.
+    /// Esta entidad es principalmente de referencia (catálogo).
     /// </summary>
     public class ProvinciaDM
     {
@@ -31,8 +31,7 @@ namespace DomainModel.Domain
             Nombre = nombre;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerCodigoAFIP(string codigoAFIP)
         {
             if (string.IsNullOrWhiteSpace(codigoAFIP))

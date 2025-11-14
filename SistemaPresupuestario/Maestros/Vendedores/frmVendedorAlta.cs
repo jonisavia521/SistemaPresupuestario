@@ -1,5 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Windows.Forms;
 
@@ -22,6 +23,8 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             InitializeComponent();
             _vendedorService = vendedorService;
             _vendedorId = null;
+            
+            InicializarTraduccion();
         }
 
         // Constructor para modo EDICIÓN
@@ -30,6 +33,29 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             InitializeComponent();
             _vendedorService = vendedorService;
             _vendedorId = vendedorId;
+            
+            InicializarTraduccion();
+        }
+        
+        /// <summary>
+        /// Inicializa el sistema de traducción dinámica
+        /// </summary>
+        private void InicializarTraduccion()
+        {
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         private void frmVendedorAlta_Load(object sender, EventArgs e)

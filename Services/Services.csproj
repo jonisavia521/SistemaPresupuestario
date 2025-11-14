@@ -149,6 +149,7 @@
     <Compile Include="Services\LoginServices.cs" />
     <Compile Include="Services\PatenteService.cs" />
     <Compile Include="Services\PresupuestoPdfService.cs" />
+    <Compile Include="Services\TranslationService.cs" />
     <Compile Include="Services\UsuarioService.cs" />
   </ItemGroup>
   <ItemGroup>

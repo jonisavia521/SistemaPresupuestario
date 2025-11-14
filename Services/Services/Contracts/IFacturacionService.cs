@@ -4,8 +4,8 @@ using System;
 namespace Services.Services.Contracts
 {
     /// <summary>
-    /// Contrato para el servicio de facturación electrónica
-    /// Define las operaciones de generación de CAE y facturación
+    /// Contrato para el servicio de facturación electrónica.
+    /// Define las operaciones de generación de CAE y facturación.
     /// </summary>
     public interface IFacturacionService
     {

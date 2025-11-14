@@ -27,7 +27,7 @@ namespace Services.DAL.Implementations
             _exceptionBLL = exceptionBLL;
             _familiaAdapter = familiaAdapter;
             _sqlHelper = sqlHelper;
-            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
+            
         }
 
         public void Add(Familia obj)
@@ -49,7 +49,7 @@ namespace Services.DAL.Implementations
             try
             {
                 // ✅ Obtener todas las familias de la base de datos
-                
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT [IdFamilia],[Nombre],[Vista] FROM Familia",
                     default))
@@ -78,6 +78,7 @@ namespace Services.DAL.Implementations
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdFamilia", id) };
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader("SELECT [IdFamilia],[Nombre],[Vista] FROM Familia WHERE IdFamilia = @IdFamilia", default,paramsSQL))
                 {                    
 

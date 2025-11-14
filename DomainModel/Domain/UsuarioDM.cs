@@ -10,13 +10,13 @@ namespace DomainModel.Domain
     {
         public Guid Id { get; private set; }
         public string Nombre { get; private set; }
-        public string Usuario_ { get; private set; } // Renombrado para claridad (evitar confusión con la clase)
-        public string Clave { get; private set; } // Almacena el hash de la clave
+        public string Usuario_ { get; private set; }
+        public string Clave { get; private set; }
 
         // Constructor para creación inicial
         public UsuarioDM(string nombre, string usuarioNombre, string claveHash)
         {
-            Id = Guid.NewGuid(); // Generar nuevo ID
+            Id = Guid.NewGuid();
             Nombre = nombre ?? throw new ArgumentNullException(nameof(nombre), "El nombre es obligatorio.");
             if (string.IsNullOrWhiteSpace(nombre) || nombre.Length < 2)
                 throw new ArgumentException("El nombre debe tener al menos 2 caracteres.", nameof(nombre));
@@ -30,7 +30,6 @@ namespace DomainModel.Domain
             Clave = claveHash ?? throw new ArgumentNullException(nameof(claveHash), "La clave es obligatoria.");
             if (string.IsNullOrWhiteSpace(claveHash))
                 throw new ArgumentException("El hash de la clave no puede estar vacío.", nameof(claveHash));
-
         }
 
         // Constructor para cargar desde la base de datos
@@ -50,7 +49,6 @@ namespace DomainModel.Domain
             Clave = claveHash ?? throw new ArgumentNullException(nameof(claveHash), "La clave es obligatoria.");
             if (string.IsNullOrWhiteSpace(claveHash))
                 throw new ArgumentException("El hash de la clave no puede estar vacío.", nameof(claveHash));
-
         }
 
         // Método para actualizar datos

@@ -1,5 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,18 @@ namespace SistemaPresupuestario.Maestros.Productos
             _productoService = productoService;
             _productoId = productoId;
             _esNuevo = !productoId.HasValue;
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         private async void frmProductoAlta_Load(object sender, EventArgs e)

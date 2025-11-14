@@ -69,11 +69,9 @@ namespace DomainModel.Domain
             if (detalle == null)
                 throw new ArgumentNullException(nameof(detalle));
 
-            // Verificar si ya existe un detalle para ese producto
             var detalleExistente = Detalles.FirstOrDefault(d => d.IdProducto == detalle.IdProducto);
             if (detalleExistente != null)
             {
-                // Actualizar el precio existente
                 detalleExistente.ActualizarPrecio(detalle.Precio);
             }
             else
@@ -114,15 +112,16 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
-        // Búsqueda
+        /// <summary>
+        /// Obtiene el precio de un producto en esta lista
+        /// </summary>
         public decimal? ObtenerPrecioProducto(Guid idProducto)
         {
             var detalle = Detalles.FirstOrDefault(d => d.IdProducto == idProducto);
             return detalle?.Precio;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerCodigo(string codigo)
         {
             if (string.IsNullOrWhiteSpace(codigo))
@@ -213,8 +212,7 @@ namespace DomainModel.Domain
             ValidarYEstablecerPrecio(precio);
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerProducto(Guid idProducto)
         {
             if (idProducto == Guid.Empty)

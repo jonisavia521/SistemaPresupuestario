@@ -1,6 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,45 @@ namespace SistemaPresupuestario.Venta.Factura
             
             _presupuestosAprobados = new List<PresupuestoDTO>();
             _viewModels = new BindingList<PresupuestoFacturaViewModel>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvPresupuestos.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvPresupuestos.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private void frmFacturar_Load(object sender, EventArgs e)
@@ -44,7 +84,7 @@ namespace SistemaPresupuestario.Venta.Factura
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar el formulario")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -56,11 +96,11 @@ namespace SistemaPresupuestario.Venta.Factura
         private void ConfigurarControles()
         {
             btnObtenerCAE.Enabled = false;
-            lblClienteSeleccionado.Text = "Cliente: (ninguno)";
+            lblClienteSeleccionado.Text = I18n.T("Cliente: (ninguno)");
             lblTotalSeleccionado.Text = "Total: $0.00";
-            lblSubtotal.Text = "Subtotal (Neto): $0.00";
+            lblSubtotal.Text = I18n.T("Subtotal (Neto)") + ": $0.00";
             lblIVA.Text = "IVA: $0.00";
-            lblIIBBArba.Text = "IIBB ARBA: $0.00";
+            lblIIBBArba.Text = I18n.T("IIBB ARBA") + ": $0.00";
         }
 
         private void ConfigurarGrilla()
@@ -81,7 +121,8 @@ namespace SistemaPresupuestario.Venta.Factura
                 HeaderText = "Sel.",
                 DataPropertyName = "Seleccionado",
                 Width = 50,
-                ReadOnly = false
+                ReadOnly = false,
+                Tag = "Sel."
             };
             dgvPresupuestos.Columns.Add(colSeleccionar);
 
@@ -89,10 +130,11 @@ namespace SistemaPresupuestario.Venta.Factura
             var colNumero = new DataGridViewTextBoxColumn
             {
                 Name = "Numero",
-                HeaderText = "Número",
+                HeaderText = I18n.T("Número"),
                 DataPropertyName = "Numero",
                 Width = 100,
-                ReadOnly = true
+                ReadOnly = true,
+                Tag = "Número"
             };
             dgvPresupuestos.Columns.Add(colNumero);
 
@@ -100,14 +142,15 @@ namespace SistemaPresupuestario.Venta.Factura
             var colFechaEmision = new DataGridViewTextBoxColumn
             {
                 Name = "FechaEmision",
-                HeaderText = "Fecha Emisión",
+                HeaderText = I18n.T("Fecha Emisión"),
                 DataPropertyName = "FechaEmision",
                 Width = 100,
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Format = "dd/MM/yyyy"
-                }
+                },
+                Tag = "Fecha Emisión"
             };
             dgvPresupuestos.Columns.Add(colFechaEmision);
 
@@ -115,10 +158,11 @@ namespace SistemaPresupuestario.Venta.Factura
             var colCodigoCliente = new DataGridViewTextBoxColumn
             {
                 Name = "CodigoCliente",
-                HeaderText = "Código Cliente",
+                HeaderText = I18n.T("Código Cliente"),
                 DataPropertyName = "CodigoCliente",
                 Width = 100,
-                ReadOnly = true
+                ReadOnly = true,
+                Tag = "Código Cliente"
             };
             dgvPresupuestos.Columns.Add(colCodigoCliente);
 
@@ -126,11 +170,12 @@ namespace SistemaPresupuestario.Venta.Factura
             var colRazonSocial = new DataGridViewTextBoxColumn
             {
                 Name = "RazonSocial",
-                HeaderText = "Razón Social",
+                HeaderText = I18n.T("Razón Social"),
                 DataPropertyName = "RazonSocial",
                 Width = 250,
                 ReadOnly = true,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                Tag = "Razón Social"
             };
             dgvPresupuestos.Columns.Add(colRazonSocial);
 
@@ -138,10 +183,11 @@ namespace SistemaPresupuestario.Venta.Factura
             var colVendedor = new DataGridViewTextBoxColumn
             {
                 Name = "Vendedor",
-                HeaderText = "Vendedor",
+                HeaderText = I18n.T("Vendedor"),
                 DataPropertyName = "Vendedor",
                 Width = 150,
-                ReadOnly = true
+                ReadOnly = true,
+                Tag = "Vendedor"
             };
             dgvPresupuestos.Columns.Add(colVendedor);
 
@@ -149,7 +195,7 @@ namespace SistemaPresupuestario.Venta.Factura
             var colTotal = new DataGridViewTextBoxColumn
             {
                 Name = "Total",
-                HeaderText = "Total",
+                HeaderText = I18n.T("Total"),
                 DataPropertyName = "Total",
                 Width = 100,
                 ReadOnly = true,
@@ -157,7 +203,8 @@ namespace SistemaPresupuestario.Venta.Factura
                 {
                     Alignment = DataGridViewContentAlignment.MiddleRight,
                     Format = "C2"
-                }
+                },
+                Tag = "Total"
             };
             dgvPresupuestos.Columns.Add(colTotal);
 
@@ -195,11 +242,11 @@ namespace SistemaPresupuestario.Venta.Factura
 
                 dgvPresupuestos.DataSource = _viewModels;
 
-                lblTotalPresupuestos.Text = $"Total presupuestos: {_viewModels.Count}";
+                lblTotalPresupuestos.Text = $"{I18n.T("Total presupuestos")}: {_viewModels.Count}";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar presupuestos aprobados: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar presupuestos aprobados")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -232,10 +279,10 @@ namespace SistemaPresupuestario.Venta.Factura
                     if (viewModel.IdCliente != _clienteSeleccionado.Value)
                     {
                         MessageBox.Show(
-                            "No puede seleccionar presupuestos de diferentes clientes.\n\n" +
-                            $"Cliente actual: {ObtenerNombreCliente(_clienteSeleccionado.Value)}\n" +
-                            $"Presupuesto seleccionado: {viewModel.RazonSocial}",
-                            "Validación",
+                            $"{I18n.T("No puede seleccionar presupuestos de diferentes clientes")}.\n\n" +
+                            $"{I18n.T("Cliente actual")}: {ObtenerNombreCliente(_clienteSeleccionado.Value)}\n" +
+                            $"{I18n.T("Presupuesto seleccionado")}: {viewModel.RazonSocial}",
+                            I18n.T("Validación"),
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
 
@@ -275,23 +322,23 @@ namespace SistemaPresupuestario.Venta.Factura
                 var totalArba = seleccionados.Sum(s => s.ImporteArba);
 
                 lblTotalSeleccionado.Text = $"Total: {total:C2}";
-                lblSubtotal.Text = $"Subtotal (Neto): {subtotal:C2}";
+                lblSubtotal.Text = $"{I18n.T("Subtotal (Neto)")}: {subtotal:C2}";
                 lblIVA.Text = $"IVA: {totalIva:C2}";
-                lblIIBBArba.Text = $"IIBB ARBA: {totalArba:C2}";
-                lblClienteSeleccionado.Text = $"Cliente: {seleccionados[0].RazonSocial}";
+                lblIIBBArba.Text = $"{I18n.T("IIBB ARBA")}: {totalArba:C2}";
+                lblClienteSeleccionado.Text = $"{I18n.T("Cliente")}: {seleccionados[0].RazonSocial}";
                 btnObtenerCAE.Enabled = true;
             }
             else
             {
                 lblTotalSeleccionado.Text = "Total: $0.00";
-                lblSubtotal.Text = "Subtotal (Neto): $0.00";
+                lblSubtotal.Text = $"{I18n.T("Subtotal (Neto)")}: $0.00";
                 lblIVA.Text = "IVA: $0.00";
-                lblIIBBArba.Text = "IIBB ARBA: $0.00";
-                lblClienteSeleccionado.Text = "Cliente: (ninguno)";
+                lblIIBBArba.Text = $"{I18n.T("IIBB ARBA")}: $0.00";
+                lblClienteSeleccionado.Text = I18n.T("Cliente: (ninguno)");
                 btnObtenerCAE.Enabled = false;
             }
 
-            lblPresupuestosSeleccionados.Text = $"Seleccionados: {seleccionados.Count}";
+            lblPresupuestosSeleccionados.Text = $"{I18n.T("Seleccionados")}: {seleccionados.Count}";
         }
 
         private string ObtenerNombreCliente(Guid idCliente)
@@ -299,11 +346,11 @@ namespace SistemaPresupuestario.Venta.Factura
             try
             {
                 var cliente = _clienteService.GetById(idCliente);
-                return cliente?.RazonSocial ?? "Desconocido";
+                return cliente?.RazonSocial ?? I18n.T("Desconocido");
             }
             catch
             {
-                return "Desconocido";
+                return I18n.T("Desconocido");
             }
         }
 
@@ -313,7 +360,7 @@ namespace SistemaPresupuestario.Venta.Factura
 
             if (!seleccionados.Any())
             {
-                MessageBox.Show("Debe seleccionar al menos un presupuesto para facturar", "Validación",
+                MessageBox.Show(I18n.T("Debe seleccionar al menos un presupuesto para facturar"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -331,8 +378,8 @@ namespace SistemaPresupuestario.Venta.Factura
                 if (!factura.Exitosa)
                 {
                     MessageBox.Show(
-                        $"Error al obtener el CAE:\n\n{factura.ErrorMessage}",
-                        "Error de Facturación",
+                        $"{I18n.T("Error al obtener el CAE")}:\n\n{factura.ErrorMessage}",
+                        I18n.T("Error de Facturación"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -340,20 +387,20 @@ namespace SistemaPresupuestario.Venta.Factura
 
                 // Mostrar información de la factura generada
                 var resultado = MessageBox.Show(
-                    $"¡Factura generada exitosamente!\n\n" +
-                    $"Tipo: Factura {factura.TipoFactura}\n" +
-                    $"Número: {factura.NumeroFactura}\n" +
-                    $"Cliente: {factura.ClienteRazonSocial}\n" +
-                    $"Fecha: {factura.FechaEmision:dd/MM/yyyy}\n\n" +
+                    $"{I18n.T("¡Factura generada exitosamente!")}!\n\n" +
+                    $"{I18n.T("Tipo")}: {I18n.T("Factura")} {factura.TipoFactura}\n" +
+                    $"{I18n.T("Número")}: {factura.NumeroFactura}\n" +
+                    $"{I18n.T("Cliente")}: {factura.ClienteRazonSocial}\n" +
+                    $"{I18n.T("Fecha")}: {factura.FechaEmision:dd/MM/yyyy}\n\n" +
                     $"CAE: {factura.CAE}\n" +
-                    $"Vencimiento CAE: {factura.VencimientoCae?.ToString("dd/MM/yyyy") ?? "N/A"}\n\n" +
-                    $"Presupuestos: {seleccionados.Count}\n" +
-                    $"Subtotal (Neto): {factura.Subtotal:C2}\n" +
+                    $"{I18n.T("Vencimiento CAE")}: {factura.VencimientoCae?.ToString("dd/MM/yyyy") ?? "N/A"}\n\n" +
+                    $"{I18n.T("Presupuestos")}: {seleccionados.Count}\n" +
+                    $"{I18n.T("Subtotal (Neto)")}: {factura.Subtotal:C2}\n" +
                     $"IVA: {factura.TotalIva:C2}\n" +
-                    $"IIBB ARBA: {factura.ImporteArba:C2}\n" +
+                    $"{I18n.T("IIBB ARBA")}: {factura.ImporteArba:C2}\n" +
                     $"TOTAL: {factura.Total:C2}\n\n" +
-                    $"¿Desea generar el PDF de la factura?",
-                    "Factura Generada",
+                    $"{I18n.T("¿Desea generar el PDF de la factura?")}",
+                    I18n.T("Factura Generada"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Information);
 
@@ -363,8 +410,8 @@ namespace SistemaPresupuestario.Venta.Factura
                     _facturacionService.GenerarYAbrirPdfFactura(factura);
 
                     MessageBox.Show(
-                        "PDF generado y abierto exitosamente",
-                        "Éxito",
+                        I18n.T("PDF generado y abierto exitosamente"),
+                        I18n.T("Éxito"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
@@ -378,16 +425,16 @@ namespace SistemaPresupuestario.Venta.Factura
                 ActualizarInformacionSeleccion();
 
                 MessageBox.Show(
-                    $"Los {seleccionados.Count} presupuesto(s) fueron marcados como Facturados exitosamente.",
-                    "Información",
+                    $"{I18n.T("Los")} {seleccionados.Count} {I18n.T("presupuesto(s) fueron marcados como Facturados exitosamente")}.",
+                    I18n.T("Información"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Error al procesar la facturación:\n\n{ex.Message}",
-                    "Error",
+                    $"{I18n.T("Error al procesar la facturación")}:\n\n{ex.Message}",
+                    I18n.T("Error"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -412,7 +459,7 @@ namespace SistemaPresupuestario.Venta.Factura
             catch (Exception ex)
             {
                 throw new InvalidOperationException(
-                    $"Error al actualizar el estado de los presupuestos a Facturado: {ex.Message}", 
+                    $"{I18n.T("Error al actualizar el estado de los presupuestos a Facturado")}: {ex.Message}", 
                     ex);
             }
         }
@@ -426,12 +473,12 @@ namespace SistemaPresupuestario.Venta.Factura
                 CargarPresupuestosAprobados();
                 ActualizarInformacionSeleccion();
                 
-                MessageBox.Show("Presupuestos actualizados correctamente", "Información",
+                MessageBox.Show(I18n.T("Presupuestos actualizados correctamente"), I18n.T("Información"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar presupuestos: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al actualizar presupuestos")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

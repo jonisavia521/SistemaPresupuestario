@@ -1,4 +1,5 @@
 ﻿using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,6 +16,45 @@ namespace SistemaPresupuestario.Maestros
             InitializeComponent();
             _usuarioService = usuarioService;
             _serviceProvider = serviceProvider;
+            
+            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
+
+            if (dgvUsuarios.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgvUsuarios.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
         }
 
         private void frmUsuarios_Load(object sender, EventArgs e)
@@ -37,8 +77,8 @@ namespace SistemaPresupuestario.Maestros
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar usuarios: {ex.Message}",
-                    "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar usuarios")}: {ex.Message}",
+                    I18n.T("Error"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -72,7 +112,7 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvUsuarios.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione un usuario para editar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.T("Seleccione un usuario para editar"), I18n.T("Advertencia"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -98,14 +138,14 @@ namespace SistemaPresupuestario.Maestros
         {
             if (dgvUsuarios.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione un usuario para eliminar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.T("Seleccione un usuario para eliminar"), I18n.T("Advertencia"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var usuarioNombre = dgvUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString();
             var confirmResult = MessageBox.Show(
-                $"¿Está seguro que desea eliminar al usuario '{usuarioNombre}'?",
-                "Confirmar eliminación",
+                $"{I18n.T("¿Está seguro que desea eliminar al usuario")} '{usuarioNombre}'?",
+                I18n.T("Confirmar eliminación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -119,12 +159,12 @@ namespace SistemaPresupuestario.Maestros
 
                     _usuarioService.Delete(usuarioId);
 
-                    MessageBox.Show("Usuario eliminado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(I18n.T("Usuario eliminado exitosamente"), I18n.T("Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarUsuariosAsync(); // Refrescar grilla
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al eliminar usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"{I18n.T("Error al eliminar usuario")}: {ex.Message}", I18n.T("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {

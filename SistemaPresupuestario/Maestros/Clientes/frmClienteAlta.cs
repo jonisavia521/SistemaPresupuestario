@@ -1,6 +1,7 @@
-using BLL.Contracts;
+ï»¿using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Shared;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,30 +19,52 @@ namespace SistemaPresupuestario.Maestros.Clientes
         private Guid? _clienteId;
         private Guid? _vendedorSeleccionadoId;
 
-        // Evento para notificar que se guardó exitosamente
+        // Evento para notificar que se guardÃ³ exitosamente
         public event EventHandler ClienteGuardado;
 
-        // Propiedad pública para identificar el cliente en edición
+        // Propiedad pÃºblica para identificar el cliente en ediciÃ³n
         public Guid? ClienteId => _clienteId;
 
         // Constructor para modo NUEVO
-        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService) // MODIFICADO
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService)
         {
             InitializeComponent();
             _clienteService = clienteService;
             _vendedorService = vendedorService;
-            _provinciaService = provinciaService; // NUEVO
+            _provinciaService = provinciaService;
             _clienteId = null;
+            
+            // âœ… TRADUCCIÃ“N AUTOMÃTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // âœ… TRADUCCIÃ“N DINÃMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
         }
 
-        // Constructor para modo EDICIÓN
-        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService, Guid clienteId) // MODIFICADO
+        // Constructor para modo EDICIÃ“N
+        public frmClienteAlta(IClienteService clienteService, IVendedorService vendedorService, IProvinciaService provinciaService, Guid clienteId)
         {
             InitializeComponent();
             _clienteService = clienteService;
             _vendedorService = vendedorService;
-            _provinciaService = provinciaService; // NUEVO
+            _provinciaService = provinciaService;
             _clienteId = clienteId;
+            
+            // âœ… TRADUCCIÃ“N AUTOMÃTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // âœ… TRADUCCIÃ“N DINÃMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         private  void frmClienteAlta_Load(object sender, EventArgs e)
@@ -56,16 +79,16 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 CargarCondicionesPago();
                 CargarProvincias();
 
-                // Si es modo edición, cargar datos
+                // Si es modo ediciÃ³n, cargar datos
                 if (_clienteId.HasValue)
                 {
                     CargarDatosCliente();
-                    this.Text = "Editar Cliente";
-                    txtCodigoCliente.Enabled = false; // El código no se modifica
+                    this.Text = I18n.T("Editar Cliente");
+                    txtCodigoCliente.Enabled = false; // El cÃ³digo no se modifica
                 }
                 else
                 {
-                    this.Text = "Nuevo Cliente";
+                    this.Text = I18n.T("Nuevo Cliente");
                     GenerarCodigoCliente();
                     txtAlicuotaArba.Text = "0"; // NUEVO: Valor por defecto
                 }
@@ -101,14 +124,14 @@ namespace SistemaPresupuestario.Maestros.Clientes
         {
             cboCondicionPago.Items.Clear();
             
-            // Diccionario con códigos y descripciones
+            // Diccionario con cÃ³digos y descripciones
             var condiciones = new Dictionary<string, string>
             {
-                { "01", "01 - Contado" },
-                { "02", "02 - 30 días" },
-                { "03", "03 - 60 días" },
-                { "04", "04 - 90 días" },
-                { "05", "05 - 120 días" }
+                { "01", I18n.T("01 - Contado") },
+                { "02", I18n.T("02 - 30 dÃ­as") },
+                { "03", I18n.T("03 - 60 dÃ­as") },
+                { "04", I18n.T("04 - 90 dÃ­as") },
+                { "05", I18n.T("05 - 120 dÃ­as") }
             };
 
             foreach (var condicion in condiciones)
@@ -123,7 +146,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
 
         private void GenerarCodigoCliente()
         {
-            // Generar código automático basado en timestamp
+            // Generar cÃ³digo automÃ¡tico basado en timestamp
             txtCodigoCliente.Text = $"CLI-{DateTime.Now:yyyyMMddHHmmss}";
         }
 
@@ -133,7 +156,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
 
             if (cliente == null)
             {
-                MessageBox.Show("No se encontró el cliente", "Error",
+                MessageBox.Show(I18n.T("No se encontrÃ³ el cliente"), I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
@@ -174,7 +197,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             if (indexIva >= 0)
                 cboTipoIva.SelectedIndex = indexIva;
 
-            // Seleccionar la condición de pago
+            // Seleccionar la condiciÃ³n de pago
             for (int i = 0; i < cboCondicionPago.Items.Count; i++)
             {
                 dynamic item = cboCondicionPago.Items[i];
@@ -194,7 +217,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             txtLocalidad.Text = cliente.Localidad;
         }
 
-        // NUEVO: Cargar información del vendedor en el TextBox
+        // NUEVO: Cargar informaciÃ³n del vendedor en el TextBox
         private  void CargarVendedorEnTextBox(Guid idVendedor)
         {
             try
@@ -222,28 +245,28 @@ namespace SistemaPresupuestario.Maestros.Clientes
             }
         }
 
-        // NUEVO: Método para abrir el selector de vendedores
+        // NUEVO: MÃ©todo para abrir el selector de vendedores
         private void AbrirSelectorVendedor()
         {
-            // Configurar el selector dinámico
+            // Configurar el selector dinÃ¡mico
             var config = new SelectorConfig<VendedorDTO>
             {
-                Titulo = "Seleccionar Vendedor",
+                Titulo = I18n.T("Seleccionar Vendedor"),
                 Datos = System.Threading.Tasks.Task.Run(() => _vendedorService.GetActivos()).Result,
-                PlaceholderBusqueda = "Buscar por código, nombre o CUIT...",
+                PlaceholderBusqueda = I18n.T("Buscar por cÃ³digo, nombre o CUIT..."),
                 PermitirSeleccionMultiple = false,
                 
                 // Definir columnas a mostrar
                 Columnas = new List<ColumnaConfig>
                 {
-                    new ColumnaConfig { NombrePropiedad = "Id", TituloColumna = "Id", Visible = false },
-                    new ColumnaConfig { NombrePropiedad = "CodigoVendedor", TituloColumna = "Código", Ancho = 80 },
-                    new ColumnaConfig { NombrePropiedad = "Nombre", TituloColumna = "Nombre", Ancho = 250 },
+                    new ColumnaConfig { NombrePropiedad = "Id", TituloColumna = I18n.T("Id"), Visible = false },
+                    new ColumnaConfig { NombrePropiedad = "CodigoVendedor", TituloColumna = I18n.T("CÃ³digo"), Ancho = 80 },
+                    new ColumnaConfig { NombrePropiedad = "Nombre", TituloColumna = I18n.T("Nombre"), Ancho = 250 },
                     new ColumnaConfig { NombrePropiedad = "CUITFormateado", TituloColumna = "CUIT", Ancho = 150 },
                     new ColumnaConfig { NombrePropiedad = "Email", TituloColumna = "Email", Ancho = 200 }
                 },
                 
-                // Función de filtro personalizada
+                // FunciÃ³n de filtro personalizada
                 FuncionFiltro = (busqueda, vendedor) =>
                 {
                     var b = busqueda.ToUpper();
@@ -272,7 +295,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 var provincias = _provinciaService.GetAllOrdenadas();
                 
                 cboProvincia.Items.Clear();
-                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = "(Sin provincia)" });
+                cboProvincia.Items.Add(new { Id = (Guid?)null, Text = I18n.T("(Sin provincia)") });
 
                 foreach (var provincia in provincias)
                 {
@@ -285,7 +308,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar provincias: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar provincias")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -304,7 +327,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             decimal alicuotaArba = 0;
             if (!decimal.TryParse(txtAlicuotaArba.Text, out alicuotaArba))
             {
-                MessageBox.Show("La alícuota ARBA debe ser un número válido", "Validación",
+                MessageBox.Show(I18n.T("La alÃ­cuota ARBA debe ser un nÃºmero vÃ¡lido"), I18n.T("ValidaciÃ³n"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtAlicuotaArba.Focus();
                 return;
@@ -339,22 +362,22 @@ namespace SistemaPresupuestario.Maestros.Clientes
 
                 if (_clienteId.HasValue)
                 {
-                    // Modo EDICIÓN
+                    // Modo EDICIÃ“N
                     resultado = _clienteService.Update(clienteDTO);
-                    MessageBox.Show("Cliente actualizado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Cliente actualizado exitosamente"), I18n.T("Ã‰xito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     // Modo NUEVO
                     resultado = _clienteService.Add(clienteDTO);
-                    MessageBox.Show("Cliente creado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Cliente creado exitosamente"), I18n.T("Ã‰xito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 if (resultado)
                 {
-                    // Notificar que se guardó exitosamente
+                    // Notificar que se guardÃ³ exitosamente
                     ClienteGuardado?.Invoke(this, EventArgs.Empty);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -362,7 +385,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar cliente: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al guardar cliente")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -392,7 +415,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 return true; // No hay errores
             }
 
-            // 2. Si no es válido, itera TODOS los resultados
+            // 2. Si no es vÃ¡lido, itera TODOS los resultados
             foreach (var validationResult in validationResults)
             {
                 // Obtiene el nombre del campo (ej. "CodigoCliente")
@@ -404,7 +427,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                     Control control = GetControlByPropertyName(memberName);
                     if (control != null)
                     {
-                        // 3. Asigna el mensaje de error a ese control específico
+                        // 3. Asigna el mensaje de error a ese control especÃ­fico
                         errorProvider1.SetError(control, validationResult.ErrorMessage);
                     }
                 }
@@ -417,7 +440,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 GetControlByPropertyName(primerError)?.Focus();
             }
 
-            return false; // El formulario no es válido
+            return false; // El formulario no es vÃ¡lido
         }
 
         private Control GetControlByPropertyName(string nombrePropiedad)
@@ -448,13 +471,13 @@ namespace SistemaPresupuestario.Maestros.Clientes
                 case nameof(ClienteDTO.IdProvincia):
                     return cboProvincia;
                 default:
-                    return null; // No se encontró un control
+                    return null; // No se encontrÃ³ un control
             }
         }
 
         private void txtNumeroDocumento_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Solo permitir números y teclas de control
+            // Solo permitir nÃºmeros y teclas de control
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;

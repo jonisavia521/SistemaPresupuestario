@@ -9,13 +9,13 @@ namespace DomainModel.Domain
     public class VendedorDM
     {
         public Guid Id { get; private set; }
-        public string CodigoVendedor { get; private set; } // 2 dígitos
+        public string CodigoVendedor { get; private set; }
         public string Nombre { get; private set; }
         public string CUIT { get; private set; }
         public string Email { get; private set; }
         public string Telefono { get; private set; }
         public string Direccion { get; private set; }
-        public decimal PorcentajeComision { get; private set; } // 0-100
+        public decimal PorcentajeComision { get; private set; }
         public bool Activo { get; private set; }
         public DateTime FechaAlta { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
@@ -105,8 +105,7 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerCodigoVendedor(string codigoVendedor)
         {
             if (string.IsNullOrWhiteSpace(codigoVendedor))
@@ -137,17 +136,14 @@ namespace DomainModel.Domain
             if (string.IsNullOrWhiteSpace(cuit))
                 throw new ArgumentException("El CUIT es obligatorio.", nameof(cuit));
 
-            // Remover guiones y espacios
             var cuitLimpio = cuit.Replace("-", "").Replace(" ", "").Trim();
 
-            // Validar que solo contenga números
             if (!Regex.IsMatch(cuitLimpio, @"^\d+$"))
                 throw new ArgumentException("El CUIT solo puede contener dígitos.", nameof(cuit));
 
             if (cuitLimpio.Length != 11)
                 throw new ArgumentException("El CUIT debe tener 11 dígitos.", nameof(cuit));
 
-            // Validar formato CUIT
             if (!ValidarFormatoCUIT(cuitLimpio))
                 throw new ArgumentException("El CUIT no es válido.", nameof(cuit));
 
@@ -158,7 +154,6 @@ namespace DomainModel.Domain
         {
             if (cuit.Length != 11) return false;
 
-            // Algoritmo de validación de CUIT
             int[] multiplicadores = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
             int suma = 0;
 

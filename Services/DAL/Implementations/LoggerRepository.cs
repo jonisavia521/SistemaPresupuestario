@@ -16,27 +16,25 @@ namespace Services.DAL.Implementations
     {
 
         private string pathLog;
-
         private string pathFile;
+        
         public LoggerRepository(NameValueCollection app)
         {
-            // ✅ Obtener la ruta donde se está ejecutando el .exe
+            // Obtener la ruta donde se está ejecutando el exe
             string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             var carpeta = app["PathLog"] ?? "Logs";
-            // ✅ Combinar con la carpeta "Logs"
             pathLog = Path.Combine(exePath, carpeta);
 
-            // ✅ Crear la carpeta si no existe
+            // Crear la carpeta si no existe
             if (!Directory.Exists(pathLog))
             {
                 Directory.CreateDirectory(pathLog);
             }
 
-            // ✅ Obtener solo el nombre del archivo desde configuración
             pathFile = app["LogFileName"] ?? "info.log";
 
-            // ✅ Asegurar que pathLog termine con separador de directorios
+            // Asegurar que pathLog termine con separador de directorios
             if (!pathLog.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
                 pathLog += Path.DirectorySeparatorChar;
@@ -44,7 +42,7 @@ namespace Services.DAL.Implementations
         }
 
         /// <summary>
-        /// Escribe un mensaje de log en el archivo correspondiente
+        /// Escribe un mensaje de log en el archivo correspondiente.
         /// El archivo se crea con formato: YYYYMMDD + nombre_archivo
         /// Ejemplo: C:\MiApp\bin\Debug\Logs\20251002info.log
         /// </summary>
@@ -53,7 +51,6 @@ namespace Services.DAL.Implementations
             try
             {
                 // Construir ruta completa: pathLog + fecha + nombre_archivo
-                // Ejemplo: "C:\MiApp\Logs\" + "20251002" + "info.log"
                 string fileName = pathLog + DateTime.Now.ToString("yyyyMMdd") + pathFile;
 
                 using (StreamWriter streamWriter = new StreamWriter(fileName, true))

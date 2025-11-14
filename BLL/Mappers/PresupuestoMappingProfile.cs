@@ -11,11 +11,10 @@ namespace BLL.Mappers
         {
             // Mapeo de PresupuestoDM a PresupuestoDTO
             CreateMap<PresupuestoDM, PresupuestoDTO>()
-                // MODIFICADO: Usar totales persistidos en lugar de calcularlos
                 .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
                 .ForMember(dest => dest.TotalIva, opt => opt.MapFrom(src => src.TotalIva))
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.Total))
-                .ForMember(dest => dest.ImporteArba, opt => opt.MapFrom(src => src.ImporteArba)) // NUEVO
+                .ForMember(dest => dest.ImporteArba, opt => opt.MapFrom(src => src.ImporteArba))
                 .ForMember(dest => dest.ClienteRazonSocial, opt => opt.Ignore())
                 .ForMember(dest => dest.VendedorNombre, opt => opt.Ignore())
                 .ForMember(dest => dest.EstadoDescripcion, opt => opt.MapFrom(src => ObtenerEstadoDescripcion(src.Estado)));
@@ -35,12 +34,11 @@ namespace BLL.Mappers
                     dto.Subtotal,
                     dto.TotalIva,
                     dto.Total,
-                    dto.ImporteArba // NUEVO
+                    dto.ImporteArba
                 ));
 
             // Mapeo de PresupuestoDetalleDM a PresupuestoDetalleDTO
             CreateMap<PresupuestoDetalleDM, PresupuestoDetalleDTO>()
-                // MODIFICADO: Mapear TotalPersistido a Total
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.TotalPersistido))
                 .ForMember(dest => dest.Codigo, opt => opt.Ignore())
                 .ForMember(dest => dest.Descripcion, opt => opt.Ignore());
@@ -57,7 +55,7 @@ namespace BLL.Mappers
                     dto.Descuento,
                     dto.Renglon,
                     dto.PorcentajeIVA,
-                    dto.Total // Mapear Total persistido
+                    dto.Total
                 ));
         }
 
@@ -85,7 +83,7 @@ namespace BLL.Mappers
                 dto.Descuento,
                 dto.Renglon,
                 dto.PorcentajeIVA,
-                dto.Total // Mapear Total persistido
+                dto.Total
             );
         }
     }

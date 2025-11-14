@@ -22,15 +22,17 @@ namespace DomainModel.Domain
         public DateTime FechaEmision { get; private set; }
         public int Estado { get; private set; }
         public DateTime? FechaVencimiento { get; private set; }
-        public Guid? IdPresupuestoPadre { get; private set; } // Para presupuestos derivados/copias
+        public Guid? IdPresupuestoPadre { get; private set; }
         public Guid? IdVendedor { get; private set; }
         public List<PresupuestoDetalleDM> Detalles { get; private set; }
 
-        // NUEVOS CAMPOS: Totales persistidos (se guardan en la base de datos)
+        /// <summary>
+        /// Totales persistidos del presupuesto (se guardan en la base de datos)
+        /// </summary>
         public decimal Subtotal { get; private set; }
         public decimal TotalIva { get; private set; }
         public decimal Total { get; private set; }
-        public decimal ImporteArba { get; private set; } // NUEVO: Percepción IIBB ARBA
+        public decimal ImporteArba { get; private set; }
 
         // Constructor para creación inicial (nuevo presupuesto)
         public PresupuestoDM(
@@ -42,7 +44,7 @@ namespace DomainModel.Domain
             Guid? idPresupuestoPadre = null)
         {
             Id = Guid.NewGuid();
-            Estado = 2; // Emitido por defecto (estado inicial)
+            Estado = 2; // Emitido por defecto
             Detalles = new List<PresupuestoDetalleDM>();
 
             ValidarYEstablecerNumero(numero);
@@ -56,7 +58,7 @@ namespace DomainModel.Domain
             Subtotal = 0;
             TotalIva = 0;
             Total = 0;
-            ImporteArba = 0; // NUEVO
+            ImporteArba = 0;
         }
 
         // Constructor para cargar desde base de datos
@@ -73,7 +75,7 @@ namespace DomainModel.Domain
             decimal subtotal = 0,
             decimal totalIva = 0,
             decimal total = 0,
-            decimal importeArba = 0) // NUEVO
+            decimal importeArba = 0)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del presupuesto no puede ser vacío.", nameof(id));
@@ -88,11 +90,10 @@ namespace DomainModel.Domain
             IdVendedor = idVendedor;
             Detalles = detalles ?? new List<PresupuestoDetalleDM>();
 
-            // Cargar totales persistidos
             Subtotal = subtotal;
             TotalIva = totalIva;
             Total = total;
-            ImporteArba = importeArba; // NUEVO
+            ImporteArba = importeArba;
         }
 
         // Método de actualización
@@ -114,16 +115,16 @@ namespace DomainModel.Domain
             if (detalle == null)
                 throw new ArgumentNullException(nameof(detalle));
 
-            if (Estado == 3) // Aprobado
+            if (Estado == 3)
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto aprobado.");
 
-            if (Estado == 4) // Rechazado
+            if (Estado == 4)
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto rechazado.");
 
-            if (Estado == 6) // Facturado
+            if (Estado == 6)
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto facturado.");
 
-            if ( Estado == 1) // Borrado
+            if (Estado == 1)
                 throw new InvalidOperationException("No se pueden agregar detalles a un presupuesto borrado.");
 
             detalle.EstablecerPresupuesto(Id);
@@ -133,16 +134,16 @@ namespace DomainModel.Domain
 
         public void RemoverDetalle(Guid detalleId)
         {
-            if (Estado == 3) // Aprobado
+            if (Estado == 3)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto aprobado.");
 
-            if (Estado == 4) // Rechazado
+            if (Estado == 4)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto rechazado.");
 
-            if (Estado == 6) // Facturado
+            if (Estado == 6)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto facturado.");
 
-            if (Estado == 1) // Borrado
+            if (Estado == 1)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto borrado.");
 
             var detalle = Detalles.FirstOrDefault(d => d.Id == detalleId);
@@ -155,10 +156,10 @@ namespace DomainModel.Domain
 
         public void LimpiarDetalles()
         {
-            if (Estado == 3) // Aprobado
+            if (Estado == 3)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto aprobado.");
 
-            if (Estado == 6) // Facturado
+            if (Estado == 6)
                 throw new InvalidOperationException("No se pueden eliminar detalles de un presupuesto facturado.");
 
             Detalles.Clear();
@@ -178,14 +179,13 @@ namespace DomainModel.Domain
             if (nuevoEstado < 1 || nuevoEstado > 6)
                 throw new ArgumentException("Estado inválido. Debe ser entre 1 y 6.", nameof(nuevoEstado));
 
-            // Validar transiciones de estado
-            if (Estado == 3 && nuevoEstado != 3 && nuevoEstado != 6) // Desde Aprobado solo puede ir a Facturado
+            if (Estado == 3 && nuevoEstado != 3 && nuevoEstado != 6)
                 throw new InvalidOperationException("Un presupuesto aprobado solo puede cambiar a estado Facturado.");
 
-            if (Estado == 6) // Facturado es estado final
+            if (Estado == 6)
                 throw new InvalidOperationException("Un presupuesto facturado no puede cambiar de estado.");
 
-            if (Estado == 1) // Borrado es estado final
+            if (Estado == 1)
                 throw new InvalidOperationException("Un presupuesto borrado no puede cambiar de estado.");
 
             Estado = nuevoEstado;
@@ -196,7 +196,7 @@ namespace DomainModel.Domain
             if (!Detalles.Any())
                 throw new InvalidOperationException("No se puede emitir un presupuesto sin detalles.");
 
-            CambiarEstado(2); // Emitido
+            CambiarEstado(2);
         }
 
         public void Aprobar()
@@ -204,7 +204,7 @@ namespace DomainModel.Domain
             if (Estado != 2)
                 throw new InvalidOperationException("Solo se pueden aprobar presupuestos emitidos.");
 
-            CambiarEstado(3); // Aprobado
+            CambiarEstado(3);
         }
 
         public void Rechazar()
@@ -212,7 +212,7 @@ namespace DomainModel.Domain
             if (Estado != 2)
                 throw new InvalidOperationException("Solo se pueden rechazar presupuestos emitidos.");
 
-            CambiarEstado(4); // Rechazado
+            CambiarEstado(4);
         }
 
         public void Facturar()
@@ -220,7 +220,7 @@ namespace DomainModel.Domain
             if (Estado != 3)
                 throw new InvalidOperationException("Solo se pueden facturar presupuestos aprobados.");
 
-            CambiarEstado(6); // Facturado
+            CambiarEstado(6);
         }
 
         public void Borrar()
@@ -228,18 +228,17 @@ namespace DomainModel.Domain
             if (Estado != 2)
                 throw new InvalidOperationException("Solo se pueden borrar presupuestos emitidos.");
 
-            CambiarEstado(1); // Borrado
+            CambiarEstado(1);
         }
 
         /// <summary>
-        /// Determina si el presupuesto está vencido (estado implícito)
+        /// Determina si el presupuesto está vencido
         /// </summary>
         public bool EstaVencido()
         {
             if (!FechaVencimiento.HasValue)
                 return false;
 
-            // Solo puede estar vencido si está Emitido o Aprobado
             if (Estado != 2 && Estado != 3)
                 return false;
 
@@ -247,17 +246,17 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Obtiene el estado efectivo (considera el vencimiento)
+        /// Obtiene el estado efectivo considerando el vencimiento
         /// </summary>
         public int ObtenerEstadoEfectivo()
         {
             if (EstaVencido())
-                return 5; // Vencido
+                return 5;
 
             return Estado;
         }
 
-        // Cálculos (sin persistir, solo para validación)
+        // Cálculos para validación
         public decimal CalcularSubtotal()
         {
             return Detalles.Sum(d => d.CalcularTotal());
@@ -274,8 +273,8 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Establece los totales persistidos del presupuesto
-        /// Este método debe ser llamado por la capa BLL antes de persistir
+        /// Establece los totales del presupuesto
+        /// Debe ser llamado por la capa BLL antes de persistir
         /// </summary>
         public void EstablecerTotales(decimal subtotal, decimal totalIva, decimal total, decimal importeArba = 0)
         {
@@ -294,11 +293,10 @@ namespace DomainModel.Domain
             Subtotal = subtotal;
             TotalIva = totalIva;
             Total = total;
-            ImporteArba = importeArba; // NUEVO
+            ImporteArba = importeArba;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerNumero(string numero)
         {
             if (string.IsNullOrWhiteSpace(numero))
@@ -350,16 +348,14 @@ namespace DomainModel.Domain
     public class PresupuestoDetalleDM
     {
         public Guid Id { get; private set; }
-        public string Numero { get; private set; } // Número del presupuesto (desnormalizado)
+        public string Numero { get; private set; }
         public Guid? IdPresupuesto { get; private set; }
         public Guid? IdProducto { get; private set; }
         public decimal Cantidad { get; private set; }
         public decimal Precio { get; private set; }
-        public decimal Descuento { get; private set; } // Porcentaje de descuento
+        public decimal Descuento { get; private set; }
         public int Renglon { get; private set; }
-        public decimal PorcentajeIVA { get; private set; } // IVA del producto
-
-        // NUEVO CAMPO: Total persistido del detalle
+        public decimal PorcentajeIVA { get; private set; }
         public decimal TotalPersistido { get; private set; }
 
         // Constructor para creación inicial
@@ -378,7 +374,6 @@ namespace DomainModel.Domain
             ValidarYEstablecerDescuento(descuento);
             PorcentajeIVA = porcentajeIVA;
 
-            // Calcular y establecer el total
             TotalPersistido = CalcularTotal();
         }
 
@@ -407,9 +402,6 @@ namespace DomainModel.Domain
             Descuento = descuento;
             Renglon = renglon;
             PorcentajeIVA = porcentajeIVA;
-
-            // MODIFICADO: Usar el total persistido tal cual viene de BD (incluso si es NULL → 0)
-            // NO recalcular nunca al cargar desde BD
             TotalPersistido = totalPersistido.HasValue ? totalPersistido.Value : 0m;
         }
 
@@ -444,7 +436,6 @@ namespace DomainModel.Domain
             ValidarYEstablecerDescuento(descuento);
             PorcentajeIVA = porcentajeIVA;
 
-            // Recalcular el total persistido
             TotalPersistido = CalcularTotal();
         }
 
@@ -475,8 +466,8 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Establece el total persistido del detalle
-        /// Este método debe ser llamado por la capa BLL antes de persistir
+        /// Establece el total del detalle
+        /// Debe ser llamado por la capa BLL antes de persistir
         /// </summary>
         public void EstablecerTotalPersistido(decimal total)
         {
@@ -486,8 +477,7 @@ namespace DomainModel.Domain
             TotalPersistido = total;
         }
 
-        // ==================== VALIDACIONES DE NEGOCIO ====================
-
+        // Validaciones de negocio
         private void ValidarYEstablecerProducto(Guid? idProducto)
         {
             if (!idProducto.HasValue || idProducto.Value == Guid.Empty)

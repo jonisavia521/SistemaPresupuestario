@@ -1,5 +1,6 @@
 ﻿using Services.DomainModel.Security.Composite;
 using Services.Services.Contracts;
+using SistemaPresupuestario.Helpers; // NUEVO
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,21 @@ public partial class frmAlta : Form
     {
         InitializeComponent();
         _usuarioService = usuarioService;
+        
+        // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+        FormTranslator.Translate(this);
+        
+        // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+        I18n.LanguageChanged += OnLanguageChanged;
+        this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+    }
+    
+    /// <summary>
+    /// Manejador del evento de cambio de idioma
+    /// </summary>
+    private void OnLanguageChanged(object sender, EventArgs e)
+    {
+        FormTranslator.Translate(this);
     }
 
     private void frmAlta_Load(object sender, EventArgs e)
@@ -38,11 +54,11 @@ public partial class frmAlta : Form
             if (_usuarioActual != null)
             {
                 CargarDatosUsuario();
-                this.Text = $"Editar Usuario - {_usuarioActual.Nombre}";
+                this.Text = $"{I18n.T("Editar Usuario")} - {_usuarioActual.Nombre}";
             }
             else
             {
-                this.Text = "Nuevo Usuario";
+                this.Text = I18n.T("Nuevo Usuario");
             }
         }
         finally
@@ -241,14 +257,14 @@ public partial class frmAlta : Form
             // Validaciones
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("El nombre es requerido", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.T("El nombre es requerido"), I18n.T("Validación"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                MessageBox.Show("El usuario es requerido", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.T("El usuario es requerido"), I18n.T("Validación"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtUsuario.Focus();
                 return;
             }
@@ -256,7 +272,7 @@ public partial class frmAlta : Form
             // ✅ CORRECCIÓN: Solo validar contraseña en modo AGREGAR
             if (_usuarioActual == null && string.IsNullOrWhiteSpace(txtClave.Text))
             {
-                MessageBox.Show("La contraseña es requerida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.T("La contraseña es requerida"), I18n.T("Validación"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtClave.Focus();
                 return;
             }
@@ -282,7 +298,7 @@ public partial class frmAlta : Form
                 _usuarioService.Add(nuevoUsuario);
                 _usuarioService.SavePermisos(nuevoUsuario);
 
-                MessageBox.Show("Usuario creado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.T("Usuario creado exitosamente"), I18n.T("Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -304,7 +320,7 @@ public partial class frmAlta : Form
                 _usuarioService.Update(_usuarioActual);
                 _usuarioService.SavePermisos(_usuarioActual);
 
-                MessageBox.Show("Usuario actualizado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.T("Usuario actualizado exitosamente"), I18n.T("Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             this.DialogResult = DialogResult.OK;
@@ -312,7 +328,7 @@ public partial class frmAlta : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error al guardar usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"{I18n.T("Error al guardar usuario")}: {ex.Message}", I18n.T("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {

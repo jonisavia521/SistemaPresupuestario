@@ -15,12 +15,11 @@ namespace Services.DAL.Implementations
     public sealed class LanguageRepository: ILanguageRepository
     {
         private string basePath;
+        
         public LanguageRepository(NameValueCollection app)
         {
             basePath = app["LanguagePath"];
         }
-
-       
 
         public string Find(string word)
         {
@@ -31,13 +30,11 @@ namespace Services.DAL.Implementations
                     string[] line = sr.ReadLine().Split('=');
 
                     if (line[0] == word)
-                    //Encontré la clave buscada...
                     {
                         if (String.IsNullOrEmpty(line[1]))
-                            //Aplicar una bitácora...
                             return line[0];
 
-                        return line[1];//Retorno la traducción...
+                        return line[1];
                     }
                 }
             }
@@ -47,8 +44,6 @@ namespace Services.DAL.Implementations
 
         public void WriteNewWord(string word, string value)
         {
-
-
         }
 
         public Dictionary<string, string> FindAll()
@@ -57,9 +52,8 @@ namespace Services.DAL.Implementations
         }
 
         /// <summary>
-        /// Generar una implementación que lea las extensiones de todos mis archivos dentro de I18n
+        /// Obtiene las culturas soportadas por la aplicación desde los archivos de traducción
         /// </summary>
-        /// <returns></returns>
         public List<string> GetCurrentCultures()
         {
             return new List<string>();

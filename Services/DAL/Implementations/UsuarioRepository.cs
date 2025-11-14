@@ -27,7 +27,7 @@ namespace Services.DAL.Implementations
             _iExceptionBLL = iExceptionBLL;
             _usuarioAdapter=usuarioAdapter;
             _sqlHelper = sqlHelper;
-            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
+            
         }
 
         public void Add(Usuario obj)
@@ -44,6 +44,7 @@ namespace Services.DAL.Implementations
                 };
 
                 // ExecuteScalar para INSERT
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 _sqlHelper.ExecuteScalar(
                     "INSERT INTO Usuario (IdUsuario, Nombre, Usuario, Clave) VALUES (@IdUsuario, @Nombre, @Usuario, @Clave)",
                     CommandType.Text,
@@ -62,6 +63,7 @@ namespace Services.DAL.Implementations
         {
             try
             {
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT IdUsuario, Nombre, Usuario FROM Usuario"))
                 {
@@ -97,6 +99,7 @@ namespace Services.DAL.Implementations
                     new SqlParameter("@Usuario", obj.User),
                     new SqlParameter("@Clave", obj.HashPassword)
                 };
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE Usuario=@Usuario AND Clave=@Clave",
                     default,
@@ -131,6 +134,7 @@ namespace Services.DAL.Implementations
                 // Si tienes FK con DELETE CASCADE, puedes omitir estos deletes
 
                 // Eliminar relaciones Usuario_Familia
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 _sqlHelper.ExecuteNonQuery(
                     "DELETE FROM Usuario_Familia WHERE IdUsuario = @IdUsuario",
                     CommandType.Text,
@@ -176,7 +180,7 @@ namespace Services.DAL.Implementations
                     new SqlParameter("@Nombre", obj.Nombre),
                     new SqlParameter("@Usuario", obj.User)
                 };
-
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 _sqlHelper.ExecuteNonQuery(
                     @"UPDATE Usuario 
                       SET Nombre = @Nombre, 
@@ -203,7 +207,7 @@ namespace Services.DAL.Implementations
                 {
                     new SqlParameter("@IdUsuario", id)
                 };
-                
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader(
                     "SELECT IdUsuario, Nombre, Usuario, Clave FROM Usuario WHERE IdUsuario = @IdUsuario",
                     default,

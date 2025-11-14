@@ -27,7 +27,7 @@ namespace Services.DAL.Implementations
             _iExceptionBLL = iExceptionBLL;
             _patenteAdapter = patenteAdapter;
             _sqlHelper = sqlHelper;
-            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
+            
         }
 
 
@@ -49,6 +49,7 @@ namespace Services.DAL.Implementations
 
             try
             {
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader("SELECT [IdPatente],[Nombre],[Vista] FROM Patente", default))
                 {
                     if (table != null && table.Rows.Count > 0)
@@ -75,7 +76,7 @@ namespace Services.DAL.Implementations
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdPatente", id) };
-                
+                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
                 using (var table = _sqlHelper.ExecuteReader("SELECT [IdPatente],[Nombre],[Vista] FROM Patente WHERE IdPatente = @IdPatente", default,paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)

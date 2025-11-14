@@ -19,13 +19,12 @@ namespace DomainModel.Domain
 
         /// <summary>
         /// Valida las reglas de negocio del producto.
-        /// Esta lógica NO debe estar en la DAL ni en la UI.
+        /// Esta lógica debe estar en el dominio, no en la DAL ni en la UI.
         /// </summary>
         public List<string> ValidarNegocio()
         {
             var errores = new List<string>();
 
-            // Validación de negocio: El código es obligatorio
             if (string.IsNullOrWhiteSpace(Codigo))
             {
                 errores.Add("El código del producto es obligatorio.");
@@ -35,25 +34,21 @@ namespace DomainModel.Domain
                 errores.Add("El código del producto no puede exceder los 50 caracteres.");
             }
 
-            // Validación de negocio: La descripción no puede exceder el límite
             if (!string.IsNullOrWhiteSpace(Descripcion) && Descripcion.Length > 50)
             {
                 errores.Add("La descripción del producto no puede exceder los 50 caracteres.");
             }
 
-            // Validación de negocio: La fecha de alta debe ser válida
             if (FechaAlta == DateTime.MinValue)
             {
                 errores.Add("La fecha de alta es inválida.");
             }
 
-            // Validación de negocio: No se puede modificar un producto con fecha futura
             if (FechaAlta > DateTime.Now)
             {
                 errores.Add("La fecha de alta no puede ser futura.");
             }
 
-            // Validación de negocio: El porcentaje de IVA debe ser válido
             if (PorcentajeIVA != 0.00m && PorcentajeIVA != 10.50m && PorcentajeIVA != 21.00m)
             {
                 errores.Add("El porcentaje de IVA debe ser 0.00 (Exento), 10.50 o 21.00.");

@@ -3,6 +3,7 @@ using BLL.DTOs;
 using BLL.Enums;
 using Services.Services.Contracts;
 using SistemaPresupuestario.Maestros.Shared;
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,9 +71,49 @@ namespace SistemaPresupuestario.Presupuesto
             _presupuestosCompletos = new List<PresupuestoDTO>();
 
             // NUEVO: Inicializar generador de PDF
-             _pdfService = pdfService ?? throw new ArgumentNullException(nameof(pdfService));
+            _pdfService = pdfService ?? throw new ArgumentNullException(nameof(pdfService));
+            
+            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
+            FormTranslator.Translate(this);
+            
+            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
         }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
 
+            if (dgArticulos.Columns.Count > 0)
+            {
+                ActualizarColumnasGrilla();
+            }
+        }
+        
+        /// <summary>
+        /// Actualiza los encabezados de columnas de la grilla
+        /// </summary>
+        private void ActualizarColumnasGrilla()
+        {
+            foreach (DataGridViewColumn column in dgArticulos.Columns)
+            {
+                if (column.Tag == null && !string.IsNullOrWhiteSpace(column.HeaderText))
+                {
+                    column.Tag = column.HeaderText;
+                }
+
+                if (column.Tag is string key)
+                {
+                    column.HeaderText = I18n.T(key);
+                }
+            }
+        }
+        
+      
         /// <summary>
         /// Establece el modo de operación del formulario
         /// Debe llamarse ANTES de mostrar el formulario
@@ -96,7 +137,7 @@ namespace SistemaPresupuestario.Presupuesto
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar el formulario")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -116,7 +157,7 @@ namespace SistemaPresupuestario.Presupuesto
             switch (_modoOperacion)
             {
                 case ModoPresupuesto.Gestionar:
-                    this.Text = "Gestión de Cotizaciones";
+                    this.Text = I18n.T("Gestión de Cotizaciones");
 
                     // Mostrar botones de CRUD
                     btnNuevo.Visible = true;
@@ -130,7 +171,7 @@ namespace SistemaPresupuestario.Presupuesto
                     break;
 
                 case ModoPresupuesto.Aprobar:
-                    this.Text = "Aprobar Cotizaciones";
+                    this.Text = I18n.T("Aprobar Cotizaciones");
 
                     // Ocultar botones de CRUD
                     btnNuevo.Visible = false;
@@ -153,14 +194,14 @@ namespace SistemaPresupuestario.Presupuesto
             cmbEstado.Items.Clear();
 
             var estadosLista = new List<dynamic>
-    {
-        new { Value = 1, Text = "Borrado" },
-        new { Value = 2, Text = "Emitido" },
-        new { Value = 3, Text = "Aprobado" },
-        new { Value = 4, Text = "Rechazado" },
-        new { Value = 5, Text = "Vencido" },
-        new { Value = 6, Text = "Facturado" }
-    };
+            {
+                new { Value = 1, Text = I18n.T("Borrado") },
+                new { Value = 2, Text = I18n.T("Emitido") },
+                new { Value = 3, Text = I18n.T("Aprobado") },
+                new { Value = 4, Text = I18n.T("Rechazado") },
+                new { Value = 5, Text = I18n.T("Vencido") },
+                new { Value = 6, Text = I18n.T("Facturado") }
+            };
 
             cmbEstado.DataSource = estadosLista;
             cmbEstado.DisplayMember = "Text";
@@ -185,6 +226,7 @@ namespace SistemaPresupuestario.Presupuesto
         /// </summary>
         private void CargarCondicionesPago()
         {
+
             // Verificar si txtCodigoFormaPago es un ComboBox o TextBox
             Control control = this.Controls.Find("txtCodigoFormaPago", true).FirstOrDefault();
 
@@ -196,11 +238,11 @@ namespace SistemaPresupuestario.Presupuesto
                 // Diccionario con códigos y descripciones (mismo que frmClienteAlta)
                 var condiciones = new Dictionary<string, string>
                 {
-                    { "01", "01 - Contado" },
-                    { "02", "02 - 30 días" },
-                    { "03", "03 - 60 días" },
-                    { "04", "04 - 90 días" },
-                    { "05", "05 - 120 días" }
+                    { "01", I18n.T("01 - Contado") },
+                    { "02", I18n.T("02 - 30 días") },
+                    { "03", I18n.T("03 - 60 días") },
+                    { "04", I18n.T("04 - 90 días") },
+                    { "05", I18n.T("05 - 120 días") }
                 };
 
                 foreach (var condicion in condiciones)
@@ -229,7 +271,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colCodigo = new DataGridViewTextBoxColumn
             {
                 Name = "Codigo",
-                HeaderText = "Código",
+                HeaderText = I18n.T("Código"),
                 DataPropertyName = "Codigo",
                 Width = 115,
                 ValueType = typeof(string)
@@ -240,7 +282,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colDescripcion = new DataGridViewTextBoxColumn
             {
                 Name = "Descripcion",
-                HeaderText = "Descripción",
+                HeaderText = I18n.T("Descripción"),
                 DataPropertyName = "Descripcion",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
                 ReadOnly = true,
@@ -252,7 +294,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colCantidad = new DataGridViewTextBoxColumn
             {
                 Name = "Cantidad",
-                HeaderText = "Cantidad",
+                HeaderText = I18n.T("Cantidad"),
                 DataPropertyName = "Cantidad",
                 Width = 70,
                 ValueType = typeof(decimal),
@@ -268,7 +310,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colPrecio = new DataGridViewTextBoxColumn
             {
                 Name = "Precio",
-                HeaderText = "Precio",
+                HeaderText = I18n.T("Precio"),
                 DataPropertyName = "Precio",
                 Width = 70,
                 ValueType = typeof(decimal),
@@ -285,7 +327,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colDescuento = new DataGridViewTextBoxColumn
             {
                 Name = "Descuento",
-                HeaderText = "Desc %",
+                HeaderText = I18n.T("Desc %"),
                 DataPropertyName = "Descuento",
                 Width = 70,
                 ValueType = typeof(decimal),
@@ -302,7 +344,7 @@ namespace SistemaPresupuestario.Presupuesto
             var colTotal = new DataGridViewTextBoxColumn
             {
                 Name = "Total",
-                HeaderText = "Total",
+                HeaderText = I18n.T("Total"),
                 DataPropertyName = "Total",
                 Width = 70,
                 ReadOnly = true,
@@ -563,7 +605,7 @@ namespace SistemaPresupuestario.Presupuesto
             _listaPrecioIncluyeIva = false;
             _alicuotaArbaCliente = 0M; // NUEVO
 
-            txtCotizacion.Text = "NUEVO";
+            txtCotizacion.Text = I18n.T("NUEVO");
             txtFecha.Value = DateTime.Now;
             cmbEstado.SelectedIndex = 1;
             dtEntrega.Value = DateTime.Now.AddDays(7);
@@ -1229,7 +1271,7 @@ namespace SistemaPresupuestario.Presupuesto
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al crear nuevo presupuesto: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al crear nuevo presupuesto")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2124,7 +2166,7 @@ namespace SistemaPresupuestario.Presupuesto
                         txtVendedor.Clear();
                     }
 
-                    // Cargar condición de pago del cliente (también recalculará totales)
+                    // Cargar condición de pago del cliente (también cargará AlicuotaArba y recalculará)
                     CargarCondicionPagoDelCliente(cliente.Id);
 
                     // Mover al siguiente control
@@ -2343,7 +2385,7 @@ namespace SistemaPresupuestario.Presupuesto
                     ValidarYMoverFocoListaPrecio();
                 }
             }
-            else if (e.KeyCode == Keys.F1) // Usar F1 como atajo alternativo para selector
+            else if (e.KeyCode == Keys.F1) // Usar F1 como atajo alternativopara selector
             {
                 e.SuppressKeyPress = true;
                 MostrarSelectorListaPrecio();

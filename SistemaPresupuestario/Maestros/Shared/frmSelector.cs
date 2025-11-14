@@ -1,3 +1,4 @@
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,21 @@ namespace SistemaPresupuestario.Maestros.Shared
             InitializeComponent();
             dgvDatos.AutoGenerateColumns = false;
             ElementosSeleccionados = new List<object>();
+            
+            // ? TRADUCCIÓN AUTOMÁTICA
+            FormTranslator.Translate(this);
+            
+            // ? TRADUCCIÓN DINÁMICA
+            I18n.LanguageChanged += OnLanguageChanged;
+            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+        }
+        
+        /// <summary>
+        /// Manejador del evento de cambio de idioma
+        /// </summary>
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this);
         }
 
         /// <summary>
@@ -80,7 +96,7 @@ namespace SistemaPresupuestario.Maestros.Shared
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el selector: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -93,7 +109,7 @@ namespace SistemaPresupuestario.Maestros.Shared
             }
 
             // Aplicar título
-            this.Text = _config.Titulo ?? "Seleccionar";
+            this.Text = _config.Titulo ?? I18n.T("Seleccionar");
 
             // Aplicar placeholder de búsqueda
             if (!string.IsNullOrEmpty(_config.PlaceholderBusqueda))
@@ -106,7 +122,7 @@ namespace SistemaPresupuestario.Maestros.Shared
             {
                 dgvDatos.MultiSelect = true;
                 dgvDatos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                btnSeleccionar.Text = "Seleccionar";
+                btnSeleccionar.Text = I18n.T("Seleccionar");
             }
             else
             {
@@ -240,7 +256,7 @@ namespace SistemaPresupuestario.Maestros.Shared
             dgvDatos.DataSource = _datosFiltrados;
 
             // Actualizar contador de resultados
-            lblResultados.Text = $"Total registros: {_datosFiltrados.Count}";
+            lblResultados.Text = $"{I18n.T("Total registros")}: {_datosFiltrados.Count}";
 
             // Seleccionar el primer elemento si hay alguno
             if (dgvDatos.Rows.Count > 0)
@@ -283,7 +299,7 @@ namespace SistemaPresupuestario.Maestros.Shared
                 // Modo selección múltiple
                 if (dgvDatos.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Debe seleccionar al menos un elemento", "Validación",
+                    MessageBox.Show(I18n.T("Debe seleccionar al menos un elemento"), I18n.T("Validación"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -299,7 +315,7 @@ namespace SistemaPresupuestario.Maestros.Shared
                 // Modo selección simple
                 if (dgvDatos.CurrentRow == null)
                 {
-                    MessageBox.Show("Debe seleccionar un elemento", "Validación",
+                    MessageBox.Show(I18n.T("Debe seleccionar un elemento"), I18n.T("Validación"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
