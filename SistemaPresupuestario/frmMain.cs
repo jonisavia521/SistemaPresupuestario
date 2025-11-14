@@ -10,6 +10,9 @@ using System.Linq;
 using System.Windows.Forms;
 using SistemaPresupuestario.Maestros.ListaPrecio;
 using SistemaPresupuestario.Configuracion;
+using SistemaPresupuestario.Venta.Arba;
+using SistemaPresupuestario.Venta.Factura;
+using SistemaPresupuestario.Seguridad; // NUEVO
 
 namespace SistemaPresupuestario
 {
@@ -263,7 +266,7 @@ namespace SistemaPresupuestario
 
         private void tsArba_Click(object sender, EventArgs e)
         {
-            var formAbierto = Application.OpenForms.OfType<SistemaPresupuestario.Arba.frmActualizarPadronArba>()
+            var formAbierto = Application.OpenForms.OfType<frmActualizarPadronArba>()
                .FirstOrDefault(f => !f.IsDisposed);
 
             if (formAbierto != null)
@@ -272,7 +275,42 @@ namespace SistemaPresupuestario
             }
             else
             {
-                var hijo = _serviceProvider.GetService(typeof(SistemaPresupuestario.Arba.frmActualizarPadronArba)) as SistemaPresupuestario.Arba.frmActualizarPadronArba;
+                var hijo = _serviceProvider.GetService(typeof(frmActualizarPadronArba)) as frmActualizarPadronArba;
+                hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
+
+        private void tsFactura_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<frmFacturar>()
+               .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                var hijo = _serviceProvider.GetService(typeof(frmFacturar)) as frmFacturar;
+                hijo.MdiParent = this;
+                hijo.Show();
+            }
+        }
+
+        private void tsDigitoVerificador_Click(object sender, EventArgs e)
+        {
+            var formAbierto = Application.OpenForms.OfType<frmDemoVerificadorProductos>()
+               .FirstOrDefault(f => !f.IsDisposed);
+
+            if (formAbierto != null)
+            {
+                formAbierto.BringToFront();
+            }
+            else
+            {
+                // Este formulario es autocontenido y no requiere inyección de dependencias
+                var hijo = new frmDemoVerificadorProductos();
                 hijo.MdiParent = this;
                 hijo.Show();
             }

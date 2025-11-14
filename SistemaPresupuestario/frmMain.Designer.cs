@@ -31,6 +31,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsPrincipalArchivo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsDigitoVerificador = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalMaestro = new System.Windows.Forms.ToolStripMenuItem();
             this.tsCliente = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +71,7 @@
             // 
             this.tsPrincipalArchivo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsConfiguracion,
+            this.tsDigitoVerificador,
             this.salirToolStripMenuItem});
             this.tsPrincipalArchivo.Name = "tsPrincipalArchivo";
             this.tsPrincipalArchivo.Size = new System.Drawing.Size(73, 24);
@@ -78,14 +80,21 @@
             // tsConfiguracion
             // 
             this.tsConfiguracion.Name = "tsConfiguracion";
-            this.tsConfiguracion.Size = new System.Drawing.Size(185, 26);
+            this.tsConfiguracion.Size = new System.Drawing.Size(224, 26);
             this.tsConfiguracion.Text = "Configuración";
             this.tsConfiguracion.Click += new System.EventHandler(this.tsConfiguracion_Click);
+            // 
+            // tsDigitoVerificador
+            // 
+            this.tsDigitoVerificador.Name = "tsDigitoVerificador";
+            this.tsDigitoVerificador.Size = new System.Drawing.Size(224, 26);
+            this.tsDigitoVerificador.Text = "Digito Verificador";
+            this.tsDigitoVerificador.Click += new System.EventHandler(this.tsDigitoVerificador_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -104,35 +113,35 @@
             // tsCliente
             // 
             this.tsCliente.Name = "tsCliente";
-            this.tsCliente.Size = new System.Drawing.Size(170, 26);
+            this.tsCliente.Size = new System.Drawing.Size(224, 26);
             this.tsCliente.Text = "Clientes";
             this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 
             this.tsProducto.Name = "tsProducto";
-            this.tsProducto.Size = new System.Drawing.Size(170, 26);
+            this.tsProducto.Size = new System.Drawing.Size(224, 26);
             this.tsProducto.Text = "Productos";
             this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 
             this.tsUsuario.Name = "tsUsuario";
-            this.tsUsuario.Size = new System.Drawing.Size(170, 26);
+            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
             this.tsUsuario.Text = "Usuarios";
             this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // tsVendedor
             // 
             this.tsVendedor.Name = "tsVendedor";
-            this.tsVendedor.Size = new System.Drawing.Size(170, 26);
+            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
             this.tsVendedor.Text = "Vendedores";
             this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
             // 
             // tsListaPrecio
             // 
             this.tsListaPrecio.Name = "tsListaPrecio";
-            this.tsListaPrecio.Size = new System.Drawing.Size(170, 26);
+            this.tsListaPrecio.Size = new System.Drawing.Size(224, 26);
             this.tsListaPrecio.Text = "Lista Precio";
             this.tsListaPrecio.Click += new System.EventHandler(this.tsListaPrecio_Click);
             // 
@@ -174,6 +183,7 @@
             this.tsFactura.Name = "tsFactura";
             this.tsFactura.Size = new System.Drawing.Size(244, 26);
             this.tsFactura.Text = "Emisión de Factura";
+            this.tsFactura.Click += new System.EventHandler(this.tsFactura_Click);
             // 
             // tsRecibo
             // 
@@ -245,6 +255,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsArba;
         private System.Windows.Forms.ToolStripMenuItem tsListaPrecio;
         private System.Windows.Forms.ToolStripMenuItem tsConfiguracion;
+        private System.Windows.Forms.ToolStripMenuItem tsDigitoVerificador;
     }
 }
 

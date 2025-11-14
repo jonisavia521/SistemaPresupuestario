@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace SistemaPresupuestario.Arba
+namespace SistemaPresupuestario.Venta.Arba
 {
     /// <summary>
     /// Formulario para actualizar masivamente las alícuotas ARBA

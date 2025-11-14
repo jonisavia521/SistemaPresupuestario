@@ -137,10 +137,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arba\frmActualizarPadronArba.cs">
+    <Compile Include="Seguridad\frmDemoVerificadorProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Arba\frmActualizarPadronArba.Designer.cs">
+    <Compile Include="Seguridad\frmDemoVerificadorProductos.Designer.cs">
+      <DependentUpon>frmDemoVerificadorProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Venta\Arba\frmActualizarPadronArba.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Venta\Arba\frmActualizarPadronArba.Designer.cs">
       <DependentUpon>frmActualizarPadronArba.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuracion\frmConfiguacionGeneral.cs">
@@ -236,7 +242,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Arba\frmActualizarPadronArba.resx">
+    <Compile Include="Venta\Factura\frmFacturar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Venta\Factura\frmFacturar.Designer.cs">
+      <DependentUpon>frmFacturar.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Seguridad\frmDemoVerificadorProductos.resx">
+      <DependentUpon>frmDemoVerificadorProductos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Venta\Arba\frmActualizarPadronArba.resx">
       <DependentUpon>frmActualizarPadronArba.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuracion\frmConfiguacionGeneral.resx">
@@ -276,6 +291,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Venta\Factura\frmFacturar.resx">
+      <DependentUpon>frmFacturar.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

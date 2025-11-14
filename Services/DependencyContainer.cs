@@ -70,6 +70,10 @@ System.Collections.Specialized.NameValueCollection app)
             services.AddSingleton<IFamiliaService, FamiliaService>();
             services.AddSingleton<IPatenteService, PatenteService>();
             services.AddSingleton<IPresupuestoPdfService, PresupuestoPdfService>();
+            
+            // NUEVO: Registro de servicio de facturación MOCK
+            services.AddSingleton<IFacturacionService, FacturacionMockService>();
+            
             return services;
         }
     }

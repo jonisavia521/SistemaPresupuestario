@@ -76,17 +76,25 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.7.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\FacturaModel.cs" />
     <Compile Include="Services\BackupRestoreService.cs" />
     <Compile Include="Services\Contracts\IBackupRestoreService.cs" />
     <Compile Include="BLL\Contracts\IExceptionBLL.cs" />
@@ -125,6 +133,7 @@
     <Compile Include="DomainModel\Security\Composite\Patente.cs" />
     <Compile Include="DomainModel\Security\Composite\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Contracts\IFacturacionService.cs" />
     <Compile Include="Services\Contracts\IFamiliaService.cs" />
     <Compile Include="Services\Contracts\ILogger.cs" />
     <Compile Include="Services\Contracts\ILogin.cs" />
@@ -133,6 +142,8 @@
     <Compile Include="Services\Contracts\IUsuarioService.cs" />
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\Extensions\ExceptionExtension.cs" />
+    <Compile Include="Services\FacturacionMockService.cs" />
+    <Compile Include="Services\FacturaPdfService.cs" />
     <Compile Include="Services\FamiliaService.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\LoginServices.cs" />
@@ -142,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

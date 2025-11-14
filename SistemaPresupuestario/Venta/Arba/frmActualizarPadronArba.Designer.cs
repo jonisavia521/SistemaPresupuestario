@@ -1,4 +1,4 @@
-namespace SistemaPresupuestario.Arba
+namespace SistemaPresupuestario.Venta.Arba
 {
     partial class frmActualizarPadronArba
     {
