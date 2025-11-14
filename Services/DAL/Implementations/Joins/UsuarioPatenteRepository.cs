@@ -20,14 +20,11 @@ namespace Services.DAL.Implementations.Joins
         IExceptionBLL _iExceptionBLL;
         private SqlServerHelper _sqlHelper;
 
-        //IGenericRepository<Patente> _patenteRepository;
-
-        public UsuarioPatenteRepository(IExceptionBLL iExceptionBLL, SqlServerHelper sqlHelper /* IGenericRepository<Patente> patenteRepository*/)
+        public UsuarioPatenteRepository(IExceptionBLL iExceptionBLL, SqlServerHelper sqlHelper)
         {
             _iExceptionBLL = iExceptionBLL;
-            //_patenteRepository = patenteRepository;
             _sqlHelper = sqlHelper;
-        
+            _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad); 
         }
 
         public void Add(Usuario obj)
@@ -37,7 +34,7 @@ namespace Services.DAL.Implementations.Joins
                 // Primero eliminar todas las patentes actuales
                 var deleteParams = new SqlParameter[]
                 {
-            new SqlParameter("@IdUsuario", obj.Id)
+                    new SqlParameter("@IdUsuario", obj.Id)
                 };
 
                 _sqlHelper.ExecuteNonQuery(
@@ -52,8 +49,8 @@ namespace Services.DAL.Implementations.Joins
                     var patente = permiso as Patente;
                     var insertParams = new SqlParameter[]
                     {
-                new SqlParameter("@IdUsuario", obj.Id),
-                new SqlParameter("@IdPatente", patente.IdComponent)
+                        new SqlParameter("@IdUsuario", obj.Id),
+                        new SqlParameter("@IdPatente", patente.IdComponent)
                     };
 
                     _sqlHelper.ExecuteNonQuery(
@@ -79,7 +76,7 @@ namespace Services.DAL.Implementations.Joins
             try
             {
                 var paramsSQL = new SqlParameter[] { new SqlParameter("@IdUsuario", obj.Id.ToString()) };
-                _sqlHelper.setDataBase(enumDataBase.Huamani_Seguridad);
+                
                 using (var table = _sqlHelper.ExecuteReader("SELECT IdUsuario,IdPatente FROM Usuario_Patente WHERE IdUsuario = @IdUsuario", default, paramsSQL))
                 {
                     if (table != null && table.Rows.Count > 0)

@@ -15,7 +15,8 @@ namespace Services.Services
 
             using (MD5 md5 = MD5.Create())
             {
-                byte[] retVal = md5.ComputeHash(Encoding.Unicode.GetBytes(textPlainPass));
+                // ✅ CORREGIDO: UTF8 es determinista y consistente en todas las plataformas
+                byte[] retVal = md5.ComputeHash(Encoding.UTF8.GetBytes(textPlainPass));
                 for (int i = 0; i < retVal.Length; i++)
                 {
                     sb.Append(retVal[i].ToString("x2"));

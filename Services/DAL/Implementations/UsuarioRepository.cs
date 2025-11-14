@@ -156,23 +156,31 @@ namespace Services.DAL.Implementations
                 ex.Handle(this, _iExceptionBLL);
             }
         }
+        
+        /// <summary>
+        /// ✅ CORRECCIÓN DE SEGURIDAD CRÍTICA:
+        /// Actualiza SOLO Nombre y Usuario, NUNCA la Clave
+        /// 
+        /// Para cambiar la contraseña, crear un método separado UpdatePassword()
+        /// que requiera validación adicional (ej: contraseña actual)
+        /// </summary>
         public void Update(Usuario obj)
         {
             try
             {
+                // ✅ IMPORTANTE: NO incluir @Clave en el UPDATE
+                // La contraseña solo se actualiza mediante un método específico de cambio de contraseña
                 var parametrosSQL = new SqlParameter[]
                 {
                     new SqlParameter("@IdUsuario", obj.Id),
                     new SqlParameter("@Nombre", obj.Nombre),
-                    new SqlParameter("@Usuario", obj.User),
-                    new SqlParameter("@Clave", obj.HashPassword) // Ya hasheada
+                    new SqlParameter("@Usuario", obj.User)
                 };
 
                 _sqlHelper.ExecuteNonQuery(
                     @"UPDATE Usuario 
                       SET Nombre = @Nombre, 
-                          Usuario = @Usuario, 
-                          Clave = @Clave 
+                          Usuario = @Usuario
                       WHERE IdUsuario = @IdUsuario",
                     CommandType.Text,
                     parametrosSQL

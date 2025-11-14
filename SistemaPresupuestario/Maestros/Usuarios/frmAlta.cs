@@ -63,8 +63,14 @@ public partial class frmAlta : Form
     {
         txtNombre.Text = _usuarioActual.Nombre;
         txtUsuario.Text = _usuarioActual.User;
-        txtClave.Text = ""; // No mostrar contraseña por seguridad
-        txtClave.Enabled = false; // Deshabilitar edición de clave (o crear botón "Cambiar contraseña")
+        
+        // ✅ CORRECCIÓN DE SEGURIDAD: En modo edición, ocultar el campo de contraseña
+        // La contraseña NO se puede cambiar desde este formulario
+        txtClave.Text = "";
+        txtClave.Visible = false;
+        
+        // Si tienes un label para la contraseña, ocultarlo también
+        // lblClave.Visible = false; // Descomenta si existe
 
         // Marcar familias asignadas en TreeView
         MarcarFamiliasSeleccionadas();
@@ -98,10 +104,33 @@ public partial class frmAlta : Form
             Name = familia.IdComponent.ToString()
         };
 
-        // Agregar hijos recursivamente
-        foreach (var hijo in familia.GetChildrens().OfType<Familia>())
+        // ✅ CORRECCIÓN: Recorrer TODOS los hijos (familias Y patentes)
+        // El patrón Composite dice que GetChildrens() retorna TODOS los componentes hijos
+        foreach (var hijo in familia.GetChildrens())
         {
-            nodo.Nodes.Add(CrearNodoFamilia(hijo));
+            // Verificar si es una Familia (tiene hijos) o una Patente (no tiene hijos)
+            if (hijo.ChildrenCount() > 0)
+            {
+                // Es una Familia - agregar recursivamente
+                var familiaHija = hijo as Familia;
+                nodo.Nodes.Add(CrearNodoFamilia(familiaHija));
+            }
+            else
+            {
+                // Es una Patente - agregar como nodo hoja
+                var patente = hijo as Patente;
+                if (patente != null)
+                {
+                    var nodoPatente = new TreeNode($"[P] {patente.MenuItemName}")
+                    {
+                        Tag = patente, // Guardar referencia a la patente
+                        Name = patente.IdComponent.ToString(),
+                        // Opcional: cambiar el ícono o color para distinguir patentes de familias
+                        ForeColor = System.Drawing.Color.Blue
+                    };
+                    nodo.Nodes.Add(nodoPatente);
+                }
+            }
         }
 
         return nodo;
@@ -124,25 +153,66 @@ public partial class frmAlta : Form
     {
         if (_usuarioActual == null) return;
 
+        // ✅ CORRECCIÓN: Obtener familias Y patentes asignadas al usuario
         var familiasAsignadas = _usuarioActual.Permisos.OfType<Familia>().ToList();
+        var patentesAsignadas = _usuarioActual.Permisos.OfType<Patente>().ToList();
 
+        // Recorrer el árbol y marcar según corresponda
         foreach (TreeNode nodo in treeViewFamilias.Nodes)
         {
-            MarcarNodoRecursivo(nodo, familiasAsignadas);
+            MarcarNodoRecursivo(nodo, familiasAsignadas, patentesAsignadas);
         }
     }
 
-    private void MarcarNodoRecursivo(TreeNode nodo, List<Familia> familiasAsignadas)
+    /// <summary>
+    /// ✅ NUEVA LÓGICA: Marca los nodos basándose en familias Y patentes asignadas
+    /// </summary>
+    private void MarcarNodoRecursivo(TreeNode nodo, List<Familia> familiasAsignadas, List<Patente> patentesAsignadas)
     {
         var familia = nodo.Tag as Familia;
-        if (familia != null && familiasAsignadas.Any(f => f.IdComponent == familia.IdComponent))
-        {
-            nodo.Checked = true;
-        }
+        var patente = nodo.Tag as Patente;
 
+        if (familia != null)
+        {
+            // Es una Familia
+            if (familiasAsignadas.Any(f => f.IdComponent == familia.IdComponent))
+            {
+                // Si la familia está asignada → marcar TODO el sub-árbol
+                nodo.Checked = true;
+                MarcarTodosLosHijosRecursivo(nodo);
+            }
+            else
+            {
+                // Si la familia NO está asignada → revisar sus hijos individualmente
+                foreach (TreeNode hijo in nodo.Nodes)
+                {
+                    MarcarNodoRecursivo(hijo, familiasAsignadas, patentesAsignadas);
+                }
+            }
+        }
+        else if (patente != null)
+        {
+            // Es una Patente individual
+            if (patentesAsignadas.Any(p => p.IdComponent == patente.IdComponent))
+            {
+                nodo.Checked = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Marca recursivamente todos los nodos hijos (familias y patentes)
+    /// Se usa cuando una familia está asignada al usuario, lo que significa
+    /// que el usuario tiene acceso a TODO lo que contiene esa familia
+    /// </summary>
+    private void MarcarTodosLosHijosRecursivo(TreeNode nodo)
+    {
         foreach (TreeNode hijo in nodo.Nodes)
         {
-            MarcarNodoRecursivo(hijo, familiasAsignadas);
+            hijo.Checked = true;
+            
+            // Marcar recursivamente los hijos de este hijo
+            MarcarTodosLosHijosRecursivo(hijo);
         }
     }
 
@@ -150,12 +220,14 @@ public partial class frmAlta : Form
     {
         if (_usuarioActual == null) return;
 
-        var patentesAsignadas = _usuarioActual.Permisos.OfType<Patente>().ToList();
+        // ✅ CORRECCIÓN: Solo marcar patentes que están DIRECTAMENTE asignadas al usuario
+        // NO las que vienen de familias (esas ya se marcan en el TreeView)
+        var patentesDirectas = _usuarioActual.Permisos.OfType<Patente>().ToList();
 
         for (int i = 0; i < checkedListBoxPatentes.Items.Count; i++)
         {
             var item = (PatenteItem)checkedListBoxPatentes.Items[i];
-            if (patentesAsignadas.Any(p => p.IdComponent == item.Patente.IdComponent))
+            if (patentesDirectas.Any(p => p.IdComponent == item.Patente.IdComponent))
             {
                 checkedListBoxPatentes.SetItemChecked(i, true);
             }
@@ -181,6 +253,7 @@ public partial class frmAlta : Form
                 return;
             }
 
+            // ✅ CORRECCIÓN: Solo validar contraseña en modo AGREGAR
             if (_usuarioActual == null && string.IsNullOrWhiteSpace(txtClave.Text))
             {
                 MessageBox.Show("La contraseña es requerida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -192,13 +265,15 @@ public partial class frmAlta : Form
 
             if (_usuarioActual == null)
             {
-                // MODO AGREGAR
+                // ============================================================
+                // MODO AGREGAR - Crear nuevo usuario CON contraseña
+                // ============================================================
                 var nuevoUsuario = new Usuario
                 {
                     Id = Guid.NewGuid(),
                     Nombre = txtNombre.Text.Trim(),
                     User = txtUsuario.Text.Trim(),
-                    Password = txtClave.Text
+                    Password = txtClave.Text // La contraseña será hasheada en el constructor
                 };
 
                 // Agregar permisos seleccionados
@@ -211,20 +286,21 @@ public partial class frmAlta : Form
             }
             else
             {
-                // MODO EDITAR
+                // ============================================================
+                // MODO EDITAR - Actualizar SOLO nombre, usuario y permisos
+                // ⚠️ NUNCA actualizar la contraseña desde este formulario
+                // ============================================================
                 _usuarioActual.Nombre = txtNombre.Text.Trim();
                 _usuarioActual.User = txtUsuario.Text.Trim();
 
-                // Solo actualizar contraseña si se ingresó una nueva
-                if (!string.IsNullOrWhiteSpace(txtClave.Text))
-                {
-                    _usuarioActual.Password = txtClave.Text;
-                }
+                // ✅ NO tocar _usuarioActual.Password
+                // La contraseña NO se modifica desde este formulario
 
                 // Limpiar y agregar nuevos permisos
                 _usuarioActual.Permisos.Clear();
                 AgregarPermisosSeleccionados(_usuarioActual);
 
+                // ✅ El método Update ahora solo actualiza Nombre y Usuario (no la Clave)
                 _usuarioService.Update(_usuarioActual);
                 _usuarioService.SavePermisos(_usuarioActual);
 
@@ -244,36 +320,139 @@ public partial class frmAlta : Form
         }
     }
 
+    /// <summary>
+    /// ✅ NUEVA LÓGICA CORRECTA: 
+    /// Recorre TODO el árbol y agrega:
+    /// 1. Familias marcadas (sin recorrer sus hijos porque la familia ya los incluye)
+    /// 2. Patentes individuales marcadas (solo si su familia padre NO está marcada)
+    /// </summary>
     private void AgregarPermisosSeleccionados(Usuario usuario)
     {
-        // Agregar familias seleccionadas
+        // Primero: Identificar qué familias están marcadas
+        var familiasSeleccionadas = new List<Guid>();
+        IdentificarFamiliasSeleccionadas(treeViewFamilias.Nodes, familiasSeleccionadas);
+
+        // Segundo: Agregar familias marcadas
         foreach (TreeNode nodo in treeViewFamilias.Nodes)
         {
-            AgregarFamiliasRecursivo(nodo, usuario);
+            AgregarFamiliasRecursivo(nodo, usuario, familiasSeleccionadas);
         }
 
-        // Agregar patentes seleccionadas
+        // Tercero: Agregar patentes del TreeView que NO estén dentro de familias marcadas
+        foreach (TreeNode nodo in treeViewFamilias.Nodes)
+        {
+            AgregarPatentesIndividualesRecursivo(nodo, usuario, familiasSeleccionadas);
+        }
+
+        // Cuarto: Agregar patentes DIRECTAS del CheckedListBox
         foreach (var item in checkedListBoxPatentes.CheckedItems.Cast<PatenteItem>())
         {
-            usuario.Permisos.Add(item.Patente);
+            // Evitar duplicados
+            if (!usuario.Permisos.OfType<Patente>().Any(p => p.IdComponent == item.Patente.IdComponent))
+            {
+                usuario.Permisos.Add(item.Patente);
+            }
         }
     }
 
-    private void AgregarFamiliasRecursivo(TreeNode nodo, Usuario usuario)
+    /// <summary>
+    /// Identifica todas las familias que están marcadas para después filtrar patentes individuales
+    /// </summary>
+    private void IdentificarFamiliasSeleccionadas(TreeNodeCollection nodos, List<Guid> familiasSeleccionadas)
     {
-        if (nodo.Checked)
+        foreach (TreeNode nodo in nodos)
         {
             var familia = nodo.Tag as Familia;
-            if (familia != null)
+            
+            if (familia != null && nodo.Checked)
             {
-                usuario.Permisos.Add(familia);
+                familiasSeleccionadas.Add(familia.IdComponent);
+                // No seguir recorriendo hijos porque si la familia está marcada,
+                // todas sus sub-familias también cuentan como "dentro de familia marcada"
+            }
+            else
+            {
+                // Solo seguir recorriendo si esta familia NO está marcada
+                IdentificarFamiliasSeleccionadas(nodo.Nodes, familiasSeleccionadas);
             }
         }
+    }
 
+    /// <summary>
+    /// Agrega solo las familias marcadas (sin sus hijos porque el patrón Composite los incluye automáticamente)
+    /// </summary>
+    private void AgregarFamiliasRecursivo(TreeNode nodo, Usuario usuario, List<Guid> familiasSeleccionadas)
+    {
+        var familia = nodo.Tag as Familia;
+        
+        if (familia != null && nodo.Checked)
+        {
+            // Agregar la familia completa
+            usuario.Permisos.Add(familia);
+            // ⚠️ NO recorrer hijos porque la familia ya los contiene (Composite pattern)
+            return;
+        }
+
+        // Si NO está marcada, seguir buscando en sus hijos
         foreach (TreeNode hijo in nodo.Nodes)
         {
-            AgregarFamiliasRecursivo(hijo, usuario);
+            AgregarFamiliasRecursivo(hijo, usuario, familiasSeleccionadas);
         }
+    }
+
+    /// <summary>
+    /// ✅ NUEVA LÓGICA: Agrega solo las PATENTES individuales marcadas
+    /// que NO están dentro de una familia marcada
+    /// </summary>
+    private void AgregarPatentesIndividualesRecursivo(TreeNode nodo, Usuario usuario, List<Guid> familiasSeleccionadas)
+    {
+        var familia = nodo.Tag as Familia;
+        var patente = nodo.Tag as Patente;
+
+        if (familia != null)
+        {
+            // Si es una familia marcada, NO procesar sus hijos (ya se agregaron con la familia)
+            if (familiasSeleccionadas.Contains(familia.IdComponent))
+            {
+                return;
+            }
+
+            // Si la familia NO está marcada, revisar sus hijos
+            foreach (TreeNode hijo in nodo.Nodes)
+            {
+                AgregarPatentesIndividualesRecursivo(hijo, usuario, familiasSeleccionadas);
+            }
+        }
+        else if (patente != null && nodo.Checked)
+        {
+            // Es una patente marcada → verificar que NO esté en familia marcada
+            if (!EstaEnFamiliaMarcada(nodo, familiasSeleccionadas))
+            {
+                // Evitar duplicados
+                if (!usuario.Permisos.OfType<Patente>().Any(p => p.IdComponent == patente.IdComponent))
+                {
+                    usuario.Permisos.Add(patente);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Verifica si un nodo está dentro de una familia marcada (recorriendo hacia arriba)
+    /// </summary>
+    private bool EstaEnFamiliaMarcada(TreeNode nodo, List<Guid> familiasSeleccionadas)
+    {
+        TreeNode padre = nodo.Parent;
+        while (padre != null)
+        {
+            var familiaPadre = padre.Tag as Familia;
+            if (familiaPadre != null && familiasSeleccionadas.Contains(familiaPadre.IdComponent))
+            {
+                return true;
+            }
+            padre = padre.Parent;
+        }
+        return false;
     }
 
     private void btnCancelar_Click(object sender, EventArgs e)
