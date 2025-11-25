@@ -411,7 +411,8 @@ namespace SistemaPresupuestario.Configuracion
             // Configurar SaveFileDialog
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = I18n.T("Archivos de Backup (*.bak)|*.bak|Todos los archivos (*.*)|*.*");
+                string filtro = "Archivos de Backup (*.bak)|*.bak|Todos los archivos (*.*)|*.*";
+                saveFileDialog.Filter = filtro;
                 saveFileDialog.Title = I18n.T("Guardar Backup");
                 saveFileDialog.DefaultExt = "bak";
                 saveFileDialog.FileName = $"{I18n.T("SistemaPresupuestario_Backup_")}{DateTime.Now:yyyyMMdd_HHmmss}.bak";

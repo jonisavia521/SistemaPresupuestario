@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Tabla de Contenidos</title>
+</head>
+<body>
+
+<object type="text/site properties">
+    <param name="FrameName" value="main">
+</object>
+
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Sistema Presupuestario - Guía Completa">
+    <param name="Local" value="index.html">
+  </object></li>
+  
+  <li><object type="text/sitemap">
+    <param name="Name" value="Iniciación">
+  </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Guía de Inicio Rápido">
+        <param name="Local" value="01_inicio_rapido.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Conceptos Generales">
+        <param name="Local" value="02_conceptos_generales.html">
+      </object></li>
+    </ul>
+  </li>
+  
+  <li><object type="text/sitemap">
+    <param name="Name" value="Administración">
+  </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Usuarios y Seguridad">
+        <param name="Local" value="03_usuarios_seguridad.html">
+      </object></li>
+    </ul>
+  </li>
+  
+  <li><object type="text/sitemap">
+    <param name="Name" value="Maestros de Datos">
+  </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gestión de Clientes">
+        <param name="Local" value="04_maestro_clientes.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gestión de Vendedores">
+        <param name="Local" value="05_maestro_vendedores.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gestión de Productos">
+        <param name="Local" value="06_maestro_productos.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Listas de Precios">
+        <param name="Local" value="07_lista_precios.html">
+      </object></li>
+    </ul>
+  </li>
+  
+  <li><object type="text/sitemap">
+    <param name="Name" value="Operaciones Principales">
+  </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Presupuestos y Cotizaciones">
+        <param name="Local" value="08_presupuestos.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Facturación">
+        <param name="Local" value="09_facturacion.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="ARBA y Percepciones">
+        <param name="Local" value="11_arba.html">
+      </object></li>
+    </ul>
+  </li>
+  
+  <li><object type="text/sitemap">
+    <param name="Name" value="Ayuda y Soporte">
+  </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Preguntas Frecuentes (FAQ)">
+        <param name="Local" value="10_faq.html">
+      </object></li>
+      
+      <li><object type="text/sitemap">
+        <param name="Name" value="Soporte Técnico">
+        <param name="Local" value="12_soporte_tecnico.html">
+      </object></li>
+    </ul>
+  </li>
+</ul>
+
+</body>
+</html>

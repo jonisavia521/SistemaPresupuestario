@@ -321,5 +321,37 @@ namespace SistemaPresupuestario
                 hijo.Show();
             }
         }
+
+        private void tsManualDeUsuario_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Ruta al archivo CHM compilado
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string chmFilePath = System.IO.Path.Combine(basePath, "Documentacion_CHM", "SistemaPresupuestario_Ayuda.chm");
+
+                // Verificar si el archivo existe
+                if (!System.IO.File.Exists(chmFilePath))
+                {
+                    MessageBox.Show(
+                        $"{I18n.T("El archivo de ayuda no se encuentra en la ruta")}:\n{chmFilePath}\n\n",
+                        I18n.T("Archivo no encontrado"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Abrir el archivo CHM
+                Help.ShowHelp(this, chmFilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"{I18n.T("Error al abrir el manual de usuario")}:\n{ex.Message}",
+                    I18n.T("Error"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
     }
 }

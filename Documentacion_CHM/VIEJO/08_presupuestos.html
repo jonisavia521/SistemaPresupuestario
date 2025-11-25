@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Gestión de Presupuestos y Cotizaciones</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Presupuestos y Cotizaciones</h1>
+        
+        <p>Cree, gestione, apruebe y controle presupuestos comerciales. Este es el módulo central del sistema.</p>
+        
+        <h2>Definición y Concepto</h2>
+        
+        <div class="definition">
+            <strong>Presupuesto/Cotización:</strong> Documento comercial que detalla productos o servicios ofrecidos a un cliente con cantidades, precios y condiciones. Es una propuesta sin obligación de venta, pero es la base para emitir facturas.
+        </div>
+        
+        <h2>Acceso al Módulo</h2>
+        
+        <p><strong>Ruta:</strong> Menú Principal -> Cotizaciones -> [Opción según modo]</p>
+        
+        <div class="section-box">
+            <h3>Dos Modos de Acceso:</h3>
+            <ul>
+                <li><strong>Gestionar Cotizaciones:</strong> Crear, editar, copiar y ver todos los presupuestos</li>
+                <li><strong>Aprobar Cotizaciones:</strong> Revisar presupuestos en estado "Emitido" y aprobar/rechazar</li>
+            </ul>
+        </div>
+        
+        <h2>Crear un Nuevo Presupuesto</h2>
+        
+        <div class="section-box">
+            <h3>Paso 1: Encabezado del Presupuesto</h3>
+            
+            <ol>
+                <li>Haga clic en <strong>Nuevo</strong></li>
+                <li>Complete los datos principales:
+                    <ul>
+                        <li><strong>Cliente:</strong> Seleccione de la lista (requerido)</li>
+                        <li><strong>Fecha:</strong> Se completa automáticamente con hoy</li>
+                        <li><strong>Vendedor:</strong> Personal responsable (opcional)</li>
+                        <li><strong>Vigencia:</strong> Cuántos días es válida la cotización</li>
+                        <li><strong>Observaciones:</strong> Notas adicionales</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <h3>Datos del Encabezado</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td><strong>Número</strong></td>
+                <td>Número único (asignado automáticamente)</td>
+                <td>Sí</td>
+                <td>Secuencial</td>
+            </tr>
+            <tr>
+                <td><strong>Cliente</strong></td>
+                <td>A quién se cotiza</td>
+                <td>Sí</td>
+                <td>Carga lista de precios automáticamente</td>
+            </tr>
+            <tr>
+                <td><strong>Fecha Emisión</strong></td>
+                <td>Cuándo se emite</td>
+                <td>Sí</td>
+                <td>Por defecto: hoy</td>
+            </tr>
+            <tr>
+                <td><strong>Vigencia (días)</strong></td>
+                <td>Duración de la validez</td>
+                <td>No</td>
+                <td>Típicamente: 7, 15 o 30 días</td>
+            </tr>
+            <tr>
+                <td><strong>Vendedor</strong></td>
+                <td>Responsable de la venta</td>
+                <td>No</td>
+                <td>Para comisiones</td>
+            </tr>
+            <tr>
+                <td><strong>Observaciones</strong></td>
+                <td>Notas, términos, condiciones</td>
+                <td>No</td>
+                <td>Aparece en PDF</td>
+            </tr>
+        </table>
+        
+        <h3>Paso 2: Agregar Productos</h3>
+        
+        <div class="section-box">
+            <ol>
+                <li>En la sección <strong>Detalles</strong>, haga clic en <strong>Nuevo</strong></li>
+                <li>Complete:
+                    <ul>
+                        <li><strong>Producto:</strong> Seleccione de lista</li>
+                        <li><strong>Cantidad:</strong> Ingrese cantidad</li>
+                        <li><strong>Precio:</strong> Se carga del cliente o precio base (editable)</li>
+                        <li><strong>Descuento:</strong> Porcentaje adicional (opcional)</li>
+                    </ul>
+                </li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+                <li>Repita para cada producto</li>
+            </ol>
+        </div>
+        
+        <h3>Datos de Detalle</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Cálculo</th>
+            </tr>
+            <tr>
+                <td><strong>Producto</strong></td>
+                <td>Ítem a cotizar</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td><strong>Cantidad</strong></td>
+                <td>Unidades</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td><strong>Precio Unitario</strong></td>
+                <td>Precio por unidad (sin IVA)</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td><strong>Descuento %</strong></td>
+                <td>Descuento adicional</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td><strong>Subtotal</strong></td>
+                <td>Base para IVA</td>
+                <td>Cantidad * Precio * (1 - Descuento%)</td>
+            </tr>
+            <tr>
+                <td><strong>IVA</strong></td>
+                <td>Impuesto al Valor Agregado</td>
+                <td>Subtotal * % IVA del producto</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>Monto final</td>
+                <td>Subtotal + IVA</td>
+            </tr>
+        </table>
+        
+        <h2>Cálculo de Totales</h2>
+        
+        <div class="section-box">
+            <p>El sistema calcula automáticamente:</p>
+            
+            <ul>
+                <li><strong>Subtotal:</strong> Suma de todos los subtotales de detalles</li>
+                <li><strong>IVA Total:</strong> Suma de todos los IVA de detalles</li>
+                <li><strong>ARBA:</strong> Percepción IIBB (si aplica, según provincia)</li>
+                <li><strong>Total General:</strong> Subtotal + IVA + ARBA</li>
+            </ul>
+        </div>
+        
+        <h2>Estados del Presupuesto</h2>
+        
+        <table>
+            <tr>
+                <th>Estado</th>
+                <th>Significado</th>
+                <th>Acciones Posibles</th>
+            </tr>
+            <tr>
+                <td><strong>Emitido</strong></td>
+                <td>Creado, aguardando aprobación</td>
+                <td>Editar, Enviar, Aprobar, Rechazar, Copiar, Eliminar</td>
+            </tr>
+            <tr>
+                <td><strong>Aprobado</strong></td>
+                <td>Cliente aprobó. Listo para facturar</td>
+                <td>Facturar, Editar, Copiar, Ver</td>
+            </tr>
+            <tr>
+                <td><strong>Rechazado</strong></td>
+                <td>Cliente rechazó</td>
+                <td>Ver, Copiar como nuevo, Eliminar</td>
+            </tr>
+            <tr>
+                <td><strong>Facturado</strong></td>
+                <td>Ya generó factura legal</td>
+                <td>Ver, Ver Factura, Copiar</td>
+            </tr>
+        </table>
+        
+        <h2>Guardar el Presupuesto</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>Revise todos los datos</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+                <li>El sistema asignará un número único</li>
+                <li>Se guarda en estado <strong>Emitido</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Aprobar Presupuesto</h2>
+        
+        <div class="section-box">
+            <p>Solo presupuestos en estado <strong>Emitido</strong> pueden aprobarse.</p>
+            
+            <ol>
+                <li>Abra el presupuesto</li>
+                <li>Revise todos los datos</li>
+                <li>Haga clic en <strong>Aprobar</strong></li>
+                <li>Confirme la acción</li>
+                <li>El estado cambia a <strong>Aprobado</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Rechazar Presupuesto</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>Abra el presupuesto en estado <strong>Emitido</strong></li>
+                <li>Haga clic en <strong>Rechazar</strong></li>
+                <li>(Opcional) Ingrese motivo del rechazo</li>
+                <li>Confirme</li>
+                <li>El estado cambia a <strong>Rechazado</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Editar Presupuesto</h2>
+        
+        <div class="section-box">
+            <p><strong>Nota:</strong> Solo presupuestos en estado <strong>Emitido</strong> o <strong>Aprobado</strong> pueden editarse.</p>
+            
+            <ol>
+                <li>Abra el presupuesto</li>
+                <li>Haga clic en <strong>Modificar</strong></li>
+                <li>Cambie los datos necesarios</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Copiar Presupuesto</h2>
+        
+        <div class="section-box">
+            <p>Útil para crear presupuestos similares:</p>
+            
+            <ol>
+                <li>Abra el presupuesto a copiar</li>
+                <li>Haga clic en <strong>Copiar</strong></li>
+                <li>Se crea un nuevo presupuesto con los mismos datos</li>
+                <li>Modifique según sea necesario</li>
+                <li>Guarde</li>
+            </ol>
+        </div>
+        
+        <h2>Generar PDF</h2>
+        
+        <div class="section-box">
+            <p>Para enviar al cliente o archivar:</p>
+            
+            <ol>
+                <li>Abra el presupuesto</li>
+                <li>Haga clic en <strong>Generar PDF</strong> o <strong>Enviar</strong></li>
+                <li>El sistema genera documento con formato profesional</li>
+                <li>Incluye datos de empresa, cliente, detalles, totales e impuestos</li>
+            </ol>
+        </div>
+        
+        <h2>Búsqueda y Filtros</h2>
+        
+        <div class="section-box">
+            <p>Filtre presupuestos por:</p>
+            
+            <ul>
+                <li><strong>Cliente:</strong> Nombre o código</li>
+                <li><strong>Estado:</strong> Emitido, Aprobado, Rechazado, Facturado</li>
+                <li><strong>Fecha:</strong> Rango de fechas</li>
+                <li><strong>Vendedor:</strong> Responsable de la venta</li>
+                <li><strong>Número:</strong> Número específico de presupuesto</li>
+            </ul>
+        </div>
+        
+        <h2>Antes de Facturar</h2>
+        
+        <div class="important">
+            <strong>Requisitos para facturar:</strong>
+            <ul>
+                <li>Presupuesto debe estar en estado <strong>Aprobado</strong></li>
+                <li>Datos fiscales del cliente deben ser correctos</li>
+                <li>Configuración de empresa debe estar completa</li>
+                <li>Punto de venta debe estar configurado</li>
+                <li>Próximo número de factura disponible</li>
+            </ul>
+        </div>
+        
+        <h2>Mejores Prácticas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Datos completos:</strong> No deje campos vacíos</li>
+                <li><strong>Vigencia razonable:</strong> 15-30 días típicamente</li>
+                <li><strong>Observaciones claras:</strong> Términos, pagos, entregas</li>
+                <li><strong>Revisión antes de aprobar:</strong> Verifique totales</li>
+                <li><strong>Documentar cambios:</strong> Si modifica después de enviado</li>
+                <li><strong>Seguimiento:</strong> Registre si fue aceptado o rechazado</li>
+                <li><strong>Archivado:</strong> Guarde copias PDF para auditoría</li>
+            </ul>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

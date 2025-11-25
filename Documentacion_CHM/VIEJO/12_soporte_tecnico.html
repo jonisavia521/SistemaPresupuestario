@@ -1,0 +1,374 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Soporte Técnico y Troubleshooting</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Soporte Técnico y Troubleshooting</h1>
+        
+        <p>Solucione problemas comunes y contacte al equipo de soporte cuando sea necesario.</p>
+        
+        <h2>Problemas de Conexión</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">No puedo conectarme al sistema</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique que está utilizando el usuario y contraseña correctos (sensibles a mayúsculas)</li>
+                    <li>Confirme que la cuenta no está bloqueada o desactivada</li>
+                    <li>Verifique su conexión a Internet/red</li>
+                    <li>Intente desconectar y reconectar a la red</li>
+                    <li>Reinicie la aplicación</li>
+                    <li>Si persiste, contacte al administrador (la base de datos podría no estar disponible)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">"Error de conexión a base de datos"</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique su conexión a Internet (la base de datos está en servidor remoto)</li>
+                    <li>Asegúrese que el servidor SQL Server está encendido y disponible</li>
+                    <li>Espere unos minutos y reintente (podría ser un problema temporal)</li>
+                    <li>Reinicie la aplicación</li>
+                    <li>Si está en red corporativa, verifique con IT que el puerto 1433 está abierto</li>
+                    <li>Contacte al administrador técnico</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">La aplicación es muy lenta</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Cierre programas innecesarios para liberar memoria</li>
+                    <li>Verifique su velocidad de conexión a Internet</li>
+                    <li>Intente conectarse en un horario de menor uso</li>
+                    <li>Reinicie la aplicación y el navegador</li>
+                    <li>Si está trabajando con muchos datos, intente aplicar filtros para reducir volumen</li>
+                    <li>El problema podría ser del servidor (contacte al administrador)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Problemas de Autenticación</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">Olvidé mi contraseña</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li><strong>Contacte al administrador del sistema</strong></li>
+                    <li>Proporcione su nombre de usuario y nombre completo</li>
+                    <li>El administrador generará una contraseña temporal</li>
+                    <li>Cámbiela en el primer acceso</li>
+                    <li><strong>No comparta su contraseña</strong> - el administrador nunca la pedirá</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">Mi cuenta está bloqueada</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Podría bloquearse por múltiples intentos de login fallidos</li>
+                    <li>Espere 30 minutos y reintente</li>
+                    <li>Si persiste, contacte al administrador para desbloquear</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Problemas de Permisos</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">No veo algunos módulos en el menú</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Es normal si no tiene permisos asignados para esos módulos</li>
+                    <li>Contacte al administrador para solicitar acceso</li>
+                    <li>El administrador puede asignarle los permisos necesarios</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">"Acceso denegado" al abrir un módulo</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>No tiene permiso para ese módulo</li>
+                    <li>Contacte al administrador para solicitar acceso</li>
+                    <li>Espere a que le asigne el permiso y reinicie la aplicación</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Problemas de Presupuestos</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">No aparece el cliente que busco</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>El cliente podría estar marcado como "Inactivo"</li>
+                    <li>Desactive el filtro de clientes activos</li>
+                    <li>Verifique que el cliente está creado en Maestros -> Clientes</li>
+                    <li>Use búsqueda parcial (busque por parte del nombre)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">El precio del producto no es el correcto</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique qué lista de precios está asignada al cliente</li>
+                    <li>Si no hay lista, usa el precio base del producto</li>
+                    <li>Puede editar manualmente el precio en el presupuesto</li>
+                    <li>Si cree que el precio está mal, contacte al administrador</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">No puedo editar un presupuesto</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Solo se pueden editar presupuestos en estado "Emitido" o "Aprobado"</li>
+                    <li>Los presupuestos "Facturados" o "Rechazados" no se pueden editar</li>
+                    <li>Para cambiar uno facturado, debe copiar y crear uno nuevo</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Problemas de Facturación</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">Error al emitir factura</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique que el presupuesto está en estado "Aprobado"</li>
+                    <li>Confirme que los datos fiscales son correctos (CUIT, razón social)</li>
+                    <li>Revise la configuración de empresa en Configuración General</li>
+                    <li>Asegúrese que el punto de venta está configurado</li>
+                    <li>Intente desconectar/reconectar y reintente</li>
+                    <li>Si persiste, contacte al soporte técnico</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">"Error al conectar con AFIP"</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique su conexión a Internet</li>
+                    <li>AFIP podría estar en mantenimiento - intente más tarde</li>
+                    <li>Verifique el estado de AFIP en www.afip.gov.ar</li>
+                    <li>Intente nuevamente en otro horario</li>
+                    <li>Si es un problema persistente, contacte al soporte</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">"Datos de factura inválidos"</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique que el CUIT es válido (formato: XX-XXXXXXXX-X)</li>
+                    <li>Confirme que la razón social es exacta</li>
+                    <li>Revise que el tipo de factura (A, B, C) coincide con el cliente</li>
+                    <li>Asegúrese que todos los campos requeridos están completos</li>
+                    <li>Contacte al administrador si el error persiste</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">No puedo descargar el PDF</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Verifique que tiene espacio en disco</li>
+                    <li>Intente descargar en otra carpeta</li>
+                    <li>Verifique que su navegador permite descargas</li>
+                    <li>Cierre el PDF anterior si lo tiene abierto</li>
+                    <li>Reinicie la aplicación e intente nuevamente</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Problemas Técnicos Generales</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">La aplicación se congela o no responde</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Espere un momento (podría estar procesando)</li>
+                    <li>Si no responde, presione Alt+F4 para cerrar</li>
+                    <li>Vuelva a abrir la aplicación</li>
+                    <li>Si el problema persiste, reinicie la computadora</li>
+                    <li>Contacte al soporte técnico si continúa</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">Mensaje de error incomprensible</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Anote el código de error exacto</li>
+                    <li>Tome una captura de pantalla del mensaje</li>
+                    <li>Contacte al soporte técnico con esta información</li>
+                    <li>Describa qué estaba haciendo cuando ocurrió</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Pérdida de Datos</h2>
+        
+        <div class="problem-box">
+            <div class="problem-title">Perdí datos que estaba completando</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Si no hizo clic en "Guardar", los datos se pierden</li>
+                    <li><strong>SIEMPRE haga clic en "Guardar" antes de cerrar</strong></li>
+                    <li>No hay recuperación de datos no guardados</li>
+                    <li>Para el futuro, guarde frecuentemente mientras trabaja</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="problem-box">
+            <div class="problem-title">Se perdieron datos de la base de datos</div>
+            <div class="solution-box">
+                <div class="solution-title">Soluciones:</div>
+                <ol>
+                    <li>Contacte <strong>inmediatamente</strong> al administrador</li>
+                    <li>No realice más cambios en el sistema</li>
+                    <li>El administrador intentará recuperar de un respaldo</li>
+                    <li>En el futuro, asegúrese que se hacen respaldos regularmente</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Cómo Contactar al Soporte</h2>
+        
+        <div class="contact-info">
+            <h3>Información de Contacto</h3>
+            
+            <p><strong>Equipo de Soporte Técnico</strong></p>
+            
+            <ul>
+                <li><strong>Email:</strong> soporte@sistemapresupuestario.com.ar</li>
+                <li><strong>Teléfono:</strong> +54 (11) xxxx-xxxx</li>
+                <li><strong>Horario de Atención:</strong> Lunes a Viernes, 9:00 - 18:00</li>
+                <li><strong>Urgencias:</strong> Contacte al administrador local</li>
+            </ul>
+        </div>
+        
+        <h2>Información para Reportar un Problema</h2>
+        
+        <div class="steps">
+            <h3>Cuando contacte al soporte, proporcione:</h3>
+            
+            <ol>
+                <li><strong>Descripción clara:</strong> ¿Qué está tratando de hacer?</li>
+                <li><strong>Pasos reproducibles:</strong> Cómo puede reproducir el problema</li>
+                <li><strong>Mensaje de error:</strong> Código y texto exacto del error</li>
+                <li><strong>Captura de pantalla:</strong> Si es posible, adjunte imagen</li>
+                <li><strong>Su usuario:</strong> Nombre de usuario con el que accede</li>
+                <li><strong>Cuándo ocurre:</strong> ¿Siempre o a veces?</li>
+                <li><strong>Ambiente:</strong> ¿Está conectado a red? ¿VPN?</li>
+                <li><strong>Versión:</strong> ¿Cuál es la versión del sistema que usa?</li>
+            </ol>
+        </div>
+        
+        <h2>Mejores Prácticas para Evitar Problemas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Guarde frecuentemente:</strong> No pierda datos por olvido</li>
+                <li><strong>Verifique datos antes de guardar:</strong> Revise completitud</li>
+                <li><strong>No cierre sin guardar:</strong> Siempre guarde cambios</li>
+                <li><strong>Actualice contraseña regularmente:</strong> Cada 90 días</li>
+                <li><strong>Reporte problemas de inmediato:</strong> No espere</li>
+                <li><strong>Contacte con administrador:</strong> Para cambios de configuración</li>
+                <li><strong>No modifique configuración:</strong> A menos que sea autorizado</li>
+                <li><strong>Mantenga antivirus actualizado:</strong> En su PC</li>
+            </ul>
+        </div>
+        
+        <h2>Documentación Adicional</h2>
+        
+        <div class="section-box">
+            <p>Para más información, consulte:</p>
+            
+            <ul>
+                <li>Guía de Inicio Rápido - Primeros pasos</li>
+                <li>Conceptos Generales - Términos importantes</li>
+                <li>Preguntas Frecuentes - Respuestas comunes</li>
+                <li>Módulos específicos - Documentación detallada</li>
+            </ul>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

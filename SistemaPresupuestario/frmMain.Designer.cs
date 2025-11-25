@@ -47,6 +47,7 @@
             this.tsArba = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPrincipalAyuda = new System.Windows.Forms.ToolStripMenuItem();
             this.txtUsuario = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsManualDeUsuario = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,35 +113,35 @@
             // tsCliente
             // 
             this.tsCliente.Name = "tsCliente";
-            this.tsCliente.Size = new System.Drawing.Size(170, 26);
+            this.tsCliente.Size = new System.Drawing.Size(224, 26);
             this.tsCliente.Text = "Clientes";
             this.tsCliente.Click += new System.EventHandler(this.tsCliente_Click);
             // 
             // tsProducto
             // 
             this.tsProducto.Name = "tsProducto";
-            this.tsProducto.Size = new System.Drawing.Size(170, 26);
+            this.tsProducto.Size = new System.Drawing.Size(224, 26);
             this.tsProducto.Text = "Productos";
             this.tsProducto.Click += new System.EventHandler(this.tsProducto_Click);
             // 
             // tsUsuario
             // 
             this.tsUsuario.Name = "tsUsuario";
-            this.tsUsuario.Size = new System.Drawing.Size(170, 26);
+            this.tsUsuario.Size = new System.Drawing.Size(224, 26);
             this.tsUsuario.Text = "Usuarios";
             this.tsUsuario.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // tsVendedor
             // 
             this.tsVendedor.Name = "tsVendedor";
-            this.tsVendedor.Size = new System.Drawing.Size(170, 26);
+            this.tsVendedor.Size = new System.Drawing.Size(224, 26);
             this.tsVendedor.Text = "Vendedores";
             this.tsVendedor.Click += new System.EventHandler(this.tsVendedor_Click);
             // 
             // tsListaPrecio
             // 
             this.tsListaPrecio.Name = "tsListaPrecio";
-            this.tsListaPrecio.Size = new System.Drawing.Size(170, 26);
+            this.tsListaPrecio.Size = new System.Drawing.Size(224, 26);
             this.tsListaPrecio.Text = "Lista Precio";
             this.tsListaPrecio.Click += new System.EventHandler(this.tsListaPrecio_Click);
             // 
@@ -192,6 +193,8 @@
             // 
             // tsPrincipalAyuda
             // 
+            this.tsPrincipalAyuda.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsManualDeUsuario});
             this.tsPrincipalAyuda.Name = "tsPrincipalAyuda";
             this.tsPrincipalAyuda.Size = new System.Drawing.Size(65, 24);
             this.tsPrincipalAyuda.Text = "Ayuda";
@@ -203,6 +206,13 @@
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(156, 24);
             this.txtUsuario.Text = "toolStripMenuItem1";
+            // 
+            // tsManualDeUsuario
+            // 
+            this.tsManualDeUsuario.Name = "tsManualDeUsuario";
+            this.tsManualDeUsuario.Size = new System.Drawing.Size(224, 26);
+            this.tsManualDeUsuario.Text = "Manual de usuario";
+            this.tsManualDeUsuario.Click += new System.EventHandler(this.tsManualDeUsuario_Click);
             // 
             // frmMain
             // 
@@ -247,6 +257,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsListaPrecio;
         private System.Windows.Forms.ToolStripMenuItem tsConfiguracion;
         private System.Windows.Forms.ToolStripMenuItem tsDigitoVerificador;
+        private System.Windows.Forms.ToolStripMenuItem tsManualDeUsuario;
     }
 }
 

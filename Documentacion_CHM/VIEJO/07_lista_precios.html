@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Gestión de Listas de Precios</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Listas de Precios</h1>
+        
+        <p>Cree y administre listas de precios diferenciadas para distintos clientes o segmentos del mercado.</p>
+        
+        <h2>Concepto de Listas de Precios</h2>
+        
+        <div class="definition">
+            <strong>Lista de Precios:</strong> Conjunto de precios aplicables a productos específicos, generalmente vinculados a un cliente o grupo de clientes. Permite ofrecer precios diferenciados según acuerdos comerciales.
+        </div>
+        
+        <h2>Acceso al Módulo de Listas de Precios</h2>
+        
+        <p><strong>Ruta:</strong> Menú Principal -> Maestros -> Listas de Precios</p>
+        
+        <p>Este módulo tiene dos secciones: Listas (encabezados) y Detalle (precios específicos).</p>
+        
+        <h2>Crear una Nueva Lista de Precios</h2>
+        
+        <div class="section-box">
+            <h3>Paso 1: Crear el Encabezado</h3>
+            
+            <ol>
+                <li>Haga clic en el botón <strong>Nuevo</strong></li>
+                <li>Complete los datos de la lista:
+                    <ul>
+                        <li><strong>Nombre:</strong> Descripción clara (ej: "Cliente VIP", "Mayoristas")</li>
+                        <li><strong>Descripción:</strong> Información adicional</li>
+                        <li><strong>Activa:</strong> Marque para usar en presupuestos</li>
+                    </ul>
+                </li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h3>Datos de la Lista</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+            </tr>
+            <tr>
+                <td><strong>Código</strong></td>
+                <td>Identificador único (asignado automáticamente)</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Nombre</strong></td>
+                <td>Nombre descriptivo de la lista</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Descripción</strong></td>
+                <td>Notas adicionales</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><strong>Activa</strong></td>
+                <td>Disponible para usar en presupuestos</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Vigencia Desde</strong></td>
+                <td>Fecha de inicio de validez</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><strong>Vigencia Hasta</strong></td>
+                <td>Fecha de vencimiento</td>
+                <td>No</td>
+            </tr>
+        </table>
+        
+        <h2>Agregar Precios a la Lista</h2>
+        
+        <div class="section-box">
+            <h3>Paso 2: Cargar Detalles de Precios</h3>
+            
+            <ol>
+                <li>Seleccione la lista creada</li>
+                <li>En la sección de <strong>Detalles</strong>, haga clic en <strong>Nuevo</strong></li>
+                <li>Complete la información:
+                    <ul>
+                        <li><strong>Producto:</strong> Seleccione de la lista</li>
+                        <li><strong>Precio:</strong> Ingrese el precio para este cliente</li>
+                        <li><strong>Descuento %:</strong> Descuento adicional (opcional)</li>
+                    </ul>
+                </li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+                <li>Repita para cada producto en la lista</li>
+            </ol>
+        </div>
+        
+        <h3>Datos del Detalle</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td><strong>Producto</strong></td>
+                <td>Producto al que aplica este precio</td>
+                <td>Sí</td>
+                <td>Seleccionar de lista desplegable</td>
+            </tr>
+            <tr>
+                <td><strong>Precio</strong></td>
+                <td>Precio unitario para este cliente</td>
+                <td>Sí</td>
+                <td>Sin IVA</td>
+            </tr>
+            <tr>
+                <td><strong>Descuento %</strong></td>
+                <td>Descuento adicional en porcentaje</td>
+                <td>No</td>
+                <td>Ej: 5, 10, 15</td>
+            </tr>
+        </table>
+        
+        <h2>Ejemplos de Listas de Precios</h2>
+        
+        <div class="section-box">
+            <h3>Casos de Uso Comunes:</h3>
+            
+            <ul>
+                <li><strong>Cliente VIP:</strong> Precios reducidos para clientes principales</li>
+                <li><strong>Mayoristas:</strong> Precios especiales por volumen</li>
+                <li><strong>Distribuidores:</strong> Precios mayoristas con descuento</li>
+                <li><strong>Promoción Temporal:</strong> Precios especiales por período</li>
+                <li><strong>Segmento Educativo:</strong> Precios especiales para instituciones</li>
+                <li><strong>Mercados Internacionales:</strong> Precios en otra moneda</li>
+            </ul>
+        </div>
+        
+        <h2>Asociar Lista de Precios a Cliente</h2>
+        
+        <div class="section-box">
+            <p>Para que un cliente use automáticamente una lista específica:</p>
+            
+            <ol>
+                <li>Abra el módulo de <strong>Clientes</strong></li>
+                <li>Edite el cliente deseado</li>
+                <li>En el campo "Lista de Precios", seleccione la lista</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+            
+            <p>Ahora, al crear un presupuesto para este cliente, el sistema usará automáticamente esta lista.</p>
+        </div>
+        
+        <h2>Uso en Presupuestos</h2>
+        
+        <div class="section-box">
+            <p>Cuando crea un presupuesto:</p>
+            
+            <ol>
+                <li>Selecciona un <strong>cliente</strong></li>
+                <li>Si tiene lista asignada, los precios se cargan automáticamente</li>
+                <li>Si no tiene lista, usa los <strong>precios base</strong> de productos</li>
+                <li>Puede cambiar precios manualmente en el presupuesto</li>
+            </ol>
+        </div>
+        
+        <h2>Editar Lista de Precios</h2>
+        
+        <div class="section-box">
+            <h3>Modificar Encabezado:</h3>
+            <ol>
+                <li>Seleccione la lista</li>
+                <li>Haga clic en <strong>Modificar</strong></li>
+                <li>Actualice los datos</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+            
+            <h3>Modificar Detalle (Precio):</h3>
+            <ol>
+                <li>Seleccione la lista</li>
+                <li>En los detalles, seleccione la línea a modificar</li>
+                <li>Haga clic en <strong>Modificar</strong></li>
+                <li>Actualice el precio</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Eliminación de Precios</h2>
+        
+        <div class="section-box">
+            <p>Para eliminar un producto de una lista de precios:</p>
+            
+            <ol>
+                <li>Seleccione la lista</li>
+                <li>En los detalles, seleccione la línea</li>
+                <li>Haga clic en <strong>Eliminar</strong></li>
+                <li>Confirme la eliminación</li>
+            </ol>
+            
+            <p>Solo se elimina de la lista, el producto sigue existiendo.</p>
+        </div>
+        
+        <h2>Gestión de Vigencia</h2>
+        
+        <div class="section-box">
+            <p>Puede establecer fechas de validez:</p>
+            
+            <ul>
+                <li><strong>Vigencia Desde:</strong> A partir de cuándo es válida</li>
+                <li><strong>Vigencia Hasta:</strong> Hasta cuándo es válida</li>
+            </ul>
+            
+            <p>Permiten crear listas temporales para promociones o cambios de precio futuros.</p>
+        </div>
+        
+        <h2>Copiar Lista de Precios</h2>
+        
+        <div class="section-box">
+            <p>Para crear una lista basada en otra existente:</p>
+            
+            <ol>
+                <li>Seleccione la lista original</li>
+                <li>Haga clic en <strong>Copiar</strong> (si está disponible)</li>
+                <li>Ingrese un nombre para la nueva lista</li>
+                <li>Se crearán todos los detalles automáticamente</li>
+                <li>Ajuste los precios necesarios</li>
+            </ol>
+        </div>
+        
+        <h2>Reportes de Listas de Precios</h2>
+        
+        <p>Análisis disponibles:</p>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Comparativa de Precios:</strong> Entre listas y precios base</li>
+                <li><strong>Variación de Precios:</strong> Cambios en el tiempo</li>
+                <li><strong>Clientes por Lista:</strong> Qué clientes usan cada lista</li>
+                <li><strong>Vigencia:</strong> Listas activas y vencidas</li>
+            </ul>
+        </div>
+        
+        <h2>Mejores Prácticas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Nombres descriptivos:</strong> Facilita identificación</li>
+                <li><strong>Precios consistentes:</strong> Revise antes de activar</li>
+                <li><strong>Vigencia clara:</strong> Indique período de validez</li>
+                <li><strong>Documentación:</strong> Registre razón de cambios</li>
+                <li><strong>Revisión periódica:</strong> Actualice según inflación</li>
+                <li><strong>Control de cambios:</strong> Mantenga versiones antiguas</li>
+                <li><strong>Comunicación:</strong> Informe cambios a equipo de ventas</li>
+            </ul>
+        </div>
+        
+        <h2>Flujo de Precios</h2>
+        
+        <div class="section-box">
+            <h3>¿Qué precio se usa en un presupuesto?</h3>
+            <ol>
+                <li><strong>Primero:</strong> Si existe precio en lista asignada al cliente -> Usa ese</li>
+                <li><strong>Segundo:</strong> Si no existe precio en lista -> Usa precio base del producto</li>
+                <li><strong>Tercero:</strong> Puede editar manualmente en el presupuesto</li>
+            </ol>
+        </div>
+        
+        <div class="tip">
+            <strong>Consejo:</strong> Cree una lista "Precio Base" con los precios estándar como referencia.
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

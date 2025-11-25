@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Gestión de Clientes</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Clientes</h1>
+        
+        <p>Administre el registro de clientes y mantenga actualizada su información de contacto y comercial.</p>
+        
+        <h2>Acceso al Módulo de Clientes</h2>
+        
+        <p><strong>Ruta:</strong> Menú Principal -> Maestros -> Clientes</p>
+        
+        <p>Este módulo permite crear, consultar, modificar y eliminar clientes de su base de datos.</p>
+        
+        <h2>Vista de Listado de Clientes</h2>
+        
+        <div class="section-box">
+            <p>En la pantalla principal verá una tabla con todos los clientes registrados:</p>
+            
+            <h3>Funcionalidades:</h3>
+            <ul>
+                <li><strong>Búsqueda:</strong> Busque por código, razón social o CUIT</li>
+                <li><strong>Orden:</strong> Haga clic en los encabezados para ordenar</li>
+                <li><strong>Nuevo:</strong> Crear un cliente nuevo</li>
+                <li><strong>Modificar:</strong> Editar cliente seleccionado</li>
+                <li><strong>Eliminar:</strong> Borrar cliente (solo si no tiene presupuestos)</li>
+                <li><strong>Ver:</strong> Consultar detalles sin modificar</li>
+            </ul>
+        </div>
+        
+        <h2>Crear un Nuevo Cliente</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>Haga clic en el botón <strong>Nuevo</strong></li>
+                <li>En el formulario, ingrese los datos del cliente</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+                <li>El sistema le asignará automáticamente un <strong>código</strong></li>
+            </ol>
+        </div>
+        
+        <h3>Datos del Cliente</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Formato</th>
+            </tr>
+            <tr>
+                <td><strong>Código</strong></td>
+                <td>Identificador único (asignado automáticamente)</td>
+                <td>Sí</td>
+                <td>Numérico</td>
+            </tr>
+            <tr>
+                <td><strong>Razón Social</strong></td>
+                <td>Nombre completo del cliente o empresa</td>
+                <td>Sí</td>
+                <td>Texto (máx 100 caracteres)</td>
+            </tr>
+            <tr>
+                <td><strong>CUIT</strong></td>
+                <td>Código de Impuesto Único Tributario</td>
+                <td>No</td>
+                <td>XX-XXXXXXXX-X</td>
+            </tr>
+            <tr>
+                <td><strong>Dirección</strong></td>
+                <td>Domicilio comercial</td>
+                <td>No</td>
+                <td>Texto</td>
+            </tr>
+            <tr>
+                <td><strong>Localidad</strong></td>
+                <td>Ciudad donde reside el cliente</td>
+                <td>No</td>
+                <td>Texto</td>
+            </tr>
+            <tr>
+                <td><strong>Provincia</strong></td>
+                <td>Estado o provincia</td>
+                <td>No</td>
+                <td>Seleccionar de lista</td>
+            </tr>
+            <tr>
+                <td><strong>Teléfono</strong></td>
+                <td>Número de contacto principal</td>
+                <td>No</td>
+                <td>Texto</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>Correo electrónico para comunicaciones</td>
+                <td>No</td>
+                <td>email@example.com</td>
+            </tr>
+            <tr>
+                <td><strong>Condición IVA</strong></td>
+                <td>Situación fiscal del cliente</td>
+                <td>Sí</td>
+                <td>Responsable, Monotributista, etc.</td>
+            </tr>
+            <tr>
+                <td><strong>Condición de Pago</strong></td>
+                <td>Forma de pago habitual</td>
+                <td>No</td>
+                <td>Contado, Cuenta Corriente, etc.</td>
+            </tr>
+        </table>
+        
+        <h2>Editar Cliente Existente</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>En la lista, seleccione el cliente a modificar</li>
+                <li>Haga clic en el botón <strong>Modificar</strong></li>
+                <li>Actualice los campos necesarios</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Buscar Cliente</h2>
+        
+        <div class="section-box">
+            <p>El sistema proporciona búsqueda en tiempo real:</p>
+            
+            <ul>
+                <li><strong>Por Código:</strong> Busque por el número asignado</li>
+                <li><strong>Por Razón Social:</strong> Nombre del cliente (búsqueda parcial disponible)</li>
+                <li><strong>Por CUIT:</strong> Número de impuesto</li>
+            </ul>
+            
+            <p>Escriba en el campo de búsqueda y el sistema filtrará automáticamente.</p>
+        </div>
+        
+        <h2>Información Importante para Presupuestos</h2>
+        
+        <div class="tip">
+            <strong>Importante:</strong> Los datos del cliente se usan para:
+            <ul>
+                <li>Encabezado de presupuestos</li>
+                <li>Datos fiscales en facturas</li>
+                <li>Encabezado de PDF</li>
+                <li>Aplicación de listas de precios específicas</li>
+            </ul>
+        </div>
+        
+        <h2>Eliminar Cliente</h2>
+        
+        <div class="section-box">
+            <p>Solo puede eliminar clientes que <strong>NO tengan</strong> presupuestos asociados.</p>
+            
+            <ol>
+                <li>Seleccione el cliente</li>
+                <li>Haga clic en <strong>Eliminar</strong></li>
+                <li>Confirme la eliminación en el diálogo</li>
+            </ol>
+        </div>
+        
+        <div class="tip">
+            <strong>Alternativa:</strong> Si necesita mantener el registro pero no usarlo, marque el cliente como "Inactivo" en lugar de eliminarlo.
+        </div>
+        
+        <h2>Listas de Precios por Cliente</h2>
+        
+        <p>Puede asignar listas de precios específicas a cada cliente:</p>
+        
+        <div class="section-box">
+            <ol>
+                <li>Abra el cliente a editar</li>
+                <li>En la pestaña <strong>Precios</strong>, seleccione la lista de precios</li>
+                <li>El sistema usará esta lista al crear presupuestos para este cliente</li>
+            </ol>
+        </div>
+        
+        <h2>Datos Fiscales del Cliente</h2>
+        
+        <p>La información fiscal es crítica para la emisión de facturas:</p>
+        
+        <table>
+            <tr>
+                <th>Dato Fiscal</th>
+                <th>Uso</th>
+            </tr>
+            <tr>
+                <td><strong>CUIT</strong></td>
+                <td>Identificación en factura legal</td>
+            </tr>
+            <tr>
+                <td><strong>Condición IVA</strong></td>
+                <td>Determina tipo de factura (A, B, C) a usar</td>
+            </tr>
+            <tr>
+                <td><strong>Dirección y Localidad</strong></td>
+                <td>Domicilio del comprador en factura</td>
+            </tr>
+        </table>
+        
+        <div class="tip">
+            <strong>Verificación:</strong> Antes de emitir una factura, verifique que los datos fiscales del cliente sean correctos en el sistema.
+        </div>
+        
+        <h2>Mejores Prácticas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Código único:</strong> Use códigos que faciliten identificación (ej: números secuenciales)</li>
+                <li><strong>Razón social exacta:</strong> Coincida con la registrada en AFIP</li>
+                <li><strong>CUIT correcto:</strong> Verifique que sea correcto (evita problemas fiscales)</li>
+                <li><strong>Email actualizado:</strong> Para enviar presupuestos y facturas</li>
+                <li><strong>Condición IVA correcta:</strong> Es esencial para el tipo de factura</li>
+                <li><strong>Datos completos:</strong> Complete todos los campos posibles</li>
+                <li><strong>Revisión periódica:</strong> Actualice datos de clientes activos</li>
+            </ul>
+        </div>
+        
+        <h2>Importación de Clientes</h2>
+        
+        <p>Si posee una lista de clientes en Excel o CSV, contacte al equipo técnico para una importación masiva.</p>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

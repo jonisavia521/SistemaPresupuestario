@@ -1,0 +1,30 @@
+[OPTIONS]
+Title=Sistema Presupuestario - Ayuda Completa
+Default Topic=index.html
+Compiled file=SistemaPresupuestario_Ayuda.chm
+Language=0x0C0A Spanish (Spain)
+Display compile progress=Yes
+Contents file=SistemaPresupuestario_Ayuda.hhc
+Compatibility=1.1 or later
+Full-text search=Yes
+Default Window=main
+
+[WINDOWS]
+main="Sistema Presupuestario - Ayuda","SistemaPresupuestario_Ayuda.hhc",,"index.html","index.html",,,,,0x63520,,0x387e,,,,,,,,0
+
+[FILES]
+index.html
+01_inicio_rapido.html
+02_conceptos_generales.html
+03_usuarios_seguridad.html
+04_maestro_clientes.html
+05_maestro_vendedores.html
+06_maestro_productos.html
+07_lista_precios.html
+08_presupuestos.html
+09_facturacion.html
+10_faq.html
+11_arba.html
+12_soporte_tecnico.html
+
+[INFOTYPES]

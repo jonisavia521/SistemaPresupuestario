@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Gestión de Usuarios y Seguridad</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Usuarios y Seguridad</h1>
+        
+        <p>Administre usuarios, permisos y controles de acceso al sistema de forma segura.</p>
+        
+        <h2>Acceso al Módulo de Usuarios</h2>
+        
+        <p><strong>Ruta:</strong> Menú Principal -> Archivos -> Usuarios</p>
+        
+        <p>Solo los administradores tienen acceso a este módulo. Aquí puede crear, editar y eliminar usuarios del sistema.</p>
+        
+        <h2>Crear un Nuevo Usuario</h2>
+        
+        <div class="section-box">
+            <h3>Pasos para crear un usuario:</h3>
+            
+            <ol>
+                <li>Haga clic en el botón <strong>Nuevo</strong></li>
+                <li>Ingrese el <strong>nombre de usuario</strong> (sin espacios, máximo 50 caracteres)</li>
+                <li>Asigne una <strong>contraseña temporal</strong> (el usuario deberá cambiarla en el primer acceso)</li>
+                <li>Ingrese el <strong>nombre completo</strong> del usuario</li>
+                <li>Seleccione el <strong>perfil/rol</strong> (Administrador, Vendedor, Aprobador, etc.)</li>
+                <li>Asigne los <strong>permisos</strong> específicos si es necesario</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h3>Campos del Usuario</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+            </tr>
+            <tr>
+                <td><strong>Usuario</strong></td>
+                <td>Identificador único del usuario en el sistema</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Contraseña</strong></td>
+                <td>Acceso seguro (mínimo 8 caracteres recomendado)</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Nombre Completo</strong></td>
+                <td>Nombre y apellido del usuario</td>
+                <td>Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>Correo para notificaciones</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><strong>Activo</strong></td>
+                <td>Habilita o deshabilita la cuenta</td>
+                <td>Sí</td>
+            </tr>
+        </table>
+        
+        <h2>Sistemas de Permisos</h2>
+        
+        <p>El sistema utiliza un modelo de permisos basado en **Familias y Patentes**:</p>
+        
+        <div class="section-box">
+            <h3>Familia:</h3>
+            <p>Agrupación de funcionalidades relacionadas (ej: Maestros, Cotizaciones, Facturación)</p>
+            
+            <h3>Patente:</h3>
+            <p>Permiso específico dentro de una familia (ej: Ver Cotizaciones, Crear Cotizaciones, Aprobar Cotizaciones)</p>
+        </div>
+        
+        <h3>Roles Predefinidos</h3>
+        
+        <table class="permission-table">
+            <tr>
+                <th>Rol</th>
+                <th>Descripción</th>
+                <th>Permisos Típicos</th>
+            </tr>
+            <tr>
+                <td><strong>Administrador</strong></td>
+                <td>Acceso completo al sistema</td>
+                <td>Todos los módulos, crear usuarios, configuración</td>
+            </tr>
+            <tr>
+                <td><strong>Vendedor</strong></td>
+                <td>Crear y gestionar presupuestos</td>
+                <td>Ver maestros, crear presupuestos, consultar precios</td>
+            </tr>
+            <tr>
+                <td><strong>Aprobador</strong></td>
+                <td>Revisar y aprobar presupuestos</td>
+                <td>Ver presupuestos, aprobar, rechazar, facturar</td>
+            </tr>
+            <tr>
+                <td><strong>Consultor</strong></td>
+                <td>Acceso de solo lectura</td>
+                <td>Ver presupuestos, ver facturas, consultar maestros</td>
+            </tr>
+            <tr>
+                <td><strong>Jefe Ventas</strong></td>
+                <td>Gestión completa de ventas</td>
+                <td>Todos los permisos de venta, reportes</td>
+            </tr>
+        </table>
+        
+        <h2>Cambio de Contraseña</h2>
+        
+        <div class="section-box">
+            <h3>Procedimiento:</h3>
+            <ul>
+                <li>El sistema le pedirá cambiar la contraseña en el <strong>primer acceso</strong></li>
+                <li>Debe ingresar una <strong>contraseña nueva</strong> (mínimo 8 caracteres recomendado)</li>
+                <li>Confirme la contraseña ingresándola <strong>dos veces</strong></li>
+                <li>Haga clic en <strong>Aceptar</strong></li>
+            </ul>
+        </div>
+        
+        <div class="warning">
+            <strong>Seguridad:</strong> 
+            <ul>
+                <li>Nunca comparta su contraseña con otros usuarios</li>
+                <li>Cambie su contraseña regularmente (cada 90 días recomendado)</li>
+                <li>Use contraseñas fuertes (letras, números, símbolos)</li>
+                <li>Si olvida su contraseña, contacte al administrador</li>
+            </ul>
+        </div>
+        
+        <h2>Editar Usuario Existente</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>En la lista de usuarios, seleccione el usuario a editar</li>
+                <li>Haga clic en <strong>Modificar</strong></li>
+                <li>Actualice los campos necesarios</li>
+                <li>Para cambiar contraseña, dejarla en blanco para mantener la actual</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <h2>Deshabilitar Usuario</h2>
+        
+        <div class="section-box">
+            <p>Para inhabilitar un usuario (sin eliminarlo):</p>
+            <ol>
+                <li>Seleccione el usuario</li>
+                <li>Haga clic en <strong>Modificar</strong></li>
+                <li>Desmarque el campo <strong>Activo</strong></li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+            
+            <p>El usuario no podrá iniciar sesión, pero sus datos históricos se mantienen en la base de datos.</p>
+        </div>
+        
+        <h2>Auditoría y Registros</h2>
+        
+        <p>El sistema registra automáticamente:</p>
+        
+        <ul>
+            <li>Quién creó o modificó cada registro</li>
+            <li>Fecha y hora de cambios importantes</li>
+            <li>Intentos de acceso fallidos (opcional)</li>
+            <li>Cambios en presupuestos y facturas</li>
+        </ul>
+        
+        <div class="tip">
+            <strong>Consejo:</strong> Revise periódicamente los registros de auditoría para identificar actividades inusuales.
+        </div>
+        
+        <h2>Mejores Prácticas de Seguridad</h2>
+        
+        <div class="success">
+            <h3>Recomendaciones:</h3>
+            <ul>
+                <li><strong>Mínimo 3 administradores:</strong> Para evitar punto único de fallo</li>
+                <li><strong>Permisos restringidos:</strong> Solo otorgue los permisos necesarios</li>
+                <li><strong>Revisión periódica:</strong> Audite usuarios activos mensualmente</li>
+                <li><strong>Eliminación de usuarios:</strong> Deshabilite cuentas no usadas</li>
+                <li><strong>Cambios de rol:</strong> Actualice permisos si el usuario cambia de posición</li>
+                <li><strong>Contraseñas fuertes:</strong> Exija cambio en primer acceso</li>
+                <li><strong>Copias de seguridad:</strong> Realice backups regularmente</li>
+            </ul>
+        </div>
+        
+        <h2>Solución de Problemas</h2>
+        
+        <h3>Usuario olvidó su contraseña</h3>
+        <div class="section-box">
+            <p>Solo el administrador puede resetear la contraseña:</p>
+            <ol>
+                <li>Abra "Gestión de Usuarios"</li>
+                <li>Busque y seleccione al usuario</li>
+                <li>Haga clic en "Modificar"</li>
+                <li>Ingrese una contraseña temporal</li>
+                <li>Guarde los cambios</li>
+                <li>Comunique la contraseña temporal al usuario de forma segura</li>
+                <li>El usuario deberá cambiarla en el primer acceso</li>
+            </ol>
+        </div>
+        
+        <h3>Usuario no puede acceder</h3>
+        <div class="section-box">
+            <p>Verifique:</p>
+            <ul>
+                <li>¿Está la cuenta <strong>Activa</strong>?</li>
+                <li>¿Tiene el usuario los permisos necesarios para el módulo?</li>
+                <li>¿Es correcto el <strong>nombre de usuario</strong> (sensible a mayúsculas)?</li>
+                <li>¿Está la base de datos disponible?</li>
+            </ul>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

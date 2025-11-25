@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Gestión de Productos</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Productos</h1>
+        
+        <p>Administre el catálogo de productos y servicios que su empresa comercializa.</p>
+        
+        <h2>Acceso al Módulo de Productos</h2>
+        
+        <p><strong>Ruta:</strong> Menú Principal -> Maestros -> Productos</p>
+        
+        <p>Este módulo permite crear, consultar, modificar y eliminar productos del catálogo.</p>
+        
+        <h2>Vista de Listado de Productos</h2>
+        
+        <div class="section-box">
+            <p>En la pantalla principal verá la tabla de productos:</p>
+            
+            <h3>Funcionalidades:</h3>
+            <ul>
+                <li><strong>Búsqueda:</strong> Busque por código, descripción o familia</li>
+                <li><strong>Orden:</strong> Haga clic en encabezados para ordenar</li>
+                <li><strong>Filtro:</strong> Mostrar solo productos activos</li>
+                <li><strong>Nuevo:</strong> Crear producto nuevo</li>
+                <li><strong>Modificar:</strong> Editar producto seleccionado</li>
+                <li><strong>Eliminar:</strong> Borrar producto</li>
+                <li><strong>Ver:</strong> Consultar detalles sin modificar</li>
+            </ul>
+        </div>
+        
+        <h2>Crear un Nuevo Producto</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>Haga clic en el botón <strong>Nuevo</strong></li>
+                <li>Complete el formulario con los datos del producto</li>
+                <li>Ingrese el <strong>precio base</strong></li>
+                <li>Seleccione la <strong>familia/categoría</strong></li>
+                <li>Defina el <strong>porcentaje de IVA</strong></li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+                <li>Se le asignará automáticamente un <strong>código</strong></li>
+            </ol>
+        </div>
+        
+        <h3>Datos del Producto</h3>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Formato</th>
+            </tr>
+            <tr>
+                <td><strong>Código</strong></td>
+                <td>Identificador único (asignado automáticamente)</td>
+                <td>Sí</td>
+                <td>Numérico</td>
+            </tr>
+            <tr>
+                <td><strong>Descripción</strong></td>
+                <td>Nombre del producto visible en presupuestos</td>
+                <td>Sí</td>
+                <td>Texto (máx 200 caracteres)</td>
+            </tr>
+            <tr>
+                <td><strong>Familia</strong></td>
+                <td>Categoría o grupo del producto</td>
+                <td>No</td>
+                <td>Seleccionar de lista</td>
+            </tr>
+            <tr>
+                <td><strong>Precio Base</strong></td>
+                <td>Precio unitario sin IVA</td>
+                <td>Sí</td>
+                <td>Numérico decimal</td>
+            </tr>
+            <tr>
+                <td><strong>% IVA</strong></td>
+                <td>Porcentaje de Impuesto al Valor Agregado</td>
+                <td>Sí</td>
+                <td>Típicamente 21, 10.5 o 0</td>
+            </tr>
+            <tr>
+                <td><strong>Descripción Detallada</strong></td>
+                <td>Información adicional del producto</td>
+                <td>No</td>
+                <td>Texto largo</td>
+            </tr>
+            <tr>
+                <td><strong>Activo</strong></td>
+                <td>Indica si se puede usar en presupuestos</td>
+                <td>Sí</td>
+                <td>Checkbox</td>
+            </tr>
+        </table>
+        
+        <h2>Familias/Categorías de Productos</h2>
+        
+        <div class="section-box">
+            <p>Las familias organizan los productos:</p>
+            
+            <h3>Ejemplos de Familias:</h3>
+            <ul>
+                <li>Hardware</li>
+                <li>Software</li>
+                <li>Servicios Técnicos</li>
+                <li>Mantenimiento</li>
+                <li>Capacitación</li>
+            </ul>
+            
+            <p>Facilita la búsqueda y análisis de presupuestos por categoría.</p>
+        </div>
+        
+        <h2>Información sobre IVA</h2>
+        
+        <div class="important">
+            <strong>Importante:</strong> El porcentaje de IVA determina:
+            <ul>
+                <li>Cálculo de impuestos en presupuestos</li>
+                <li>Tipo de factura a emitir</li>
+                <li>Información fiscal en documentos</li>
+            </ul>
+        </div>
+        
+        <div class="section-box">
+            <h3>Porcentajes Estándar:</h3>
+            <ul>
+                <li><strong>21%</strong> - IVA General (la mayoría de productos)</li>
+                <li><strong>10.5%</strong> - IVA Reducido (productos específicos)</li>
+                <li><strong>0%</strong> - Sin IVA (exportaciones, servicios exentos)</li>
+            </ul>
+        </div>
+        
+        <h2>Precios y Listas de Precios</h2>
+        
+        <div class="section-box">
+            <p>El <strong>precio base</strong> es el precio por defecto, pero puede tener variaciones:</p>
+            
+            <ul>
+                <li><strong>Listas de Precios:</strong> Precios específicos por cliente</li>
+                <li><strong>Descuentos:</strong> En presupuestos individuales</li>
+                <li><strong>Promociones:</strong> Precios especiales por período</li>
+            </ul>
+            
+            <p>Vea el módulo de "Listas de Precios" para más detalles.</p>
+        </div>
+        
+        <h2>Editar Producto Existente</h2>
+        
+        <div class="section-box">
+            <ol>
+                <li>En la lista, seleccione el producto a modificar</li>
+                <li>Haga clic en el botón <strong>Modificar</strong></li>
+                <li>Actualice los campos necesarios</li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+        </div>
+        
+        <div class="tip">
+            <strong>Consejo:</strong> Al cambiar el precio base, afecta solo a nuevos presupuestos. Los presupuestos existentes mantienen el precio original.
+        </div>
+        
+        <h2>Buscar Producto</h2>
+        
+        <div class="section-box">
+            <p>Use la búsqueda para encontrar productos rápidamente:</p>
+            
+            <ul>
+                <li><strong>Por Código:</strong> Número del producto</li>
+                <li><strong>Por Descripción:</strong> Nombre o parcial del nombre</li>
+                <li><strong>Por Familia:</strong> Categoría del producto</li>
+            </ul>
+        </div>
+        
+        <h2>Inactivar Producto</h2>
+        
+        <div class="section-box">
+            <p>Si un producto ya no se vende, en lugar de eliminarlo:</p>
+            
+            <ol>
+                <li>Abra el producto a editar</li>
+                <li>Desmarque el campo <strong>Activo</strong></li>
+                <li>Haga clic en <strong>Guardar</strong></li>
+            </ol>
+            
+            <p>No aparecerá en listas de selección, pero mantiene el historial de presupuestos.</p>
+        </div>
+        
+        <h2>Eliminar Producto</h2>
+        
+        <div class="section-box">
+            <p>Solo puede eliminar productos que <strong>NO estén en presupuestos</strong>.</p>
+            
+            <ol>
+                <li>Seleccione el producto</li>
+                <li>Haga clic en <strong>Eliminar</strong></li>
+                <li>Confirme en el diálogo emergente</li>
+            </ol>
+        </div>
+        
+        <h2>Productos en Presupuestos</h2>
+        
+        <p>Cuando crea un presupuesto:</p>
+        
+        <div class="section-box">
+            <ol>
+                <li>Seleccione el producto de la lista</li>
+                <li>El sistema carga automáticamente:
+                    <ul>
+                        <li>Descripción</li>
+                        <li>Precio base o precio de lista del cliente</li>
+                        <li>Porcentaje de IVA</li>
+                    </ul>
+                </li>
+                <li>Puede cambiar cantidad y precio en el presupuesto</li>
+            </ol>
+        </div>
+        
+        <h2>Mejores Prácticas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Código único:</strong> Facilita búsqueda (ej: SKU estándar)</li>
+                <li><strong>Descripción clara:</strong> Entendible para clientes</li>
+                <li><strong>Familia correcta:</strong> Facilita análisis</li>
+                <li><strong>IVA exacto:</strong> Evita problemas fiscales</li>
+                <li><strong>Precio realista:</strong> Revisado periódicamente</li>
+                <li><strong>Inactivación ordenada:</strong> Mantiene historial</li>
+                <li><strong>Revisión anual:</strong> Actualice catálogo completo</li>
+            </ul>
+        </div>
+        
+        <h2>Importación de Productos</h2>
+        
+        <p>Si posee un catálogo en Excel o CSV, contacte al equipo técnico para una importación masiva.</p>
+        
+        <h2>Integración con el Sistema</h2>
+        
+        <p>Los productos se vinculan a:</p>
+        
+        <table>
+            <tr>
+                <th>Módulo</th>
+                <th>Uso</th>
+            </tr>
+            <tr>
+                <td><strong>Presupuestos</strong></td>
+                <td>Detalles de cotizaciones</td>
+            </tr>
+            <tr>
+                <td><strong>Listas de Precios</strong></td>
+                <td>Precios específicos por cliente</td>
+            </tr>
+            <tr>
+                <td><strong>Facturas</strong></td>
+                <td>Detalles de ventas</td>
+            </tr>
+            <tr>
+                <td><strong>Reportes</strong></td>
+                <td>Análisis de productos más vendidos</td>
+            </tr>
+        </table>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>
