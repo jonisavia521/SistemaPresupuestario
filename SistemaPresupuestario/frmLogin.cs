@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario
 {
-    public partial class frmLogin : Form
+    public partial class frmLogin : FormBase
     {
         private ILogin _login;
         public frmLogin(ILogin login)
@@ -21,20 +21,8 @@ namespace SistemaPresupuestario
             _login = login;
             InitializeComponent();
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            // ✅ TRADUCCIÓN AUTOMÁTICA Y AYUDA F1: Usar base.InitializeTranslation()
+            base.InitializeTranslation();
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)

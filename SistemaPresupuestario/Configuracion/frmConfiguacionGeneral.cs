@@ -19,7 +19,7 @@ namespace SistemaPresupuestario.Configuracion
     /// Dividido en 3 pestañas para mejor organización
     /// REFACTORIZADO: Ahora usa inyección de dependencias
     /// </summary>
-    public partial class frmConfiguacionGeneral : Form
+    public partial class frmConfiguacionGeneral : FormBase
     {
         private readonly IBackupRestoreService _servicio;
         private readonly IProvinciaService _provinciaService;
@@ -40,27 +40,9 @@ namespace SistemaPresupuestario.Configuracion
             _errorProvider = new ErrorProvider();
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
         
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
-            
-            // Actualizar columnas del DataGridView si tiene datos
-            if (dgvHistorial.Columns.Count > 0)
-            {
-                ActualizarColumnasGrilla();
-            }
-        }
         
         /// <summary>
         /// Actualiza los encabezados de columnas de la grilla de historial

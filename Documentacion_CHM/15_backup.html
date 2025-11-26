@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Backup y Restauración</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;border-left:4px solid #3498db;padding-left:10px}
+    .box{padding:15px;border-left:4px solid #3498db;margin:15px 0;background:#f0f4ff;border-radius:4px}
+    .warning{background:#f8d7da;border-left-color:#dc3545}
+    .back-link{margin-top:30px;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backup y Restauración</h1>
+        <p><strong>Protege tus datos realizando copias de seguridad regularmente.</strong> Un backup es tu salvación ante pérdida de datos.</p>
+
+        <h2>¿Por Qué Hacer Backups?</h2>
+
+        <div class="box">
+            <ul>
+                <li>Tu computadora puede fallar sin previo aviso</li>
+                <li>Malware o virus pueden dañar datos</li>
+                <li>Un corte de luz puede interrumpir operaciones</li>
+                <li>Accidentes humanos (borrados accidentales)</li>
+                <li>Cumplimiento fiscal requiere respaldo de datos</li>
+            </ul>
+        </div>
+
+        <h2>Crear Backup</h2>
+
+        <div class="box">
+            <ol>
+                <li>Ve a <strong>Archivo ? Configuración ? Pestaña "Backup"</strong></li>
+                <li>Haz clic en <strong>"Crear Backup"</strong></li>
+                <li>Se abrira ventana para elegir dónde guardar</li>
+                <li>Sistema sugiere nombre automático con fecha</li>
+                <li>Elige una carpeta segura (externa, nube, USB)</li>
+                <li>Haz clic en "Guardar"</li>
+                <li>Espera a que termine (puede tardar unos segundos)</li>
+                <li>Verás mensaje de éxito</li>
+            </ol>
+        </div>
+
+        <h2>Frecuencia Recomendada</h2>
+
+        <table>
+            <tr>
+                <th>Uso</th>
+                <th>Frecuencia</th>
+            </tr>
+            <tr>
+                <td>Uso diario normal</td>
+                <td>Una vez por semana</td>
+            </tr>
+            <tr>
+                <td>Mucho movimiento (presupuestos/facturas)</td>
+                <td>Cada dos días</td>
+            </tr>
+            <tr>
+                <td>Operación crítica (cierre fiscal)</td>
+                <td>Antes y después</td>
+            </tr>
+            <tr>
+                <td>Antes de actualización de sistema</td>
+                <td>Obligatorio</td>
+            </tr>
+        </table>
+
+        <h2>Dónde Guardar Backups</h2>
+
+        <div class="box">
+            <p><strong>Regla de oro: Múltiples ubicaciones</strong></p>
+            <ul>
+                <li><strong>Disco local:</strong> Rápido acceso (pero inseguro si falla PC)</li>
+                <li><strong>Unidad externa:</strong> USB, disco externo (más seguro)</li>
+                <li><strong>Nube:</strong> Google Drive, Dropbox, OneDrive (muy seguro)</li>
+                <li><strong>Servidor remoto:</strong> Si dispones (ideal para empresa)</li>
+            </ul>
+        </div>
+
+        <h2>Restaurar desde Backup</h2>
+
+        <div class="box">
+            <ol>
+                <li>Ve a <strong>Archivo ? Configuración ? Pestaña "Backup"</strong></li>
+                <li>En la grilla "Historial de Backups", selecciona el backup</li>
+                <li>Haz clic en <strong>"Restaurar"</strong></li>
+                <li>Sistema mostrará advertencia crítica (léela bien)</li>
+                <li>Si estás seguro, confirma haciendo clic en "SÍ"</li>
+                <li>Espera a que termine (NO CIERRES LA APLICACIÓN)</li>
+                <li>Sistema se reiniciará automáticamente</li>
+            </ol>
+        </div>
+
+        <div class="box warning">
+            <p><strong>?? ADVERTENCIA CRÍTICA:</strong></p>
+            <p>La restauración reemplaza TODOS tus datos actuales. Se pierden cambios posteriores al backup. ¡NO TIENE VUELTA ATRÁS!</p>
+            <p>Úsala solo si es absolutamente necesario.</p>
+        </div>
+
+        <h2>Organización de Backups</h2>
+
+        <div class="box">
+            <p><strong>Recomendación de estructura:</strong></p>
+            <ul>
+                <li>Crea carpeta: "Backups" en tu disco o nube</li>
+                <li>Subcarpetas por mes: "Enero 2024", "Febrero 2024", etc.</li>
+                <li>Dentro, backups diarios con fecha: "20240115_1430.bak"</li>
+                <li>Mantén 3-5 backups recientes, elimina los muy antiguos</li>
+            </ul>
+        </div>
+
+        <h2>Prueba tu Backup</h2>
+
+        <div class="box">
+            <p>Ocasionalmente, verifica que los backups sean válidos:</p>
+            <ol>
+                <li>Elige un backup antiguo</li>
+                <li>Restaura en una copia de prueba de la BD (si es posible)</li>
+                <li>Verifica que los datos se vea bien</li>
+                <li>Esto confirma que tus backups funcionan</li>
+            </ol>
+        </div>
+
+        <h2>Automatización</h2>
+
+        <div class="box">
+            <p>Si tu IT lo permite, crea tarea programada:</p>
+            <ul>
+                <li>Ejecuta backup todos los días a una hora fija</li>
+                <li>Ejemplo: 18:00 hs (al final del trabajo)</li>
+                <li>Así no olvidas hacer backup manualmente</li>
+            </ul>
+        </div>
+
+        <h2>Checklist de Backup</h2>
+
+        <div class="box">
+            <p><strong>Antes de considerar tu BD "segura":</strong></p>
+            <ul>
+                <li>? He hecho al menos un backup manual</li>
+                <li>? Guardé en múltiples ubicaciones</li>
+                <li>? Probé restaurar un backup (al menos una vez)</li>
+                <li>? Tengo backup local + nube</li>
+                <li>? Actualizo backups regularmente</li>
+            </ul>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

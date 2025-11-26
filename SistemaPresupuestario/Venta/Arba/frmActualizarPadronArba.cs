@@ -10,7 +10,7 @@ namespace SistemaPresupuestario.Venta.Arba
     /// Formulario para actualizar masivamente las alícuotas ARBA
     /// de todos los clientes Responsables Inscriptos
     /// </summary>
-    public partial class frmActualizarPadronArba : Form
+    public partial class frmActualizarPadronArba : FormBase
     {
         private readonly IClienteService _clienteService;
         private BackgroundWorker _worker;
@@ -24,20 +24,7 @@ namespace SistemaPresupuestario.Venta.Arba
             
             ConfigurarBackgroundWorker();
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            base.InitializeTranslation();
         }
 
         /// <summary>

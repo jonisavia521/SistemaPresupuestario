@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="09e0b5c7-b70f-4bcb-bc29-e1b9d41167b3" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>
+				La <legacyBold>Versión 1.0.0.0</legacyBold> marca el lanzamiento oficial del Sistema Presupuestario.
+				Esta versión establece la arquitectura base y proporciona las funcionalidades core para la gestión comercial y administrativa.
+			</para>
+			<para>
+				Fecha de lanzamiento: <legacyItalic>Noviembre 2025</legacyItalic>
+			</para>
+		</introduction>
+
+		<section>
+			<title>Características Principales</title>
+			<content>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<legacyBold>Arquitectura N-Layer:</legacyBold> Implementación robusta separando UI, BLL, DAL y Servicios transversales.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Gestión de Seguridad:</legacyBold> Implementación del patrón de diseño <legacyItalic>Composite</legacyItalic> para manejo jerárquico de Familias y Patentes de usuario.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Módulo de Ventas:</legacyBold> Ciclo de vida completo de Presupuestos (Emisión, Aprobación, Facturación) con validaciones de estado.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Reportes y Documentos:</legacyBold> Generación automática de PDFs para Presupuestos y Facturas (simulación CAE/AFIP).
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Infraestructura:</legacyBold> Sistema de Backup/Restore integrado y traducción dinámica (I18n).
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="64fd60f2-d896-4c8e-9914-500fd9fa3a91" />
+		</relatedTopics>
+
+	</developerConceptualDocument>
+</topic>

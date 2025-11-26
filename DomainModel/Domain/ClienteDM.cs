@@ -4,30 +4,112 @@ using System.Text.RegularExpressions;
 namespace DomainModel.Domain
 {
     /// <summary>
-    /// Entidad de dominio Cliente - Representa la lógica de negocio pura de un cliente
-    /// Esta clase es dueña de sus reglas de negocio y validaciones
+    /// Entidad de dominio que representa un cliente del sistema.
+    /// 
+    /// Esta clase encapsula la lógica de negocio pura relacionada con los clientes,
+    /// incluyendo validaciones de datos fiscales y comerciales. Es la responsable
+    /// de mantener la consistencia de los datos del cliente según las reglas de negocio
+    /// definidas para el sistema de presupuestos.
+    /// 
+    /// Responsabilidades:
+    /// - Validar datos fiscales (CUIT, DNI, CUIL) con algoritmo verificador
+    /// - Validar tipos de IVA según categorías AFIP
+    /// - Mantener auditoría de creación y modificación
+    /// - Gestionar estado de activación/desactivación
+    /// - Calcular y actualizar alícuota ARBA
+    /// 
+    /// Invariantes:
+    /// - El código de cliente es único y alfanumérico
+    /// - La razón social tiene entre 3 y 200 caracteres
+    /// - El tipo de IVA debe ser una categoría válida según AFIP
+    /// - Los números de documento son validados según tipo
+    /// 
+    /// Ejemplo de uso:
+    /// <code>
+    /// var cliente = new ClienteDM(
+    ///     "CLI001",
+    ///     "Acme Corporation S.A.",
+    ///     "CUIT",
+    ///     "20345678905",
+    ///     null,
+    ///     "RESPONSABLE INSCRIPTO",
+    ///     "01");
+    /// </code>
     /// </summary>
     public class ClienteDM
     {
+        /// <summary>Identificador único del cliente en el sistema</summary>
         public Guid Id { get; private set; }
+        
+        /// <summary>Código alfanumérico único para referencia comercial. Máximo 20 caracteres.</summary>
         public string CodigoCliente { get; private set; }
+        
+        /// <summary>Razón social o nombre completo del cliente. Entre 3 y 200 caracteres.</summary>
         public string RazonSocial { get; private set; }
+        
+        /// <summary>Tipo de documento: DNI, CUIT o CUIL</summary>
         public string TipoDocumento { get; private set; }
+        
+        /// <summary>Número de documento sin formatear (solo dígitos)</summary>
         public string NumeroDocumento { get; private set; }
+        
+        /// <summary>Identificador del vendedor asignado al cliente (opcional)</summary>
         public Guid? IdVendedor { get; private set; }
+        
+        /// <summary>Identificador de la provincia donde se localiza el cliente</summary>
         public Guid? IdProvincia { get; private set; }
+        
+        /// <summary>Categoría de IVA según AFIP: RESPONSABLE INSCRIPTO, MONOTRIBUTISTA, EXENTO, CONSUMIDOR FINAL, NO RESPONSABLE</summary>
         public string TipoIva { get; private set; }
+        
+        /// <summary>Código de condición de pago (2 dígitos numéricos)</summary>
         public string CondicionPago { get; private set; }
+        
+        /// <summary>Alícuota IIBB ARBA aplicable al cliente, entre 0 y 100</summary>
         public decimal AlicuotaArba { get; private set; }
+        
+        /// <summary>Dirección de correo electrónico del cliente (opcional)</summary>
         public string Email { get; private set; }
+        
+        /// <summary>Número de teléfono de contacto (opcional)</summary>
         public string Telefono { get; private set; }
+        
+        /// <summary>Dirección postal completa del cliente (opcional)</summary>
         public string Direccion { get; private set; }
+        
+        /// <summary>Localidad o ciudad donde se ubica el cliente (opcional)</summary>
         public string Localidad { get; private set; }
+        
+        /// <summary>Indica si el cliente está activo en el sistema. Los inactivos no aparecen en búsquedas estándar.</summary>
         public bool Activo { get; private set; }
+        
+        /// <summary>Fecha y hora en que se registró el cliente en el sistema</summary>
         public DateTime FechaAlta { get; private set; }
+        
+        /// <summary>Fecha y hora de la última modificación del registro. Nula si nunca fue modificado.</summary>
         public DateTime? FechaModificacion { get; private set; }
 
-        // Constructor para creación inicial (nuevo cliente)
+        /// <summary>
+        /// Crea una nueva instancia de cliente para registrar en el sistema.
+        /// 
+        /// Se validan automáticamente todos los parámetros según las reglas de negocio.
+        /// El cliente se crea activo con fecha de alta en el momento actual.
+        /// </summary>
+        /// <param name="codigoCliente">Código único del cliente (alfanumérico, máximo 20 caracteres)</param>
+        /// <param name="razonSocial">Nombre o razón social (entre 3 y 200 caracteres)</param>
+        /// <param name="tipoDocumento">Tipo: DNI, CUIT o CUIL</param>
+        /// <param name="numeroDocumento">Número sin formatear (7-8 dígitos para DNI, 11 para CUIT/CUIL)</param>
+        /// <param name="idVendedor">GUID del vendedor asignado (opcional)</param>
+        /// <param name="tipoIva">Categoría AFIP (RESPONSABLE INSCRIPTO, MONOTRIBUTISTA, etc.)</param>
+        /// <param name="condicionPago">Código de 2 dígitos para condición de pago</param>
+        /// <param name="alicuotaArba">Alícuota IIBB ARBA entre 0 y 100 (predeterminado: 0)</param>
+        /// <param name="idProvincia">GUID de la provincia (opcional)</param>
+        /// <param name="email">Correo electrónico (opcional)</param>
+        /// <param name="telefono">Número de teléfono (opcional)</param>
+        /// <param name="direccion">Dirección postal completa (opcional)</param>
+        /// <param name="localidad">Localidad o ciudad (opcional)</param>
+        /// <exception cref="ArgumentException">Si alguno de los parámetros no cumple con las validaciones de negocio</exception>
+        /// <exception cref="ArgumentNullException">Si un parámetro requerido es nulo</exception>
         public ClienteDM(
             string codigoCliente,
             string razonSocial,
@@ -63,7 +145,31 @@ namespace DomainModel.Domain
             Localidad = localidad;
         }
 
-        // Constructor para cargar desde base de datos
+        /// <summary>
+        /// Constructor para hidratar una instancia de cliente desde la base de datos.
+        /// 
+        /// Este constructor se utiliza internamente por los repositorios para construir
+        /// objetos desde registros persistidos. Realiza validación mínima asumiendo
+        /// que los datos ya fueron validados durante su creación/actualización.
+        /// </summary>
+        /// <param name="id">GUID único del cliente en la base de datos</param>
+        /// <param name="codigoCliente">Código del cliente</param>
+        /// <param name="razonSocial">Razón social del cliente</param>
+        /// <param name="tipoDocumento">Tipo de documento</param>
+        /// <param name="numeroDocumento">Número de documento</param>
+        /// <param name="idVendedor">GUID del vendedor (puede ser nulo)</param>
+        /// <param name="tipoIva">Tipo de IVA</param>
+        /// <param name="condicionPago">Condición de pago</param>
+        /// <param name="activo">Estado de activación</param>
+        /// <param name="fechaAlta">Fecha de creación del registro</param>
+        /// <param name="fechaModificacion">Fecha de última modificación (puede ser nula)</param>
+        /// <param name="alicuotaArba">Alícuota ARBA aplicable</param>
+        /// <param name="idProvincia">GUID de la provincia (puede ser nulo)</param>
+        /// <param name="email">Correo electrónico del cliente (puede ser nulo)</param>
+        /// <param name="telefono">Teléfono del cliente (puede ser nulo)</param>
+        /// <param name="direccion">Dirección del cliente (puede ser nula)</param>
+        /// <param name="localidad">Localidad del cliente (puede ser nula)</param>
+        /// <exception cref="ArgumentException">Si el ID es un GUID vacío</exception>
         public ClienteDM(
             Guid id,
             string codigoCliente,
@@ -105,7 +211,26 @@ namespace DomainModel.Domain
             Localidad = localidad;
         }
 
-        // Método de actualización
+        /// <summary>
+        /// Actualiza los datos del cliente manteniendo la auditoría de cambios.
+        /// 
+        /// Este método valida todos los parámetros según las reglas de negocio y
+        /// actualiza la fecha de modificación al momento actual. No modifica el
+        /// código de cliente (es inmutable) ni el estado de activación.
+        /// </summary>
+        /// <param name="razonSocial">Nueva razón social del cliente</param>
+        /// <param name="tipoDocumento">Nuevo tipo de documento</param>
+        /// <param name="numeroDocumento">Nuevo número de documento</param>
+        /// <param name="idVendedor">Nuevo vendedor asignado (puede ser nulo)</param>
+        /// <param name="tipoIva">Nueva categoría de IVA</param>
+        /// <param name="condicionPago">Nueva condición de pago</param>
+        /// <param name="alicuotaArba">Nueva alícuota ARBA</param>
+        /// <param name="idProvincia">Nueva provincia (puede ser nula)</param>
+        /// <param name="email">Nuevo correo electrónico (puede ser nulo)</param>
+        /// <param name="telefono">Nuevo teléfono (puede ser nulo)</param>
+        /// <param name="direccion">Nueva dirección (puede ser nula)</param>
+        /// <param name="localidad">Nueva localidad (puede ser nula)</param>
+        /// <exception cref="ArgumentException">Si algún parámetro no cumple validaciones</exception>
         public void ActualizarDatos(
             string razonSocial,
             string tipoDocumento,
@@ -136,12 +261,24 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
+        /// <summary>
+        /// Desactiva el cliente lógicamente sin eliminar el registro de la base de datos.
+        /// 
+        /// Los clientes desactivados no aparecen en búsquedas normales pero pueden
+        /// ser reactivados. Mantiene historial completo de transacciones y presupuestos.
+        /// </summary>
         public void Desactivar()
         {
             Activo = false;
             FechaModificacion = DateTime.Now;
         }
 
+        /// <summary>
+        /// Reactiva un cliente previamente desactivado.
+        /// 
+        /// Permite que el cliente vuelva a aparecer en búsquedas normales y pueda
+        /// recibir nuevos presupuestos.
+        /// </summary>
         public void Reactivar()
         {
             Activo = true;
@@ -149,9 +286,14 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Actualiza la alícuota ARBA del cliente.
-        /// Usado para actualizaciones masivas del padrón de ARBA.
+        /// Actualiza exclusivamente la alícuota IIBB ARBA del cliente.
+        /// 
+        /// Este método se utiliza en procesos de actualización masiva del padrón ARBA
+        /// proporcionado por la provincia. Valida que la nueva alícuota esté en rango
+        /// permitido (0-100) y actualiza la fecha de modificación.
         /// </summary>
+        /// <param name="nuevaAlicuota">Nueva alícuota ARBA entre 0 y 100</param>
+        /// <exception cref="ArgumentException">Si la alícuota está fuera del rango permitido</exception>
         public void ActualizarAlicuotaArba(decimal nuevaAlicuota)
         {
             ValidarYEstablecerAlicuotaArba(nuevaAlicuota);
@@ -294,9 +436,21 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Método principal de validación de negocio.
-        /// Se puede invocar desde la BLL antes de persistir.
+        /// Valida todos los datos del cliente contra las reglas de negocio.
+        /// 
+        /// Este método consolida todas las validaciones individuales de propiedades
+        /// en una única llamada. Se utiliza típicamente en la capa BLL antes de
+        /// persistir cambios a la base de datos.
         /// </summary>
+        /// <exception cref="ArgumentException">Si alguna propiedad no cumple las reglas de negocio</exception>
+        /// <remarks>
+        /// Las validaciones incluyen:
+        /// - Formato y longitud de código y razón social
+        /// - Validación de dígitos verificadores de documentos
+        /// - Categorías de IVA válidas según AFIP
+        /// - Formato de condición de pago
+        /// - Rango de alícuota ARBA
+        /// </remarks>
         public void ValidarNegocio()
         {
             ValidarYEstablecerRazonSocial(RazonSocial);

@@ -1,7 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Clientes;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros
 {
-    public partial class frmClientes : Form
+    public partial class frmClientes : FormBase
     {
         private readonly IClienteService _clienteService;
         private readonly IVendedorService _vendedorService;
@@ -26,21 +26,11 @@ namespace SistemaPresupuestario.Maestros
             _provinciaService = provinciaService;
             _listaCompletaClientes = new List<ClienteDTO>();
             
-            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgvClientes.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

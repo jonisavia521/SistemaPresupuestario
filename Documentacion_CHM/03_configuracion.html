@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Configuración del Sistema - Sistema Presupuestario</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px;font-size:2em}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;font-size:1.5em;border-left:4px solid #3498db;padding-left:10px}
+    h3{color:#7f8c8d;margin-top:20px;margin-bottom:12px;font-size:1.1em}
+    .step-box{background:#ecf0f1;padding:15px;border-left:4px solid #3498db;margin:15px 0;border-radius:4px}
+    .important{background:#fff3cd;padding:15px;border-left:4px solid #ffc107;margin:15px 0;border-radius:4px}
+    .success{background:#d4edda;padding:15px;border-left:4px solid #28a745;margin:15px 0;border-radius:4px}
+    .info{background:#d1ecf1;padding:15px;border-left:4px solid #17a2b8;margin:15px 0;border-radius:4px}
+    table{width:100%;border-collapse:collapse;margin:15px 0}
+    th,td{border:1px solid #ddd;padding:12px;text-align:left}
+    th{background:#3498db;color:#fff;font-weight:bold}
+    tr:nth-child(even){background:#f9f9f9}
+    .back-link{margin-top:30px;padding-top:20px;border-top:1px solid #ddd;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    p{margin-bottom:12px;line-height:1.7}
+    ol,ul{margin-left:25px;margin-bottom:12px}
+    li{margin-bottom:8px;line-height:1.6}
+    .label{color:#2c3e50;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Configuración del Sistema</h1>
+        <p><strong>La configuración correcta del sistema es fundamental.</strong> Aquí definirás los datos de tu empresa que aparecerán en todas tus facturas y documentos. Es el punto de partida para trabajar eficientemente.</p>
+
+        <h2>Acceso a Configuración</h2>
+        
+        <div class="step-box">
+            <p><strong>Ruta:</strong> Menú Principal ? Archivo ? Configuración</p>
+            <p>Se abrirá la ventana de Configuracion con 3 pestañas principales.</p>
+        </div>
+
+        <h2>Pestaña 1: Configuración General de la Empresa</h2>
+
+        <h3>Datos que Debes Ingresar</h3>
+
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td><span class="label">Razón Social</span></td>
+                <td>Nombre oficial de tu empresa registrado ante AFIP</td>
+                <td>SÍ</td>
+                <td>Máx 255 caracteres. Debe coincidir con AFIP.</td>
+            </tr>
+            <tr>
+                <td><span class="label">CUIT</span></td>
+                <td>Código Único de Identificación Tributaria (11 dígitos)</td>
+                <td>SÍ</td>
+                <td>Ingresa solo números. Sistema valida formato.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Tipo de IVA</span></td>
+                <td>Tu condición fiscal ante AFIP</td>
+                <td>SÍ</td>
+                <td>Responsable Inscripto, Monotributista, etc.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Dirección</span></td>
+                <td>Domicilio fiscal de tu empresa</td>
+                <td>SÍ</td>
+                <td>Calle y número. Aparece en facturas.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Localidad</span></td>
+                <td>Ciudad donde opera tu empresa</td>
+                <td>SÍ</td>
+                <td>Ej: Buenos Aires, La Plata, etc.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Provincia</span></td>
+                <td>Provincia donde estas registrado</td>
+                <td>SÍ</td>
+                <td>Afecta cálculos de ARBA.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Email</span></td>
+                <td>Tu correo electrónico corporativo</td>
+                <td>NO</td>
+                <td>Aparece en documentos. Válido para contacto.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Teléfono</span></td>
+                <td>Tu número de contacto principal</td>
+                <td>NO</td>
+                <td>Incluye código de área. Ej: (011) 1234-5678</td>
+            </tr>
+        </table>
+
+        <h3>Cómo Completar Configuración General</h3>
+
+        <div class="step-box">
+            <ol>
+                <li>Ve a <strong>Archivo ? Configuración</strong></li>
+                <li>Asegúrate de estar en la solapa <strong>"Configuración General"</strong></li>
+                <li>Completa todos los campos marcados como requeridos</li>
+                <li>Verifica que los datos coincidan con tu inscripción en AFIP</li>
+                <li>Haz clic en <strong>Guardar Configuración</strong></li>
+            </ol>
+        </div>
+
+        <div class="success">
+            <p><strong>Consejo:</strong> Antes de guardar, descarga tu información de AFIP por internet y cópiala exactamente. Errores de tipeo causan problemas en facturas.</p>
+        </div>
+
+        <h2>Pestaña 2: Selección de Idioma</h2>
+
+        <p>Una de las características más útiles del sistema es el cambio de idioma <strong>completamente dinámico</strong>. No necesitas reiniciar la aplicación.</p>
+
+        <h3>Idiomas Disponibles</h3>
+        <table>
+            <tr>
+                <th>Idioma</th>
+                <th>Código</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td><strong>Español</strong></td>
+                <td>es-AR</td>
+                <td>Español (Argentina) - El idioma por defecto</td>
+            </tr>
+            <tr>
+                <td><strong>English</strong></td>
+                <td>en-US</td>
+                <td>Inglés (Estados Unidos) - Para usuarios internacionales</td>
+            </tr>
+        </table>
+
+        <h3>Cómo Cambiar el Idioma</h3>
+
+        <div class="step-box">
+            <ol>
+                <li>En la ventana de Configuración, ve a la solapa <strong>"Selección de Idioma"</strong></li>
+                <li>Veras dos botones: <strong>Español</strong> o <strong>English</strong></li>
+                <li>Selecciona el idioma que prefieres</li>
+                <li>Haz clic en <strong>Cambiar Idioma</strong></li>
+                <li>El sistema cambiará todos los textos <strong>inmediatamente</strong></li>
+            </ol>
+        </div>
+
+        <div class="info">
+            <p><strong>Lo que sucede automáticamente cuando cambias idioma:</strong></p>
+            <ul>
+                <li>Todos los formularios abiertos se actualizan</li>
+                <li>Etiquetas, botones y mensajes cambian de idioma</li>
+                <li>La configuración se guarda automáticamente</li>
+                <li>No necesitas reiniciar la aplicación</li>
+            </ul>
+        </div>
+
+        <div class="important">
+            <p><strong>Nota importante:</strong> Los datos (clientes, presupuestos, etc.) NO se traducen. Solo la interfaz del sistema cambia de idioma. Tus datos siguen siendo en español.</p>
+        </div>
+
+        <h2>Pestaña 3: Backup y Restauración</h2>
+
+        <p><strong>El backup es CRÍTICO para proteger tus datos.</strong> Una copia de seguridad es tu red de contención ante pérdida de información.</p>
+
+        <h3>¿Por Qué Hacer Backups?</h3>
+        <div class="important">
+            <ul>
+                <li><strong>Protección contra fallos:</strong> Tu computadora puede fallar sin previo aviso</li>
+                <li><strong>Recuperación ante desastres:</strong> Un virus, corte de luz, etc.</li>
+                <li><strong>Cumplimiento fiscal:</strong> Debes tener respaldo de datos fiscales</li>
+                <li><strong>Auditoría:</strong> Tener backups demuestra responsabilidad</li>
+            </ul>
+        </div>
+
+        <h3>Crear un Backup (Copia de Seguridad)</h3>
+
+        <div class="step-box">
+            <ol>
+                <li>Ve a <strong>Archivo ? Configuración ? Pestaña "Backup"</strong></li>
+                <li>Haz clic en el botón <strong>"Crear Backup"</strong></li>
+                <li>Se abrirá un diálogo para elegir dónde guardar el archivo</li>
+                <li>Se sugiere un nombre automático con la fecha (ej: SistemaPresupuestario_Backup_20240115_143045.bak)</li>
+                <li>Elige una carpeta segura (externa, nube, unidad USB)</li>
+                <li>Haz clic en <strong>Guardar</strong></li>
+                <li>El sistema creará el backup (puede tardar unos segundos)</li>
+                <li>Verás un mensaje de éxito</li>
+            </ol>
+        </div>
+
+        <h3>Historial de Backups</h3>
+
+        <p>El sistema mantiene un historial de todos los backups que has creado. En la grilla "Historial de Backups" verás:</p>
+        <ul>
+            <li>Fecha y hora de creación</li>
+            <li>Ruta donde está guardado</li>
+            <li>Tamaño del archivo</li>
+            <li>Usuario que lo creó</li>
+        </ul>
+
+        <h3>Restaurar desde un Backup</h3>
+
+        <div class="step-box">
+            <ol>
+                <li>En la pestaña de Backup, selecciona el backup que deseas restaurar de la lista</li>
+                <li>Haz clic en <strong>"Restaurar"</strong></li>
+                <li><strong>¡ADVERTENCIA CRÍTICA!</strong> Se mostrará un mensaje advirtiéndote que:
+                    <ul>
+                        <li>Se perderán TODOS los datos actuales</li>
+                        <li>Se reemplazarán con los del backup</li>
+                        <li>Los cambios después del backup se perderán</li>
+                    </ul>
+                </li>
+                <li>Si estás seguro, confirma haciendo clic en <strong>SÍ</strong></li>
+                <li>El sistema restaurará los datos (puede tardar)</li>
+                <li>La aplicación se reiniciará automaticamente</li>
+            </ol>
+        </div>
+
+        <div class="important">
+            <strong>CUIDADO:</strong> La restauración de un backup reemplaza TODOS tus datos actuales. Úsala solo si sabes lo que haces y es NECESARIO. Una vez confirmada, no hay vuelta atrás.
+        </div>
+
+        <h3>Frecuencia Recomendada de Backups</h3>
+
+        <table>
+            <tr>
+                <th>Situación</th>
+                <th>Frecuencia Recomendada</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td>Uso diario normal</td>
+                <td>Una vez por semana</td>
+                <td>Al final de cada semana de trabajo</td>
+            </tr>
+            <tr>
+                <td>Mucho movimiento (presupuestos/facturas)</td>
+                <td>Cada dos días</td>
+                <td>O al final de cada jornada importante</td>
+            </tr>
+            <tr>
+                <td>Cierre de período fiscal</td>
+                <td>Antes y después</td>
+                <td>Protege contra cambios accidentales</td>
+            </tr>
+            <tr>
+                <td>Antes de actualizaciones del sistema</td>
+                <td>Obligatorio</td>
+                <td>Así puedes revertir si hay problema</td>
+            </tr>
+        </table>
+
+        <h3>Mejores Prácticas para Backups</h3>
+
+        <div class="success">
+            <ul>
+                <li><strong>Guarda en múltiples lugares:</strong> Disco local + unidad externa + nube</li>
+                <li><strong>Organiza tus backups:</strong> Crea carpetas por mes/año</li>
+                <li><strong>Automatiza si es posible:</strong> Program un horario fijo</li>
+                <li><strong>Verifica la integridad:</strong> Ocasionalmente, prueba restaurar un backup antiguo</li>
+                <li><strong>Documentación:</strong> Anota cuándo hiciste cada backup</li>
+                <li><strong>Rotación:</strong> Mantén 3-5 backups recientes, elimina los muy antiguos</li>
+            </ul>
+        </div>
+
+        <h2>Validación de Configuración</h2>
+
+        <p>Antes de empezar a facturar, el sistema valida automáticamente que tengas configuración básica:</p>
+
+        <div class="info">
+            <p><strong>Si faltan datos, veras este mensaje:</strong> "No se encontró configuración del sistema. Por favor, complete primero los datos de configuración en la pestaña 'Configuración General'."</p>
+            
+            <p>Significa que no puedes continuar hasta llenar los campos requeridos. Vuelve a Configuración y completa todo.</p>
+        </div>
+
+        <h2>Guardado de Cambios</h2>
+
+        <p>Todos los cambios en Configuración se guardan en la base de datos del sistema.</p>
+
+        <table>
+            <tr>
+                <th>Acción</th>
+                <th>Qué Sucede</th>
+            </tr>
+            <tr>
+                <td>Cambias datos y haces clic en "Guardar Configuración"</td>
+                <td>Los datos se guardan inmediatamente en la BD</td>
+            </tr>
+            <tr>
+                <td>Cambias idioma y haces clic en "Cambiar Idioma"</td>
+                <td>El idioma se guarda y la interfaz cambia al instante</td>
+            </tr>
+            <tr>
+                <td>Cierras la ventana sin guardar cambios</td>
+                <td>Los cambios NO se guardan</td>
+            </tr>
+            <tr>
+                <td>Haces clic en "Crear Backup" o "Restaurar"</td>
+                <td>Se ejecuta la operación en la BD</td>
+            </tr>
+        </table>
+
+        <h2>Problemas Comunes en Configuración</h2>
+
+        <h3>Problema: "CUIT inválido"</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> Ingresaste caracteres no numéricos o menos de 11 dígitos.</p>
+            <p><strong>Solución:</strong> Ingresa solo los 11 números del CUIT, sin guiones ni espacios.</p>
+        </div>
+
+        <h3>Problema: No aparecen provincias en el combobox</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> La conexión a la BD se perdió al cargar.</p>
+            <p><strong>Solución:</strong> Cierra la ventana y vuelve a intentar. Si persiste, contacta a soporte.</p>
+        </div>
+
+        <h3>Problema: Backup tarda mucho tiempo</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> La base de datos es muy grande o tu computadora es lenta.</p>
+            <p><strong>Solución:</strong> Es normal. Espera a que termine. No cierres la aplicación.</p>
+        </div>
+
+        <h2>Consejos Finales</h2>
+
+        <div class="info">
+            <ul>
+                <li><strong>Revisa tu configuración:</strong> Cada 6 meses, verifica que datos fiscales sigan siendo correctos</li>
+                <li><strong>Sincroniza con AFIP:</strong> Si cambias datos en AFIP, actualízalos también aquí</li>
+                <li><strong>Prueba el backup:</strong> Ocasionalmente, restaura uno antiguo para comprobar que funciona</li>
+                <li><strong>Mantén historiales:</strong> No elimines backups muy antiguos sin razón</li>
+            </ul>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

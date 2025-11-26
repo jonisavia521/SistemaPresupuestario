@@ -1,7 +1,7 @@
 using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Vendedores;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros
 {
-    public partial class frmVendedores : Form
+    public partial class frmVendedores : FormBase
     {
         private readonly IVendedorService _vendedorService;
         private System.Collections.Generic.List<VendedorDTO> _listaCompleta;
@@ -21,21 +21,11 @@ namespace SistemaPresupuestario.Maestros
             
             dgvVendedores.AutoGenerateColumns = false;
             
-            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgvVendedores.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

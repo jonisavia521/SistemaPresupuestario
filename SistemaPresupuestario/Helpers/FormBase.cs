@@ -5,12 +5,13 @@ namespace SistemaPresupuestario.Helpers
 {
     /// <summary>
     /// Clase base para todos los formularios de la aplicación
-    /// Proporciona funcionalidad automática de traducción dinámica
+    /// Proporciona funcionalidad automática de traducción dinámica y soporte de ayuda F1
     /// 
     /// CÓMO USAR:
     /// 1. Hacer que tu formulario herede de FormBase en lugar de Form
     /// 2. En el constructor, después de InitializeComponent(), llamar a base.InitializeTranslation()
     /// 3. El formulario se traducirá automáticamente cuando cambie el idioma
+    /// 4. La ayuda F1 se activará automáticamente
     /// 
     /// EJEMPLO:
     /// public partial class frmMiFormulario : FormBase
@@ -34,6 +35,10 @@ namespace SistemaPresupuestario.Helpers
         /// </summary>
         public FormBase()
         {
+            // Configurar el formulario para manejar la tecla F1
+            this.KeyPreview = true;
+            this.KeyDown += FormBase_KeyDown;
+            
             // Suscribirse al evento de cierre para limpiar recursos
             this.FormClosed += FormBase_FormClosed;
         }
@@ -74,6 +79,18 @@ namespace SistemaPresupuestario.Helpers
         }
 
         /// <summary>
+        /// Manejador del evento KeyDown para capturar F1
+        /// </summary>
+        private void FormBase_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                e.Handled = true;
+                HelpManager.ShowHelp(this);
+            }
+        }
+
+        /// <summary>
         /// Manejador del evento FormClosed
         /// Des-suscribe del evento de cambio de idioma para evitar fugas de memoria
         /// </summary>
@@ -81,6 +98,7 @@ namespace SistemaPresupuestario.Helpers
         {
             // Des-suscribirse del evento estático para evitar fugas de memoria
             I18n.LanguageChanged -= OnLanguageChanged;
+            this.KeyDown -= FormBase_KeyDown;
         }
     }
 }

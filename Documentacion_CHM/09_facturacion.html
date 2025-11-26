@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Facturación</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;border-left:4px solid #3498db;padding-left:10px}
+    .box{padding:15px;border-left:4px solid #3498db;margin:15px 0;background:#f0f4ff;border-radius:4px}
+    .important{background:#fff3cd;border-left-color:#ffc107}
+    table{width:100%;border-collapse:collapse;margin:15px 0}
+    th,td{border:1px solid #ddd;padding:12px;text-align:left}
+    th{background:#3498db;color:#fff}
+    .back-link{margin-top:30px;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Facturación</h1>
+        <p><strong>Emite facturas legales</strong> a partir de presupuestos aprobados. Las facturas son documentos legales ante AFIP con obligaciones tributarias.</p>
+
+        <h2>Acceso</h2>
+        <p><strong>Ruta:</strong> Ventas > Facturación</p>
+
+        <h2>Requisitos para Facturar</h2>
+
+        <div class="box important">
+            <p><strong>Obligatorio tener ANTES de facturar:</strong></p>
+            <ul>
+                <li>Presupuesto en estado "Aprobado"</li>
+                <li>Datos correctos de cliente (CUIT, Razón Social, Tipo IVA)</li>
+                <li>Configuración de empresa completa (Razón Social, CUIT, Dirección)</li>
+                <li>Punto de venta configurado en Configuracion</li>
+                <li>Conexión a Internet disponible (para obtener CAE de AFIP)</li>
+            </ul>
+        </div>
+
+        <h2>Proceso de Facturación</h2>
+
+        <div class="box">
+            <h3>Paso 1: Seleccionar Presupuesto(s)</h3>
+            <ol>
+                <li>En Ventas > Facturación, verás lista de presupuestos aprobados</li>
+                <li>Selecciona uno o varios presupuestos (puedes facturar masivo)</li>
+                <li>Sistema muestra cliente, cantidad de presupuestos, total</li>
+            </ol>
+
+            <h3>Paso 2: Emitir Factura</h3>
+            <ol>
+                <li>Revisa datos: empresa, cliente, detalles, totales</li>
+                <li>Verifica que todo sea correcto ANTES de emitir</li>
+                <li>Haz clic en <strong>Emitir Factura</strong> o <strong>Obtener CAE</strong></li>
+                <li>Sistema se conecta con AFIP para obtener CAE</li>
+            </ol>
+
+            <h3>Paso 3: Guardar y Descargar PDF</h3>
+            <ol>
+                <li>Si todo es correcto, sistema asigna:
+                    <ul>
+                        <li>Número de factura secuencial (ej: A00001-00000001)</li>
+                        <li>CAE de AFIP (14 dígitos)</li>
+                        <li>Fecha de vencimiento CAE (fecha + 60 días)</li>
+                    </ul>
+                </li>
+                <li>Presupuesto cambia automáticamente a estado "Facturado"</li>
+                <li>Sistema pregunta si deseas generar PDF</li>
+                <li>Descarga y guarda el PDF para enviar/archivar</li>
+            </ol>
+        </div>
+
+        <h2>Información en Factura</h2>
+
+        <table>
+            <tr>
+                <th>Sección</th>
+                <th>Qué Incluye</th>
+            </tr>
+            <tr>
+                <td><strong>Encabezado</strong></td>
+                <td>Número, tipo, CAE, fecha, vencimiento CAE</td>
+            </tr>
+            <tr>
+                <td><strong>Datos Empresa</strong></td>
+                <td>Razón Social, CUIT, Dirección, Localidad</td>
+            </tr>
+            <tr>
+                <td><strong>Datos Cliente</strong></td>
+                <td>Razón Social, CUIT, Condición IVA</td>
+            </tr>
+            <tr>
+                <td><strong>Detalles</strong></td>
+                <td>Productos, cantidades, precios, descuentos</td>
+            </tr>
+            <tr>
+                <td><strong>Totales</strong></td>
+                <td>Subtotal, IVA, ARBA, Total Final</td>
+            </tr>
+        </table>
+
+        <h2>Facturación Masiva</h2>
+
+        <p>Puedes facturar varios presupuestos del MISMO cliente simultáneamente:</p>
+
+        <div class="box">
+            <ol>
+                <li>Selecciona múltiples presupuestos (todos del mismo cliente)</li>
+                <li>El sistema genera una factura con todos los detalles combinados</li>
+                <li>Se emite UNA factura con múltiples presupuestos</li>
+                <li>Útil para clientes con muchas órdenes a la vez</li>
+            </ol>
+        </div>
+
+        <h2>Errores Comunes</h2>
+
+        <h3>Error: "Datos fiscales inválidos"</h3>
+        <p><strong>Causa:</strong> Cliente o empresa con datos incompletos o incorrectos.</p>
+        <p><strong>Solución:</strong> Revisa Configuracion (empresa) y cliente. Asegúrate CUIT, Razón Social y Tipo IVA sean correctos.</p>
+
+        <h3>Error: "No hay conexión a AFIP"</h3>
+        <p><strong>Causa:</strong> Problema de conectividad o AFIP no disponible.</p>
+        <p><strong>Solución:</strong> Verifica Internet. Intenta más tarde. Revisa status.afip.gov.ar.</p>
+
+        <h3>Error: "Tipo de factura no válido para cliente"</h3>
+        <p><strong>Causa:</strong> Tipo IVA del cliente no coincide con tipo de factura configurado.</p>
+        <p><strong>Solución:</strong> Verifica tipo IVA del cliente. Debe coincidir con tu punto de venta (A, B o C).</p>
+
+        <h2>CAE - Lo que Debes Saber</h2>
+
+        <div class="box">
+            <ul>
+                <li><strong>¿Qué es?</strong> Código único de AFIP que autoriza la factura</li>
+                <li><strong>¿Cuándo lo obtengo?</strong> Al emitir factura (descarga automática)</li>
+                <li><strong>¿Vigencia?</strong> 60 días desde emisión</li>
+                <li><strong>¿Es obligatorio?</strong> Sí, sin CAE la factura no es válida</li>
+                <li><strong>¿Qué pasa si vence?</strong> Factura pierde validez. Debes emitir Nota de Crédito.</li>
+            </ul>
+        </div>
+
+        <h2>PDF de Factura</h2>
+
+        <p>El sistema genera un PDF profesional que incluye:</p>
+        <ul>
+            <li>Logo de empresa (si está disponible)</li>
+            <li>Número, tipo, CAE, fecha</li>
+            <li>Código de barras del CAE</li>
+            <li>Datos fiscales de empresa y cliente</li>
+            <li>Detalles completos de productos</li>
+            <li>Cálculos e impuestos desglosados</li>
+            <li>Total final a pagar</li>
+            <li>Fecha de vencimiento del CAE</li>
+        </ul>
+
+        <h2>Historial de Facturas</h2>
+
+        <p>Puedes consultar todas las facturas emitidas:</p>
+        <ul>
+            <li>Búsqueda por número, cliente, período</li>
+            <li>Filtros por estado, vendedor, rango de fechas</li>
+            <li>Ver detalles, descargar PDF, reenviar</li>
+        </ul>
+
+        <h2>ARBA en Facturas</h2>
+
+        <p>Si el cliente está en Buenos Aires, la factura muestra:</p>
+        <ul>
+            <li>Línea de "Percepción ARBA" con el porcentaje</li>
+            <li>Monto retenido para IIBB</li>
+            <li>Se resta del total a pagar al cliente</li>
+        </ul>
+
+        <h2>Mejores Prácticas</h2>
+
+        <div class="box">
+            <ul>
+                <li><strong>Revisa antes de facturar:</strong> Verifica todos los datos</li>
+                <li><strong>Copia exacta de presupuesto:</strong> No debe haber discrepancias</li>
+                <li><strong>Guarda PDF:</strong> Archivo local + copia en la nube</li>
+                <li><strong>Verifica CAE:</strong> Asegúrate que aparezca en el PDF</li>
+                <li><strong>Registro ordenado:</strong> Mantén facturas numeradas secuencialmente</li>
+                <li><strong>Declaración a AFIP:</strong> Incluye todas las facturas en declaraciones juradas</li>
+            </ul>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.Vendedores
 {
-    public partial class frmVendedorAlta : Form
+    public partial class frmVendedorAlta : FormBase
     {
         private readonly IVendedorService _vendedorService;
         private Guid? _vendedorId;
@@ -24,7 +24,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             _vendedorService = vendedorService;
             _vendedorId = null;
             
-            InicializarTraduccion();
+            base.InitializeTranslation();
         }
 
         // Constructor para modo EDICIÓN
@@ -34,28 +34,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             _vendedorService = vendedorService;
             _vendedorId = vendedorId;
             
-            InicializarTraduccion();
-        }
-        
-        /// <summary>
-        /// Inicializa el sistema de traducción dinámica
-        /// </summary>
-        private void InicializarTraduccion()
-        {
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            base.InitializeTranslation();
         }
 
         private void frmVendedorAlta_Load(object sender, EventArgs e)

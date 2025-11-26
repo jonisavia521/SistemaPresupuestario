@@ -1,40 +1,29 @@
 ﻿using Services.DomainModel.Security.Composite;
 using Services.Services.Contracts;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-public partial class frmAlta : Form
+namespace SistemaPresupuestario.Maestros
 {
-    private readonly IUsuarioService _usuarioService;
-    private Usuario _usuarioActual; // null = modo agregar, con valor = modo editar
-    private List<Familia> _familiasDisponibles;
-    private List<Patente> _patentesDisponibles;
-
-    public frmAlta(IUsuarioService usuarioService)
+    public partial class frmAlta : FormBase
     {
-        InitializeComponent();
-        _usuarioService = usuarioService;
-        
-        // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-        FormTranslator.Translate(this);
-        
-        // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-        I18n.LanguageChanged += OnLanguageChanged;
-        this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-    }
-    
-    /// <summary>
-    /// Manejador del evento de cambio de idioma
-    /// </summary>
-    private void OnLanguageChanged(object sender, EventArgs e)
-    {
-        FormTranslator.Translate(this);
-    }
+        private readonly IUsuarioService _usuarioService;
+        private Usuario _usuarioActual; // null = modo agregar, con valor = modo editar
+        private List<Familia> _familiasDisponibles;
+        private List<Patente> _patentesDisponibles;
 
-    private void frmAlta_Load(object sender, EventArgs e)
+        public frmAlta(IUsuarioService usuarioService)
+        {
+            InitializeComponent();
+            _usuarioService = usuarioService;
+            
+            base.InitializeTranslation();
+        }
+
+        private void frmAlta_Load(object sender, EventArgs e)
     {
         try
         {
@@ -471,19 +460,20 @@ public partial class frmAlta : Form
         return false;
     }
 
-    private void btnCancelar_Click(object sender, EventArgs e)
-    {
-        this.Close();
-    }
-
-    // Clase auxiliar para mostrar patentes en CheckedListBox
-    private class PatenteItem
-    {
-        public Patente Patente { get; set; }
-
-        public override string ToString()
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            return Patente.MenuItemName;
+            this.Close();
+        }
+
+        // Clase auxiliar para mostrar patentes en CheckedListBox
+        private class PatenteItem
+        {
+            public Patente Patente { get; set; }
+
+            public override string ToString()
+            {
+                return Patente.MenuItemName;
+            }
         }
     }
 }

@@ -1,27 +1,31 @@
-﻿partial class frmAlta
+﻿using System.Windows.Forms;
+
+namespace SistemaPresupuestario.Maestros
 {
-    private System.ComponentModel.IContainer components = null;
-
-    // CONTROLES EXISTENTES
-    private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.TextBox txtNombre;
-    private System.Windows.Forms.TextBox txtUsuario;
-    private System.Windows.Forms.TextBox txtClave;
-    private System.Windows.Forms.Button btnAceptar;
-    private System.Windows.Forms.Button btnCancelar;
-
-    // NUEVOS CONTROLES
-    private System.Windows.Forms.TabControl tabControl1;
-    private System.Windows.Forms.TabPage tabDatosBasicos;
-    private System.Windows.Forms.TabPage tabFamilias;
-    private System.Windows.Forms.TabPage tabPatentes;
-    private System.Windows.Forms.TreeView treeViewFamilias;
-    private System.Windows.Forms.CheckedListBox checkedListBoxPatentes;
-
-    private void InitializeComponent()
+    partial class frmAlta
     {
+        private System.ComponentModel.IContainer components = null;
+
+        // CONTROLES EXISTENTES
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.TextBox txtUsuario;
+        private System.Windows.Forms.TextBox txtClave;
+        private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.Button btnCancelar;
+
+        // NUEVOS CONTROLES
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabDatosBasicos;
+        private System.Windows.Forms.TabPage tabFamilias;
+        private System.Windows.Forms.TabPage tabPatentes;
+        private System.Windows.Forms.TreeView treeViewFamilias;
+        private System.Windows.Forms.CheckedListBox checkedListBoxPatentes;
+
+        private void InitializeComponent()
+        {
         this.label1 = new System.Windows.Forms.Label();
         this.label2 = new System.Windows.Forms.Label();
         this.label3 = new System.Windows.Forms.Label();
@@ -217,5 +221,6 @@
         this.tabFamilias.ResumeLayout(false);
         this.tabPatentes.ResumeLayout(false);
         this.ResumeLayout(false);
+    }
     }
 }

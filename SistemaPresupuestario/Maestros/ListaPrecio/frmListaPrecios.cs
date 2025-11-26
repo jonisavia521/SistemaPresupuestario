@@ -1,6 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.ListaPrecio
 {
-    public partial class frmListaPrecios : Form
+    public partial class frmListaPrecios : FormBase
     {
         private readonly IListaPrecioService _listaPrecioService;
         private readonly IServiceProvider _serviceProvider;
@@ -23,21 +23,11 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _listaCompletaPrecios = new List<ListaPrecioDTO>();
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgvListaPrecios.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

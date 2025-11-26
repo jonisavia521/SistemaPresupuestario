@@ -1,6 +1,6 @@
 using BLL.Contracts;
 using BLL.DTOs;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.Productos
 {
-    public partial class frmProductos : Form
+    public partial class frmProductos : FormBase
     {
         private readonly IProductoService _productoService;
         private List<ProductoDTO> _listaCompletaProductos;
@@ -20,18 +20,11 @@ namespace SistemaPresupuestario.Maestros.Productos
             _productoService = productoService;
             _listaCompletaProductos = new List<ProductoDTO>();
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
         
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgvProductos.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

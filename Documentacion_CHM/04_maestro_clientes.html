@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Gestión de Clientes - Sistema Presupuestario</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px;font-size:2em}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;font-size:1.5em;border-left:4px solid #3498db;padding-left:10px}
+    h3{color:#7f8c8d;margin-top:20px;margin-bottom:12px;font-size:1.1em}
+    .step-box{background:#ecf0f1;padding:15px;border-left:4px solid #3498db;margin:15px 0;border-radius:4px}
+    .important{background:#fff3cd;padding:15px;border-left:4px solid #ffc107;margin:15px 0;border-radius:4px}
+    .success{background:#d4edda;padding:15px;border-left:4px solid #28a745;margin:15px 0;border-radius:4px}
+    .info{background:#d1ecf1;padding:15px;border-left:4px solid #17a2b8;margin:15px 0;border-radius:4px}
+    table{width:100%;border-collapse:collapse;margin:15px 0}
+    th,td{border:1px solid #ddd;padding:12px;text-align:left}
+    th{background:#3498db;color:#fff;font-weight:bold}
+    tr:nth-child(even){background:#f9f9f9}
+    .back-link{margin-top:30px;padding-top:20px;border-top:1px solid #ddd;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    p{margin-bottom:12px;line-height:1.7}
+    ol,ul{margin-left:25px;margin-bottom:12px}
+    li{margin-bottom:8px;line-height:1.6}
+    .label{color:#2c3e50;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Clientes</h1>
+        <p><strong>Los clientes son el corazón de cualquier negocio.</strong> En este módulo, administrarás toda la información de tus clientes: datos fiscales, condiciones de pago, vendedor asignado, lista de precios y más. Todos tus presupuestos y facturas se basarán en estos datos.</p>
+
+        <h2>Acceso al Módulo</h2>
+        
+        <div class="step-box">
+            <p><strong>Ruta:</strong> Menú Principal ? Maestros ? Clientes</p>
+            <p>Se abrira la ventana de Gestión de Clientes con una lista de todos tus clientes registrados.</p>
+        </div>
+
+        <h2>La Pantalla Principal de Clientes</h2>
+
+        <h3>Elementos Principales</h3>
+
+        <div class="info">
+            <ul>
+                <li><strong>Tabla de clientes:</strong> Muestra todos los clientes registrados con información básica</li>
+                <li><strong>Búsqueda:</strong> Campo para buscar clientes por código, nombre o CUIT</li>
+                <li><strong>Botones de acción:</strong> Nuevo, Editar, Desactivar/Reactivar, Cerrar</li>
+                <li><strong>Filtro "Solo ver activos":</strong> Checkbox para mostrar solo clientes activos</li>
+            </ul>
+        </div>
+
+        <h2>Crear un Nuevo Cliente</h2>
+
+        <div class="step-box">
+            <h3>Paso a Paso</h3>
+            <ol>
+                <li>Haz clic en el botón <strong>"Nuevo"</strong></li>
+                <li>Se abrira el formulario de alta de cliente</li>
+                <li>Completa todos los campos (ver tabla abajo)</li>
+                <li>Haz clic en <strong>"Aceptar"</strong> para guardar</li>
+            </ol>
+        </div>
+
+        <h3>Campos del Formulario de Cliente</h3>
+
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Requerido</th>
+                <th>Notas</th>
+            </tr>
+            <tr>
+                <td><span class="label">Código Cliente</span></td>
+                <td>Identificador único (asignado automáticamente)</td>
+                <td>Sí</td>
+                <td>Formato: CLI-yyyyMMddHHmmss. No editable.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Razón Social</span></td>
+                <td>Nombre oficial del cliente (empresa o persona)</td>
+                <td>Sí</td>
+                <td>Tal como aparece en sus documentos fiscales</td>
+            </tr>
+            <tr>
+                <td><span class="label">Tipo Documento</span></td>
+                <td>DNI, CUIT o CUIL</td>
+                <td>Sí</td>
+                <td>CUIT es el más común para empresas</td>
+            </tr>
+            <tr>
+                <td><span class="label">Número Documento</span></td>
+                <td>Número del documento (solo dígitos)</td>
+                <td>Sí</td>
+                <td>Sistema valida solo números. CUIT = 11 dígitos.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Tipo IVA</span></td>
+                <td>Condición fiscal del cliente ante AFIP</td>
+                <td>Sí</td>
+                <td>Responsable Inscripto, Monotributista, Consumidor Final, etc.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Condición de Pago</span></td>
+                <td>Plazo de pago (Contado, 30, 60, 90, 120 días)</td>
+                <td>Sí</td>
+                <td>Para presupuestos y facturas</td>
+            </tr>
+            <tr>
+                <td><span class="label">Alícuota ARBA</span></td>
+                <td>Porcentaje de percepción IIBB (si aplica)</td>
+                <td>No</td>
+                <td>Entre 0 y 100. Solo si está en Buenos Aires.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Provincia</span></td>
+                <td>Provincia donde opera el cliente</td>
+                <td>No</td>
+                <td>Afecta cálculos de impuestos. Puede ser "Sin provincia".</td>
+            </tr>
+            <tr>
+                <td><span class="label">Vendedor Asignado</span></td>
+                <td>Vendedor responsable de este cliente</td>
+                <td>No</td>
+                <td>Presiona F3 o Enter para abrir selector. Opcional.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Dirección</span></td>
+                <td>Domicilio del cliente</td>
+                <td>No</td>
+                <td>Calle, número y detalles. Aparece en facturas.</td>
+            </tr>
+            <tr>
+                <td><span class="label">Localidad</span></td>
+                <td>Ciudad del cliente</td>
+                <td>No</td>
+                <td>Ej: Buenos Aires, La Plata, Córdoba</td>
+            </tr>
+            <tr>
+                <td><span class="label">Teléfono</span></td>
+                <td>Número de contacto</td>
+                <td>No</td>
+                <td>Incluye código de área. Ej: (011) 1234-5678</td>
+            </tr>
+            <tr>
+                <td><span class="label">Email</span></td>
+                <td>Correo electrónico del cliente</td>
+                <td>No</td>
+                <td>Para enviar presupuestos y facturas</td>
+            </tr>
+        </table>
+
+        <h3>Información Importante</h3>
+
+        <div class="important">
+            <p><strong>CRÍTICO para Facturación:</strong> Los datos de Razón Social, CUIT, Tipo IVA y Condición Pago deben ser exactos. Errores aquí causan problemas en facturas y rechazos de AFIP.</p>
+        </div>
+
+        <h2>Editar un Cliente</h2>
+
+        <div class="step-box">
+            <ol>
+                <li>En la lista de clientes, selecciona el cliente que deseas editar</li>
+                <li>Haz clic en el botón <strong>"Editar"</strong></li>
+                <li>Se abrira el formulario con los datos del cliente</li>
+                <li>Modifica los campos que necesites</li>
+                <li>Haz clic en <strong>"Aceptar"</strong> para guardar los cambios</li>
+            </ol>
+        </div>
+
+        <div class="success">
+            <p><strong>Nota:</strong> El Código Cliente no se puede editar. Si necesitas cambiar un cliente completo, es mejor crear uno nuevo.</p>
+        </div>
+
+        <h2>Desactivar un Cliente</h2>
+
+        <p>Si un cliente ya no opera contigo pero quieres mantener el historial (presupuestos, facturas), desactívalo en lugar de eliminarlo.</p>
+
+        <div class="step-box">
+            <ol>
+                <li>Selecciona el cliente en la lista</li>
+                <li>Haz clic en <strong>"Desactivar"</strong></li>
+                <li>Confirma en el diálogo emergente</li>
+                <li>El cliente se marca como inactivo</li>
+            </ol>
+        </div>
+
+        <h3>Qué Sucede Cuando Desactivas un Cliente</h3>
+
+        <div class="info">
+            <ul>
+                <li>No aparecerá en los selectores de clientes para nuevos presupuestos</li>
+                <li>Puedes reactivarlo en cualquier momento si es necesario</li>
+                <li>El historial de presupuestos y facturas se mantiene intacto</li>
+                <li>Es mejor que eliminar porque conserva la auditoría fiscal</li>
+            </ul>
+        </div>
+
+        <h2>Reactivar un Cliente</h2>
+
+        <div class="step-box">
+            <ol>
+                <li>Asegúrate de tener el filtro <strong>"Solo ver activos"</strong> DESACTIVADO</li>
+                <li>Selecciona el cliente inactivo que deseas reactivar</li>
+                <li>Haz clic en <strong>"Reactivar"</strong></li>
+                <li>El cliente vuelve a estado activo</li>
+            </ol>
+        </div>
+
+        <h2>Buscar un Cliente</h2>
+
+        <p>Si tienes muchos clientes, usa la búsqueda para encontrar rápidamente.</p>
+
+        <div class="step-box">
+            <ol>
+                <li>En el campo de búsqueda, ingresa el código, nombre o CUIT del cliente</li>
+                <li>El sistema filtrará automaticamente mientras escribes</li>
+                <li>Los resultados se muestran en la tabla</li>
+                <li>Para limpiar la búsqueda, borra el texto</li>
+            </ol>
+        </div>
+
+        <h3>Ejemplos de Búsqueda</h3>
+
+        <table>
+            <tr>
+                <th>Qué Buscas</th>
+                <th>Ingresa</th>
+                <th>Resultado</th>
+            </tr>
+            <tr>
+                <td>Cliente por código</td>
+                <td>CLI-202401</td>
+                <td>Muestra clientes con ese código</td>
+            </tr>
+            <tr>
+                <td>Cliente por nombre parcial</td>
+                <td>Acme</td>
+                <td>Muestra "Acme S.A.", "Acmex Ltd", etc.</td>
+            </tr>
+            <tr>
+                <td>Cliente por CUIT</td>
+                <td>20156789012</td>
+                <td>Muestra el cliente con ese CUIT</td>
+            </tr>
+        </table>
+
+        <h2>Asignar Vendedor a Cliente</h2>
+
+        <p>Puedes asignar un vendedor específico a un cliente para seguimiento de comisiones.</p>
+
+        <div class="step-box">
+            <ol>
+                <li>En el formulario de cliente, busca el campo <strong>"Código Vendedor"</strong></li>
+                <li>Presiona <strong>F3</strong> o <strong>Enter</strong> para abrir el selector de vendedores</li>
+                <li>Se abrira una ventana con la lista de vendedores activos</li>
+                <li>Busca y selecciona el vendedor que deseas</li>
+                <li>Haz clic en <strong>"Seleccionar"</strong></li>
+            </ol>
+        </div>
+
+        <h2>Asignar Lista de Precios</h2>
+
+        <p>Puedes asignar una lista de precios específica a un cliente para ofertas personalizadas.</p>
+
+        <div class="info">
+            <ul>
+                <li>Si el cliente tiene lista de precios asignada, esa se usará en nuevos presupuestos</li>
+                <li>Si no tiene, se usarán los precios base de los productos</li>
+                <li>Puedes cambiar los precios dentro de cada presupuesto manualmente si es necesario</li>
+            </ul>
+        </div>
+
+        <h2>Datos Fiscales - Información Crítica</h2>
+
+        <div class="important">
+            <p><strong>Estos datos DEBEN ser exactos para facturación legal:</strong></p>
+            <ul>
+                <li><strong>Razón Social:</strong> Copiar exactamente del certificado de AFIP</li>
+                <li><strong>CUIT:</strong> Validar contra AFIP antes de guardar</li>
+                <li><strong>Tipo IVA:</strong> Consultar con el cliente o AFIP si no estás seguro</li>
+                <li><strong>Condición Pago:</strong> Acordar con el cliente o establecer política</li>
+            </ul>
+        </div>
+
+        <h2>Padrón ARBA</h2>
+
+        <p>Para clientes en Buenos Aires, el campo "Alícuota ARBA" es importante.</p>
+
+        <div class="info">
+            <ul>
+                <li>El porcentaje se actualizapor ARBA periódicamente</li>
+                <li>El sistema puede actualizar masivamente todos los clientes en "Venta ? Actualizar Padrón ARBA"</li>
+                <li>Se retiene automáticamente en facturas</li>
+            </ul>
+        </div>
+
+        <h2>Mejores Prácticas para Clientes</h2>
+
+        <div class="success">
+            <ul>
+                <li><strong>Verifica datos:</strong> Antes de guardar, revisa que todo sea correcto especialmente datos fiscales</li>
+                <li><strong>Mantén actualizado:</strong> Si un cliente cambia de datos, actualízalos inmediatamente</li>
+                <li><strong>Desactiva en lugar de eliminar:</strong> Conserva historial fiscal</li>
+                <li><strong>Una vez guardado:</strong> Los datos en presupuestos y facturas no se modifican automáticamente</li>
+                <li><strong>Cuidado con duplicados:</strong> Verifica no crear el mismo cliente dos veces</li>
+                <li><strong>Estandariza nombres:</strong> Usa nombres consistentes para el mismo cliente (ej: siempre "Acme S.A." no "ACME" o "acme")</li>
+            </ul>
+        </div>
+
+        <h2>Problemas Comunes</h2>
+
+        <h3>Problema: "No puedo encontrar el cliente en el selector de presupuestos"</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> El cliente está desactivado.</p>
+            <p><strong>Solución:</strong> Reactívalo o crea un cliente nuevo.</p>
+        </div>
+
+        <h3>Problema: "Sistema rechaza el CUIT como inválido"</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> Ingresaste caracteres no numéricos.</p>
+            <p><strong>Solución:</strong> Ingresa solo los 11 números del CUIT, sin guiones ni espacios.</p>
+        </div>
+
+        <h3>Problema: "Cambié datos del cliente pero no aparecen en presupuestos anteriores"</h3>
+        <div class="step-box">
+            <p><strong>Causa:</strong> Los datos en presupuestos se guardan en el momento de creación.</p>
+            <p><strong>Solución:</strong> Es así por diseño. Los cambios futuros solo afectarán nuevos presupuestos.</p>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

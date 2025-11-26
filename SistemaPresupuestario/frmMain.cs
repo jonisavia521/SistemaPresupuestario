@@ -17,7 +17,7 @@ using SistemaPresupuestario.Seguridad;
 
 namespace SistemaPresupuestario
 {
-    public partial class frmMain : Form
+    public partial class frmMain : FormBase
     {
         private readonly ILogin _login;
         private readonly IServiceProvider _serviceProvider;
@@ -28,18 +28,11 @@ namespace SistemaPresupuestario
             _login = login;
             _serviceProvider = serviceProvider;
             
-            FormTranslator.Translate(this);
-            
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
             txtUsuario.Text = $"{I18n.T("Bienvenido")} {_login.user.Nombre}";
         }
 
@@ -324,30 +317,40 @@ namespace SistemaPresupuestario
 
         private void tsManualDeUsuario_Click(object sender, EventArgs e)
         {
+            AbrirArchivoDeAyuda("SistemaPresupuestario_Ayuda.chm");
+        }
+
+        private void tsManualDelDesarrollador_Click(object sender, EventArgs e)
+        {
+            AbrirArchivoDeAyuda("Documentation.chm");
+        }
+
+        private void AbrirArchivoDeAyuda(string nombreArchivo)
+        {
             try
             {
-                // Ruta al archivo CHM compilado
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                string chmFilePath = System.IO.Path.Combine(basePath, "Documentacion_CHM", "SistemaPresupuestario_Ayuda.chm");
+                string chmFilePath = System.IO.Path.Combine(basePath, nombreArchivo);
 
-                // Verificar si el archivo existe
                 if (!System.IO.File.Exists(chmFilePath))
                 {
                     MessageBox.Show(
-                        $"{I18n.T("El archivo de ayuda no se encuentra en la ruta")}:\n{chmFilePath}\n\n",
+                        $"{I18n.T("El archivo de ayuda no se encuentra en la ruta")}:\n{chmFilePath}\n\n" +
+                        $"{I18n.T("Asegúrese de que el archivo .chm esté en la carpeta de la aplicación.")}",
                         I18n.T("Archivo no encontrado"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Abrir el archivo CHM
-                Help.ShowHelp(this, chmFilePath);
+                // HelpNavigator.TableOfContents abre el CHM mostrando el arbolito de la izquierda.
+                // Si el CHM tiene una página "default" configurada (como hicimos con Welcome.aml), esa se mostrará a la derecha.
+                Help.ShowHelp(this, chmFilePath, HelpNavigator.TableOfContents);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"{I18n.T("Error al abrir el manual de usuario")}:\n{ex.Message}",
+                    $"{I18n.T("Error al abrir la documentación")}:\n{ex.Message}",
                     I18n.T("Error"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

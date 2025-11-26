@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>ARBA y Percepciones IIBB</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;border-left:4px solid #3498db;padding-left:10px}
+    .box{padding:15px;border-left:4px solid #3498db;margin:15px 0;background:#f0f4ff;border-radius:4px}
+    .important{background:#fff3cd;border-left-color:#ffc107}
+    table{width:100%;border-collapse:collapse;margin:15px 0}
+    th,td{border:1px solid #ddd;padding:12px;text-align:left}
+    th{background:#3498db;color:#fff}
+    .back-link{margin-top:30px;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ARBA y Percepciones IIBB</h1>
+        <p><strong>Información sobre percepciones de Ingresos Brutos.</strong> ARBA retiene un porcentaje de tus facturas para pagar Ingresos Brutos. El sistema lo calcula automáticamente.</p>
+
+        <h2>¿Qué es ARBA?</h2>
+        <p><strong>ARBA</strong> = Agencia de Recaudación de Impuestos en Buenos Aires. Es el organismo que recauda el impuesto de Ingresos Brutos (IIBB).</p>
+
+        <h2>¿Cuándo Aplica?</h2>
+
+        <div class="box">
+            <p><strong>ARBA solo aplica si:</strong></p>
+            <ul>
+                <li>El cliente está ubicado en AMBA (Área Metropolitana Buenos Aires)</li>
+                <li>Es una empresa o profesional (no consumidor final)</li>
+                <li>Tienes un porcentaje configurado en su registro</li>
+            </ul>
+        </div>
+
+        <h2>Porcentajes</h2>
+
+        <p>Los porcentajes varían según la actividad y se actualizan periódicamente por ARBA:</p>
+
+        <table>
+            <tr>
+                <th>Actividad</th>
+                <th>Rango Típico</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td>Comercio general</td>
+                <td>1% - 2%</td>
+                <td>Varía por tipo</td>
+            </tr>
+            <tr>
+                <td>Servicios</td>
+                <td>1.5% - 3%</td>
+                <td>Varía por tipo de servicio</td>
+            </tr>
+            <tr>
+                <td>Profesionales</td>
+                <td>1.5% - 3%</td>
+                <td>Abogados, contadores, etc.</td>
+            </tr>
+            <tr>
+                <td>Consumidor final</td>
+                <td>0%</td>
+                <td>No aplica percepción</td>
+            </tr>
+        </table>
+
+        <h2>Cálculo de Percepción ARBA</h2>
+
+        <div class="box">
+            <p><strong>Fórmula:</strong></p>
+            <p>Percepción = Subtotal (sin IVA) × Porcentaje ARBA</p>
+            
+            <p><strong>Ejemplo:</strong></p>
+            <ul>
+                <li>Subtotal: $1.000</li>
+                <li>ARBA: 2%</li>
+                <li>Percepción: $1.000 × 2% = $20</li>
+                <li>Cliente paga: $1.000 + IVA - $20</li>
+            </ul>
+        </div>
+
+        <h2>Configuración en el Sistema</h2>
+
+        <div class="box">
+            <ol>
+                <li>Ve a Maestros > Clientes</li>
+                <li>Edita el cliente que está en AMBA</li>
+                <li>Busca el campo "Alícuota ARBA"</li>
+                <li>Ingresa el porcentaje (0-100)</li>
+                <li>Guarda cambios</li>
+            </ol>
+        </div>
+
+        <h2>Impacto en Facturación</h2>
+
+        <p><strong>Cuando facturas a un cliente con ARBA configurado:</strong></p>
+        <ul>
+            <li>Línea de "Percepción ARBA" aparece en la factura</li>
+            <li>Se resta automáticamente del total</li>
+            <li>Debes pagar ese monto a ARBA mensualmente</li>
+            <li>Registra en tu DDJJ (Declaración Jurada)</li>
+        </ul>
+
+        <h2>Actualización de Padrón ARBA</h2>
+
+        <p><strong>Ruta:</strong> Ventas > Actualizar Padrón ARBA</p>
+
+        <div class="box important">
+            <p><strong>Qué hace:</strong> Actualiza masivamente el porcentaje ARBA de TODOS los clientes Responsables Inscriptos.</p>
+            
+            <p><strong>Cuándo usar:</strong> Cuando ARBA publica nuevos porcentajes (generalmente anual o por cambios en la legislación).</p>
+            
+            <p><strong>Cuidado:</strong> Esta operación afecta a todos los clientes. Asegúrate de tener los porcentajes correctos.</p>
+        </div>
+
+        <h2>Reportes de ARBA</h2>
+
+        <p>El sistema puede generar reportes para auditoría:</p>
+        <ul>
+            <li>Percepciones por período (mensual, anual)</li>
+            <li>Total retenido por cliente</li>
+            <li>Agrupado por alícuota</li>
+            <li>Exportable a Excel para DDJJ</li>
+        </ul>
+
+        <h2>Declaración a ARBA</h2>
+
+        <div class="box important">
+            <p><strong>Obligatorio:</strong> Debes declarar y pagar mensualmente a ARBA.</p>
+            
+            <p><strong>Plazo:</strong> Típicamente hasta el 20 de cada mes (verificar).</p>
+            
+            <p><strong>Documentación:</strong> Usa los reportes del sistema como base.</p>
+            
+            <p><strong>Contacto:</strong> www.arba.gov.ar o telefóno 0800-99-2722</p>
+        </div>
+
+        <h2>Preguntas Comunes</h2>
+
+        <div class="box">
+            <p><strong>¿Qué pasa si no tengo cliente en AMBA?</strong></p>
+            <p>ARBA no aplica. El sistema no retendrá nada.</p>
+            
+            <p><strong>¿Y si me equivoco en el porcentaje?</strong></p>
+            <p>Contacta a ARBA. Puede haber sanciones. Mejor prevenir verificando con ellos.</p>
+            
+            <p><strong>¿Puedo cambiar ARBA en presupuestos individuales?</strong></p>
+            <p>No directamente. Actualiza el cliente y los siguientes presupuestos usarán el nuevo porcentaje.</p>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

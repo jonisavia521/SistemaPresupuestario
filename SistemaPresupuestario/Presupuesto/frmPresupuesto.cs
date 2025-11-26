@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Presupuesto
 {
-    public partial class frmPresupuesto : Form
+    public partial class frmPresupuesto : FormBase
     {
         private readonly IPresupuestoService _presupuestoService;
         private readonly IClienteService _clienteService;
@@ -49,8 +49,6 @@ namespace SistemaPresupuestario.Presupuesto
         // Nuevo: Modo de operación del formulario
         private ModoPresupuesto _modoOperacion = ModoPresupuesto.Gestionar;
 
-        
-
         public frmPresupuesto(
             IPresupuestoService presupuestoService,
             IClienteService clienteService,
@@ -73,21 +71,11 @@ namespace SistemaPresupuestario.Presupuesto
             // NUEVO: Inicializar generador de PDF
             _pdfService = pdfService ?? throw new ArgumentNullException(nameof(pdfService));
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgArticulos.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

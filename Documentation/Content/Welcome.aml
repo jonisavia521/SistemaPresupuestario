@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="ace29e11-3b6c-4e5b-97db-7e0c307feaa0" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+		<introduction>
+			<para>
+				Bienvenido a la documentación técnica oficial del <legacyBold>Sistema Presupuestario</legacyBold>.
+			</para>
+			<para>
+				Este documento proporciona una referencia exhaustiva sobre la arquitectura, componentes y APIs internas del sistema.
+				Está diseñado para desarrolladores y arquitectos que necesiten comprender el flujo de datos, la lógica de negocio y la estructura de seguridad implementada.
+			</para>
+		</introduction>
+
+		<section>
+			<title>Arquitectura del Sistema</title>
+			<content>
+				<para>
+					El sistema sigue una arquitectura en capas (N-Layer) con un fuerte enfoque en el desacoplamiento y la inyección de dependencias.
+					El diseño separa claramente la lógica de presentación, la lógica de negocio y el acceso a datos.
+				</para>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<legacyBold>Capa de Presentación (SistemaPresupuestario):</legacyBold>
+							Interfaz Windows Forms que gestiona la interacción con el usuario. Incluye helpers para internacionalización (<codeInline>I18n</codeInline>) y gestión de formularios base.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Lógica de Negocio (BLL):</legacyBold>
+							El núcleo del sistema. Orquesta las operaciones mediante Servicios (<codeInline>Services</codeInline>), transforma datos con DTOs y AutoMapper, y define los contratos de negocio.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Modelo de Dominio (DomainModel):</legacyBold>
+							Contiene las entidades puras del negocio (`ClienteDM`, `PresupuestoDM`), sus reglas de validación y el modelo de seguridad basado en el patrón <legacyBold>Composite</legacyBold> (Familias y Patentes).
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Acceso a Datos (DAL):</legacyBold>
+							Implementación de los repositorios utilizando Entity Framework y ADO.NET para operaciones de alto rendimiento.
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+
+		<section>
+			<title>Servicios Transversales e Infraestructura</title>
+			<content>
+				<para>
+					Además de las capas principales, el sistema cuenta con módulos de soporte vitales para la operación:
+				</para>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<legacyBold>IoC (Inversion of Control):</legacyBold>
+							Contenedor centralizado para la Inyección de Dependencias, asegurando que cada capa resuelva sus dependencias de forma transparente.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Services (Infraestructura):</legacyBold>
+							Funcionalidades técnicas como generación de PDFs (Facturas y Presupuestos), Criptografía, Backup/Restore y Traducción.
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+
+		<section>
+			<title>Patrones de Diseño Destacados</title>
+			<content>
+				<para>
+					La solución implementa varios patrones estándar de la industria para garantizar mantenibilidad y escalabilidad:
+				</para>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<legacyBold>Repository Pattern:</legacyBold> Para abstraer el acceso a datos.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Composite Pattern:</legacyBold> Utilizado en el módulo de Seguridad para manejar jerarquías de permisos (Familias que contienen Patentes).
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>DTO (Data Transfer Object):</legacyBold> Para el transporte de datos entre capas sin exponer el dominio.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<legacyBold>Singleton &amp; Static Helpers:</legacyBold> Para servicios de configuración e infraestructura.
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="64fd60f2-d896-4c8e-9914-500fd9fa3a91" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

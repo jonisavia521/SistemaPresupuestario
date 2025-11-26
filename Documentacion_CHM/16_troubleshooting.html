@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Solución de Problemas</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;border-left:4px solid #3498db;padding-left:10px}
+    .problem{padding:15px;margin:15px 0;background:#f8d7da;border-left:4px solid #dc3545;border-radius:4px}
+    .solution{padding:15px;margin:10px 0 15px 20px;background:#d4edda;border-left:4px solid #28a745;border-radius:4px}
+    .back-link{margin-top:30px;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Solución de Problemas (Troubleshooting)</h1>
+        <p>Encuentra soluciones a los problemas más comunes que podrías enfrentar.</p>
+
+        <h2>Problemas de Acceso</h2>
+
+        <div class="problem">
+            <strong>No puedo iniciar sesión (usuario/contraseña incorrectos)</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que escribes correctamente tu usuario</li>
+                <li>Confirma que tu contraseña es correcta (mayúsculas/minúsculas)</li>
+                <li>Si olvidaste contraseña, contacta al administrador</li>
+                <li>Intenta desactivar Bloq Mayús si está activado</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>Aplicación se abre pero no puedo ver datos</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que tengas permisos para ese módulo</li>
+                <li>Contacta al administrador para asignar permisos</li>
+                <li>Algunos módulos solo están disponibles para ciertos roles</li>
+            </ol>
+        </div>
+
+        <h2>Problemas de Conexión a BD</h2>
+
+        <div class="problem">
+            <strong>Base de datos no disponible / No puedo conectar</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que tu PC esté conectada a la red</li>
+                <li>Pincha ping al servidor SQL: cmd ? ping [nombre_servidor]</li>
+                <li>Verifica que SQL Server esté corriendo (contacta a IT)</li>
+                <li>Reinicia la aplicación y/o tu computadora</li>
+                <li>Si persiste, contacta a soporte técnico</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>La aplicación está muy lenta</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica tu conexión de red (ancho de banda disponible)</li>
+                <li>Cierra otras aplicaciones que consuman recursos</li>
+                <li>Si es servidor SQL remoto, contacta a IT (puede estar saturado)</li>
+                <li>Prueba reiniciando la aplicación</li>
+                <li>Si sigue lenta, contacta a soporte</li>
+            </ol>
+        </div>
+
+        <h2>Problemas con Presupuestos</h2>
+
+        <div class="problem">
+            <strong>No puedo crear presupuesto - error "Cliente no válido"</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Asegúrate de seleccionar un cliente activo</li>
+                <li>Si el cliente está desactivado, no aparecerá en la lista</li>
+                <li>Ve a Maestros > Clientes y reactiva el cliente si es necesario</li>
+                <li>Intenta nuevamente</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>Presupuesto no se guarda - error en validación</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que todos los campos obligatorios estén completos</li>
+                <li>Revisa mensajes de error (indican qué campo tiene problema)</li>
+                <li>Asegúrate de haber seleccionado al menos un producto</li>
+                <li>Valida que los números sean correctos (cantidades, precios)</li>
+            </ol>
+        </div>
+
+        <h2>Problemas con Facturación</h2>
+
+        <div class="problem">
+            <strong>No puedo emitir factura - "Datos fiscales inválidos"</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Ve a Archivo > Configuracion, revisa datos de empresa</li>
+                <li>Verifica CUIT, Razón Social, Dirección (deben estar completos)</li>
+                <li>Abre cliente y revisa su CUIT y Tipo IVA</li>
+                <li>Asegúrate que Tipo IVA del cliente coincida con tipo de factura</li>
+                <li>Intenta nuevamente</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>Error al obtener CAE - "No hay conexión a AFIP"</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que tengas conexión a Internet</li>
+                <li>Abre navegador y accede a www.afip.gov.ar para probar conectividad</li>
+                <li>Revisa estado de AFIP (a veces está en mantenimiento)</li>
+                <li>Intenta facturar más tarde</li>
+                <li>Si persiste, contacta a soporte</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>AFIP rechazó factura - error en los datos</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Lee el mensaje de error de AFIP con cuidado</li>
+                <li>Los errores típicos son: CUIT inválido, Razón Social incorrecta, Tipo IVA incoherente</li>
+                <li>Contacta a tu contador o AFIP directamente para aclarar</li>
+                <li>Corrige los datos y reintenta</li>
+            </ol>
+        </div>
+
+        <h2>Problemas de Datos</h2>
+
+        <div class="problem">
+            <strong>Cambié un cliente pero los datos antiguos siguen apareciendo</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Los datos en presupuestos/facturas se guardan en el momento de creación</li>
+                <li>Los cambios futuros solo afectarán nuevos presupuestos</li>
+                <li>Esto es intencional (auditoría fiscal)</li>
+                <li>Es normal que veas datos inconsistentes entre presupuestos antiguos y nuevos</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>Presupuesto desapareció - ¿dónde está?</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica el filtro de búsqueda (no está filtrado por estado)</li>
+                <li>Desactiva filtro "Solo ver activos" si aplica</li>
+                <li>Busca por número o cliente en la barra de búsqueda</li>
+                <li>Revisa fecha de emisión (filtro por período)</li>
+                <li>Presupuestos borrados siguen en la BD pero con estado "Borrado"</li>
+            </ol>
+        </div>
+
+        <h2>Problemas de Backup/Restauración</h2>
+
+        <div class="problem">
+            <strong>El backup tarda mucho en crearse</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Es normal si tienes muchos datos acumulados</li>
+                <li>No cierres la aplicación durante el proceso</li>
+                <li>Espera a que termine (puede tardar minutos)</li>
+                <li>Usa esta información para programar backups en horas de baja actividad</li>
+            </ol>
+        </div>
+
+        <div class="problem">
+            <strong>No puedo restaurar - error en archivo</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Verifica que el archivo de backup existe y es accesible</li>
+                <li>Confirma que no esté en carpeta de solo lectura</li>
+                <li>Prueba con otro backup (quizás ese está corrupto)</li>
+                <li>Si ninguno funciona, contacta a soporte</li>
+            </ol>
+        </div>
+
+        <h2>Problemas de Idioma</h2>
+
+        <div class="problem">
+            <strong>El sistema está en idioma incorrecto</strong>
+        </div>
+        <div class="solution">
+            <ol>
+                <li>Ve a Archivo > Configuracion > Selección de Idioma</li>
+                <li>Selecciona el idioma que prefieres</li>
+                <li>Haz clic en "Cambiar Idioma"</li>
+                <li>El cambio es inmediato</li>
+            </ol>
+        </div>
+
+        <h2>Pasos Generales de Troubleshooting</h2>
+
+        <div class="solution">
+            <ol>
+                <li><strong>Relee el mensaje de error:</strong> A menudo contiene la solución</li>
+                <li><strong>Google el error:</strong> Otros pueden haber tenido el mismo problema</li>
+                <li><strong>Reinicia:</strong> Cierra y abre la aplicación nuevamente</li>
+                <li><strong>Borrador caché:</strong> A veces hay datos en caché que causan conflictos</li>
+                <li><strong>Verifica conectividad:</strong> Red, Base de datos, Internet</li>
+                <li><strong>Contacta soporte:</strong> Si nada funciona, pide ayuda profesional</li>
+            </ol>
+        </div>
+
+        <h2>Cuándo Contactar a Soporte</h2>
+
+        <div class="solution">
+            <ul>
+                <li>Errores que persisten después de reiniciar</li>
+                <li>Problemas de conexión a base de datos</li>
+                <li>Facturación rechazada por AFIP</li>
+                <li>Datos faltantes o corruptos</li>
+                <li>Comportamientos extraños sin explicación</li>
+            </ul>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

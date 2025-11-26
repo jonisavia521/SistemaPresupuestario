@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>Dígitos Verificadores y Control de Integridad</title>
+    
+    <style>
+    body{font-family:Tahoma,Verdana,sans-serif;line-height:1.5;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:900px;margin:0 auto}
+    h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:12px;margin-bottom:25px;font-size:1.8em}
+    h2{color:#667eea;margin-top:25px;margin-bottom:12px;font-size:1.3em}
+    h3{color:#764ba2;margin-top:18px;margin-bottom:10px;font-size:1.1em}
+    p{margin-bottom:12px;line-height:1.6}
+    .step,.tip,.important,.section-box,.definition,.warning,.success,.feature-item,.problem-box,.solution-box,.contact-info,.steps{padding:15px;margin-bottom:15px;border-left:4px solid #667eea;background:#f9f9f9}
+    .step{background:#f0f4ff}
+    .tip{background:#fff3cd;border-left-color:#ffc107}
+    .important,.warning{background:#f8d7da;border-left-color:#dc3545}
+    .success{background:#d4edda;border-left-color:#28a745}
+    .definition{background:#e8eef7}
+    .feature-item{background:#f0f4ff}
+    .problem-box{background:#f8d7da;border-left-color:#dc3545}
+    .solution-box{background:#d4edda;border-left-color:#28a745;margin-left:20px}
+    .contact-info{background:#e8eef7}
+    .steps{background:#fff3cd;border-left-color:#ffc107}
+    .section-box{background:#f9f9f9;border:1px solid #e0e0e0}
+    ul,ol{margin-left:20px;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .back-link{margin-top:25px;padding-top:15px;border-top:1px solid #ddd}
+    .back-link a{color:#667eea;text-decoration:none;font-weight:bold}
+    .back-link a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#667eea;color:#fff}
+    tr:nth-child(even){background:#f9f9f9}
+    a{color:#667eea;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .button-info{background:#667eea;color:#fff;padding:6px 12px;margin-right:8px;font-size:0.85em;display:inline-block}
+    .problem-title{font-weight:bold;color:#721c24;margin-bottom:8px}
+    .solution-title{font-weight:bold;color:#155724;margin-bottom:8px}
+    .faq-item{background:#f9f9f9;border-left:4px solid #667eea;padding:18px;margin-bottom:18px}
+    .faq-question{font-weight:bold;color:#667eea;margin-bottom:8px;font-size:1.05em}
+    .faq-answer{color:#333;line-height:1.6}
+    .code-block{background:#f5f5f5;border:1px solid #ddd;padding:12px;margin:12px 0;font-family:monospace;overflow-x:auto}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dígitos Verificadores y Control de Integridad</h1>
+        
+        <p>Demostración académica de cómo funcionan los dígitos verificadores horizontales y verticales para detectar errores en datos.</p>
+        
+        <h2>¿Qué son los Dígitos Verificadores?</h2>
+        
+        <div class="definition">
+            <strong>Dígito Verificador:</strong> Un valor calculado matemáticamente a partir de otros datos que permite detectar si esos datos han sido alterados o corruptos. Es una técnica fundamental en criptografía y transmisión de datos.
+        </div>
+        
+        <div class="section-box">
+            <p>Los dígitos verificadores protegen la integridad de los datos mediante:</p>
+            
+            <ul>
+                <li><strong>Detección de errores:</strong> Si un dato cambia, el dígito verificador no coincide</li>
+                <li><strong>Prevención de fraude:</strong> Imposible modificar datos sin que se note</li>
+                <li><strong>Validación automática:</strong> El sistema puede verificar sin intervención humana</li>
+            </ul>
+        </div>
+        
+        <h2>Tipos de Dígitos en Este Sistema</h2>
+        
+        <h3>1. DVH (Dígito Verificador Horizontal)</h3>
+        
+        <div class="section-box">
+            <p><strong>¿Qué protege?</strong> Cada fila de datos (cada producto/código)</p>
+            
+            <p><strong>Algoritmo:</strong> Módulo 11 con ponderación de caracteres</p>
+            
+            <div class="code-block">
+            Pasos:
+            1. Convertir cada carácter a su valor ASCII
+            2. Multiplicar por un peso (2-7, en ciclo)
+            3. Sumar todos los resultados
+            4. Calcular módulo 11
+            5. Restar de 11 para obtener el dígito
+            </div>
+            
+            <h4>Ejemplo:</h4>
+            <p>Código: "A1001"</p>
+            <ul>
+                <li>A (65) × 2 = 130</li>
+                <li>1 (49) × 3 = 147</li>
+                <li>0 (48) × 4 = 192</li>
+                <li>0 (48) × 5 = 240</li>
+                <li>1 (49) × 6 = 294</li>
+                <li>Suma: 1003</li>
+                <li>Resto (1003 % 11): 1</li>
+                <li>DVH = 11 - 1 = 10 ? Se ajusta a 1</li>
+            </ul>
+        </div>
+        
+        <h3>2. DVV (Dígito Verificador Vertical)</h3>
+        
+        <div class="section-box">
+            <p><strong>¿Qué protege?</strong> Toda una columna de datos (suma de IVAs, totales, etc.)</p>
+            
+            <p><strong>Algoritmo:</strong> Igual al DVH pero aplicado a la suma vertical</p>
+            
+            <h4>Propósito:</h4>
+            <ul>
+                <li>Detectar cambios en cualquier fila de la columna</li>
+                <li>Proteger totalizaciones y sumas</li>
+                <li>Garantizar integridad vertical del lote</li>
+            </ul>
+        </div>
+        
+        <h2>Demostración Práctica en el Sistema</h2>
+        
+        <div class="section-box">
+            <p>Este formulario incluye una demostración interactiva con 4 pasos:</p>
+            
+            <ol>
+                <li><strong>Cargar Datos:</strong> Carga 5 productos de ejemplo en la grilla</li>
+                <li><strong>Calcular Dígitos:</strong> Calcula DVH y DVV para todos los datos</li>
+                <li><strong>Simular Corrupción:</strong> Altera datos para simular errores</li>
+                <li><strong>Verificar Integridad:</strong> Detecta qué datos fueron alterados</li>
+            </ol>
+        </div>
+        
+        <h2>Paso 1: Cargar Datos</h2>
+        
+        <div class="step">
+            <p>Presione el botón <strong>"1. Cargar Datos"</strong> para cargar los productos de ejemplo:</p>
+            
+            <table>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>% IVA</th>
+                </tr>
+                <tr>
+                    <td>A1001</td>
+                    <td>Producto A</td>
+                    <td>21.00%</td>
+                </tr>
+                <tr>
+                    <td>B2005</td>
+                    <td>Producto B</td>
+                    <td>10.50%</td>
+                </tr>
+                <tr>
+                    <td>A1007</td>
+                    <td>Producto C</td>
+                    <td>21.00%</td>
+                </tr>
+                <tr>
+                    <td>C3010</td>
+                    <td>Producto D</td>
+                    <td>5.00%</td>
+                </tr>
+                <tr>
+                    <td>D4020</td>
+                    <td>Producto E</td>
+                    <td>27.00%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <h2>Paso 2: Calcular Dígitos Verificadores</h2>
+        
+        <div class="step">
+            <p>Presione <strong>"2. Calcular Dígitos"</strong> para:</p>
+            
+            <ul>
+                <li>Calcular el DVH para cada código de producto</li>
+                <li>Calcular la suma total de IVAs</li>
+                <li>Calcular el DVV general basado en esa suma</li>
+                <li>Calcular DVVs para cada columna</li>
+                <li>Sellar el lote (los dígitos se guardan)</li>
+            </ul>
+            
+            <p><strong>Resultado esperado:</strong> Los DVH aparecen en color verde, el label de suma muestra el DVV general.</p>
+        </div>
+        
+        <h2>Paso 3: Simular Corrupción de Datos</h2>
+        
+        <div class="warning">
+            <p>Presione <strong>"3. Simular Corrupción"</strong> para introducir cambios:</p>
+            
+            <ul>
+                <li><strong>Cambio Horizontal:</strong> Se modifica el código de la fila 2 (cambia último carácter)</li>
+                <li><strong>Cambio Vertical:</strong> Se incrementa el IVA de la fila 4 en 1%</li>
+            </ul>
+            
+            <p><strong>Resultado:</strong> Las celdas modificadas aparecen en color amarillo.</p>
+        </div>
+        
+        <h2>Paso 4: Verificar Integridad</h2>
+        
+        <div class="important">
+            <p>Presione <strong>"4. Verificar Integridad"</strong> para detectar cambios:</p>
+            
+            <p>El sistema compara:</p>
+            <ol>
+                <li>DVH de cada código contra el DVH calculado actual</li>
+                <li>Suma total de IVAs contra la suma original</li>
+                <li>DVV general contra el DVV recalculado</li>
+                <li>DVVs de cada columna</li>
+            </ol>
+            
+            <p><strong>Resultado:</strong></p>
+            <ul>
+                <li>? <strong>Datos íntegros:</strong> Todo en verde, coinciden perfectamente</li>
+                <li>? <strong>Datos alterados:</strong> Celdas en rojo, mostrando dónde están los cambios</li>
+            </ul>
+        </div>
+        
+        <h2>Conceptos Clave</h2>
+        
+        <div class="section-box">
+            <h3>¿Por qué es importante?</h3>
+            
+            <ul>
+                <li><strong>Confiabilidad:</strong> Garantiza que los datos no han sido alterados</li>
+                <li><strong>Trazabilidad:</strong> Permite identificar exactamente qué cambió</li>
+                <li><strong>Cumplimiento:</strong> Muchas regulaciones exigen control de integridad</li>
+                <li><strong>Seguridad:</strong> Imposibilita falsificación sin ser detectada</li>
+            </ul>
+        </div>
+        
+        <div class="section-box">
+            <h3>Módulo 11 Explicado</h3>
+            
+            <p>El algoritmo Módulo 11 es estándar internacional usado en:</p>
+            
+            <ul>
+                <li><strong>ISBN:</strong> Número de libros</li>
+                <li><strong>DNI:</strong> Documentos de identidad</li>
+                <li><strong>Códigos de barras:</strong> EAN-13</li>
+                <li><strong>IBAN:</strong> Cuentas bancarias</li>
+                <li><strong>Transmisión de datos:</strong> Checksums</li>
+            </ul>
+        </div>
+        
+        <h2>Casos de Uso Real</h2>
+        
+        <div class="section-box">
+            <h3>En Finanzas:</h3>
+            <ul>
+                <li>Verificar que montos de facturas no sean alterados</li>
+                <li>Proteger información de pagos</li>
+                <li>Detectar fraude en transacciones</li>
+            </ul>
+            
+            <h3>En Logística:</h3>
+            <ul>
+                <li>Validar números de seguimiento</li>
+                <li>Confirmar códigos de lote</li>
+                <li>Controlar inventario</li>
+            </ul>
+            
+            <h3>En Administración:</h3>
+            <ul>
+                <li>Proteger documentos oficiales</li>
+                <li>Auditoría de cambios</li>
+                <li>Compliance regulatorio</li>
+            </ul>
+        </div>
+        
+        <h2>Respuestas a Preguntas Frecuentes</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo alterar datos sin que se note?</div>
+            <div class="faq-answer">No. Si cambias un dato, el dígito verificador ya no coincidirá. El sistema detectará inmediatamente que algo cambió, incluso si solo alteras un carácter.</div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">¿Qué pasa si altero también el dígito verificador?</div>
+            <div class="faq-answer">Sería muy difícil porque necesitarías calcular el dígito correcto para el nuevo dato. Además, los DVV de columnas detectarían cambios adicionales no autorizados.</div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">¿Es seguridad real o solo académica?</div>
+            <div class="faq-answer">Es académica en esta demostración, pero el concepto es usado en sistemas de seguridad reales. Para máxima seguridad, se combinan con criptografía moderna.</div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo se usa esto en nuestro sistema?</div>
+            <div class="faq-answer">En futuras versiones, estos principios podrían proteger datos críticos como facturas, presupuestos y registros de auditoría para garantizar que no sean alterados después de ser creados.</div>
+        </div>
+        
+        <h2>Mejores Prácticas</h2>
+        
+        <div class="section-box">
+            <ul>
+                <li><strong>Siempre verificar:</strong> Ejecute verificación de integridad antes de procesar datos</li>
+                <li><strong>Registrar resultados:</strong> Guarde logs de verificaciones completadas</li>
+                <li><strong>Alertar en errores:</strong> Notifique inmediatamente si se detectan cambios</li>
+                <li><strong>Auditoría:</strong> Mantenga historial de todas las verificaciones</li>
+                <li><strong>Backups:</strong> Guarde copias con dígitos verificadores intactos</li>
+                <li><strong>Entrenamiento:</strong> Capacite al personal sobre importancia de integridad</li>
+            </ul>
+        </div>
+        
+        <h2>Referencias Técnicas</h2>
+        
+        <div class="section-box">
+            <p><strong>Algoritmo utilizado:</strong> Módulo 11 con ponderación</p>
+            
+            <p><strong>Estándares relacionados:</strong></p>
+            <ul>
+                <li>ISO/IEC 7064 - Métodos de verificación de dígitos</li>
+                <li>LUHN Algorithm - Usado en tarjetas de crédito</li>
+                <li>Verhoeff Algorithm - Mejora sobre Módulo 11</li>
+            </ul>
+            
+            <p><strong>Aplicaciones reales:</strong></p>
+            <ul>
+                <li>ISBN-10 y ISBN-13 en libros</li>
+                <li>EAN-13 en códigos de barras</li>
+                <li>ISIN en valores financieros</li>
+                <li>Números de ruta bancaria</li>
+            </ul>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Volver al Índice Principal</a>
+        </div>
+    </div>
+</body>
+</html>

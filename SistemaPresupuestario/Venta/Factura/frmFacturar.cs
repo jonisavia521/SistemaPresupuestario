@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Venta.Factura
 {
-    public partial class frmFacturar : Form
+    public partial class frmFacturar : FormBase
     {
         private readonly IPresupuestoService _presupuestoService;
         private readonly IClienteService _clienteService;
@@ -33,30 +33,9 @@ namespace SistemaPresupuestario.Venta.Factura
             _presupuestosAprobados = new List<PresupuestoDTO>();
             _viewModels = new BindingList<PresupuestoFacturaViewModel>();
             
-            // ? TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
 
-            if (dgvPresupuestos.Columns.Count > 0)
-            {
-                ActualizarColumnasGrilla();
-            }
-        }
-        
-        /// <summary>
-        /// Actualiza los encabezados de columnas de la grilla
-        /// </summary>
         private void ActualizarColumnasGrilla()
         {
             foreach (DataGridViewColumn column in dgvPresupuestos.Columns)

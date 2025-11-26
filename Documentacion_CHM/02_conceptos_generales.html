@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Conceptos Generales - Sistema Presupuestario</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px;font-size:2em}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;font-size:1.5em;border-left:4px solid #3498db;padding-left:10px}
+    h3{color:#7f8c8d;margin-top:20px;margin-bottom:12px;font-size:1.1em}
+    .term{background:#f0f4ff;padding:12px;border-left:4px solid #3498db;margin:15px 0;border-radius:4px}
+    .term strong{color:#2c3e50}
+    .formula{background:#f9f9f9;padding:15px;border-left:4px solid #e74c3c;margin:15px 0;font-family:monospace;border-radius:4px}
+    table{width:100%;border-collapse:collapse;margin:15px 0}
+    th,td{border:1px solid #ddd;padding:12px;text-align:left}
+    th{background:#3498db;color:#fff;font-weight:bold}
+    tr:nth-child(even){background:#f9f9f9}
+    .important{background:#fff3cd;padding:15px;border-left:4px solid #ffc107;margin:15px 0;border-radius:4px}
+    .info{background:#d1ecf1;padding:15px;border-left:4px solid #17a2b8;margin:15px 0;border-radius:4px}
+    .back-link{margin-top:30px;padding-top:20px;border-top:1px solid #ddd;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    p{margin-bottom:12px;line-height:1.7}
+    ol,ul{margin-left:25px;margin-bottom:12px}
+    li{margin-bottom:8px}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Conceptos Generales del Sistema Presupuestario</h1>
+        <p>Conoce la terminología y conceptos basicos que necesitas para entender como funciona el sistema. Esta información es importante para trabajar eficientemente.</p>
+
+        <h2>Términos Clave - Debes Conocerlos</h2>
+
+        <div class="term">
+            <strong>Presupuesto (o Cotización):</strong> Es un documento comercial donde detallas los productos o servicios que ofreces a un cliente, con sus cantidades, precios, condiciones y vigencia. NO es un documento legal en sí mismo, sino una propuesta comercial. Es la base para emitir facturas.
+        </div>
+
+        <div class="term">
+            <strong>Cotización:</strong> Sinónimo de presupuesto. El término se usa indistintamente. "Gestionar Cotizaciones" = "Gestionar Presupuestos".
+        </div>
+
+        <div class="term">
+            <strong>Factura:</strong> Documento legal y obligatorio emitido por AFIP. Registra una venta real y debe tener numeración secuencial. Solo se puede emitir de un presupuesto que esta APROBADO.
+        </div>
+
+        <div class="term">
+            <strong>CAE (Código de Autorización Electrónico):</strong> Número único de 14 dígitos que otorga AFIP a cada factura emitida. Es obligatorio, prueba que la factura fue registrada ante el organismo y tiene una vigencia de 60 días.
+        </div>
+
+        <div class="term">
+            <strong>ARBA (Agencia de Recaudación de Impuestos):</strong> Organismo del Estado de Buenos Aires que recauda el impuesto de Ingresos Brutos (IIBB). El sistema puede retener un porcentaje de las facturas para esta agencia automáticamente.
+        </div>
+
+        <div class="term">
+            <strong>Punto de Venta (PV):</strong> Identificador de tu sucursal que emite facturas. Tiene formato: A00001-00000001 o B00001-00000001. Debes configurarlo en Configuracion para poder facturar.
+        </div>
+
+        <div class="term">
+            <strong>IVA (Impuesto al Valor Agregado):</strong> Impuesto nacional sobre las ventas. El más común es 21% (General), también hay 10.5% (Reducido) y algunos productos están exentos. Se calcula automaticamente en el sistema.
+        </div>
+
+        <div class="term">
+            <strong>Lista de Precios:</strong> Conjunto de precios especificos para un cliente o grupo de clientes. Permite ofrecer precios diferenciados sin cambiar el precio base del producto.
+        </div>
+
+        <h2>Tipos de Clientes Según Situación Fiscal</h2>
+        <table>
+            <tr>
+                <th>Tipo de IVA</th>
+                <th>Descripción</th>
+                <th>Factura Emitida</th>
+                <th>Nota</th>
+            </tr>
+            <tr>
+                <td><strong>Responsable Inscripto</strong></td>
+                <td>Empresa obligada a facturar. Paga IVA.</td>
+                <td>Tipo A (completa)</td>
+                <td>La más común. Puede aplicar ARBA.</td>
+            </tr>
+            <tr>
+                <td><strong>Monotributista</strong></td>
+                <td>Pequeño empresa o autonomo. Sistema simplificado.</td>
+                <td>Tipo B</td>
+                <td>No discrimina IVA en factura.</td>
+            </tr>
+            <tr>
+                <td><strong>Consumidor Final</strong></td>
+                <td>Persona que compra para consumo propio.</td>
+                <td>Tipo B o C</td>
+                <td>Sin obligaciones tributarias.</td>
+            </tr>
+            <tr>
+                <td><strong>Exento</strong></td>
+                <td>Actividades exentas (salud, educacion, etc.)</td>
+                <td>Tipo A</td>
+                <td>Sin IVA pero factura completa.</td>
+            </tr>
+            <tr>
+                <td><strong>No Responsable</strong></td>
+                <td>Situación especial ante AFIP.</td>
+                <td>Tipo B</td>
+                <td>Menos común.</td>
+            </tr>
+        </table>
+
+        <h2>Estados de un Presupuesto - El Ciclo de Vida</h2>
+
+        <h3>1. Emitido</h3>
+        <div class="info">
+            <p>Es el estado inicial cuando creas un presupuesto. El documento existe en el sistema pero aún no ha sido aprobado ni facturado. Puedes:</p>
+            <ul>
+                <li>Editar los datos</li>
+                <li>Agregar o eliminar productos</li>
+                <li>Cambiar precios y descuentos</li>
+                <li>Aprobar si el cliente aceptó</li>
+                <li>Rechazar si el cliente no quiso</li>
+                <li>Copiar para crear similar</li>
+                <li>Generar PDF para enviar</li>
+            </ul>
+        </div>
+
+        <h3>2. Aprobado</h3>
+        <div class="info">
+            <p>El cliente aprobó la propuesta. Ahora esta listo para facturar. Puedes:</p>
+            <ul>
+                <li>Emitir factura legal</li>
+                <li>Aún puedes editar si es necesario</li>
+                <li>Copiar para crear otro presupuesto similar</li>
+                <li>Ver el PDF</li>
+            </ul>
+        </div>
+
+        <h3>3. Rechazado</h3>
+        <div class="info">
+            <p>El cliente no aceptó la propuesta. El presupuesto queda como referencia histórica pero no puede facturarse. Puedes:</p>
+            <ul>
+                <li>Consultarlo si es necesario</li>
+                <li>Copiarlo para crear una nueva propuesta mejorada</li>
+                <li>Eliminarla si deseas</li>
+            </ul>
+        </div>
+
+        <h3>4. Facturado</h3>
+        <div class="info">
+            <p>Se emitió una factura legal de este presupuesto. Es un documento definitivo. Puedes:</p>
+            <ul>
+                <li>Verla y descargar el PDF</li>
+                <li>Consultarla si es necesario (auditoría)</li>
+                <li>Copiarla para crear un nuevo presupuesto (no copia la factura)</li>
+            </ul>
+        </div>
+
+        <div class="important">
+            <strong>Importante:</strong> Un presupuesto SOLO puede pasar a estado Facturado si esta APROBADO. No puedes saltear ese paso.
+        </div>
+
+        <h2>Cálculos Automáticos - Como Funciona la Matemática</h2>
+
+        <h3>Cálculo de un Detalle (una línea de presupuesto):</h3>
+        <div class="formula">
+            Subtotal = Cantidad × Precio Unitario
+            Descuento = Subtotal × (Descuento% / 100)
+            Base IVA = Subtotal - Descuento
+            IVA = Base IVA × (% IVA / 100)
+            Total Línea = Base IVA + IVA
+        </div>
+
+        <h3>Ejemplo Práctico:</h3>
+        <table>
+            <tr>
+                <th>Concepto</th>
+                <th>Cálculo</th>
+                <th>Monto</th>
+            </tr>
+            <tr>
+                <td>Producto:</td>
+                <td>Laptop Premium</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Cantidad:</td>
+                <td>2 unidades</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Precio Unitario:</td>
+                <td>-</td>
+                <td>$1.000</td>
+            </tr>
+            <tr>
+                <td>Subtotal:</td>
+                <td>2 × $1.000</td>
+                <td>$2.000</td>
+            </tr>
+            <tr>
+                <td>Descuento 10%:</td>
+                <td>$2.000 × 10%</td>
+                <td>-$200</td>
+            </tr>
+            <tr>
+                <td>Base IVA:</td>
+                <td>$2.000 - $200</td>
+                <td>$1.800</td>
+            </tr>
+            <tr>
+                <td>IVA 21%:</td>
+                <td>$1.800 × 21%</td>
+                <td>$378</td>
+            </tr>
+            <tr>
+                <td><strong>Total Línea:</strong></td>
+                <td><strong>$1.800 + $378</strong></td>
+                <td><strong>$2.178</strong></td>
+            </tr>
+        </table>
+
+        <h3>Totales del Presupuesto Completo:</h3>
+        <div class="formula">
+            Subtotal General = Suma de todos los Subtotales
+            Total Descuentos = Suma de todos los Descuentos
+            Total IVA = Suma de todos los IVA
+            ARBA (si aplica) = Subtotal × % ARBA
+            TOTAL FINAL = Subtotal - Descuentos + IVA - ARBA
+        </div>
+
+        <h2>Configuración por Provincia - ARBA</h2>
+
+        <div class="important">
+            <p><strong>ARBA solo aplica en Buenos Aires.</strong> El sistema detecta la provincia del cliente y calcula automáticamente la percepción si corresponde.</p>
+            <p>Los porcentajes varían según la actividad. En el sistema, puedes ver y actualizar estos valores en Configuracion.</p>
+        </div>
+
+        <h2>Seguridad y Permisos - Quién Puede Hacer Qué</h2>
+
+        <p>El sistema tiene un sistema de permisos basado en Familias y Patentes. Según tu rol de usuario, tendrás acceso a diferentes módulos:</p>
+
+        <table>
+            <tr>
+                <th>Rol</th>
+                <th>Puede Ver</th>
+                <th>Puede Hacer</th>
+            </tr>
+            <tr>
+                <td><strong>Administrador</strong></td>
+                <td>Todo</td>
+                <td>Crear, editar, eliminar, gestionar usuarios</td>
+            </tr>
+            <tr>
+                <td><strong>Vendedor</strong></td>
+                <td>Clientes, productos, presupuestos</td>
+                <td>Crear y editar presupuestos</td>
+            </tr>
+            <tr>
+                <td><strong>Aprobador</strong></td>
+                <td>Presupuestos emitidos</td>
+                <td>Aprobar o rechazar presupuestos</td>
+            </tr>
+            <tr>
+                <td><strong>Facturador</strong></td>
+                <td>Presupuestos aprobados</td>
+                <td>Emitir facturas</td>
+            </tr>
+        </table>
+
+        <h2>Flujo de Trabajo Típico - De Principio a Fin</h2>
+
+        <div class="info">
+            <ol>
+                <li><strong>Vendedor crea presupuesto:</strong> Selecciona cliente, agrega productos</li>
+                <li><strong>Presupuesto en estado "Emitido":</strong> Se envía al cliente</li>
+                <li><strong>Aprobador revisa:</strong> Verifica los datos sean correctos</li>
+                <li><strong>Aprobador aprueba:</strong> Presupuesto pasa a estado "Aprobado"</li>
+                <li><strong>Facturador emite factura:</strong> De presupuesto aprobado a factura legal</li>
+                <li><strong>Sistema obtiene CAE:</strong> Se conecta con AFIP y obtiene número</li>
+                <li><strong>Factura lista:</strong> Se genera PDF para enviar al cliente</li>
+                <li><strong>Presupuesto en estado "Facturado":</strong> Queda como referencia histórica</li>
+            </ol>
+        </div>
+
+        <h2>Diferencias Importantes - No las Confundas</h2>
+
+        <table>
+            <tr>
+                <th>Presupuesto</th>
+                <th>Factura</th>
+            </tr>
+            <tr>
+                <td>Propuesta comercial</td>
+                <td>Documento legal obligatorio</td>
+            </tr>
+            <tr>
+                <td>Sin obligación de venta</td>
+                <td>Registra una venta real</td>
+            </tr>
+            <tr>
+                <td>Puede tener vigencia (15, 30 días)</td>
+                <td>Válida por tiempo indefinido</td>
+            </tr>
+            <tr>
+                <td>Numeración interna</td>
+                <td>Numeración secuencial obligatoria ante AFIP</td>
+            </tr>
+            <tr>
+                <td>Puede eliminarse si no fue facturado</td>
+                <td>NO puede eliminarse (auditoría fiscal)</td>
+            </tr>
+            <tr>
+                <td>Se usa para cotizar</td>
+                <td>Se usa para registrar ventas</td>
+            </tr>
+        </table>
+
+        <h2>Información Técnica Básica</h2>
+
+        <div class="info">
+            <ul>
+                <li><strong>Base de datos:</strong> SQL Server 2012 o superior</li>
+                <li><strong>Plataforma:</strong> .NET Framework 4.8</li>
+                <li><strong>SO requerido:</strong> Windows 7 SP1 o superior</li>
+                <li><strong>Conexión:</strong> A SQL Server vía red o local</li>
+                <li><strong>Codificacion:</strong> UTF-8 en documentos generados</li>
+            </ul>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

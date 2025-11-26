@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="ace29e11-3b6c-4e5b-97db-7e0c307feaa0" visible="True" isDefault="true" isSelected="true" title="Introducción General">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Bienvenida" />
+      <HelpKeyword index="K" term="Introducción" />
+      <HelpKeyword index="K" term="Sistema Presupuestario" />
+    </HelpKeywords>
+  </Topic>
+
+  <Topic id="64fd60f2-d896-4c8e-9914-500fd9fa3a91" visible="True" isExpanded="true" title="Historial de Versiones">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="versión, historial" />
+      <HelpKeyword index="K" term="cambios" />
+      <HelpKeyword index="K" term="changelog" />
+    </HelpKeywords>
+
+    <Topic id="09e0b5c7-b70f-4bcb-bc29-e1b9d41167b3" visible="True" title="Versión 1.0.0.0 - Lanzamiento Inicial">
+      <HelpKeywords>
+        <HelpKeyword index="K" term="versión, 1.0.0.0" />
+        <HelpKeyword index="K" term="inicial" />
+      </HelpKeywords>
+    </Topic>
+  </Topic>
+</Topics>

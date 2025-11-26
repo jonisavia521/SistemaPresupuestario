@@ -5,14 +5,27 @@ using DomainModel.Domain;
 namespace BLL.Mappers
 {
     /// <summary>
-    /// Perfil de mapeo AutoMapper para Vendedor
-    /// Define las transformaciones entre entidades de dominio y DTOs
+    /// Perfil de Mapeo AutoMapper para Vendedor.
+    /// 
+    /// Define las transformaciones bidireccionales entre:
+    /// - VendedorDM (Model de Dominio): Entidad que contiene la lógica de negocio y validaciones
+    /// - VendedorDTO (Data Transfer Object): Objeto utilizado para transferir datos entre UI y BLL
+    /// 
+    /// AutoMapper utiliza este perfil para generar automáticamente código de conversión,
+    /// evitando la escritura manual de mapeos repetitivos y propensos a errores.
     /// </summary>
     public class VendedorMappingProfile : Profile
     {
+        /// <summary>
+        /// Constructor del perfil de mapeo de Vendedor.
+        /// Define todas las reglas de transformación entre VendedorDM y VendedorDTO.
+        /// </summary>
         public VendedorMappingProfile()
         {
-            // Mapeo de VendedorDM (Dominio) a VendedorDTO (Vista)
+            /// <summary>
+            /// Mapeo de VendedorDM (entidad de dominio) a VendedorDTO (objeto de transferencia).
+            /// Se ejecuta cuando se retornan datos desde BLL hacia la UI.
+            /// </summary>
             CreateMap<VendedorDM, VendedorDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.CodigoVendedor, opt => opt.MapFrom(src => src.CodigoVendedor))
@@ -26,7 +39,11 @@ namespace BLL.Mappers
                 .ForMember(dest => dest.FechaAlta, opt => opt.MapFrom(src => src.FechaAlta))
                 .ForMember(dest => dest.FechaModificacion, opt => opt.MapFrom(src => src.FechaModificacion));
 
-            // Mapeo inverso
+            /// <summary>
+            /// Mapeo inverso: VendedorDTO a VendedorDM.
+            /// Generalmente NO se utiliza porque VendedorDM tiene constructores específicos
+            /// que ejecutan validaciones de negocio. Se incluye por completitud arquitectónica.
+            /// </summary>
             CreateMap<VendedorDTO, VendedorDM>();
         }
     }

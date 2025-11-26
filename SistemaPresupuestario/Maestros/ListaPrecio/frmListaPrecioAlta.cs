@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.ListaPrecio
 {
-    public partial class frmListaPrecioAlta : Form
+    public partial class frmListaPrecioAlta : FormBase
     {
         private readonly IListaPrecioService _listaPrecioService;
         private readonly IProductoService _productoService;
@@ -29,20 +29,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             _productoService = productoService ?? throw new ArgumentNullException(nameof(productoService));
             _detalles = new BindingList<ListaPrecioDetalleDTO>();
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            base.InitializeTranslation();
         }
 
         private void frmListaPrecioAlta_Load(object sender, EventArgs e)

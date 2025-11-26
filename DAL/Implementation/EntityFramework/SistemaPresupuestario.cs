@@ -11,6 +11,9 @@ namespace DAL.Implementation.EntityFramework
         public SistemaPresupuestario()
             : base("name=SistemaPresupuestario")
         {
+            // Deshabilitar la inicialización de base de datos y migraciones
+            Database.SetInitializer<SistemaPresupuestario>(null);
+            
             // Habilitar el seguimiento de cambios y proxy de carga diferida
             this.Configuration.LazyLoadingEnabled = true;
             this.Configuration.ProxyCreationEnabled = true;
@@ -18,6 +21,9 @@ namespace DAL.Implementation.EntityFramework
         
         public SistemaPresupuestario(string connectionString) : base(connectionString)
         {
+            // Deshabilitar la inicialización de base de datos y migraciones
+            Database.SetInitializer<SistemaPresupuestario>(null);
+            
             // Habilitar el seguimiento de cambios y proxy de carga diferida
             this.Configuration.LazyLoadingEnabled = true;
             this.Configuration.ProxyCreationEnabled = true;

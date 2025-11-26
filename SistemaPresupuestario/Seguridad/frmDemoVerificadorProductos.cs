@@ -11,7 +11,7 @@ namespace SistemaPresupuestario.Seguridad
     /// Formulario de demostración académica de dígitos verificadores y sumas de control
     /// Este formulario es autocontenido y no interactúa con la base de datos
     /// </summary>
-    public partial class frmDemoVerificadorProductos : Form
+    public partial class frmDemoVerificadorProductos : FormBase
     {
         // Lista de datos en memoria para la demostración
         private List<ProductoDemo> _productos;
@@ -35,20 +35,7 @@ namespace SistemaPresupuestario.Seguridad
             // Configuración inicial del DataGridView
             ConfigurarGrilla();
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            base.InitializeTranslation();
         }
 
         #region Configuración Inicial

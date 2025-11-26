@@ -1,12 +1,12 @@
 ﻿using Services.Services.Contracts;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros
 {
-    public partial class frmUsuarios : Form
+    public partial class frmUsuarios : FormBase
     {
         private readonly IUsuarioService _usuarioService;
         private readonly IServiceProvider _serviceProvider;
@@ -17,21 +17,11 @@ namespace SistemaPresupuestario.Maestros
             _usuarioService = usuarioService;
             _serviceProvider = serviceProvider;
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
-
             if (dgvUsuarios.Columns.Count > 0)
             {
                 ActualizarColumnasGrilla();

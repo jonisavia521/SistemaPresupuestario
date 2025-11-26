@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 1.4">
+</HEAD>
+<BODY>
+<OBJECT type="text/site properties">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Sistema Presupuestario - Manual de Usuario">
+		<param name="Local" value="index.html">
+		</OBJECT>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Inicio Rapido">
+		<param name="Local" value="01_inicio_rapido.html">
+		</OBJECT>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Conceptos Generales">
+		<param name="Local" value="02_conceptos_generales.html">
+		</OBJECT>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Configuracion del Sistema">
+		<param name="Local" value="03_configuracion.html">
+		</OBJECT>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Usuarios y Seguridad">
+		<param name="Local" value="03_usuarios_seguridad.html">
+		</OBJECT>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Maestros de Datos">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Gestion de Clientes">
+				<param name="Local" value="04_maestro_clientes.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Gestion de Vendedores">
+				<param name="Local" value="05_maestro_vendedores.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Gestion de Productos">
+				<param name="Local" value="06_maestro_productos.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Listas de Precios">
+				<param name="Local" value="07_lista_precios.html">
+				</OBJECT>
+		</UL>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Operaciones Comerciales">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Presupuestos y Cotizaciones">
+				<param name="Local" value="08_presupuestos.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Facturacion">
+				<param name="Local" value="09_facturacion.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="ARBA y Percepciones">
+				<param name="Local" value="11_arba.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Actualizacion de Padron ARBA">
+				<param name="Local" value="11_padron_arba.html">
+				</OBJECT>
+		</UL>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Temas Especiales">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Preguntas Frecuentes (FAQ)">
+				<param name="Local" value="10_faq.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Reportes e Impresion">
+				<param name="Local" value="13_reportes.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Cambio de Idioma">
+				<param name="Local" value="14_idiomas.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Backup y Restauracion">
+				<param name="Local" value="15_backup.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Solucion de Problemas">
+				<param name="Local" value="16_troubleshooting.html">
+				</OBJECT>
+			<LI><OBJECT type="text/sitemap">
+				<param name="Name" value="Digitos Verificadores y Control de Integridad">
+				<param name="Local" value="17_digitosVerificadores.html">
+				</OBJECT>
+		</UL>
+	<LI><OBJECT type="text/sitemap">
+		<param name="Name" value="Soporte Tecnico">
+		<param name="Local" value="12_soporte_tecnico.html">
+		</OBJECT>
+</UL>
+</BODY>
+</HTML>

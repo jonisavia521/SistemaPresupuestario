@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+    <title>Preguntas Frecuentes - Sistema Presupuestario</title>
+    <style>
+    body{font-family:Tahoma,Verdana,Arial,sans-serif;line-height:1.6;color:#333;background:#f5f5f5;padding:15px;margin:0}
+    .container{background:#fff;border:1px solid #999;padding:30px;max-width:950px;margin:0 auto}
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:15px;margin-bottom:25px;font-size:2em}
+    h2{color:#34495e;margin-top:30px;margin-bottom:15px;font-size:1.5em;border-left:4px solid #3498db;padding-left:10px}
+    .faq-item{background:#f0f4ff;padding:15px;border-left:4px solid #3498db;margin:15px 0;border-radius:4px}
+    .faq-question{font-weight:bold;color:#2c3e50;font-size:1.05em;margin-bottom:8px;cursor:pointer}
+    .faq-answer{color:#555;line-height:1.7;margin-left:15px}
+    .back-link{margin-top:30px;padding-top:20px;border-top:1px solid #ddd;text-align:center}
+    .back-link a{color:#3498db;text-decoration:none;font-weight:bold}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Preguntas Frecuentes (FAQ)</h1>
+        <p>Aquí encontrarás respuestas rápidas a las preguntas más comunes sobre el Sistema Presupuestario. Si tu pregunta no está aquí, consulta la documentación detallada de cada módulo.</p>
+
+        <h2>Acceso y Autenticación</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo ingreso al sistema?</div>
+            <div class="faq-answer">
+                Ejecuta la aplicación, ingresa tu usuario y contraseña, haz clic en "Aceptar". En tu primer acceso, cambiarás la contraseña temporal.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Olvidé mi contraseña, ¿qué hago?</div>
+            <div class="faq-answer">
+                Contacta al administrador del sistema. Solo él puede resetear contraseñas. Te proporcionará una temporal que cambiarás en el siguiente acceso.
+            </div>
+        </div>
+
+        <h2>Maestros de Datos</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo crear un nuevo cliente?</div>
+            <div class="faq-answer">
+                Ve a Maestros > Clientes, haz clic en "Nuevo", completa todos los campos (especialmente Razón Social, CUIT y Tipo IVA que son críticos), haz clic en "Guardar".
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo tener dos clientes con el mismo nombre?</div>
+            <div class="faq-answer">
+                Técnicamente sí, porque el sistema asigna un código único. Pero NO es recomendable. Usa nombres diferenciadores (ej: "Acme S.A. Buenos Aires" y "Acme S.A. Córdoba").
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo cambio el precio de un producto?</div>
+            <div class="faq-answer">
+                Ve a Maestros > Productos, busca el producto, haz clic en "Editar", cambia el precio, haz clic en "Guardar". Solo afecta presupuestos futuros, no los existentes.
+            </div>
+        </div>
+
+        <h2>Presupuestos</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo creo mi primer presupuesto?</div>
+            <div class="faq-answer">
+                Ve a Cotizaciones > Gestionar Cotizaciones, haz clic en "Nuevo", selecciona cliente, agrega productos con cantidad y precio, revisa los totales que se calculan automáticamente, haz clic en "Guardar".
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo editar un presupuesto después de crearlo?</div>
+            <div class="faq-answer">
+                Sí, mientras esté en estado "Emitido" o "Aprobado". Una vez "Facturado", solo puedes consultarlo. Si está "Rechazado", puedes copiarlo para crear uno nuevo.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Qué diferencia hay entre "Emitido" y "Aprobado"?</div>
+            <div class="faq-answer">
+                "Emitido" es el estado inicial (cliente aún no decidió). "Aprobado" significa que el cliente aceptó y está listo para facturar. Solo presupuestos aprobados pueden convertirse en facturas.
+            </div>
+        </div>
+
+        <h2>Facturación</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cuál es la diferencia entre presupuesto y factura?</div>
+            <div class="faq-answer">
+                Presupuesto = propuesta sin obligación de venta. Factura = documento legal que registra una venta real. Solo se puede facturar un presupuesto aprobado.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Qué es el CAE?</div>
+            <div class="faq-answer">
+                Código de Autorización Electrónico. Número único de 14 dígitos que otorga AFIP a cada factura. Prove que fue registrada y es válido por 60 días.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Qué pasa si falla la conexión a AFIP al facturar?</div>
+            <div class="faq-answer">
+                Verifica tu Internet. Intenta nuevamente. Si persiste, revisa disponibilidad de AFIP (status.afip.gov.ar). Guarda el presupuesto y reintenta más tarde.
+            </div>
+        </div>
+
+        <h2>ARBA</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Qué es ARBA?</div>
+            <div class="faq-answer">
+                Agencia de Recaudación de Impuestos en Buenos Aires. Retiene un porcentaje de las facturas para Ingresos Brutos (IIBB). El sistema calcula automáticamente si el cliente está en AMBA.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Se puede actualizar ARBA para todos los clientes?</div>
+            <div class="faq-answer">
+                Sí. Ve a Ventas > Actualizar Padrón ARBA. El sistema actualiza masivamente los porcentajes de todos los clientes Responsables Inscriptos.
+            </div>
+        </div>
+
+        <h2>Idioma</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo cambio el idioma a Inglés?</div>
+            <div class="faq-answer">
+                Ve a Archivo > Configuración > Selección de Idioma, elige "English", haz clic en "Cambiar Idioma". El cambio es instantáneo, sin necesidad de reiniciar.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Mis datos (clientes, presupuestos) se traducen también?</div>
+            <div class="faq-answer">
+                No. Solo la interfaz cambia de idioma. Tus datos conservan el idioma original. Esto es por diseño para evitar confusiones.
+            </div>
+        </div>
+
+        <h2>Backup</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cuán frecuente debo hacer backup?</div>
+            <div class="faq-answer">
+                Mínimo una vez por semana. Si usas el sistema intensamente (muchos presupuestos/facturas), hazlo cada dos días o al final de cada jornada importante.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo restaurar un backup antiguo?</div>
+            <div class="faq-answer">
+                Sí, pero perderás todos los datos posteriores a ese backup. Es una operación irreversible. Usa solo si es absolutamente necesario.
+            </div>
+        </div>
+
+        <h2>Problemas Técnicos</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">La aplicación está muy lenta, ¿por qué?</div>
+            <div class="faq-answer">
+                Generalmente es un problema de conexión a la base de datos. Verifica que tu PC esté conectada a la red y que SQL Server esté disponible. Si persiste, contacta a soporte técnico.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">No veo algunos módulos en el menú</div>
+            <div class="faq-answer">
+                Probablemente no tengas permisos para esos módulos. Contacta al administrador para que te asigne los roles necesarios.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Se pierden los datos si cierro sin guardar?</div>
+            <div class="faq-answer">
+                Sí. Si haces clic en "Guardar", los datos se almacenan en la base de datos. Si cierras sin guardar, todo se pierde. Siempre guarda antes de cerrar.
+            </div>
+        </div>
+
+        <h2>Impresión y PDFs</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cómo imprimo un presupuesto?</div>
+            <div class="faq-answer">
+                Abre el presupuesto, haz clic en "Imprimir" o "Generar PDF". El sistema genera un documento listo para enviar o imprimir. Puedes guardarlo en tu computadora.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿El PDF incluye todos mis datos fiscales?</div>
+            <div class="faq-answer">
+                Sí. El PDF contiene los datos de tu empresa (configuración), del cliente, detalles de productos, cálculos, totales e impuestos. Es un documento profesional listo para usar.
+            </div>
+        </div>
+
+        <h2>Buenas Prácticas</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Debo revisar cada presupuesto antes de facturar?</div>
+            <div class="faq-answer">
+                Absolutamente. Los errores en presupuestos pueden complicarse en facturas. Revisa cliente, productos, precios, descuentos y totales. Un presupuesto correcto = una factura correcta.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Es importante mantener actualizado el padrón de clientes?</div>
+            <div class="faq-answer">
+                Muy importante. Si un cliente cambia su CUIT, Razón Social o Tipo IVA, actualízalo inmediatamente. Evita problemas en facturas y rechazos de AFIP.
+            </div>
+        </div>
+
+        <div class="back-link">
+            <p><a href="index.html">&lt;&lt; Volver al Índice Principal</a></p>
+        </div>
+    </div>
+</body>
+</html>

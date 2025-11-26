@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.Productos
 {
-    public partial class frmProductoAlta : Form
+    public partial class frmProductoAlta : FormBase
     {
         private readonly IProductoService _productoService;
         private Guid? _productoId;
@@ -29,17 +29,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             _productoId = productoId;
             _esNuevo = !productoId.HasValue;
             
-            // ? TRADUCCIÓN AUTOMÁTICA
-            FormTranslator.Translate(this);
-            
-            // ? TRADUCCIÓN DINÁMICA
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
-        }
-        
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this);
+            base.InitializeTranslation();
         }
 
         private async void frmProductoAlta_Load(object sender, EventArgs e)

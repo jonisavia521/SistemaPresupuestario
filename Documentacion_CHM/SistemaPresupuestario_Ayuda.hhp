@@ -1,0 +1,32 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=SistemaPresupuestario_Ayuda.chm
+Contents file=SistemaPresupuestario_Ayuda.hhc
+Default Window=main
+Display compile progress=Yes
+Language=0xc0a Español (España - Tradicional)
+
+[WINDOWS]
+main=,"SistemaPresupuestario_Ayuda.hhc",,"index.html",,0x73020,222,0x10387e,,,,,,0
+
+[FILES]
+index.html
+01_inicio_rapido.html
+02_conceptos_generales.html
+03_configuracion.html
+03_usuarios_seguridad.html
+04_maestro_clientes.html
+05_maestro_vendedores.html
+06_maestro_productos.html
+07_lista_precios.html
+08_presupuestos.html
+09_facturacion.html
+10_faq.html
+11_arba.html
+11_padron_arba.html
+12_soporte_tecnico.html
+13_reportes.html
+14_idiomas.html
+15_backup.html
+16_troubleshooting.html
+17_digitosVerificadores.html

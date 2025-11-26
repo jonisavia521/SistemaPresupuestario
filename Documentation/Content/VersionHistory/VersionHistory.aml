@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="64fd60f2-d896-4c8e-9914-500fd9fa3a91" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>
+				Esta sección documenta la cronología de actualizaciones, mejoras y correcciones realizadas en el <legacyBold>Sistema Presupuestario</legacyBold>.
+				Aquí podrá consultar el detalle técnico de cada versión liberada al entorno de producción.
+			</para>
+		</introduction>
+
+		<section>
+			<title>Registro de Versiones</title>
+			<content>
+				<para>Seleccione una versión específica para ver el detalle de los cambios:</para>
+
+				<list class="bullet">
+					<listItem>
+						<para>
+							<link xlink:href="09e0b5c7-b70f-4bcb-bc29-e1b9d41167b3">Versión 1.0.0.0 - Lanzamiento Inicial</link>
+						</para>
+					</listItem>
+				</list>
+
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="ace29e11-3b6c-4e5b-97db-7e0c307feaa0" />
+		</relatedTopics>
+
+	</developerConceptualDocument>
+</topic>

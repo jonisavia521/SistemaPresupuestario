@@ -5,20 +5,64 @@ using System.Linq;
 namespace DomainModel.Domain
 {
     /// <summary>
-    /// Entidad de dominio ListaPrecio - Representa una lista de precios con sus detalles
+    /// Entidad de dominio que representa una lista de precios con sus detalles.
+    /// 
+    /// Una lista de precios permite ofrecer precios diferenciados según cliente
+    /// o segmento. Contiene una coleccción de precios para diferentes productos.
+    /// 
+    /// Responsabilidades:
+    /// - Validar código y nombre únicos
+    /// - Gestionar detalles de precios por producto
+    /// - Gestionar activación/desactivación
+    /// - Auditar creación y modificación
+    /// 
+    /// Invariantes:
+    /// - Código exactamente 2 dígitos
+    /// - Nombre entre 3 y 100 caracteres
+    /// - No puede haber duplicación de productos en detalles
+    /// 
+    /// Estados:
+    /// - Activa: Disponible para asignar a clientes
+    /// - Inactiva: No disponible en listas de selección
+    /// 
     /// </summary>
     public class ListaPrecioDM
     {
+        /// <summary>Identificador único de la lista de precios</summary>
         public Guid Id { get; private set; }
+        
+        /// <summary>Código único de la lista. Exactamente 2 dígitos numéricos.</summary>
         public string Codigo { get; private set; }
+        
+        /// <summary>Nombre descriptivo de la lista de precios. Entre 3 y 100 caracteres.</summary>
         public string Nombre { get; private set; }
+        
+        /// <summary>Indica si la lista de precios está activa en el sistema</summary>
         public bool Activo { get; private set; }
+        
+        /// <summary>Indica si los precios de esta lista incluyen IVA o son netos</summary>
         public bool IncluyeIva { get; private set; }
+        
+        /// <summary>Fecha y hora de creación de la lista</summary>
         public DateTime FechaAlta { get; private set; }
+        
+        /// <summary>Fecha y hora de la última modificación. Nula si nunca fue modificada.</summary>
         public DateTime? FechaModificacion { get; private set; }
+        
+        /// <summary>Colección de precios por producto en esta lista</summary>
         public List<ListaPrecioDetalleDM> Detalles { get; private set; }
 
-        // Constructor para creación inicial
+        /// <summary>
+        /// Crea una nueva instancia de lista de precios.
+        /// 
+        /// Se validan automáticamente código y nombre. Se crea activa
+        /// sin detalles (se agregan posteriormente).
+        /// </summary>
+        /// <param name="codigo">Código único de 2 dígitos numéricos</param>
+        /// <param name="nombre">Nombre descriptivo (3-100 caracteres)</param>
+        /// <param name="incluyeIva">Si los precios incluyen IVA (predeterminado: false)</param>
+        /// <exception cref="ArgumentException">Si los parámetros no cumplen validaciones</exception>
+        /// <exception cref="ArgumentNullException">Si un parámetro requerido es nulo</exception>
         public ListaPrecioDM(string codigo, string nombre, bool incluyeIva = false)
         {
             Id = Guid.NewGuid();
@@ -31,7 +75,18 @@ namespace DomainModel.Domain
             ValidarYEstablecerNombre(nombre);
         }
 
-        // Constructor para cargar desde base de datos
+        /// <summary>
+        /// Constructor para hidratar una lista de precios desde la base de datos.
+        /// </summary>
+        /// <param name="id">GUID único de la lista</param>
+        /// <param name="codigo">Código de la lista</param>
+        /// <param name="nombre">Nombre de la lista</param>
+        /// <param name="activo">Estado de activación</param>
+        /// <param name="fechaAlta">Fecha de creación</param>
+        /// <param name="fechaModificacion">Fecha de última modificación (puede ser nula)</param>
+        /// <param name="detalles">Precios por producto (puede ser nula)</param>
+        /// <param name="incluyeIva">Si los precios incluyen IVA</param>
+        /// <exception cref="ArgumentException">Si el ID es un GUID vacío</exception>
         public ListaPrecioDM(
             Guid id,
             string codigo,
@@ -55,7 +110,14 @@ namespace DomainModel.Domain
             Detalles = detalles ?? new List<ListaPrecioDetalleDM>();
         }
 
-        // Método de actualización
+        /// <summary>
+        /// Actualiza nombre e indicador de inclusión de IVA de la lista.
+        /// 
+        /// No modifica el código (es inmutable).
+        /// </summary>
+        /// <param name="nombre">Nuevo nombre de la lista (3-100 caracteres)</param>
+        /// <param name="incluyeIva">Si los precios incluyen IVA</param>
+        /// <exception cref="ArgumentException">Si el nombre no cumple validaciones</exception>
         public void ActualizarDatos(string nombre, bool incluyeIva)
         {
             ValidarYEstablecerNombre(nombre);
@@ -63,7 +125,14 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
-        // Gestión de detalles
+        /// <summary>
+        /// Agrega un nuevo precio de producto a la lista.
+        /// 
+        /// Si el producto ya existe en la lista, actualiza su precio.
+        /// Si es nuevo, lo agrega a la colección.
+        /// </summary>
+        /// <param name="detalle">Detalle de precio a agregar</param>
+        /// <exception cref="ArgumentNullException">Si el detalle es nulo</exception>
         public void AgregarDetalle(ListaPrecioDetalleDM detalle)
         {
             if (detalle == null)
@@ -83,6 +152,10 @@ namespace DomainModel.Domain
             FechaModificacion = DateTime.Now;
         }
 
+        /// <summary>
+        /// Remueve un precio de producto de la lista.
+        /// </summary>
+        /// <param name="detalleId">GUID del detalle a remover</param>
         public void RemoverDetalle(Guid detalleId)
         {
             var detalle = Detalles.FirstOrDefault(d => d.Id == detalleId);
@@ -93,19 +166,34 @@ namespace DomainModel.Domain
             }
         }
 
+        /// <summary>
+        /// Elimina todos los precios de la lista.
+        /// 
+        /// Deja la lista vacía de detalles.
+        /// </summary>
         public void LimpiarDetalles()
         {
             Detalles.Clear();
             FechaModificacion = DateTime.Now;
         }
 
-        // Gestión de estado
+        /// <summary>
+        /// Activa la lista de precios.
+        /// 
+        /// Permite que vuelva a aparecer en listas de selección.
+        /// </summary>
         public void Activar()
         {
             Activo = true;
             FechaModificacion = DateTime.Now;
         }
 
+        /// <summary>
+        /// Desactiva la lista de precios.
+        /// 
+        /// Los clientes no podrán usar esta lista para nuevos presupuestos,
+        /// pero los presupuestos existentes mantienen sus precios.
+        /// </summary>
         public void Desactivar()
         {
             Activo = false;
@@ -113,8 +201,12 @@ namespace DomainModel.Domain
         }
 
         /// <summary>
-        /// Obtiene el precio de un producto en esta lista
+        /// Obtiene el precio de un producto específico en esta lista.
+        /// 
+        /// Busca entre los detalles el precio del producto solicitado.
         /// </summary>
+        /// <param name="idProducto">GUID del producto a buscar</param>
+        /// <returns>El precio del producto si existe en la lista, nulo si no</returns>
         public decimal? ObtenerPrecioProducto(Guid idProducto)
         {
             var detalle = Detalles.FirstOrDefault(d => d.IdProducto == idProducto);

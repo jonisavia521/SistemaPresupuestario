@@ -1,7 +1,7 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs;
 using SistemaPresupuestario.Maestros.Shared;
-using SistemaPresupuestario.Helpers; // NUEVO
+using SistemaPresupuestario.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SistemaPresupuestario.Maestros.Clientes
 {
-    public partial class frmClienteAlta : Form
+    public partial class frmClienteAlta : FormBase
     {
         private readonly IClienteService _clienteService;
         private readonly IVendedorService _vendedorService;
@@ -34,12 +34,7 @@ namespace SistemaPresupuestario.Maestros.Clientes
             _provinciaService = provinciaService;
             _clienteId = null;
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
 
         // Constructor para modo EDICIÓN
@@ -51,20 +46,12 @@ namespace SistemaPresupuestario.Maestros.Clientes
             _provinciaService = provinciaService;
             _clienteId = clienteId;
             
-            // ✅ TRADUCCIÓN AUTOMÁTICA: Aplicar traducciones a TODOS los controles
-            FormTranslator.Translate(this);
-            
-            // ✅ TRADUCCIÓN DINÁMICA: Suscribirse al evento de cambio de idioma
-            I18n.LanguageChanged += OnLanguageChanged;
-            this.FormClosed += (s, e) => I18n.LanguageChanged -= OnLanguageChanged;
+            base.InitializeTranslation();
         }
-        
-        /// <summary>
-        /// Manejador del evento de cambio de idioma
-        /// </summary>
+
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this);
+            // Aquí puedes agregar lógica adicional si es necesaria
         }
 
         private  void frmClienteAlta_Load(object sender, EventArgs e)
