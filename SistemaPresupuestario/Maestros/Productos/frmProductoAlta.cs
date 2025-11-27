@@ -41,18 +41,18 @@ namespace SistemaPresupuestario.Maestros.Productos
 
                 if (_esNuevo)
                 {
-                    this.Text = "Nuevo Producto";
+                    this.Text = I18n.T("Nuevo Producto");
                     chkInhabilitado.Visible = false;
                 }
                 else
                 {
-                    this.Text = "Editar Producto";
+                    this.Text = I18n.T("Editar Producto");
                     await CargarProducto();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al cargar el formulario")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
@@ -84,7 +84,7 @@ namespace SistemaPresupuestario.Maestros.Productos
 
                 if (producto == null)
                 {
-                    throw new Exception("No se encontró el producto especificado");
+                    throw new Exception(I18n.T("No se encontró el producto especificado"));
                 }
 
                 // Cargar los datos en los controles
@@ -108,7 +108,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al cargar el producto: {ex.Message}", ex);
+                throw new Exception($"{I18n.T("Error al cargar")}: {ex.Message}", ex);
             }
             finally
             {
@@ -178,7 +178,7 @@ namespace SistemaPresupuestario.Maestros.Productos
 
                 if (resultado)
                 {
-                    MessageBox.Show("Producto guardado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Producto guardado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Notificar al formulario padre
@@ -189,7 +189,7 @@ namespace SistemaPresupuestario.Maestros.Productos
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar el producto: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al guardar el producto")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

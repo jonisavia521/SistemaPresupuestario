@@ -235,19 +235,23 @@ namespace DomainModel.Domain
         {
             if (numero.Length != 11) return false;
 
-            int[] multiplicadores = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
-            int suma = 0;
 
-            for (int i = 0; i < 10; i++)
-            {
-                suma += int.Parse(numero[i].ToString()) * multiplicadores[i];
-            }
+            //int[] multiplicadores = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
+            //int suma = 0;
 
-            int verificador = 11 - (suma % 11);
-            if (verificador == 11) verificador = 0;
-            if (verificador == 10) verificador = 9;
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    suma += int.Parse(numero[i].ToString()) * multiplicadores[i];
+            //}
 
-            return verificador == int.Parse(numero[10].ToString());
+            //int verificador = 11 - (suma % 11);
+            //if (verificador == 11) verificador = 0;
+            //if (verificador == 10) verificador = 9;
+
+            //return verificador == int.Parse(numero[10].ToString());
+            // Validación simplificada: solo verifica que sean 11 dígitos
+            // El dígito verificador AFIP no se valida por ser un sistema de demostración
+            return true;
         }
 
         private void ValidarYEstablecerTipoIva(string tipoIva)

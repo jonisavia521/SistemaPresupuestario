@@ -47,12 +47,12 @@ namespace SistemaPresupuestario.Maestros.Vendedores
                 if (_vendedorId.HasValue)
                 {
                     CargarDatosVendedor();
-                    this.Text = "Editar Vendedor";
+                    this.Text = I18n.T("Editar Vendedor");
                     txtCodigoVendedor.Enabled = false; // El código no se modifica
                 }
                 else
                 {
-                    this.Text = "Nuevo Vendedor";
+                    this.Text = I18n.T("Nuevo Vendedor");
                     numPorcentajeComision.Value = 0; // Por defecto 0%
                 }
             }
@@ -68,7 +68,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
 
             if (vendedor == null)
             {
-                MessageBox.Show("No se encontró el vendedor", "Error",
+                MessageBox.Show(I18n.T("No se encontró el vendedor"), I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
@@ -110,14 +110,14 @@ namespace SistemaPresupuestario.Maestros.Vendedores
                 {
                     // Modo EDICIÓN
                     resultado = _vendedorService.Update(vendedorDTO);
-                    MessageBox.Show("Vendedor actualizado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Vendedor actualizado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     // Modo NUEVO
                     resultado = _vendedorService.Add(vendedorDTO);
-                    MessageBox.Show("Vendedor creado exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Vendedor creado exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -131,7 +131,7 @@ namespace SistemaPresupuestario.Maestros.Vendedores
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar vendedor: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al guardar vendedor")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -155,42 +155,42 @@ namespace SistemaPresupuestario.Maestros.Vendedores
 
             if (string.IsNullOrWhiteSpace(txtCodigoVendedor.Text))
             {
-                errorProvider1.SetError(txtCodigoVendedor, "El código de vendedor es obligatorio");
+                errorProvider1.SetError(txtCodigoVendedor, I18n.T("El código de vendedor es obligatorio"));
                 esValido = false;
             }
             else if (!System.Text.RegularExpressions.Regex.IsMatch(txtCodigoVendedor.Text, @"^\d{2}$"))
             {
-                errorProvider1.SetError(txtCodigoVendedor, "El código debe tener exactamente 2 dígitos");
+                errorProvider1.SetError(txtCodigoVendedor, I18n.T("El código debe tener exactamente 2 dígitos"));
                 esValido = false;
             }
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                errorProvider1.SetError(txtNombre, "El nombre es obligatorio");
+                errorProvider1.SetError(txtNombre, I18n.T("El nombre es obligatorio"));
                 esValido = false;
             }
 
             var cuitLimpio = txtCUIT.Text.Replace("-", "").Trim();
             if (string.IsNullOrWhiteSpace(cuitLimpio))
             {
-                errorProvider1.SetError(txtCUIT, "El CUIT es obligatorio");
+                errorProvider1.SetError(txtCUIT, I18n.T("El CUIT es obligatorio"));
                 esValido = false;
             }
             else if (!System.Text.RegularExpressions.Regex.IsMatch(cuitLimpio, @"^\d{11}$"))
             {
-                errorProvider1.SetError(txtCUIT, "El CUIT debe tener 11 dígitos");
+                errorProvider1.SetError(txtCUIT, I18n.T("El CUIT debe tener 11 dígitos"));
                 esValido = false;
             }
 
             if (numPorcentajeComision.Value < 0 || numPorcentajeComision.Value > 100)
             {
-                errorProvider1.SetError(numPorcentajeComision, "La comisión debe estar entre 0 y 100");
+                errorProvider1.SetError(numPorcentajeComision, I18n.T("La comisión debe estar entre 0 y 100"));
                 esValido = false;
             }
 
             if (!esValido)
             {
-                MessageBox.Show("Por favor, corrija los errores señalados", "Validación",
+                MessageBox.Show(I18n.T("Por favor, corrija los errores señalados"), I18n.T("Validación"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 

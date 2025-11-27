@@ -12,7 +12,6 @@ namespace DAL.Implementation.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cliente()
         {
-            Comprobantes = new HashSet<Comprobantes>();
             Presupuesto = new HashSet<Presupuesto>();
         }
 
@@ -66,9 +65,6 @@ namespace DAL.Implementation.EntityFramework
         public virtual Provincia Provincia { get; set; }
 
         public virtual Vendedor Vendedor { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobantes> Comprobantes { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Presupuesto> Presupuesto { get; set; }

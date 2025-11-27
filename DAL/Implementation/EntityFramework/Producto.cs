@@ -9,7 +9,6 @@ public partial class Producto
 {
     public Producto()
     {
-        this.Comprobante_Detalle = new HashSet<Comprobante_Detalle>();
         this.Presupuesto_Detalle = new HashSet<Presupuesto_Detalle>();
         this.ListaPrecio_Detalle = new HashSet<ListaPrecio_Detalle>();
     }
@@ -37,7 +36,6 @@ public partial class Producto
     [Required]
     public decimal PorcentajeIVA { get; set; }
 
-    public virtual ICollection<Comprobante_Detalle> Comprobante_Detalle { get; set; }
     public virtual ICollection<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
     public virtual ICollection<ListaPrecio_Detalle> ListaPrecio_Detalle { get; set; }
 }

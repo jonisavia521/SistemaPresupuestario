@@ -40,12 +40,12 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             {
                 // Modo edición
                 CargarDatos();
-                this.Text = $"Editar Lista de Precios - {_listaPrecioActual.Nombre}";
+                this.Text = $"{I18n.T("Editar Lista de Precios")} - {_listaPrecioActual.Nombre}";
             }
             else
             {
                 // Modo nuevo
-                this.Text = "Nueva Lista de Precios";
+                this.Text = I18n.T("Nueva Lista de Precios");
             }
         }
 
@@ -214,7 +214,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar detalle: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al actualizar detalle")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -229,8 +229,8 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                     decimal valor;
                     if (!decimal.TryParse(e.FormattedValue.ToString(), out valor) || valor < 0)
                     {
-                        MessageBox.Show("Debe ingresar un valor numérico válido mayor o igual a cero.",
-                            "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(I18n.T("Debe ingresar un valor numérico válido mayor o igual a cero."),
+                            I18n.T("Validación"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         e.Cancel = true;
                     }
                 }
@@ -239,8 +239,8 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
         private void DgvDetalles_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            var result = MessageBox.Show("¿Está seguro de eliminar este producto?",
-                "Confirmar eliminación",
+            var result = MessageBox.Show(I18n.T("¿Está seguro de eliminar este producto?"),
+                I18n.T("Confirmar eliminación"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -255,8 +255,8 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             // Permitir eliminar fila con tecla Delete
             if (e.KeyCode == Keys.Delete && !dgvDetalles.CurrentRow.IsNewRow)
             {
-                var result = MessageBox.Show("¿Está seguro de eliminar este producto?",
-                    "Confirmar eliminación",
+                var result = MessageBox.Show(I18n.T("¿Está seguro de eliminar este producto?"),
+                    I18n.T("Confirmar eliminación"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -286,9 +286,9 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             // Mostrar mensaje al usuario solo si no es un error de conversión temporal
             if (e.Context != DataGridViewDataErrorContexts.Parsing)
             {
-                var columnName = dgvDetalles.Columns[e.ColumnIndex]?.Name ?? "Desconocida";
-                MessageBox.Show($"Error en la columna '{columnName}' (fila {e.RowIndex + 1}):\n{e.Exception.Message}",
-                    "Error de datos",
+                var columnName = dgvDetalles.Columns[e.ColumnIndex]?.Name ?? I18n.T("Desconocida");
+                MessageBox.Show($"{I18n.T("Error en la columna")} '{columnName}' (fila {e.RowIndex + 1}):\n{e.Exception.Message}",
+                    I18n.T("Error de datos"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
@@ -305,12 +305,12 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             try
             {
                 // Validar formato de código
-                if (codigo.Length < 3)
-                {
-                    MessageBox.Show("El código del producto debe tener al menos 3 caracteres", "Advertencia",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    if (codigo.Length < 3)
+                    {
+                        MessageBox.Show(I18n.T("El código del producto debe tener al menos 3 caracteres"), I18n.T("Advertencia"),
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
                 // Buscar producto por código
                 var producto = _productoService.GetByCodigo(codigo.Trim());
@@ -356,13 +356,13 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                         dgvDetalles.Refresh();
                     }
 
-                    MessageBox.Show("Producto no encontrado", "Advertencia",
+                    MessageBox.Show(I18n.T("Producto no encontrado"), I18n.T("Advertencia"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al buscar producto: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al buscar producto")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -429,7 +429,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
                 if (!listaProductos.Any())
                 {
-                    MessageBox.Show("No hay productos disponibles", "Advertencia",
+                    MessageBox.Show(I18n.T("No hay productos disponibles"), I18n.T("Advertencia"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -437,9 +437,9 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 // Configurar el selector de productos
                 var config = new SelectorConfig<ProductoDTO>
                 {
-                    Titulo = "Seleccionar Producto",
+                    Titulo = I18n.T("Seleccionar Producto"),
                     Datos = listaProductos,
-                    PlaceholderBusqueda = "Buscar por código o descripción...",
+                    PlaceholderBusqueda = I18n.T("Buscar por código o descripción..."),
                     PermitirSeleccionMultiple = false,
                     Columnas = new List<ColumnaConfig>
                     {
@@ -582,7 +582,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 // Validaciones
                 if (string.IsNullOrWhiteSpace(txtCodigo.Text))
                 {
-                    MessageBox.Show("El código es requerido", "Validación",
+                    MessageBox.Show(I18n.T("El código es requerido"), I18n.T("Validación"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtCodigo.Focus();
                     return;
@@ -590,7 +590,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    MessageBox.Show("El nombre es requerido", "Validación",
+                    MessageBox.Show(I18n.T("El nombre es requerido"), I18n.T("Validación"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNombre.Focus();
                     return;
@@ -601,7 +601,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
 
                 if (detallesValidos.Count == 0)
                 {
-                    MessageBox.Show("Debe agregar al menos un producto a la lista de precios", "Validación",
+                    MessageBox.Show(I18n.T("Debe agregar al menos un producto a la lista de precios"), I18n.T("Validación"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dgvDetalles.Focus();
                     return;
@@ -622,7 +622,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                 {
                     // Modo nuevo
                     _listaPrecioService.Add(dto);
-                    MessageBox.Show("Lista de precios creada exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Lista de precios creada exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -630,7 +630,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
                     // Modo edición
                     dto.Id = _listaPrecioActual.Id;
                     _listaPrecioService.Update(dto);
-                    MessageBox.Show("Lista de precios actualizada exitosamente", "Éxito",
+                    MessageBox.Show(I18n.T("Lista de precios actualizada exitosamente"), I18n.T("Éxito"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -639,7 +639,7 @@ namespace SistemaPresupuestario.Maestros.ListaPrecio
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar lista de precios: {ex.Message}", "Error",
+                MessageBox.Show($"{I18n.T("Error al guardar lista de precios")}: {ex.Message}", I18n.T("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

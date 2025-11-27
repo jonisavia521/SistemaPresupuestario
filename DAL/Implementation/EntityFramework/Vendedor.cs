@@ -13,7 +13,6 @@ namespace DAL.Implementation.EntityFramework
         public Vendedor()
         {
             Cliente = new HashSet<Cliente>();
-            Comprobantes = new HashSet<Comprobantes>();
             Presupuesto = new HashSet<Presupuesto>();
         }
 
@@ -54,9 +53,6 @@ namespace DAL.Implementation.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cliente> Cliente { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobantes> Comprobantes { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Presupuesto> Presupuesto { get; set; }

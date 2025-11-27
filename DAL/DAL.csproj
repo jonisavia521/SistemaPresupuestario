@@ -108,16 +108,11 @@
     <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Implementation\EntityFramework\Cliente.cs" />
-    <Compile Include="Implementation\EntityFramework\Cliente_Impuesto.cs" />
-    <Compile Include="Implementation\EntityFramework\Comprobantes.cs" />
-    <Compile Include="Implementation\EntityFramework\Comprobante_Detalle.cs" />
-    <Compile Include="Implementation\EntityFramework\Impuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Presupuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Presupuesto_Detalle.cs" />
     <Compile Include="Implementation\EntityFramework\Producto.cs" />
     <Compile Include="Implementation\EntityFramework\Provincia.cs" />
     <Compile Include="Implementation\EntityFramework\SistemaPresupuestario.cs" />
-    <Compile Include="Implementation\EntityFramework\TipoImpuesto.cs" />
     <Compile Include="Implementation\EntityFramework\Vendedor.cs" />
     <Compile Include="Implementation\Repository\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -193,8 +193,11 @@ namespace SistemaPresupuestario.Seguridad
             
             foreach (DataGridViewRow row in dgvProductos.Rows)
             {
-                // CORREGIDO: Excluir la fila de checksums del cálculo
-                if (row.IsNewRow || row.Tag?.ToString() == "CHECKSUM_ROW") 
+                // Excluir la fila de checksums del cálculo
+                if (row.IsNewRow) 
+                    continue;
+                    
+                if (row.Tag != null && row.Tag.ToString() == "CHECKSUM_ROW")
                     continue;
                 
                 var valor = row.Cells[nombreColumna].Value?.ToString() ?? "";
@@ -434,7 +437,12 @@ namespace SistemaPresupuestario.Seguridad
                 // Verificar dígitos horizontales (DVH)
                 foreach (DataGridViewRow row in dgvProductos.Rows)
                 {
-                    if (row.IsNewRow || row.Tag?.ToString() == "CHECKSUM_ROW") continue;
+                    // Excluir filas vacías y fila de checksums
+                    if (row.IsNewRow) 
+                        continue;
+                        
+                    if (row.Tag != null && row.Tag.ToString() == "CHECKSUM_ROW")
+                        continue;
 
                     string codigoActual = row.Cells["colCodigo"].Value?.ToString() ?? "";
                     int digitoAlmacenado = Convert.ToInt32(row.Cells["colDigitoH"].Value ?? 0);

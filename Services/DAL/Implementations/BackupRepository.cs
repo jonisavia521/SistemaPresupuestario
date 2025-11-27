@@ -154,7 +154,7 @@ namespace Services.DAL.Implementations
                 new SqlParameter("@MensajeError", (object)error ?? DBNull.Value),
                 new SqlParameter("@UsuarioApp", usuario)
             };
-            _sqlHelper.setDataBase(enumDataBase.Master);
+            _sqlHelper.setDataBase(enumDataBase.Huamani_SistemaPresupuestario);
             _sqlHelper.ExecuteNonQuery(sql, CommandType.Text, parametrosSQL);
         }
 
@@ -174,7 +174,7 @@ namespace Services.DAL.Implementations
                     UsuarioApp
                 FROM {_databaseName}.dbo.HistorialBackups
                 ORDER BY ID DESC";
-            _sqlHelper.setDataBase(enumDataBase.Master);
+            _sqlHelper.setDataBase(enumDataBase.Huamani_SistemaPresupuestario);
             return _sqlHelper.ExecuteReader(sql, CommandType.Text);
         }
     }

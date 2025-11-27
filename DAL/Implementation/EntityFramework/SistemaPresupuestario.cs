@@ -30,17 +30,12 @@ namespace DAL.Implementation.EntityFramework
         }
         
         public virtual DbSet<Cliente> Cliente { get; set; }
-        public virtual DbSet<Cliente_Impuesto> Cliente_Impuesto { get; set; }
-        public virtual DbSet<Comprobante_Detalle> Comprobante_Detalle { get; set; }
-        public virtual DbSet<Comprobantes> Comprobantes { get; set; }
-        public virtual DbSet<Impuesto> Impuesto { get; set; }
         public virtual DbSet<ListaPrecio> ListaPrecio { get; set; }
         public virtual DbSet<ListaPrecio_Detalle> ListaPrecio_Detalle { get; set; }
         public virtual DbSet<Presupuesto> Presupuesto { get; set; }
         public virtual DbSet<Presupuesto_Detalle> Presupuesto_Detalle { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
-        public virtual DbSet<TipoImpuesto> TipoImpuesto { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
         public virtual DbSet<Configuracion> Configuracion { get; set; } // NUEVO
 
@@ -113,11 +108,6 @@ namespace DAL.Implementation.EntityFramework
                 .IsRequired();
 
             modelBuilder.Entity<Cliente>()
-                .HasMany(e => e.Comprobantes)
-                .WithOptional(e => e.Cliente)
-                .HasForeignKey(e => e.IdCliente);
-
-            modelBuilder.Entity<Cliente>()
                 .HasMany(e => e.Presupuesto)
                 .WithRequired(e => e.Cliente)
                 .HasForeignKey(e => e.IdCliente)
@@ -129,73 +119,7 @@ namespace DAL.Implementation.EntityFramework
                 .WithMany(p => p.Cliente)
                 .HasForeignKey(e => e.IdProvincia);
 
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.TipoComprobante)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.NumeroComprobante)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.Renglon)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.Cantidad)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.ImporteNeto)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobante_Detalle>()
-                .Property(e => e.PrecioNeto)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.Estado)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.TipoComprobante)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.NumeroComprobante)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.Total)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.ImporteGravado)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobantes>()
-                .Property(e => e.ImporteIVA)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Comprobantes>()
-                .HasMany(e => e.Comprobante_Detalle)
-                .WithRequired(e => e.Comprobantes)
-                .HasForeignKey(e => e.IdComprobante)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Impuesto>()
-                .Property(e => e.Codigo)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Impuesto>()
-                .Property(e => e.Descripcion)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Impuesto>()
-                .HasMany(e => e.Cliente_Impuesto)
-                .WithRequired(e => e.Impuesto)
-                .HasForeignKey(e => e.IdImpuesto)
-                .WillCascadeOnDelete(false);
+           
 
             modelBuilder.Entity<Presupuesto>()
                 .Property(e => e.Numero)
@@ -274,10 +198,7 @@ namespace DAL.Implementation.EntityFramework
                 .IsRequired()
                 .HasPrecision(5, 2);
 
-            modelBuilder.Entity<Producto>()
-                .HasMany(e => e.Comprobante_Detalle)
-                .WithOptional(e => e.Producto)
-                .HasForeignKey(e => e.IdProducto);
+      
 
             modelBuilder.Entity<Producto>()
                 .HasMany(e => e.Presupuesto_Detalle)
@@ -299,26 +220,6 @@ namespace DAL.Implementation.EntityFramework
                 .Property(e => e.Nombre)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Provincia>()
-                .HasMany(e => e.Impuesto)
-                .WithOptional(e => e.Provincia)
-                .HasForeignKey(e => e.IdProvincia);
-
-            modelBuilder.Entity<TipoImpuesto>()
-                .Property(e => e.Descripcion)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<TipoImpuesto>()
-                .HasMany(e => e.Cliente_Impuesto)
-                .WithRequired(e => e.TipoImpuesto)
-                .HasForeignKey(e => e.IdTipoImpuesto)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TipoImpuesto>()
-                .HasMany(e => e.Impuesto)
-                .WithRequired(e => e.TipoImpuesto)
-                .HasForeignKey(e => e.IdTipoImpuesto)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Vendedor>()
                 .Property(e => e.Nombre)
@@ -361,11 +262,6 @@ namespace DAL.Implementation.EntityFramework
 
             modelBuilder.Entity<Vendedor>()
                 .HasMany(e => e.Cliente)
-                .WithOptional(e => e.Vendedor)
-                .HasForeignKey(e => e.IdVendedor);
-
-            modelBuilder.Entity<Vendedor>()
-                .HasMany(e => e.Comprobantes)
                 .WithOptional(e => e.Vendedor)
                 .HasForeignKey(e => e.IdVendedor);
 
