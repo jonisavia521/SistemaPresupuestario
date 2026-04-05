@@ -24,45 +24,10 @@ namespace BLL
     /// </summary>
     public static class DependencyContainer
     {
-        /// <summary>
-        /// Registra los servicios de la Lógica de Negocio en el contenedor de inyección de dependencias.
-        /// 
-        /// Este método de extensión es responsable de:
-        /// - Configurar AutoMapper con todos los perfiles de mapeo (ClienteMappingProfile, VendedorMappingProfile, etc.)
-        /// - Registrar todos los servicios de negocio (IClienteService, IVendedorService, etc.)
-        /// - Registrar todas las interfaces de contrato necesarias para la capa de presentación y DAL
-        /// 
-        /// Debe ser llamado desde el contenedor IoC principal durante la inicialización de la aplicación,
-        /// típicamente en Program.cs o Startup.cs, después de registrar las dependencias de DAL.
-        /// </summary>
-        /// <param name="services">
-        /// El contenedor de inyección de dependencias de Microsoft.Extensions.DependencyInjection
-        /// donde se registrarán todos los servicios y configuraciones de BLL.
-        /// </param>
-        /// <returns>
-        /// El mismo contenedor de servicios (IServiceCollection) para permitir encadenamiento de llamadas
-        /// (fluent API) en la configuración de dependencias.
-        /// </returns>
-        /// <example>
-        /// <code>
-        /// var services = new ServiceCollection();
-        /// services.AddBLLDependencies();
-        /// </code>
-        /// </example>
+        
         public static IServiceCollection AddBLLDependencies(this IServiceCollection services)
         {
-            /// <summary>
-            /// Registra todos los perfiles de mapeo de AutoMapper necesarios para convertir
-            /// entre modelos de dominio (Domain Model) y objetos de transferencia de datos (DTOs).
-            /// Los perfiles incluyen:
-            /// - ClienteMappingProfile: Mapeo entre Cliente y ClienteDTO
-            /// - VendedorMappingProfile: Mapeo entre Vendedor y VendedorDTO
-            /// - ProductoMappingProfile: Mapeo entre Producto y ProductoDTO
-            /// - PresupuestoMappingProfile: Mapeo entre Presupuesto y PresupuestoDTO
-            /// - ListaPrecioMappingProfile: Mapeo entre ListaPrecio y ListaPrecioDTO
-            /// - ProvinciaMappingProfile: Mapeo entre Provincia y ProvinciaDTO
-            /// - ConfiguracionMappingProfile: Mapeo entre Configuracion y ConfiguracionDTO
-            /// </summary>
+           
             services.AddAutoMapper(
                 typeof(ClienteMappingProfile), 
                 typeof(VendedorMappingProfile), 
@@ -72,20 +37,7 @@ namespace BLL
                 typeof(ProvinciaMappingProfile),
                 typeof(ConfiguracionMappingProfile));
             
-            /// <summary>
-            /// Registra los servicios de negocio como Scoped en el contenedor de dependencias.
-            /// Cada servicio implementa su interfaz correspondiente y se crea una nueva instancia
-            /// por cada scope (típicamente una solicitud HTTP o una operación en la UI).
-            /// 
-            /// Servicios registrados:
-            /// - IClienteService -> ClienteService: Gestión de clientes
-            /// - IVendedorService -> VendedorService: Gestión de vendedores
-            /// - IProductoService -> ProductoService: Gestión de productos
-            /// - IPresupuestoService -> PresupuestoService: Gestión de presupuestos/cotizaciones
-            /// - IListaPrecioService -> ListaPrecioService: Gestión de listas de precios
-            /// - IProvinciaService -> ProvinciaService: Gestión de provincias
-            /// - IConfiguracionService -> ConfiguracionService: Gestión de configuración del sistema
-            /// </summary>
+            
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IVendedorService, VendedorService>();
             services.AddScoped<IProductoService, ProductoService>();

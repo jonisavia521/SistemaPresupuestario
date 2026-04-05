@@ -29,11 +29,30 @@ namespace SistemaPresupuestario
             _serviceProvider = serviceProvider;
             
             base.InitializeTranslation();
+            
+            // Suscribirse manualmente al evento de cambio de idioma para actualizar txtUsuario
+            I18n.LanguageChanged += OnLanguageChanged_UpdateUser;
+            
+            // Suscribirse al evento FormClosed para limpiar recursos
+            this.FormClosed += FrmMain_FormClosed;
         }
 
-        private void OnLanguageChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Manejador adicional para actualizar el texto del usuario cuando cambia el idioma
+        /// </summary>
+        private void OnLanguageChanged_UpdateUser(object sender, EventArgs e)
         {
             txtUsuario.Text = $"{I18n.T("Bienvenido")} {_login.user.Nombre}";
+        }
+
+        /// <summary>
+        /// Manejador del evento FormClosed para desuscribirse del evento de cambio de idioma
+        /// </summary>
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Des-suscribirse del evento para evitar fugas de memoria
+            I18n.LanguageChanged -= OnLanguageChanged_UpdateUser;
+            this.FormClosed -= FrmMain_FormClosed;
         }
 
         private void frmMain_Load(object sender, EventArgs e)

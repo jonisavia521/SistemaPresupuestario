@@ -71,18 +71,34 @@ namespace DAL.Implementation.Repository
             try
             {
                 _context.SaveChanges();
-                _transaction?.Commit();
+                
+                if (_transaction != null)
+                {
+                    _transaction.Commit();
+                    _transaction.Dispose();
+                    _transaction = null;
+                }
             }
             catch
             {
-                _transaction?.Rollback();
+                if (_transaction != null)
+                {
+                    _transaction.Rollback();
+                    _transaction.Dispose();
+                    _transaction = null;
+                }
                 throw;
             }
         }
 
         public void Rollback()
         {
-            _transaction?.Rollback();
+            if (_transaction != null)
+            {
+                _transaction.Rollback();
+                _transaction.Dispose();
+                _transaction = null;
+            }
         }
 
         public int SaveChanges()
